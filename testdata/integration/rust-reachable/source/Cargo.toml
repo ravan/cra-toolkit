@@ -1,0 +1,9 @@
+[package]
+name = "rust-reachable-test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# hyper 0.14.10 is affected by CVE-2023-26964 (Denial of Service via HTTP/2)
+hyper = { version = "=0.14.10", features = ["http2", "server", "runtime"] }
+tokio = { version = "1", features = ["full"] }

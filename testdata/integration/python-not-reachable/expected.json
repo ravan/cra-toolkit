@@ -1,0 +1,21 @@
+{
+  "description": "Python script that depends on PyYAML 5.3 but only uses the json standard library module. PyYAML is never imported or called, so its vulnerabilities are not reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2020-14343",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "source_code_grep",
+      "human_justification": "PyYAML is listed as a dependency but is never imported in the source code. The vulnerable yaml.load() function is not called."
+    },
+    {
+      "cve": "CVE-2020-1747",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "source_code_grep",
+      "human_justification": "PyYAML is listed as a dependency but is never imported in the source code. No yaml functions are called."
+    }
+  ]
+}

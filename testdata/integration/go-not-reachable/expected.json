@@ -1,0 +1,14 @@
+{
+  "description": "Go module importing golang.org/x/text v0.3.7 but only using cases.Title and language.English, not the vulnerable ParseAcceptLanguage or MatchStrings functions. govulncheck finds the vulnerability at module/package level but not at function level.",
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "govulncheck finds the vulnerability at package level but no function-level trace exists, meaning the vulnerable symbols (ParseAcceptLanguage, MatchStrings) are not called from user code."
+    }
+  ]
+}

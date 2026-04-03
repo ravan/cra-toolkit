@@ -1,0 +1,14 @@
+{
+  "description": "Go module calling ParseAcceptLanguage from golang.org/x/text v0.3.7, which is the vulnerable function for CVE-2022-32149 (GO-2022-1059). govulncheck confirms the function is called.",
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "govulncheck confirms ParseAcceptLanguage is called from main, tracing the vulnerability to user code. The vulnerable function is directly invoked."
+    }
+  ]
+}

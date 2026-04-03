@@ -1,0 +1,118 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.69.3"
+  },
+  "ReportID": "019d52b5-f837-781a-8bfd-b6e6f0bbd0b6",
+  "CreatedAt": "2026-04-03T11:39:10.519532+02:00",
+  "ArtifactName": "source",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Target": "go.mod",
+      "Class": "lang-pkgs",
+      "Type": "gomod",
+      "Packages": [
+        {
+          "ID": "example.com/go-not-reachable-test",
+          "Name": "example.com/go-not-reachable-test",
+          "Identifier": {
+            "PURL": "pkg:golang/example.com/go-not-reachable-test",
+            "UID": "55858785b75a8d11"
+          },
+          "Relationship": "root",
+          "DependsOn": [
+            "golang.org/x/text@v0.3.7"
+          ],
+          "AnalyzedBy": "gomod"
+        },
+        {
+          "ID": "golang.org/x/text@v0.3.7",
+          "Name": "golang.org/x/text",
+          "Identifier": {
+            "PURL": "pkg:golang/golang.org/x/text@v0.3.7",
+            "UID": "8505c47b3a377277"
+          },
+          "Version": "v0.3.7",
+          "Licenses": [
+            "BSD-3-Clause"
+          ],
+          "Relationship": "direct",
+          "AnalyzedBy": "gomod"
+        }
+      ],
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2022-32149",
+          "VendorIDs": [
+            "GHSA-69ch-w2m2-3vjp"
+          ],
+          "PkgID": "golang.org/x/text@v0.3.7",
+          "PkgName": "golang.org/x/text",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/golang.org/x/text@v0.3.7",
+            "UID": "8505c47b3a377277"
+          },
+          "InstalledVersion": "v0.3.7",
+          "FixedVersion": "0.3.8",
+          "Status": "fixed",
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32149",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory Go",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Ago"
+          },
+          "Fingerprint": "sha256:a5aa6c6afaa084b7910c271cc6169d89fc565950d1f7f20abc7027c3ede8d8ca",
+          "Title": "golang: golang.org/x/text/language: ParseAcceptLanguage takes a long time to parse complex tags",
+          "Description": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-772"
+          ],
+          "VendorSeverity": {
+            "azure": 3,
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2022-32149",
+            "https://github.com/golang/go/issues/56152",
+            "https://github.com/golang/text",
+            "https://github.com/golang/text/commit/434eadcdbc3b0256971992e8c70027278364c72c",
+            "https://github.com/golang/text/commit/434eadcdbc3b0256971992e8c70027278364c72c (v0.3.8)",
+            "https://go.dev/cl/442235",
+            "https://go.dev/issue/56152",
+            "https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ",
+            "https://groups.google.com/g/golang-dev/c/qfPIly0X7aU",
+            "https://nvd.nist.gov/vuln/detail/CVE-2022-32149",
+            "https://pkg.go.dev/vuln/GO-2022-1059",
+            "https://security.netapp.com/advisory/ntap-20230203-0006",
+            "https://security.netapp.com/advisory/ntap-20230203-0006/",
+            "https://ubuntu.com/security/notices/USN-5873-1",
+            "https://www.cve.org/CVERecord?id=CVE-2022-32149"
+          ],
+          "PublishedDate": "2022-10-14T15:15:34.543Z",
+          "LastModifiedDate": "2025-05-15T21:15:47.82Z"
+        }
+      ]
+    }
+  ]
+}

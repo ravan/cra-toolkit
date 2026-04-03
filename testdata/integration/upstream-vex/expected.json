@@ -1,0 +1,14 @@
+{
+  "description": "Go module with golang.org/x/text v0.3.7 paired with an upstream OpenVEX document that declares CVE-2022-32149 as not_affected with justification vulnerable_code_not_present. Also includes a real Red Hat CSAF VEX advisory (RHSA-2020:1358) for format testing.",
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "upstream_vex",
+      "human_justification": "Upstream OpenVEX document explicitly declares this CVE as not_affected with justification vulnerable_code_not_present for this exact product PURL."
+    }
+  ]
+}

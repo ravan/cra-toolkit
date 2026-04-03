@@ -1,0 +1,21 @@
+{
+  "description": "Python script calling yaml.load() without a safe Loader, which is the vulnerable pattern for CVE-2020-14343 and CVE-2020-1747 in PyYAML 5.3. No automated reachability tool exists for Python, but static analysis of the source shows direct use of the unsafe function.",
+  "findings": [
+    {
+      "cve": "CVE-2020-14343",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "source_code_grep",
+      "human_justification": "yaml.load() is called without a safe Loader argument, which allows arbitrary Python object deserialization. This is the exact vulnerable pattern."
+    },
+    {
+      "cve": "CVE-2020-1747",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "source_code_grep",
+      "human_justification": "yaml.load() is called without a safe Loader, which triggers the full_load behavior vulnerable to CVE-2020-1747."
+    }
+  ]
+}

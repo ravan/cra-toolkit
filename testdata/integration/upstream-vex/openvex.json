@@ -1,0 +1,28 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://example.com/vex/cra-toolkit-test-fixture-001",
+  "author": "CRA VEX Toolkit Test Fixtures",
+  "role": "Document Creator",
+  "timestamp": "2024-01-15T10:00:00.000Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2022-32149"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/golang.org/x/text@v0.3.7",
+          "subcomponents": [
+            {
+              "@id": "pkg:golang/golang.org/x/text/language@v0.3.7"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "The vulnerable functions ParseAcceptLanguage and MatchStrings from golang.org/x/text/language are not called in this product."
+    }
+  ]
+}
