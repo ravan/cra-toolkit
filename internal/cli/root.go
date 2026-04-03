@@ -31,9 +31,8 @@ func New(version string) *urfave.Command {
 				Usage:   "suppress non-essential output",
 			},
 			&urfave.BoolFlag{
-				Name:    "verbose",
-				Aliases: []string{"v"},
-				Usage:   "enable debug logging",
+				Name:  "verbose",
+				Usage: "enable debug logging",
 			},
 		},
 		Commands: []*urfave.Command{
