@@ -30,3 +30,11 @@ coverage.html
 
 # Large binary files
 docs/*.pdf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# MkDocs
+site/

@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+## References
+
+- docs/eu-cyber-resilience-act.pdf
+
 ## Commands
 
 | Task | Command |

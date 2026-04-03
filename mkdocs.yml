@@ -1,0 +1,56 @@
+site_name: SUSE CRA Compliance Toolkit
+site_description: Open-source toolkit for Cyber Resilience Act (CRA) compliance.
+repo_url: https://github.com/ravan/suse-cra-toolkit
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Overview: index.md
+  - Getting Started: getting-started.md
+  - Tools:
+    - VEX: tools/vex.md
+    - PolicyKit: tools/policykit.md
+    - Report: tools/report.md
+    - Evidence: tools/evidence.md
+    - CSAF: tools/csaf.md
+  - Design & Strategy:
+    - Strategy: strategy.md
+    - Specifications:
+        - Repository Structure: superpowers/specs/2026-04-03-phase1-repo-structure-design.md
+        - VEX Design: superpowers/specs/2026-04-03-cra-vex-design.md
+  - Development:
+    - Implementation Plans:
+        - "Phase 1: Project Harness": superpowers/plans/2026-04-03-phase1-project-harness.md
+        - VEX Implementation: superpowers/plans/2026-04-03-cra-vex-implementation.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
