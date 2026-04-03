@@ -31,6 +31,9 @@ coverage.html
 # Large binary files
 docs/*.pdf
 
+# Rust
+**/target/
+
 # Python
 .venv/
 __pycache__/

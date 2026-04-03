@@ -1,0 +1,1956 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "addresses": [],
+      "artifacts": [
+        {
+          "length": -1,
+          "location": {
+            "index": -1,
+            "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+          },
+          "parentIndex": -1,
+          "roles": []
+        }
+      ],
+      "graphs": [],
+      "invocations": [],
+      "language": "en-US",
+      "logicalLocations": [],
+      "newlineSequences": [
+        "\r\n",
+        "\n"
+      ],
+      "policies": [],
+      "redactionTokens": [],
+      "results": [
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "5cd16b542fcb6ddbdddc0c43db108269b75adbe025952154d96ee772379b4eb4"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'golang.org/x/text@0.3.7' is vulnerable to 'CVE-2022-32149' (also known as 'GO-2022-1059', 'GHSA-69ch-w2m2-3vjp')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2022-32149",
+          "ruleIndex": 0,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "5cd16b542fcb6ddbdddc0c43db108269b75adbe025952154d96ee772379b4eb4"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'golang.org/x/text@0.3.7' is vulnerable to 'CVE-2022-32149' (also known as 'GO-2022-1059', 'GHSA-69ch-w2m2-3vjp')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2022-32149",
+          "ruleIndex": 0,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1e296bdff950d9b6fa255a2b3a9c5a791aff3fbf8490d8b2d37e5093844bdeb4"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2024-34155' (also known as 'BIT-golang-2024-34155', 'GO-2024-3105')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2024-34155",
+          "ruleIndex": 1,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a9f8e91e92bae7f0b7378899bd128567d7938a4dffe11321fac98919ca377559"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2024-34156' (also known as 'BIT-golang-2024-34156', 'GO-2024-3106')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2024-34156",
+          "ruleIndex": 2,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "34bc7bf3e83114b585fbe601205ba09d9d6f0f1cf3dc8de8af7875c7ca531474"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2024-34158' (also known as 'BIT-golang-2024-34158', 'GO-2024-3107')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2024-34158",
+          "ruleIndex": 3,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8df3e336a949b8f4bbff703abf0cdbd9cb76f013e5346fec08f42817f5e3f48a"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2024-45341' (also known as 'BIT-golang-2024-45341', 'GO-2025-3373')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2024-45341",
+          "ruleIndex": 4,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "cdf5b2ca6c135fdb6e0a0832433b773beb719300fa811a396a875c3784f8379e"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2024-45336' (also known as 'BIT-golang-2024-45336', 'GO-2025-3420')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2024-45336",
+          "ruleIndex": 5,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "3fd7cf44bcc116b25c709aee0d6522a3653b4e2530e8289691bbb5e60461cd40"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-22866' (also known as 'BIT-golang-2025-22866', 'GO-2025-3447')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-22866",
+          "ruleIndex": 6,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a9b5112abd00b89fc4ee2a39e1d2ac144da2094ec6520383dc983f60cef2090a"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-22871' (also known as 'BIT-golang-2025-22871', 'GO-2025-3563', 'GHSA-g9pc-8g42-g6vq')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-22871",
+          "ruleIndex": 7,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "b2581dbbc5f216c1480898da2b99093e4278a0c5a18526579d3f719418faa7b6"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-0913' (also known as 'BIT-golang-2025-0913', 'GO-2025-3750')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-0913",
+          "ruleIndex": 8,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "9f390354849eac3a4ff9fc0a90e40033e4021c77b0e245a9250bf49ca71e212b"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-4673' (also known as 'BIT-golang-2025-4673', 'GO-2025-3751')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-4673",
+          "ruleIndex": 9,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "2a76ac747881c334ff87c1e401fa818a3201d619c5cd117747a87c7e6068b62b"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-47907' (also known as 'BIT-golang-2025-47907', 'GO-2025-3849')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-47907",
+          "ruleIndex": 10,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "2c75f8655479408011005d62531dc15e4dc365de0d51e2c8d7dc1ab165f4344c"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-47906' (also known as 'BIT-golang-2025-47906', 'GO-2025-3956')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-47906",
+          "ruleIndex": 11,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d3b0d41d38cc68326e0c4e5de6acab1600ffb0b7449fa26dab52a76d6c18d0b6"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61725' (also known as 'BIT-golang-2025-61725', 'GO-2025-4006')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61725",
+          "ruleIndex": 12,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1fb6eb6783d9ea0b374a6690aa97800b77e0fbbbf2407499d38c56a359683699"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58187' (also known as 'BIT-golang-2025-58187', 'GO-2025-4007')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58187",
+          "ruleIndex": 13,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "9e41aa8dd7b872f2bd05ee1cabd67b47bf8d000cf89e2bedfb815a25ee9fa327"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58189' (also known as 'BIT-golang-2025-58189', 'GO-2025-4008')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58189",
+          "ruleIndex": 14,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "fb1cdb9d8bc9da9b23ce8dcbed2a4453368dce67bd5145b419f97f3dff5f0517"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61723' (also known as 'BIT-golang-2025-61723', 'GO-2025-4009')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61723",
+          "ruleIndex": 15,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a09cf4ec65fd5462d8c19c8186c451cdca39c69f8501f020c20b7716dc2b7b5a"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-47912' (also known as 'BIT-golang-2025-47912', 'GO-2025-4010')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-47912",
+          "ruleIndex": 16,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "93660fb0a4cf26791fa7699e9d2884aa0d5b49aa109a820d556dbc5216a4c200"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58185' (also known as 'BIT-golang-2025-58185', 'GO-2025-4011')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58185",
+          "ruleIndex": 17,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "c7f483eb22d1d2e52fc74b4dbab45940a3465525e623b113f4c3abe761a93f2d"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58186' (also known as 'BIT-golang-2025-58186', 'GO-2025-4012')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58186",
+          "ruleIndex": 18,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "6f73f53ad6bb17d5e05bb06b71ebc74e46227e505c8e2a7db144595108884bea"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58188' (also known as 'BIT-golang-2025-58188', 'GO-2025-4013')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58188",
+          "ruleIndex": 19,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "eec81c419bf5e6a687da287a054741ea95ee96f568d303f1c900448f1d31c9d6"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-58183' (also known as 'BIT-golang-2025-58183', 'GO-2025-4014')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-58183",
+          "ruleIndex": 20,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "320f24ecf7193d71d60f233fa632bd38cbf47e49a814c01010ed2fed79719167"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61724' (also known as 'BIT-golang-2025-61724', 'GO-2025-4015')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61724",
+          "ruleIndex": 21,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "61d961ff261b6ddb5381a75e6078f768d463aaf219d41508d57311af9194e266"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61729' (also known as 'BIT-golang-2025-61729', 'GO-2025-4155')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61729",
+          "ruleIndex": 22,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "24ccb1265df0f25907d9b353fc6f4c1f40cc828130cf8e91def79fb2897a8e2e"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61727' (also known as 'BIT-golang-2025-61727', 'GO-2025-4175')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61727",
+          "ruleIndex": 23,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4c2b0941c6c69b3d66c16220b292a84f6ccad6d0891b2751cffbe7c52e0c9446"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-68121' (also known as 'BIT-golang-2025-68121', 'GO-2026-4337')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-68121",
+          "ruleIndex": 24,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "50c81bffc37f08f7630205c8bf6b9e4eca31806df0a42ff5edad25cb5cbb8f45"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61730' (also known as 'BIT-golang-2025-61730', 'GO-2026-4340')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61730",
+          "ruleIndex": 25,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "cac1843d7cf4381e247736640ec312f9183466b1f8fc828dd454e8fddb269d92"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61726' (also known as 'BIT-golang-2025-61726', 'GO-2026-4341')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61726",
+          "ruleIndex": 26,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "520e25b470e0e9ba721493ef04e02e208c03d02fc551d8e596cb253b5420a54e"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-61728' (also known as 'BIT-golang-2025-61728', 'GO-2026-4342')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-61728",
+          "ruleIndex": 27,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "fd051da52a78c9436a113a6db2cd32027d0e51d6cc4285d1fa37d6157958e97e"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2025-22873' (also known as 'BIT-golang-2025-22873', 'GO-2026-4403')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2025-22873",
+          "ruleIndex": 28,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "f8e68f17414e5cb575b7ef2df8d1ed7e93cd0a20be05b2cc386b56bbfe51efd4"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2026-25679' (also known as 'BIT-golang-2026-25679', 'GO-2026-4601')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2026-25679",
+          "ruleIndex": 29,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7e1058ffa5e6909bab1f48197a7a542d72982abf9a9175ad685174c9775c7f09"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2026-27139' (also known as 'BIT-golang-2026-27139', 'GO-2026-4602')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2026-27139",
+          "ruleIndex": 30,
+          "stacks": [],
+          "taxa": []
+        },
+        {
+          "partialFingerprints": {
+            "primaryLocationLineHash": "5e975db00d19d5b870874a9f4cf6138f0742464456a8cd0d671a6397500daca6"
+          },
+          "attachments": [],
+          "codeFlows": [],
+          "fixes": [],
+          "graphTraversals": [],
+          "graphs": [],
+          "kind": "fail",
+          "level": "warning",
+          "locations": [
+            {
+              "annotations": [],
+              "id": -1,
+              "logicalLocations": [],
+              "physicalLocation": {
+                "artifactLocation": {
+                  "index": -1,
+                  "uri": "file:///Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod"
+                }
+              },
+              "relationships": []
+            }
+          ],
+          "message": {
+            "arguments": [],
+            "text": "Package 'stdlib@1.21.99' is vulnerable to 'CVE-2026-27142' (also known as 'BIT-golang-2026-27142', 'GO-2026-4603')."
+          },
+          "rank": -1,
+          "relatedLocations": [],
+          "ruleId": "CVE-2026-27142",
+          "ruleIndex": 31,
+          "stacks": [],
+          "taxa": []
+        }
+      ],
+      "runAggregates": [],
+      "taxonomies": [],
+      "threadFlowLocations": [],
+      "tool": {
+        "driver": {
+          "contents": [
+            "localizedData",
+            "nonLocalizedData"
+          ],
+          "informationUri": "https://github.com/google/osv-scanner",
+          "isComprehensive": false,
+          "language": "en-US",
+          "locations": [],
+          "name": "osv-scanner",
+          "notifications": [],
+          "rules": [
+            {
+              "deprecatedIds": [
+                "CVE-2022-32149",
+                "GO-2022-1059",
+                "GHSA-69ch-w2m2-3vjp"
+              ],
+              "fullDescription": {
+                "markdown": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.",
+                "text": "An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2022-32149](https://osv.dev/CVE-2022-32149)**\n(Also published as: [GO-2022-1059](https://osv.dev/GO-2022-1059), [GHSA-69ch-w2m2-3vjp](https://osv.dev/GHSA-69ch-w2m2-3vjp), ).\n\n## [GO-2022-1059](https://osv.dev/GO-2022-1059)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.\n\n\u003c/details\u003e\n\n## [GHSA-69ch-w2m2-3vjp](https://osv.dev/GHSA-69ch-w2m2-3vjp)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The BCP 47 tag parser has quadratic time complexity due to inherent aspects of its design. Since the parser is, by design, exposed to untrusted user input, this can be leveraged to force a program to consume significant time parsing Accept-Language headers. The parser cannot be easily rewritten to fix this behavior for various reasons. Instead the solution implemented in this CL is to limit the total complexity of tags passed into ParseAcceptLanguage by limiting the number of dashes in the string to 1000. This should be more than enough for the majority of real world use cases, where the number of tags being sent is likely to be in the single digits.\n\u003e \n\u003e ### Specific Go Packages Affected\n\u003e golang.org/x/text/language\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | golang.org/x/text | 0.3.7 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GHSA-69ch-w2m2-3vjp | golang.org/x/text | 0.3.8 |\n| GO-2022-1059 | golang.org/x/text | 0.3.8 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2022-32149\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2022-32149](https://osv.dev/CVE-2022-32149)**\n(Also published as: [GO-2022-1059](https://osv.dev/GO-2022-1059), [GHSA-69ch-w2m2-3vjp](https://osv.dev/GHSA-69ch-w2m2-3vjp), ).\n\n## [GO-2022-1059](https://osv.dev/GO-2022-1059)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e An attacker may cause a denial of service by crafting an Accept-Language header which ParseAcceptLanguage will take significant time to parse.\n\n\u003c/details\u003e\n\n## [GHSA-69ch-w2m2-3vjp](https://osv.dev/GHSA-69ch-w2m2-3vjp)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The BCP 47 tag parser has quadratic time complexity due to inherent aspects of its design. Since the parser is, by design, exposed to untrusted user input, this can be leveraged to force a program to consume significant time parsing Accept-Language headers. The parser cannot be easily rewritten to fix this behavior for various reasons. Instead the solution implemented in this CL is to limit the total complexity of tags passed into ParseAcceptLanguage by limiting the number of dashes in the string to 1000. This should be more than enough for the majority of real world use cases, where the number of tags being sent is likely to be in the single digits.\n\u003e \n\u003e ### Specific Go Packages Affected\n\u003e golang.org/x/text/language\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | golang.org/x/text | 0.3.7 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GHSA-69ch-w2m2-3vjp | golang.org/x/text | 0.3.8 |\n| GO-2022-1059 | golang.org/x/text | 0.3.8 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2022-32149\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2022-32149",
+              "name": "CVE-2022-32149",
+              "properties": {
+                "security-severity": "7.5"
+              },
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2022-32149: Denial of service via crafted Accept-Language header in golang.org/x/text/language",
+                "text": "CVE-2022-32149: Denial of service via crafted Accept-Language header in golang.org/x/text/language"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2024-34155",
+                "BIT-golang-2024-34155",
+                "GO-2024-3105"
+              ],
+              "fullDescription": {
+                "markdown": "Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion.",
+                "text": "Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2024-34155](https://osv.dev/CVE-2024-34155)**.\n\n## [GO-2024-3105](https://osv.dev/GO-2024-3105)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3105 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34155\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2024-34155](https://osv.dev/CVE-2024-34155)**.\n\n## [GO-2024-3105](https://osv.dev/GO-2024-3105)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling any of the Parse functions on Go source code which contains deeply nested literals can cause a panic due to stack exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3105 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34155\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2024-34155",
+              "name": "CVE-2024-34155",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2024-34155: Stack exhaustion in all Parse functions in go/parser",
+                "text": "CVE-2024-34155: Stack exhaustion in all Parse functions in go/parser"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2024-34156",
+                "BIT-golang-2024-34156",
+                "GO-2024-3106"
+              ],
+              "fullDescription": {
+                "markdown": "Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635.",
+                "text": "Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2024-34156](https://osv.dev/CVE-2024-34156)**.\n\n## [GO-2024-3106](https://osv.dev/GO-2024-3106)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3106 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34156\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2024-34156](https://osv.dev/CVE-2024-34156)**.\n\n## [GO-2024-3106](https://osv.dev/GO-2024-3106)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion. This is a follow-up to CVE-2022-30635.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3106 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34156\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2024-34156",
+              "name": "CVE-2024-34156",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2024-34156: Stack exhaustion in Decoder.Decode in encoding/gob",
+                "text": "CVE-2024-34156: Stack exhaustion in Decoder.Decode in encoding/gob"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2024-34158",
+                "BIT-golang-2024-34158",
+                "GO-2024-3107"
+              ],
+              "fullDescription": {
+                "markdown": "Calling Parse on a \"// +build\" build tag line with deeply nested expressions can cause a panic due to stack exhaustion.",
+                "text": "Calling Parse on a \"// +build\" build tag line with deeply nested expressions can cause a panic due to stack exhaustion."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2024-34158](https://osv.dev/CVE-2024-34158)**.\n\n## [GO-2024-3107](https://osv.dev/GO-2024-3107)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling Parse on a \"// +build\" build tag line with deeply nested expressions can cause a panic due to stack exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3107 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34158\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2024-34158](https://osv.dev/CVE-2024-34158)**.\n\n## [GO-2024-3107](https://osv.dev/GO-2024-3107)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Calling Parse on a \"// +build\" build tag line with deeply nested expressions can cause a panic due to stack exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2024-3107 | stdlib | 1.22.7, 1.23.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-34158\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2024-34158",
+              "name": "CVE-2024-34158",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2024-34158: Stack exhaustion in Parse in go/build/constraint",
+                "text": "CVE-2024-34158: Stack exhaustion in Parse in go/build/constraint"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2024-45341",
+                "BIT-golang-2024-45341",
+                "GO-2025-3373"
+              ],
+              "fullDescription": {
+                "markdown": "A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain.\n\nCertificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs.",
+                "text": "A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain.\n\nCertificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2024-45341](https://osv.dev/CVE-2024-45341)**.\n\n## [GO-2025-3373](https://osv.dev/GO-2025-3373)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain.\n\u003e \n\u003e Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3373 | stdlib | 1.22.11, 1.23.5, 1.24.0-rc.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-45341\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2024-45341](https://osv.dev/CVE-2024-45341)**.\n\n## [GO-2025-3373](https://osv.dev/GO-2025-3373)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e A certificate with a URI which has a IPv6 address with a zone ID may incorrectly satisfy a URI name constraint that applies to the certificate chain.\n\u003e \n\u003e Certificates containing URIs are not permitted in the web PKI, so this only affects users of private PKIs which make use of URIs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3373 | stdlib | 1.22.11, 1.23.5, 1.24.0-rc.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-45341\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2024-45341",
+              "name": "CVE-2024-45341",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2024-45341: Usage of IPv6 zone IDs can bypass URI name constraints in crypto/x509",
+                "text": "CVE-2024-45341: Usage of IPv6 zone IDs can bypass URI name constraints in crypto/x509"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2024-45336",
+                "BIT-golang-2024-45336",
+                "GO-2025-3420"
+              ],
+              "fullDescription": {
+                "markdown": "The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com.\n\nIn the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2.",
+                "text": "The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com.\n\nIn the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2024-45336](https://osv.dev/CVE-2024-45336)**.\n\n## [GO-2025-3420](https://osv.dev/GO-2025-3420)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com.\n\u003e \n\u003e In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3420 | stdlib | 1.22.11, 1.23.5, 1.24.0-rc.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-45336\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2024-45336](https://osv.dev/CVE-2024-45336)**.\n\n## [GO-2025-3420](https://osv.dev/GO-2025-3420)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The HTTP client drops sensitive headers after following a cross-domain redirect. For example, a request to a.com/ containing an Authorization header which is redirected to b.com/ will not send that header to b.com.\n\u003e \n\u003e In the event that the client received a subsequent same-domain redirect, however, the sensitive headers would be restored. For example, a chain of redirects from a.com/, to b.com/1, and finally to b.com/2 would incorrectly send the Authorization header to b.com/2.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3420 | stdlib | 1.22.11, 1.23.5, 1.24.0-rc.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2024-45336\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2024-45336",
+              "name": "CVE-2024-45336",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2024-45336: Sensitive headers incorrectly sent after cross-domain redirect in net/http",
+                "text": "CVE-2024-45336: Sensitive headers incorrectly sent after cross-domain redirect in net/http"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-22866",
+                "BIT-golang-2025-22866",
+                "GO-2025-3447"
+              ],
+              "fullDescription": {
+                "markdown": "Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols.",
+                "text": "Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-22866](https://osv.dev/CVE-2025-22866)**.\n\n## [GO-2025-3447](https://osv.dev/GO-2025-3447)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3447 | stdlib | 1.22.12, 1.23.6, 1.24.0-rc.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22866\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-22866](https://osv.dev/CVE-2025-22866)**.\n\n## [GO-2025-3447](https://osv.dev/GO-2025-3447)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Due to the usage of a variable time instruction in the assembly implementation of an internal function, a small number of bits of secret scalars are leaked on the ppc64le architecture. Due to the way this function is used, we do not believe this leakage is enough to allow recovery of the private key when P-256 is used in any well known protocols.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3447 | stdlib | 1.22.12, 1.23.6, 1.24.0-rc.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22866\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-22866",
+              "name": "CVE-2025-22866",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-22866: Timing sidechannel for P-256 on ppc64le in crypto/internal/nistec",
+                "text": "CVE-2025-22866: Timing sidechannel for P-256 on ppc64le in crypto/internal/nistec"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-22871",
+                "BIT-golang-2025-22871",
+                "GO-2025-3563",
+                "GHSA-g9pc-8g42-g6vq"
+              ],
+              "fullDescription": {
+                "markdown": "The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext.",
+                "text": "The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-22871](https://osv.dev/CVE-2025-22871)**.\n\n## [GO-2025-3563](https://osv.dev/GO-2025-3563)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3563 | stdlib | 1.23.8, 1.24.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22871\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-22871](https://osv.dev/CVE-2025-22871)**.\n\n## [GO-2025-3563](https://osv.dev/GO-2025-3563)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The net/http package improperly accepts a bare LF as a line terminator in chunked data chunk-size lines. This can permit request smuggling if a net/http server is used in conjunction with a server that incorrectly accepts a bare LF as part of a chunk-ext.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3563 | stdlib | 1.23.8, 1.24.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22871\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-22871",
+              "name": "CVE-2025-22871",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-22871: Request smuggling due to acceptance of invalid chunked data in net/http",
+                "text": "CVE-2025-22871: Request smuggling due to acceptance of invalid chunked data in net/http"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-0913",
+                "BIT-golang-2025-0913",
+                "GO-2025-3750"
+              ],
+              "fullDescription": {
+                "markdown": "os.OpenFile(path, os.O_CREATE|O_EXCL) behaved differently on Unix and Windows systems when the target path was a dangling symlink. On Unix systems, OpenFile with O_CREATE and O_EXCL flags never follows symlinks. On Windows, when the target path was a symlink to a nonexistent location, OpenFile would create a file in that location. OpenFile now always returns an error when the O_CREATE and O_EXCL flags are both set and the target path is a symlink.",
+                "text": "os.OpenFile(path, os.O_CREATE|O_EXCL) behaved differently on Unix and Windows systems when the target path was a dangling symlink. On Unix systems, OpenFile with O_CREATE and O_EXCL flags never follows symlinks. On Windows, when the target path was a symlink to a nonexistent location, OpenFile would create a file in that location. OpenFile now always returns an error when the O_CREATE and O_EXCL flags are both set and the target path is a symlink."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-0913](https://osv.dev/CVE-2025-0913)**.\n\n## [GO-2025-3750](https://osv.dev/GO-2025-3750)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e os.OpenFile(path, os.O_CREATE|O_EXCL) behaved differently on Unix and Windows systems when the target path was a dangling symlink. On Unix systems, OpenFile with O_CREATE and O_EXCL flags never follows symlinks. On Windows, when the target path was a symlink to a nonexistent location, OpenFile would create a file in that location. OpenFile now always returns an error when the O_CREATE and O_EXCL flags are both set and the target path is a symlink.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3750 | stdlib | 1.23.10, 1.24.4 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-0913\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-0913](https://osv.dev/CVE-2025-0913)**.\n\n## [GO-2025-3750](https://osv.dev/GO-2025-3750)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e os.OpenFile(path, os.O_CREATE|O_EXCL) behaved differently on Unix and Windows systems when the target path was a dangling symlink. On Unix systems, OpenFile with O_CREATE and O_EXCL flags never follows symlinks. On Windows, when the target path was a symlink to a nonexistent location, OpenFile would create a file in that location. OpenFile now always returns an error when the O_CREATE and O_EXCL flags are both set and the target path is a symlink.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3750 | stdlib | 1.23.10, 1.24.4 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-0913\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-0913",
+              "name": "CVE-2025-0913",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-0913: Inconsistent handling of O_CREATE|O_EXCL on Unix and Windows in os in syscall",
+                "text": "CVE-2025-0913: Inconsistent handling of O_CREATE|O_EXCL on Unix and Windows in os in syscall"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-4673",
+                "BIT-golang-2025-4673",
+                "GO-2025-3751"
+              ],
+              "fullDescription": {
+                "markdown": "Proxy-Authorization and Proxy-Authenticate headers persisted on cross-origin redirects potentially leaking sensitive information.",
+                "text": "Proxy-Authorization and Proxy-Authenticate headers persisted on cross-origin redirects potentially leaking sensitive information."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-4673](https://osv.dev/CVE-2025-4673)**.\n\n## [GO-2025-3751](https://osv.dev/GO-2025-3751)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Proxy-Authorization and Proxy-Authenticate headers persisted on cross-origin redirects potentially leaking sensitive information.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3751 | stdlib | 1.23.10, 1.24.4 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-4673\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-4673](https://osv.dev/CVE-2025-4673)**.\n\n## [GO-2025-3751](https://osv.dev/GO-2025-3751)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Proxy-Authorization and Proxy-Authenticate headers persisted on cross-origin redirects potentially leaking sensitive information.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3751 | stdlib | 1.23.10, 1.24.4 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-4673\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-4673",
+              "name": "CVE-2025-4673",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-4673: Sensitive headers not cleared on cross-origin redirect in net/http",
+                "text": "CVE-2025-4673: Sensitive headers not cleared on cross-origin redirect in net/http"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-47907",
+                "BIT-golang-2025-47907",
+                "GO-2025-3849"
+              ],
+              "fullDescription": {
+                "markdown": "Cancelling a query (e.g. by cancelling the context passed to one of the query methods) during a call to the Scan method of the returned Rows can result in unexpected results if other queries are being made in parallel. This can result in a race condition that may overwrite the expected results with those of another query, causing the call to Scan to return either unexpected results from the other query or an error.",
+                "text": "Cancelling a query (e.g. by cancelling the context passed to one of the query methods) during a call to the Scan method of the returned Rows can result in unexpected results if other queries are being made in parallel. This can result in a race condition that may overwrite the expected results with those of another query, causing the call to Scan to return either unexpected results from the other query or an error."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-47907](https://osv.dev/CVE-2025-47907)**.\n\n## [GO-2025-3849](https://osv.dev/GO-2025-3849)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Cancelling a query (e.g. by cancelling the context passed to one of the query methods) during a call to the Scan method of the returned Rows can result in unexpected results if other queries are being made in parallel. This can result in a race condition that may overwrite the expected results with those of another query, causing the call to Scan to return either unexpected results from the other query or an error.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3849 | stdlib | 1.23.12, 1.24.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47907\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-47907](https://osv.dev/CVE-2025-47907)**.\n\n## [GO-2025-3849](https://osv.dev/GO-2025-3849)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Cancelling a query (e.g. by cancelling the context passed to one of the query methods) during a call to the Scan method of the returned Rows can result in unexpected results if other queries are being made in parallel. This can result in a race condition that may overwrite the expected results with those of another query, causing the call to Scan to return either unexpected results from the other query or an error.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3849 | stdlib | 1.23.12, 1.24.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47907\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-47907",
+              "name": "CVE-2025-47907",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-47907: Incorrect results returned from Rows.Scan in database/sql",
+                "text": "CVE-2025-47907: Incorrect results returned from Rows.Scan in database/sql"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-47906",
+                "BIT-golang-2025-47906",
+                "GO-2025-3956"
+              ],
+              "fullDescription": {
+                "markdown": "If the PATH environment variable contains paths which are executables (rather than just directories), passing certain strings to LookPath (\"\", \".\", and \"..\"), can result in the binaries listed in the PATH being unexpectedly returned.",
+                "text": "If the PATH environment variable contains paths which are executables (rather than just directories), passing certain strings to LookPath (\"\", \".\", and \"..\"), can result in the binaries listed in the PATH being unexpectedly returned."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-47906](https://osv.dev/CVE-2025-47906)**.\n\n## [GO-2025-3956](https://osv.dev/GO-2025-3956)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e If the PATH environment variable contains paths which are executables (rather than just directories), passing certain strings to LookPath (\"\", \".\", and \"..\"), can result in the binaries listed in the PATH being unexpectedly returned.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3956 | stdlib | 1.23.12, 1.24.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47906\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-47906](https://osv.dev/CVE-2025-47906)**.\n\n## [GO-2025-3956](https://osv.dev/GO-2025-3956)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e If the PATH environment variable contains paths which are executables (rather than just directories), passing certain strings to LookPath (\"\", \".\", and \"..\"), can result in the binaries listed in the PATH being unexpectedly returned.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-3956 | stdlib | 1.23.12, 1.24.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47906\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-47906",
+              "name": "CVE-2025-47906",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-47906: Unexpected paths returned from LookPath in os/exec",
+                "text": "CVE-2025-47906: Unexpected paths returned from LookPath in os/exec"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61725",
+                "BIT-golang-2025-61725",
+                "GO-2025-4006"
+              ],
+              "fullDescription": {
+                "markdown": "The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.",
+                "text": "The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61725](https://osv.dev/CVE-2025-61725)**.\n\n## [GO-2025-4006](https://osv.dev/GO-2025-4006)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4006 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61725\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61725](https://osv.dev/CVE-2025-61725)**.\n\n## [GO-2025-4006](https://osv.dev/GO-2025-4006)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4006 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61725\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61725",
+              "name": "CVE-2025-61725",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61725: Excessive CPU consumption in ParseAddress in net/mail",
+                "text": "CVE-2025-61725: Excessive CPU consumption in ParseAddress in net/mail"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58187",
+                "BIT-golang-2025-58187",
+                "GO-2025-4007"
+              ],
+              "fullDescription": {
+                "markdown": "Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\nThis affects programs which validate arbitrary certificate chains.",
+                "text": "Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\nThis affects programs which validate arbitrary certificate chains."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58187](https://osv.dev/CVE-2025-58187)**.\n\n## [GO-2025-4007](https://osv.dev/GO-2025-4007)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\u003e \n\u003e This affects programs which validate arbitrary certificate chains.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4007 | stdlib | 1.24.9, 1.25.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58187\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58187](https://osv.dev/CVE-2025-58187)**.\n\n## [GO-2025-4007](https://osv.dev/GO-2025-4007)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\u003e \n\u003e This affects programs which validate arbitrary certificate chains.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4007 | stdlib | 1.24.9, 1.25.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58187\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58187",
+              "name": "CVE-2025-58187",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58187: Quadratic complexity when checking name constraints in crypto/x509",
+                "text": "CVE-2025-58187: Quadratic complexity when checking name constraints in crypto/x509"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58189",
+                "BIT-golang-2025-58189",
+                "GO-2025-4008"
+              ],
+              "fullDescription": {
+                "markdown": "When Conn.Handshake fails during ALPN negotiation the error contains attacker controlled information (the ALPN protocols sent by the client) which is not escaped.",
+                "text": "When Conn.Handshake fails during ALPN negotiation the error contains attacker controlled information (the ALPN protocols sent by the client) which is not escaped."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58189](https://osv.dev/CVE-2025-58189)**.\n\n## [GO-2025-4008](https://osv.dev/GO-2025-4008)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e When Conn.Handshake fails during ALPN negotiation the error contains attacker controlled information (the ALPN protocols sent by the client) which is not escaped.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4008 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58189\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58189](https://osv.dev/CVE-2025-58189)**.\n\n## [GO-2025-4008](https://osv.dev/GO-2025-4008)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e When Conn.Handshake fails during ALPN negotiation the error contains attacker controlled information (the ALPN protocols sent by the client) which is not escaped.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4008 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58189\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58189",
+              "name": "CVE-2025-58189",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58189: ALPN negotiation error contains attacker controlled information in crypto/tls",
+                "text": "CVE-2025-58189: ALPN negotiation error contains attacker controlled information in crypto/tls"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61723",
+                "BIT-golang-2025-61723",
+                "GO-2025-4009"
+              ],
+              "fullDescription": {
+                "markdown": "The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\nThis affects programs which parse untrusted PEM inputs.",
+                "text": "The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\nThis affects programs which parse untrusted PEM inputs."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61723](https://osv.dev/CVE-2025-61723)**.\n\n## [GO-2025-4009](https://osv.dev/GO-2025-4009)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\u003e \n\u003e This affects programs which parse untrusted PEM inputs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4009 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61723\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61723](https://osv.dev/CVE-2025-61723)**.\n\n## [GO-2025-4009](https://osv.dev/GO-2025-4009)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\u003e \n\u003e This affects programs which parse untrusted PEM inputs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4009 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61723\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61723",
+              "name": "CVE-2025-61723",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61723: Quadratic complexity when parsing some invalid inputs in encoding/pem",
+                "text": "CVE-2025-61723: Quadratic complexity when parsing some invalid inputs in encoding/pem"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-47912",
+                "BIT-golang-2025-47912",
+                "GO-2025-4010"
+              ],
+              "fullDescription": {
+                "markdown": "The Parse function permits values other than IPv6 addresses to be included in square brackets within the host component of a URL. RFC 3986 permits IPv6 addresses to be included within the host component, enclosed within square brackets. For example: \"http://[::1]/\". IPv4 addresses and hostnames must not appear within square brackets. Parse did not enforce this requirement.",
+                "text": "The Parse function permits values other than IPv6 addresses to be included in square brackets within the host component of a URL. RFC 3986 permits IPv6 addresses to be included within the host component, enclosed within square brackets. For example: \"http://[::1]/\". IPv4 addresses and hostnames must not appear within square brackets. Parse did not enforce this requirement."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-47912](https://osv.dev/CVE-2025-47912)**.\n\n## [GO-2025-4010](https://osv.dev/GO-2025-4010)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The Parse function permits values other than IPv6 addresses to be included in square brackets within the host component of a URL. RFC 3986 permits IPv6 addresses to be included within the host component, enclosed within square brackets. For example: \"http://[::1]/\". IPv4 addresses and hostnames must not appear within square brackets. Parse did not enforce this requirement.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4010 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47912\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-47912](https://osv.dev/CVE-2025-47912)**.\n\n## [GO-2025-4010](https://osv.dev/GO-2025-4010)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The Parse function permits values other than IPv6 addresses to be included in square brackets within the host component of a URL. RFC 3986 permits IPv6 addresses to be included within the host component, enclosed within square brackets. For example: \"http://[::1]/\". IPv4 addresses and hostnames must not appear within square brackets. Parse did not enforce this requirement.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4010 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-47912\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-47912",
+              "name": "CVE-2025-47912",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-47912: Insufficient validation of bracketed IPv6 hostnames in net/url",
+                "text": "CVE-2025-47912: Insufficient validation of bracketed IPv6 hostnames in net/url"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58185",
+                "BIT-golang-2025-58185",
+                "GO-2025-4011"
+              ],
+              "fullDescription": {
+                "markdown": "Parsing a maliciously crafted DER payload could allocate large amounts of memory, causing memory exhaustion.",
+                "text": "Parsing a maliciously crafted DER payload could allocate large amounts of memory, causing memory exhaustion."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58185](https://osv.dev/CVE-2025-58185)**.\n\n## [GO-2025-4011](https://osv.dev/GO-2025-4011)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Parsing a maliciously crafted DER payload could allocate large amounts of memory, causing memory exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4011 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58185\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58185](https://osv.dev/CVE-2025-58185)**.\n\n## [GO-2025-4011](https://osv.dev/GO-2025-4011)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Parsing a maliciously crafted DER payload could allocate large amounts of memory, causing memory exhaustion.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4011 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58185\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58185",
+              "name": "CVE-2025-58185",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58185: Parsing DER payload can cause memory exhaustion in encoding/asn1",
+                "text": "CVE-2025-58185: Parsing DER payload can cause memory exhaustion in encoding/asn1"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58186",
+                "BIT-golang-2025-58186",
+                "GO-2025-4012"
+              ],
+              "fullDescription": {
+                "markdown": "Despite HTTP headers having a default limit of 1MB, the number of cookies that can be parsed does not have a limit. By sending a lot of very small cookies such as \"a=;\", an attacker can make an HTTP server allocate a large amount of structs, causing large memory consumption.",
+                "text": "Despite HTTP headers having a default limit of 1MB, the number of cookies that can be parsed does not have a limit. By sending a lot of very small cookies such as \"a=;\", an attacker can make an HTTP server allocate a large amount of structs, causing large memory consumption."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58186](https://osv.dev/CVE-2025-58186)**.\n\n## [GO-2025-4012](https://osv.dev/GO-2025-4012)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Despite HTTP headers having a default limit of 1MB, the number of cookies that can be parsed does not have a limit. By sending a lot of very small cookies such as \"a=;\", an attacker can make an HTTP server allocate a large amount of structs, causing large memory consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4012 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58186\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58186](https://osv.dev/CVE-2025-58186)**.\n\n## [GO-2025-4012](https://osv.dev/GO-2025-4012)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Despite HTTP headers having a default limit of 1MB, the number of cookies that can be parsed does not have a limit. By sending a lot of very small cookies such as \"a=;\", an attacker can make an HTTP server allocate a large amount of structs, causing large memory consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4012 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58186\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58186",
+              "name": "CVE-2025-58186",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58186: Lack of limit when parsing cookies can cause memory exhaustion in net/http",
+                "text": "CVE-2025-58186: Lack of limit when parsing cookies can cause memory exhaustion in net/http"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58188",
+                "BIT-golang-2025-58188",
+                "GO-2025-4013"
+              ],
+              "fullDescription": {
+                "markdown": "Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\nThis affects programs which validate arbitrary certificate chains.",
+                "text": "Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\nThis affects programs which validate arbitrary certificate chains."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58188](https://osv.dev/CVE-2025-58188)**.\n\n## [GO-2025-4013](https://osv.dev/GO-2025-4013)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\u003e \n\u003e This affects programs which validate arbitrary certificate chains.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4013 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58188\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58188](https://osv.dev/CVE-2025-58188)**.\n\n## [GO-2025-4013](https://osv.dev/GO-2025-4013)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\u003e \n\u003e This affects programs which validate arbitrary certificate chains.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4013 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58188\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58188",
+              "name": "CVE-2025-58188",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58188: Panic when validating certificates with DSA public keys in crypto/x509",
+                "text": "CVE-2025-58188: Panic when validating certificates with DSA public keys in crypto/x509"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-58183",
+                "BIT-golang-2025-58183",
+                "GO-2025-4014"
+              ],
+              "fullDescription": {
+                "markdown": "tar.Reader does not set a maximum size on the number of sparse region data blocks in GNU tar pax 1.0 sparse files. A maliciously-crafted archive containing a large number of sparse regions can cause a Reader to read an unbounded amount of data from the archive into memory. When reading from a compressed source, a small compressed input can result in large allocations.",
+                "text": "tar.Reader does not set a maximum size on the number of sparse region data blocks in GNU tar pax 1.0 sparse files. A maliciously-crafted archive containing a large number of sparse regions can cause a Reader to read an unbounded amount of data from the archive into memory. When reading from a compressed source, a small compressed input can result in large allocations."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-58183](https://osv.dev/CVE-2025-58183)**.\n\n## [GO-2025-4014](https://osv.dev/GO-2025-4014)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e tar.Reader does not set a maximum size on the number of sparse region data blocks in GNU tar pax 1.0 sparse files. A maliciously-crafted archive containing a large number of sparse regions can cause a Reader to read an unbounded amount of data from the archive into memory. When reading from a compressed source, a small compressed input can result in large allocations.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4014 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58183\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-58183](https://osv.dev/CVE-2025-58183)**.\n\n## [GO-2025-4014](https://osv.dev/GO-2025-4014)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e tar.Reader does not set a maximum size on the number of sparse region data blocks in GNU tar pax 1.0 sparse files. A maliciously-crafted archive containing a large number of sparse regions can cause a Reader to read an unbounded amount of data from the archive into memory. When reading from a compressed source, a small compressed input can result in large allocations.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4014 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-58183\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-58183",
+              "name": "CVE-2025-58183",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-58183: Unbounded allocation when parsing GNU sparse map in archive/tar",
+                "text": "CVE-2025-58183: Unbounded allocation when parsing GNU sparse map in archive/tar"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61724",
+                "BIT-golang-2025-61724",
+                "GO-2025-4015"
+              ],
+              "fullDescription": {
+                "markdown": "The Reader.ReadResponse function constructs a response string through repeated string concatenation of lines. When the number of lines in a response is large, this can cause excessive CPU consumption.",
+                "text": "The Reader.ReadResponse function constructs a response string through repeated string concatenation of lines. When the number of lines in a response is large, this can cause excessive CPU consumption."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61724](https://osv.dev/CVE-2025-61724)**.\n\n## [GO-2025-4015](https://osv.dev/GO-2025-4015)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The Reader.ReadResponse function constructs a response string through repeated string concatenation of lines. When the number of lines in a response is large, this can cause excessive CPU consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4015 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61724\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61724](https://osv.dev/CVE-2025-61724)**.\n\n## [GO-2025-4015](https://osv.dev/GO-2025-4015)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The Reader.ReadResponse function constructs a response string through repeated string concatenation of lines. When the number of lines in a response is large, this can cause excessive CPU consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4015 | stdlib | 1.24.8, 1.25.2 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61724\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61724",
+              "name": "CVE-2025-61724",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61724: Excessive CPU consumption in Reader.ReadResponse in net/textproto",
+                "text": "CVE-2025-61724: Excessive CPU consumption in Reader.ReadResponse in net/textproto"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61729",
+                "BIT-golang-2025-61729",
+                "GO-2025-4155"
+              ],
+              "fullDescription": {
+                "markdown": "Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption.",
+                "text": "Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61729](https://osv.dev/CVE-2025-61729)**.\n\n## [GO-2025-4155](https://osv.dev/GO-2025-4155)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4155 | stdlib | 1.24.11, 1.25.5 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61729\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61729](https://osv.dev/CVE-2025-61729)**.\n\n## [GO-2025-4155](https://osv.dev/GO-2025-4155)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4155 | stdlib | 1.24.11, 1.25.5 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61729\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61729",
+              "name": "CVE-2025-61729",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61729: Excessive resource consumption when printing error string for host certificate validation in crypto/x509",
+                "text": "CVE-2025-61729: Excessive resource consumption when printing error string for host certificate validation in crypto/x509"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61727",
+                "BIT-golang-2025-61727",
+                "GO-2025-4175"
+              ],
+              "fullDescription": {
+                "markdown": "An excluded subdomain constraint in a certificate chain does not restrict the usage of wildcard SANs in the leaf certificate. For example a constraint that excludes the subdomain test.example.com does not prevent a leaf certificate from claiming the SAN *.example.com.",
+                "text": "An excluded subdomain constraint in a certificate chain does not restrict the usage of wildcard SANs in the leaf certificate. For example a constraint that excludes the subdomain test.example.com does not prevent a leaf certificate from claiming the SAN *.example.com."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61727](https://osv.dev/CVE-2025-61727)**.\n\n## [GO-2025-4175](https://osv.dev/GO-2025-4175)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e An excluded subdomain constraint in a certificate chain does not restrict the usage of wildcard SANs in the leaf certificate. For example a constraint that excludes the subdomain test.example.com does not prevent a leaf certificate from claiming the SAN *.example.com.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4175 | stdlib | 1.24.11, 1.25.5 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61727\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61727](https://osv.dev/CVE-2025-61727)**.\n\n## [GO-2025-4175](https://osv.dev/GO-2025-4175)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e An excluded subdomain constraint in a certificate chain does not restrict the usage of wildcard SANs in the leaf certificate. For example a constraint that excludes the subdomain test.example.com does not prevent a leaf certificate from claiming the SAN *.example.com.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2025-4175 | stdlib | 1.24.11, 1.25.5 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61727\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61727",
+              "name": "CVE-2025-61727",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61727: Improper application of excluded DNS name constraints when verifying wildcard names in crypto/x509",
+                "text": "CVE-2025-61727: Improper application of excluded DNS name constraints when verifying wildcard names in crypto/x509"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-68121",
+                "BIT-golang-2025-68121",
+                "GO-2026-4337"
+              ],
+              "fullDescription": {
+                "markdown": "During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake.",
+                "text": "During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-68121](https://osv.dev/CVE-2025-68121)**.\n\n## [GO-2026-4337](https://osv.dev/GO-2026-4337)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4337 | stdlib | 1.24.13, 1.25.7, 1.26.0-rc.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-68121\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-68121](https://osv.dev/CVE-2025-68121)**.\n\n## [GO-2026-4337](https://osv.dev/GO-2026-4337)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4337 | stdlib | 1.24.13, 1.25.7, 1.26.0-rc.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-68121\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-68121",
+              "name": "CVE-2025-68121",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-68121: Unexpected session resumption in crypto/tls",
+                "text": "CVE-2025-68121: Unexpected session resumption in crypto/tls"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61730",
+                "BIT-golang-2025-61730",
+                "GO-2026-4340"
+              ],
+              "fullDescription": {
+                "markdown": "During the TLS 1.3 handshake if multiple messages are sent in records that span encryption level boundaries (for instance the Client Hello and Encrypted Extensions messages), the subsequent messages may be processed before the encryption level changes. This can cause some minor information disclosure if a network-local attacker can inject messages during the handshake.",
+                "text": "During the TLS 1.3 handshake if multiple messages are sent in records that span encryption level boundaries (for instance the Client Hello and Encrypted Extensions messages), the subsequent messages may be processed before the encryption level changes. This can cause some minor information disclosure if a network-local attacker can inject messages during the handshake."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61730](https://osv.dev/CVE-2025-61730)**.\n\n## [GO-2026-4340](https://osv.dev/GO-2026-4340)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e During the TLS 1.3 handshake if multiple messages are sent in records that span encryption level boundaries (for instance the Client Hello and Encrypted Extensions messages), the subsequent messages may be processed before the encryption level changes. This can cause some minor information disclosure if a network-local attacker can inject messages during the handshake.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4340 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61730\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61730](https://osv.dev/CVE-2025-61730)**.\n\n## [GO-2026-4340](https://osv.dev/GO-2026-4340)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e During the TLS 1.3 handshake if multiple messages are sent in records that span encryption level boundaries (for instance the Client Hello and Encrypted Extensions messages), the subsequent messages may be processed before the encryption level changes. This can cause some minor information disclosure if a network-local attacker can inject messages during the handshake.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4340 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61730\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61730",
+              "name": "CVE-2025-61730",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61730: Handshake messages may be processed at the incorrect encryption level in crypto/tls",
+                "text": "CVE-2025-61730: Handshake messages may be processed at the incorrect encryption level in crypto/tls"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61726",
+                "BIT-golang-2025-61726",
+                "GO-2026-4341"
+              ],
+              "fullDescription": {
+                "markdown": "The net/url package does not set a limit on the number of query parameters in a query.\n\nWhile the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption.",
+                "text": "The net/url package does not set a limit on the number of query parameters in a query.\n\nWhile the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61726](https://osv.dev/CVE-2025-61726)**.\n\n## [GO-2026-4341](https://osv.dev/GO-2026-4341)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The net/url package does not set a limit on the number of query parameters in a query.\n\u003e \n\u003e While the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4341 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61726\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61726](https://osv.dev/CVE-2025-61726)**.\n\n## [GO-2026-4341](https://osv.dev/GO-2026-4341)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e The net/url package does not set a limit on the number of query parameters in a query.\n\u003e \n\u003e While the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4341 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61726\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61726",
+              "name": "CVE-2025-61726",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61726: Memory exhaustion in query parameter parsing in net/url",
+                "text": "CVE-2025-61726: Memory exhaustion in query parameter parsing in net/url"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-61728",
+                "BIT-golang-2025-61728",
+                "GO-2026-4342"
+              ],
+              "fullDescription": {
+                "markdown": "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive.",
+                "text": "archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-61728](https://osv.dev/CVE-2025-61728)**.\n\n## [GO-2026-4342](https://osv.dev/GO-2026-4342)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4342 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61728\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-61728](https://osv.dev/CVE-2025-61728)**.\n\n## [GO-2026-4342](https://osv.dev/GO-2026-4342)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e archive/zip uses a super-linear file name indexing algorithm that is invoked the first time a file in an archive is opened. This can lead to a denial of service when consuming a maliciously constructed ZIP archive.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4342 | stdlib | 1.24.12, 1.25.6 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-61728\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-61728",
+              "name": "CVE-2025-61728",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-61728: Excessive CPU consumption when building archive index in archive/zip",
+                "text": "CVE-2025-61728: Excessive CPU consumption when building archive index in archive/zip"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2025-22873",
+                "BIT-golang-2025-22873",
+                "GO-2026-4403"
+              ],
+              "fullDescription": {
+                "markdown": "It was possible to improperly access the parent directory of an os.Root by opening a filename ending in \"../\". For example, Root.Open(\"../\") would open the parent directory of the Root. This escape only permits opening the parent directory itself, not ancestors of the parent or files contained within the parent.",
+                "text": "It was possible to improperly access the parent directory of an os.Root by opening a filename ending in \"../\". For example, Root.Open(\"../\") would open the parent directory of the Root. This escape only permits opening the parent directory itself, not ancestors of the parent or files contained within the parent."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2025-22873](https://osv.dev/CVE-2025-22873)**.\n\n## [GO-2026-4403](https://osv.dev/GO-2026-4403)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e It was possible to improperly access the parent directory of an os.Root by opening a filename ending in \"../\". For example, Root.Open(\"../\") would open the parent directory of the Root. This escape only permits opening the parent directory itself, not ancestors of the parent or files contained within the parent.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4403 | stdlib | 1.23.9, 1.24.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22873\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2025-22873](https://osv.dev/CVE-2025-22873)**.\n\n## [GO-2026-4403](https://osv.dev/GO-2026-4403)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e It was possible to improperly access the parent directory of an os.Root by opening a filename ending in \"../\". For example, Root.Open(\"../\") would open the parent directory of the Root. This escape only permits opening the parent directory itself, not ancestors of the parent or files contained within the parent.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4403 | stdlib | 1.23.9, 1.24.3 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2025-22873\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2025-22873",
+              "name": "CVE-2025-22873",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2025-22873: Improper access to parent directory of root in os",
+                "text": "CVE-2025-22873: Improper access to parent directory of root in os"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2026-25679",
+                "BIT-golang-2026-25679",
+                "GO-2026-4601"
+              ],
+              "fullDescription": {
+                "markdown": "url.Parse insufficiently validated the host/authority component and accepted some invalid URLs.",
+                "text": "url.Parse insufficiently validated the host/authority component and accepted some invalid URLs."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2026-25679](https://osv.dev/CVE-2026-25679)**.\n\n## [GO-2026-4601](https://osv.dev/GO-2026-4601)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e url.Parse insufficiently validated the host/authority component and accepted some invalid URLs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4601 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-25679\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2026-25679](https://osv.dev/CVE-2026-25679)**.\n\n## [GO-2026-4601](https://osv.dev/GO-2026-4601)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e url.Parse insufficiently validated the host/authority component and accepted some invalid URLs.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4601 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-25679\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2026-25679",
+              "name": "CVE-2026-25679",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2026-25679: Incorrect parsing of IPv6 host literals in net/url",
+                "text": "CVE-2026-25679: Incorrect parsing of IPv6 host literals in net/url"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2026-27139",
+                "BIT-golang-2026-27139",
+                "GO-2026-4602"
+              ],
+              "fullDescription": {
+                "markdown": "On Unix platforms, when listing the contents of a directory using File.ReadDir or File.Readdir the returned FileInfo could reference a file outside of the Root in which the File was opened.\n\nThe impact of this escape is limited to reading metadata provided by lstat from arbitrary locations on the filesystem without permitting reading or writing files outside the root.",
+                "text": "On Unix platforms, when listing the contents of a directory using File.ReadDir or File.Readdir the returned FileInfo could reference a file outside of the Root in which the File was opened.\n\nThe impact of this escape is limited to reading metadata provided by lstat from arbitrary locations on the filesystem without permitting reading or writing files outside the root."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2026-27139](https://osv.dev/CVE-2026-27139)**.\n\n## [GO-2026-4602](https://osv.dev/GO-2026-4602)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e On Unix platforms, when listing the contents of a directory using File.ReadDir or File.Readdir the returned FileInfo could reference a file outside of the Root in which the File was opened.\n\u003e \n\u003e The impact of this escape is limited to reading metadata provided by lstat from arbitrary locations on the filesystem without permitting reading or writing files outside the root.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4602 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-27139\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2026-27139](https://osv.dev/CVE-2026-27139)**.\n\n## [GO-2026-4602](https://osv.dev/GO-2026-4602)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e On Unix platforms, when listing the contents of a directory using File.ReadDir or File.Readdir the returned FileInfo could reference a file outside of the Root in which the File was opened.\n\u003e \n\u003e The impact of this escape is limited to reading metadata provided by lstat from arbitrary locations on the filesystem without permitting reading or writing files outside the root.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4602 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-27139\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2026-27139",
+              "name": "CVE-2026-27139",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2026-27139: FileInfo can escape from a Root in os",
+                "text": "CVE-2026-27139: FileInfo can escape from a Root in os"
+              }
+            },
+            {
+              "deprecatedIds": [
+                "CVE-2026-27142",
+                "BIT-golang-2026-27142",
+                "GO-2026-4603"
+              ],
+              "fullDescription": {
+                "markdown": "Actions which insert URLs into the content attribute of HTML meta tags are not escaped. This can allow XSS if the meta tag also has an http-equiv attribute with the value \"refresh\".\n\nA new GODEBUG setting has been added, htmlmetacontenturlescape, which can be used to disable escaping URLs in actions in the meta content attribute which follow \"url=\" by setting htmlmetacontenturlescape=0.",
+                "text": "Actions which insert URLs into the content attribute of HTML meta tags are not escaped. This can allow XSS if the meta tag also has an http-equiv attribute with the value \"refresh\".\n\nA new GODEBUG setting has been added, htmlmetacontenturlescape, which can be used to disable escaping URLs in actions in the meta content attribute which follow \"url=\" by setting htmlmetacontenturlescape=0."
+              },
+              "help": {
+                "markdown": "**Your dependency is vulnerable to [CVE-2026-27142](https://osv.dev/CVE-2026-27142)**.\n\n## [GO-2026-4603](https://osv.dev/GO-2026-4603)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Actions which insert URLs into the content attribute of HTML meta tags are not escaped. This can allow XSS if the meta tag also has an http-equiv attribute with the value \"refresh\".\n\u003e \n\u003e A new GODEBUG setting has been added, htmlmetacontenturlescape, which can be used to disable escaping URLs in actions in the meta content attribute which follow \"url=\" by setting htmlmetacontenturlescape=0.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4603 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-27142\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n",
+                "text": "**Your dependency is vulnerable to [CVE-2026-27142](https://osv.dev/CVE-2026-27142)**.\n\n## [GO-2026-4603](https://osv.dev/GO-2026-4603)\n\n\u003cdetails\u003e\n\u003csummary\u003eDetails\u003c/summary\u003e\n\n\u003e Actions which insert URLs into the content attribute of HTML meta tags are not escaped. This can allow XSS if the meta tag also has an http-equiv attribute with the value \"refresh\".\n\u003e \n\u003e A new GODEBUG setting has been added, htmlmetacontenturlescape, which can be used to disable escaping URLs in actions in the meta content attribute which follow \"url=\" by setting htmlmetacontenturlescape=0.\n\n\u003c/details\u003e\n\n---\n\n### Affected Packages\n\n| Source | Package Name | Package Version |\n| --- | --- | --- |\n| lockfile:/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/go.mod | stdlib | 1.21.99 |\n\n## Remediation\n\nTo fix these vulnerabilities, update the vulnerabilities past the listed fixed versions below.\n\n### Fixed Versions\n\n| Vulnerability ID | Package Name | Fixed Version |\n| --- | --- | --- |\n| GO-2026-4603 | stdlib | 1.25.8, 1.26.1 |\n\nIf you believe these vulnerabilities do not affect your code and wish to ignore them, add them to the ignore list in an\n`osv-scanner.toml` file located in the same directory as the lockfile containing the vulnerable dependency.\n\nSee the format and more options in our documentation here: https://google.github.io/osv-scanner/configuration/\n\nAdd or append these values to the following config files to ignore this vulnerability:\n\n`/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/testdata/integration/go-reachable/source/osv-scanner.toml`\n\n```\n[[IgnoredVulns]]\nid = \"CVE-2026-27142\"\nreason = \"Your reason for ignoring this vulnerability\"\n```\n"
+              },
+              "id": "CVE-2026-27142",
+              "name": "CVE-2026-27142",
+              "relationships": [],
+              "shortDescription": {
+                "markdown": "CVE-2026-27142: URLs in meta content attribute actions are not escaped in html/template",
+                "text": "CVE-2026-27142: URLs in meta content attribute actions are not escaped in html/template"
+              }
+            }
+          ],
+          "supportedTaxonomies": [],
+          "taxa": [],
+          "version": "2.3.5"
+        },
+        "extensions": []
+      },
+      "translations": [],
+      "versionControlProvenance": [],
+      "webRequests": [],
+      "webResponses": []
+    }
+  ],
+  "properties": {}
+}

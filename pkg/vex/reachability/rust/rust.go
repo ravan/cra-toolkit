@@ -22,12 +22,20 @@ func (a *Analyzer) Language() string { return "rust" }
 // vulnerability identified in the finding is reachable.
 func (a *Analyzer) Analyze(ctx context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
 	if _, err := exec.LookPath("cargo-scan"); err != nil {
-		return reachability.Result{}, fmt.Errorf("cargo-scan not installed: %w", err)
+		return reachability.Result{
+			Reachable:  false,
+			Confidence: formats.ConfidenceLow,
+			Evidence:   fmt.Sprintf("cargo-scan not installed: %v", err),
+		}, nil
 	}
 
 	output, err := runCargoScan(ctx, sourceDir)
 	if err != nil {
-		return reachability.Result{}, fmt.Errorf("cargo-scan: %w", err)
+		return reachability.Result{
+			Reachable:  false,
+			Confidence: formats.ConfidenceLow,
+			Evidence:   fmt.Sprintf("cargo-scan execution failed: %v", err),
+		}, nil
 	}
 
 	return parseCargoScanOutput(output, finding), nil

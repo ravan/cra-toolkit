@@ -8,12 +8,12 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
 )
 
-const testDataPath = "../../../testdata/integration/go-reachable/results.sarif"
+const testDataPath = "../../../testdata/integration/go-reachable/osv-scanner.sarif.json"
 
-func TestParser_Parse_WithFile(t *testing.T) {
+func TestParser_Parse_RealOSVScannerSARIF(t *testing.T) {
 	f, err := os.Open(testDataPath)
 	if err != nil {
-		t.Skipf("no SARIF test data at %s: %v", testDataPath, err)
+		t.Fatalf("failed to open SARIF test data: %v", err)
 	}
 	defer f.Close() //nolint:errcheck // test file
 
@@ -27,13 +27,21 @@ func TestParser_Parse_WithFile(t *testing.T) {
 		t.Fatal("expected at least one finding, got none")
 	}
 
-	for i, f := range findings {
+	// Verify CVE-2022-32149 is found (the known vuln in our Go fixture)
+	foundTarget := false
+	for _, f := range findings {
 		if f.CVE == "" {
-			t.Errorf("finding[%d]: CVE is empty", i)
+			t.Error("finding has empty CVE")
 		}
 		if f.DataSource != "sarif" {
-			t.Errorf("finding[%d]: DataSource = %q, want %q", i, f.DataSource, "sarif")
+			t.Errorf("DataSource = %q, want %q", f.DataSource, "sarif")
 		}
+		if f.CVE == "CVE-2022-32149" {
+			foundTarget = true
+		}
+	}
+	if !foundTarget {
+		t.Error("expected to find CVE-2022-32149 in SARIF output")
 	}
 }
 
