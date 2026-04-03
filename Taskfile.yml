@@ -1,0 +1,72 @@
+version: "3"
+
+vars:
+  BINARY: cra
+  BUILD_DIR: bin
+  MODULE: github.com/ravan/suse-cra-toolkit
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
+  COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo "unknown"
+  BUILD_DATE:
+    sh: date -u '+%Y-%m-%dT%H:%M:%SZ'
+  LDFLAGS: >-
+    -s -w
+    -X main.version={{.VERSION}}
+    -X main.commit={{.COMMIT}}
+    -X main.date={{.BUILD_DATE}}
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  build:
+    desc: Build the cra binary
+    cmds:
+      - go build -ldflags "{{.LDFLAGS}}" -o {{.BUILD_DIR}}/{{.BINARY}} ./cmd/cra
+    sources:
+      - "**/*.go"
+      - go.mod
+      - go.sum
+    generates:
+      - "{{.BUILD_DIR}}/{{.BINARY}}"
+
+  test:
+    desc: Run all unit tests with race detector
+    cmds:
+      - go test -race -count=1 ./...
+
+  fmt:
+    desc: Format code with gofumpt
+    cmds:
+      - gofumpt -w .
+
+  fmt:check:
+    desc: Check code formatting
+    cmds:
+      - test -z "$(gofumpt -l .)" || (echo "Files need formatting (run 'task fmt'):" && gofumpt -l . && exit 1)
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
+  lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint run ./...
+
+  quality:
+    desc: Run all quality gates
+    cmds:
+      - task: fmt:check
+      - task: vet
+      - task: lint
+      - task: test
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -rf {{.BUILD_DIR}}
