@@ -24,3 +24,6 @@ Thumbs.db
 # Coverage
 coverage.out
 coverage.html
+
+# Large binary files
+docs/*.pdf
