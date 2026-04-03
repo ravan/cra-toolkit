@@ -14,11 +14,11 @@ func newVersionCmd(version string) *urfave.Command {
 		Action: func(_ context.Context, cmd *urfave.Command) error {
 			format := cmd.String("format")
 			if format == "json" {
-				fmt.Fprintf(cmd.Root().Writer, "{\"version\":%q}\n", version)
-			} else {
-				fmt.Fprintf(cmd.Root().Writer, "cra version %s\n", version)
+				_, err := fmt.Fprintf(cmd.Root().Writer, "{\"version\":%q}\n", version)
+				return err
 			}
-			return nil
+			_, err := fmt.Fprintf(cmd.Root().Writer, "cra version %s\n", version)
+			return err
 		},
 	}
 }

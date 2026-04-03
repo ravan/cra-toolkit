@@ -47,13 +47,13 @@ func New(version string) *urfave.Command {
 }
 
 // OutputWriter returns the appropriate writer based on the --output flag.
-func OutputWriter(cmd *urfave.Command) (io.Writer, func() error) {
+func OutputWriter(cmd *urfave.Command) (w io.Writer, closer func() error) {
 	path := cmd.String("output")
 	if path == "" {
 		return os.Stdout, func() error { return nil }
 	}
 
-	f, err := os.Create(path)
+	f, err := os.Create(path) //nolint:gosec // path is from CLI flag, user-controlled by design
 	if err != nil {
 		return os.Stdout, func() error { return nil }
 	}

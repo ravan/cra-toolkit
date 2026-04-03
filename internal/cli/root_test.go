@@ -11,11 +11,8 @@ import (
 
 func TestNew_ReturnsCommand(t *testing.T) {
 	cmd := cli.New("1.0.0-test")
-	if cmd == nil {
-		t.Fatal("expected non-nil command")
-	}
-	if cmd.Name != "cra" {
-		t.Errorf("expected command name 'cra', got %q", cmd.Name)
+	if cmd == nil || cmd.Name != "cra" {
+		t.Errorf("expected non-nil command with name 'cra', got %v", cmd)
 	}
 }
 

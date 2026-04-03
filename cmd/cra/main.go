@@ -10,8 +10,8 @@ import (
 
 var (
 	version = "dev"
-	commit  = "unknown"
-	date    = "unknown"
+	commit  = "unknown" //nolint:unused // set via -ldflags at build time
+	date    = "unknown" //nolint:unused // set via -ldflags at build time
 )
 
 func main() {

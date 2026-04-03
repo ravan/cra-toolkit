@@ -1,0 +1,41 @@
+run:
+  timeout: 5m
+  go: "1.26"
+
+linters:
+  enable:
+    - errcheck
+    - gocyclo
+    - gocognit
+    - gocritic
+    - gosec
+    - ineffassign
+    - unconvert
+    - misspell
+    - prealloc
+    - dupl
+    - maintidx
+    - gofumpt
+
+linters-settings:
+  gocyclo:
+    min-complexity: 10
+  gocognit:
+    min-complexity: 13
+  dupl:
+    threshold: 100
+  maintidx:
+    under: 20
+  gofumpt:
+    extra-rules: true
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+      - opinionated
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
