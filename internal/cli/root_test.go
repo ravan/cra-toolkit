@@ -65,7 +65,7 @@ func TestVersionCmd_Text(t *testing.T) {
 }
 
 func TestSubcommandStubs_ReturnNotImplemented(t *testing.T) {
-	subcmds := []string{"policykit", "report", "evidence", "csaf"}
+	subcmds := []string{"policykit", "report", "evidence"}
 	for _, name := range subcmds {
 		t.Run(name, func(t *testing.T) {
 			cmd := cli.New("test")
