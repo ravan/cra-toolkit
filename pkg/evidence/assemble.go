@@ -83,7 +83,10 @@ func copyConfigArtifact(annexDir, configPath string) (ArtifactEntry, error) {
 	if err := copyFile(configPath, dst); err != nil {
 		return ArtifactEntry{}, fmt.Errorf("copy product config: %w", err)
 	}
-	hash, _ := hashFile(dst)
+	hash, err := hashFile(dst)
+	if err != nil {
+		return ArtifactEntry{}, fmt.Errorf("hash %s: %w", dst, err)
+	}
 	return ArtifactEntry{
 		Path:        filepath.Join("annex-vii", "1-general-description", "product-config.yaml"),
 		AnnexVIIRef: "1a",
@@ -112,7 +115,10 @@ func copyArtifacts(annexDir string, artifacts []artifactInput) ([]ArtifactEntry,
 			return nil, "", fmt.Errorf("copy %s: %w", a.sourcePath, err)
 		}
 
-		hash, _ := hashFile(dst)
+		hash, err := hashFile(dst)
+		if err != nil {
+			return nil, "", fmt.Errorf("hash %s: %w", dst, err)
+		}
 		entries = append(entries, ArtifactEntry{
 			Path:        filepath.Join("annex-vii", dir, filename),
 			AnnexVIIRef: a.annexVIIRef,
@@ -137,7 +143,10 @@ func copySBOMToSection8(annexDir, sbomDst string) (ArtifactEntry, error) {
 	if err := copyFile(sbomDst, dst8); err != nil {
 		return ArtifactEntry{}, fmt.Errorf("copy SBOM to section 8: %w", err)
 	}
-	hash, _ := hashFile(dst8)
+	hash, err := hashFile(dst8)
+	if err != nil {
+		return ArtifactEntry{}, fmt.Errorf("hash %s: %w", dst8, err)
+	}
 	return ArtifactEntry{
 		Path:        filepath.Join("annex-vii", "8-sbom", filename),
 		AnnexVIIRef: "8",
