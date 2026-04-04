@@ -1,0 +1,6 @@
+{
+  "reachable": true,
+  "confidence": "high",
+  "cve": "CVE-2021-23337",
+  "package": "pkg:npm/lodash@4.17.20"
+}
