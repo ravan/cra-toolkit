@@ -329,10 +329,11 @@ module.exports = { handleRequest, UserController };
 	var foundTemplate, foundSend, foundJson bool
 	for _, e := range edges {
 		switch string(e.To) {
-		case "_.template":
+		case "lodash.template":
+			// _ is a known import alias for lodash; resolved correctly.
 			foundTemplate = true
 			if e.Kind != treesitter.EdgeDirect {
-				t.Errorf("_.template: expected EdgeDirect, got %s", e.Kind)
+				t.Errorf("lodash.template: expected EdgeDirect, got %s", e.Kind)
 			}
 		case "res.send":
 			foundSend = true
@@ -342,13 +343,65 @@ module.exports = { handleRequest, UserController };
 	}
 
 	if !foundTemplate {
-		t.Error("expected to find call to _.template")
+		t.Error("expected to find call to lodash.template (resolved from _.template via import alias)")
 	}
 	if !foundSend {
 		t.Error("expected to find call to res.send")
 	}
 	if !foundJson {
 		t.Error("expected to find call to res.json")
+	}
+}
+
+func TestExtractCalls_ImportAliasResolution(t *testing.T) {
+	source := `const _ = require('lodash');
+const express = require('express');
+
+function handleRequest(req, res) {
+    const compiled = _.template(req.body.input);
+    res.send(compiled());
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	// Populate scope with import aliases as the analyzer would do.
+	scope.DefineImport("_", "lodash", []string{})
+	scope.DefineImport("express", "express", []string{})
+
+	edges, err := ext.ExtractCalls("handler.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	// _.template should resolve to lodash.template via import alias in scope.
+	// res.send should stay as res.send (res is not a known import alias).
+	var foundLodashTemplate, foundResSend bool
+	var foundUnresolvedTemplate bool
+	for _, e := range edges {
+		switch string(e.To) {
+		case "lodash.template":
+			foundLodashTemplate = true
+		case "_.template":
+			foundUnresolvedTemplate = true
+		case "res.send":
+			foundResSend = true
+		}
+	}
+
+	if !foundLodashTemplate {
+		t.Error("expected _.template to be resolved to lodash.template via import alias")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+	if foundUnresolvedTemplate {
+		t.Error("unresolved _.template edge should not appear; alias resolution failed")
+	}
+	if !foundResSend {
+		t.Error("expected res.send to remain as res.send (res is not an import alias)")
 	}
 }
 

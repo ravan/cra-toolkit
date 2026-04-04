@@ -7,7 +7,9 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
-// httpMethods is the set of HTTP method names used by Express/Hono/Fastify-style routers.
+// httpMethods is an alias for routeRegistrationMethods used for route-handler name heuristics.
+// "use" and "route" are excluded from the prefix-match heuristic since they don't produce
+// named handlers like getUser or postItem.
 var httpMethods = map[string]bool{
 	"get": true, "post": true, "put": true, "delete": true,
 	"patch": true, "head": true, "options": true, "all": true,

@@ -226,13 +226,17 @@ func detectRouteHandlers(node *tree_sitter.Node, src []byte, routeHandlers map[s
 	}
 }
 
-// isHTTPRouteMethod returns true if the method name is an HTTP verb used by Express/Hono/Fastify.
+// routeRegistrationMethods is the unified set of HTTP/router method names used by Express/Hono/Fastify-style routers.
+// It includes standard HTTP verbs plus Express middleware methods ("use", "route").
+var routeRegistrationMethods = map[string]bool{
+	"get": true, "post": true, "put": true, "delete": true,
+	"patch": true, "head": true, "options": true, "all": true,
+	"use": true, "route": true,
+}
+
+// isHTTPRouteMethod returns true if the method name is a route registration method used by Express/Hono/Fastify.
 func isHTTPRouteMethod(method string) bool {
-	switch method {
-	case "get", "post", "put", "delete", "patch", "head", "options", "all", "use", "route":
-		return true
-	}
-	return false
+	return routeRegistrationMethods[method]
 }
 
 // detectAndExtractInlineRouteHandlers extracts anonymous arrow function arguments of
@@ -887,23 +891,15 @@ func collectRequireImport(node *tree_sitter.Node, src []byte, file string, impor
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ExtractCalls walks the AST to find all call expressions and produces call edges.
+// Typed vars are collected per-function from parameter annotations; file-level declarations are not tracked.
 func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree, scope *treesitter.Scope) ([]treesitter.Edge, error) {
 	root := tree.RootNode()
 	mod := moduleFromFile(file)
 	var edges []treesitter.Edge
-	// Collect TypeScript typed variable names at file scope before extraction.
-	typedVars := collectTypedVars(root, src)
+	// Typed vars are collected per-function from parameter annotations; file-level declarations are not tracked.
+	typedVars := make(map[string]bool)
 	collectCalls(root, src, file, mod, "", scope, typedVars, &edges)
 	return edges, nil
-}
-
-// collectTypedVars scans the AST for variable_declarator and parameter nodes that have
-// explicit type_annotation children and returns the set of identifier names.
-// This is used to boost call-edge confidence when the receiver has a known type.
-func collectTypedVars(root *tree_sitter.Node, src []byte) map[string]bool {
-	typed := make(map[string]bool)
-	collectTypedVarsNode(root, src, typed)
-	return typed
 }
 
 //nolint:gocognit,gocyclo // inspects multiple TS node kinds for type annotations
@@ -1045,6 +1041,9 @@ func collectCalls(
 		if funcNode != nil {
 			callee := resolveCallee(funcNode, src)
 			if callee != "" {
+				// Resolve CJS/ESM import aliases: if callee is "alias.method" and "alias"
+				// is a known import alias in scope, rewrite to "module.method".
+				callee = resolveAliasInCallee(callee, scope)
 				from := treesitter.SymbolID(currentFunc)
 				if currentFunc == "" {
 					from = treesitter.SymbolID(moduleName)
@@ -1160,6 +1159,30 @@ func collectCallsInClass(
 		child := node.Child(i)
 		collectCallsInClass(child, src, file, moduleName, className, scope, typedVars, edges)
 	}
+}
+
+// resolveAliasInCallee rewrites a callee string by resolving the leading object name against
+// known import aliases in scope. For example, if scope has DefineImport("_", "lodash", ...),
+// then "_.template" becomes "lodash.template". If the object part is not a known alias,
+// the callee is returned unchanged.
+func resolveAliasInCallee(callee string, scope *treesitter.Scope) string {
+	if scope == nil {
+		return callee
+	}
+	dotIdx := strings.Index(callee, ".")
+	if dotIdx < 0 {
+		// Plain identifier — not a member call; check if it is itself an import alias.
+		if mod, ok := scope.LookupImport(callee); ok {
+			return mod
+		}
+		return callee
+	}
+	obj := callee[:dotIdx]
+	rest := callee[dotIdx:] // includes the leading "."
+	if mod, ok := scope.LookupImport(obj); ok {
+		return mod + rest
+	}
+	return callee
 }
 
 // resolveCallee extracts the callee name from a call's function node.
