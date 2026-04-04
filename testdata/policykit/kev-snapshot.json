@@ -1,0 +1,325 @@
+{
+  "title": "CISA Catalog of Known Exploited Vulnerabilities",
+  "catalogVersion": "2026.04.02",
+  "dateReleased": "2026-04-02T19:32:22.1171Z",
+  "count": 1557,
+  "vulnerabilities": [
+    {
+      "cveID": "CVE-2026-3502",
+      "vendorProject": "TrueConf",
+      "product": "Client",
+      "vulnerabilityName": "TrueConf Client Download of Code Without Integrity Check Vulnerability",
+      "dateAdded": "2026-04-02",
+      "shortDescription": "TrueConf Client contains a download of code without integrity check vulnerability. An attacker who is able to influence the update delivery path can substitute a tampered update payload. If the payload is executed or installed by the updater, this may result in arbitrary code execution in the context of the updating process or user.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-16",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://trueconf.com/blog/update/trueconf-8-5 ; https://trueconf.com/downloads/windows.html ; https://nvd.nist.gov/vuln/detail/CVE-2026-3502",
+      "cwes": [
+        "CWE-494"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-5281",
+      "vendorProject": "Google",
+      "product": "Dawn",
+      "vulnerabilityName": "Google Dawn Use-After-Free Vulnerability",
+      "dateAdded": "2026-04-01",
+      "shortDescription": "Google Dawn contains an use-after-free vulnerability that could allow a remote attacker who had compromised the renderer process to execute arbitrary code via a crafted HTML page. This vulnerability could affect multiple Chromium-based products including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-15",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "This vulnerability affects an open-source component, third-party library, protocol, or proprietary implementation that could be used by different products. For more information, please see: https://chromereleases.googleblog.com/2026/03/stable-channel-update-for-desktop_31.html ; https://nvd.nist.gov/vuln/detail/CVE-2026-5281 ",
+      "cwes": [
+        "CWE-416"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-3055",
+      "vendorProject": "Citrix",
+      "product": "NetScaler",
+      "vulnerabilityName": "Citrix NetScaler Out-of-Bounds Read Vulnerability",
+      "dateAdded": "2026-03-30",
+      "shortDescription": "Citrix NetScaler ADC (formerly Citrix ADC), NetScaler Gateway (formerly Citrix Gateway) and NetScaler ADC FIPS and NDcPP contain an out-of-bounds reads vulnerability when configured as a SAML IDP leading to memory overread.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-02",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX696300&articleURL=NetScaler_ADC_and_NetScaler_Gateway_Security_Bulletin_for_CVE_2026_3055_and_CVE_2026_4368 ; https://nvd.nist.gov/vuln/detail/CVE-2026-3055",
+      "cwes": [
+        "CWE-125"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-53521",
+      "vendorProject": "F5",
+      "product": "BIG-IP",
+      "vulnerabilityName": "F5 BIG-IP Stack-Based Buffer Overflow Vulnerability",
+      "dateAdded": "2026-03-27",
+      "shortDescription": "F5 BIG-IP APM contains a stack-based buffer overflow vulnerability that could allow a threat actor to achieve remote code execution.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-30",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "Please adhere to F5\u2019s guidelines to assess exposure and mitigate risks. Check for signs of potential compromise on all internet accessible F5 products affected by this vulnerability. For more information please see: https://my.f5.com/manage/s/article/K000156741 ; https://my.f5.com/manage/s/article/K000160486 ; https://my.f5.com/manage/s/article/K11438344 ; https://nvd.nist.gov/vuln/detail/CVE-2025-53521",
+      "cwes": [
+        "CWE-121"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-33634",
+      "vendorProject": "Aquasecurity",
+      "product": "Trivy",
+      "vulnerabilityName": "Aquasecurity Trivy Embedded Malicious Code Vulnerability",
+      "dateAdded": "2026-03-26",
+      "shortDescription": "Aquasecurity Trivy contains an embedded malicious code vulnerability that could allow an attacker to gain access to everything in the CI/CD environment, including all tokens, SSH keys, cloud credentials, database passwords, and any sensitive configuration in memory.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-09",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "This vulnerability involves a supply\u2011chain compromise in a product that may be used across multiple products and environments. Additional vendor\u2011provided guidance must be followed to ensure full remediation. For more information, please see: https://github.com/advisories/GHSA-69fq-xp46-6x23 ; https://nvd.nist.gov/vuln/detail/CVE-2026-33634",
+      "cwes": [
+        "CWE-506"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-33017",
+      "vendorProject": "Langflow",
+      "product": "Langflow",
+      "vulnerabilityName": "Langflow Code Injection Vulnerability",
+      "dateAdded": "2026-03-25",
+      "shortDescription": "Langflow contains a code injection vulnerability that could allow building public flows without requiring authentication.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-08",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://github.com/langflow-ai/langflow/security/advisories/GHSA-vwmf-pq79-vjvx ; https://nvd.nist.gov/vuln/detail/CVE-2026-33017",
+      "cwes": [
+        "CWE-94",
+        "CWE-95",
+        "CWE-306"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-32432",
+      "vendorProject": "Craft CMS",
+      "product": "Craft CMS",
+      "vulnerabilityName": "Craft CMS Code Injection Vulnerability",
+      "dateAdded": "2026-03-20",
+      "shortDescription": "Craft CMS contains a code injection vulnerability that allows a remote attacker to execute arbitrary code.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-03",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://craftcms.com/knowledge-base/craft-cms-cve-2025-32432 ; https://github.com/craftcms/cms/security/advisories/GHSA-f3gw-9ww9-jmc3 ; https://nvd.nist.gov/vuln/detail/CVE-2025-32432",
+      "cwes": [
+        "CWE-94"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-54068",
+      "vendorProject": "Laravel",
+      "product": "Livewire",
+      "vulnerabilityName": "Laravel Livewire Code Injection Vulnerability",
+      "dateAdded": "2026-03-20",
+      "shortDescription": "Laravel Livewire contain a code injection vulnerability that could allow unauthenticated attackers to achieve remote command execution in specific scenarios.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-03",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://github.com/livewire/livewire/security/advisories/GHSA-29cq-5w36-x7w3 ; https://github.com/livewire/livewire/commit/ef04be759da41b14d2d129e670533180a44987dc ; https://nvd.nist.gov/vuln/detail/CVE-2025-54068",
+      "cwes": [
+        "CWE-94"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-43510",
+      "vendorProject": "Apple",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Apple Multiple Products Improper Locking Vulnerability",
+      "dateAdded": "2026-03-20",
+      "shortDescription": "Apple watchOS, iOS, iPadOS, macOS, visionOS, and tvOS contain an improper locking vulnerability that could allow a malicious application to cause unexpected changes in memory shared between processes.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-03",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://support.apple.com/en-us/125632 ; https://support.apple.com/en-us/125633 ; https://support.apple.com/en-us/125634 ; https://support.apple.com/en-us/125635 ; https://support.apple.com/en-us/125636 ; https://support.apple.com/en-us/125637 ; https://support.apple.com/en-us/125638 ; https://support.apple.com/en-us/125639 ; https://nvd.nist.gov/vuln/detail/CVE-2025-43510",
+      "cwes": [
+        "CWE-667"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-43520",
+      "vendorProject": "Apple",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Apple Multiple Products Classic Buffer Overflow Vulnerability",
+      "dateAdded": "2026-03-20",
+      "shortDescription": "Apple watchOS, iOS, iPadOS, macOS, visionOS, and tvOS contain a classic buffer overflow vulnerability which could allow a malicious application to cause unexpected system termination or write kernel memory.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-03",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://support.apple.com/en-us/125632 ; https://support.apple.com/en-us/125633 ; https://support.apple.com/en-us/125634 ; https://support.apple.com/en-us/125635 ; https://support.apple.com/en-us/125636 ; https://support.apple.com/en-us/125637 ; https://support.apple.com/en-us/125638 ; https://support.apple.com/en-us/125639 ; https://nvd.nist.gov/vuln/detail/CVE-2025-43520",
+      "cwes": [
+        "CWE-120"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-31277",
+      "vendorProject": "Apple",
+      "product": "Multiple Products",
+      "vulnerabilityName": "Apple Multiple Products Buffer Overflow Vulnerability",
+      "dateAdded": "2026-03-20",
+      "shortDescription": "Apple Safari, iOS, watchOS, visionOS, iPadOS, macOS, and tvOS contain a buffer overflow vulnerability that could allow the processing of maliciously crafted web content which may lead to memory corruption.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-03",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://support.apple.com/en-us/124147 ; https://support.apple.com/en-us/124149 ; https://support.apple.com/en-us/124152 ; https://support.apple.com/en-us/124153 ; https://support.apple.com/en-us/124155 ; https://nvd.nist.gov/vuln/detail/CVE-2025-31277",
+      "cwes": [
+        "CWE-119"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-20131",
+      "vendorProject": "Cisco",
+      "product": "Secure Firewall Management Center (FMC)",
+      "vulnerabilityName": "Cisco Secure Firewall Management Center (FMC) Software and Cisco Security Cloud Control (SCC) Firewall Management Deserialization of Untrusted Data Vulnerability",
+      "dateAdded": "2026-03-19",
+      "shortDescription": "Cisco Secure Firewall Management Center (FMC) Software and Cisco Security Cloud Control (SCC) Firewall Management contain a deserialization of untrusted data vulnerability in the web-based management interface that could allow an unauthenticated, remote attacker to execute arbitrary Java code as root on an affected device.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-22",
+      "knownRansomwareCampaignUse": "Known",
+      "notes": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-fmc-rce-NKhnULJh ; https://nvd.nist.gov/vuln/detail/CVE-2026-20131",
+      "cwes": [
+        "CWE-502"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-66376",
+      "vendorProject": "Synacor",
+      "product": "Zimbra Collaboration Suite (ZCS)",
+      "vulnerabilityName": "Synacor Zimbra Collaboration Suite (ZCS) Cross-Site Scripting Vulnerability",
+      "dateAdded": "2026-03-18",
+      "shortDescription": "Synacor Zimbra Collaboration Suite (ZCS) contains a cross-site scripting vulnerability in the Classic UI where attackers could abuse Cascading Style Sheets (CSS) @import directives in email HTML.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-04-01",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://wiki.zimbra.com/wiki/Zimbra_Security_Advisories ; https://nvd.nist.gov/vuln/detail/CVE-2025-66376",
+      "cwes": [
+        "CWE-79"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-20963",
+      "vendorProject": "Microsoft",
+      "product": "SharePoint",
+      "vulnerabilityName": "Microsoft SharePoint Deserialization of Untrusted Data Vulnerability",
+      "dateAdded": "2026-03-18",
+      "shortDescription": "Microsoft SharePoint contains a deserialization of untrusted data vulnerability that allows an unauthorized attacker to execute code over a network.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-21",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-20963 ; https://nvd.nist.gov/vuln/detail/CVE-2026-20963",
+      "cwes": [
+        "CWE-502"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-47813",
+      "vendorProject": "Wing FTP Server",
+      "product": "Wing FTP Server",
+      "vulnerabilityName": "Wing FTP Server Information Disclosure Vulnerability",
+      "dateAdded": "2026-03-16",
+      "shortDescription": "Wing FTP Server contains a generation of error message containing sensitive information vulnerability when using a long value in the UID cookie.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-30",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://www.wftpserver.com/serverhistory.htm ; https://nvd.nist.gov/vuln/detail/CVE-2025-47813",
+      "cwes": [
+        "CWE-209"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-3910",
+      "vendorProject": "Google",
+      "product": "Chromium V8",
+      "vulnerabilityName": "Google Chromium V8 Improper Restriction of Operations Within the Bounds of a Memory Buffer Vulnerability",
+      "dateAdded": "2026-03-13",
+      "shortDescription": "Google Chromium V8 contains an improper restriction of operations within the bounds of a memory buffer vulnerability that could allow a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-27",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://chromereleases.googleblog.com/2026/03/stable-channel-update-for-desktop_12.html ; https://nvd.nist.gov/vuln/detail/CVE-2026-3910",
+      "cwes": [
+        "CWE-119"
+      ]
+    },
+    {
+      "cveID": "CVE-2026-3909",
+      "vendorProject": "Google",
+      "product": "Skia",
+      "vulnerabilityName": "Google Skia Out-of-Bounds Write Vulnerability",
+      "dateAdded": "2026-03-13",
+      "shortDescription": "Google Skia contains an out-of-bounds write vulnerability that could allow a remote attacker to perform out of bounds memory access via a crafted HTML page. This vulnerability affects Google Chrome and ChromeOS, Android, Flutter, and possibly other products.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-27",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://chromereleases.googleblog.com/2026/03/stable-channel-update-for-desktop_13.html ; https://nvd.nist.gov/vuln/detail/CVE-2026-3909",
+      "cwes": [
+        "CWE-787"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-68613",
+      "vendorProject": "n8n",
+      "product": "n8n",
+      "vulnerabilityName": "n8n Improper Control of Dynamically-Managed Code Resources Vulnerability",
+      "dateAdded": "2026-03-11",
+      "shortDescription": "n8n contains an improper control of dynamically managed code resources vulnerability in its workflow expression evaluation system that allows for remote code execution.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-25",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://github.com/n8n-io/n8n/security/advisories/GHSA-v98v-ff95-f3cp ; https://nvd.nist.gov/vuln/detail/CVE-2025-68613",
+      "cwes": [
+        "CWE-913"
+      ]
+    },
+    {
+      "cveID": "CVE-2021-22054",
+      "vendorProject": "Omnissa",
+      "product": "Workspace One UEM",
+      "vulnerabilityName": "Omnissa Workspace ONE Server-Side Request Forgery",
+      "dateAdded": "2026-03-09",
+      "shortDescription": "Omnissa Workspace One UEM formerly known as VMware Workspace One UEM contains a server-side request forgery (SSRF) vulnerability that could allow a malicious actor with network access to UEM to send their requests without authentication and to gain access to sensitive information.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-23",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://web.archive.org/web/20211222154335/https://www.vmware.com/security/advisories/VMSA-2021-0029.html ; https://nvd.nist.gov/vuln/detail/CVE-2021-22054",
+      "cwes": [
+        "CWE-918"
+      ]
+    },
+    {
+      "cveID": "CVE-2025-26399",
+      "vendorProject": "SolarWinds",
+      "product": "Web Help Desk",
+      "vulnerabilityName": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
+      "dateAdded": "2026-03-09",
+      "shortDescription": "SolarWinds Web Help Desk contain a deserialization of untrusted data vulnerability in AjaxProxy that could allow an attacker to run commands on the host machine.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-12",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://www.solarwinds.com/trust-center/security-advisories/cve-2025-26399 ; https://documentation.solarwinds.com/en/success_center/whd/content/release_notes/whd_12-8-7-hotfix-1_release_notes.htm ; https://nvd.nist.gov/vuln/detail/CVE-2025-26399",
+      "cwes": [
+        "CWE-502"
+      ]
+    },
+    {
+      "cveID": "CVE-2024-3094",
+      "vendorProject": "Tukaani Project",
+      "product": "xz",
+      "vulnerabilityName": "Tukaani Project xz Backdoor Vulnerability",
+      "dateAdded": "2024-03-29",
+      "shortDescription": "Malicious code was discovered in xz Utils versions 5.6.0 and 5.6.1.",
+      "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2024-04-19",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://www.cisa.gov/news-events/alerts/2024/03/29/reported-supply-chain-compromise-affecting-xz-utils-data-compression-library-cve-2024-3094",
+      "cwes": [
+        "CWE-506"
+      ]
+    }
+  ]
+}
