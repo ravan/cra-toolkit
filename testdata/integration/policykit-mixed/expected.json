@@ -1,0 +1,19 @@
+{
+  "description": "Mixed scenario — KEV hit, VEX gap, valid provenance, no signatures, short support period",
+  "assertions": {
+    "total_results": 15,
+    "passed": 3,
+    "failed": 3,
+    "skipped": 1,
+    "human": 8,
+    "expected_statuses": {
+      "CRA-AI-1.1": "PASS",
+      "CRA-AI-2.1": "FAIL",
+      "CRA-AI-2.2": "FAIL",
+      "CRA-AI-3.1": "PASS",
+      "CRA-AI-3.2": "SKIP",
+      "CRA-AI-4.1": "FAIL",
+      "CRA-AI-4.2": "PASS"
+    }
+  }
+}

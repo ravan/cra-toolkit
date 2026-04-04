@@ -1,0 +1,8 @@
+{
+  "mediaType": "application/vnd.dev.cosign.bundle.v0.3+json",
+  "verificationMaterial": {"publicKey": {"hint": "test-key-id"}},
+  "messageSignature": {
+    "messageDigest": {"algorithm": "SHA2_256", "digest": "YWJjMTIzZGVmNDU2"},
+    "signature": "MEUCIQD..."
+  }
+}

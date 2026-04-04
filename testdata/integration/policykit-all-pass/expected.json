@@ -1,0 +1,19 @@
+{
+  "description": "All 7 policies PASS — valid SBOM, no KEV hits, full VEX coverage, provenance, signatures, valid product config",
+  "assertions": {
+    "total_results": 15,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "human": 8,
+    "expected_statuses": {
+      "CRA-AI-1.1": "PASS",
+      "CRA-AI-2.1": "PASS",
+      "CRA-AI-2.2": "PASS",
+      "CRA-AI-3.1": "PASS",
+      "CRA-AI-3.2": "PASS",
+      "CRA-AI-4.1": "PASS",
+      "CRA-AI-4.2": "PASS"
+    }
+  }
+}

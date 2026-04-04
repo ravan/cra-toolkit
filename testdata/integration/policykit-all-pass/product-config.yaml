@@ -1,0 +1,10 @@
+product:
+  name: "go-reachable-test"
+  version: "1.0.0"
+  release_date: "2020-01-01"
+  support_end_date: "2031-01-01"
+  update_mechanism:
+    type: "automatic"
+    url: "https://updates.example.com/go-reachable-test"
+    auto_update_default: true
+    security_updates_separate: true

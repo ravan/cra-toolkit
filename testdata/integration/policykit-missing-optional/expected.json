@@ -1,0 +1,19 @@
+{
+  "description": "Optional artifacts missing — provenance, signatures, product config SKIP",
+  "assertions": {
+    "total_results": 15,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 4,
+    "human": 8,
+    "expected_statuses": {
+      "CRA-AI-1.1": "PASS",
+      "CRA-AI-2.1": "PASS",
+      "CRA-AI-2.2": "PASS",
+      "CRA-AI-3.1": "SKIP",
+      "CRA-AI-3.2": "SKIP",
+      "CRA-AI-4.1": "SKIP",
+      "CRA-AI-4.2": "SKIP"
+    }
+  }
+}

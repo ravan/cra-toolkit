@@ -1,0 +1,19 @@
+{
+  "description": "Invalid SBOM — missing metadata and components",
+  "assertions": {
+    "total_results": 15,
+    "passed": 2,
+    "failed": 1,
+    "skipped": 4,
+    "human": 8,
+    "expected_statuses": {
+      "CRA-AI-1.1": "FAIL",
+      "CRA-AI-2.1": "PASS",
+      "CRA-AI-2.2": "PASS",
+      "CRA-AI-3.1": "SKIP",
+      "CRA-AI-3.2": "SKIP",
+      "CRA-AI-4.1": "SKIP",
+      "CRA-AI-4.2": "SKIP"
+    }
+  }
+}
