@@ -27,7 +27,7 @@ type llmScores struct {
 	Reasoning           string `json:"reasoning"`
 }
 
-func TestLLMJudge_CSAFSingleCVE_VsRedHat(t *testing.T) {
+func TestLLMJudge_CSAFSingleCVE_VsSUSE(t *testing.T) {
 	geminiPath, err := exec.LookPath("gemini")
 	if err != nil {
 		t.Skip("gemini CLI not available, skipping LLM judge test")
@@ -53,24 +53,30 @@ func TestLLMJudge_CSAFSingleCVE_VsRedHat(t *testing.T) {
 	if err := csaf.Run(opts, &buf); err != nil {
 		t.Fatalf("csaf.Run() error: %v", err)
 	}
-	generatedAdvisory := buf.String()
-
-	// Load reference advisory
-	refData, err := os.ReadFile(filepath.Join(referenceBase, "redhat-rhsa-2021_5127.json"))
+	// Write generated advisory to temp file for Gemini to read
+	generatedFile, err := os.CreateTemp("", "csaf-generated-*.json")
 	if err != nil {
-		t.Fatalf("failed to read reference advisory: %v", err)
+		t.Fatalf("failed to create temp file: %v", err)
+	}
+	defer os.Remove(generatedFile.Name()) //nolint:errcheck // cleanup
+	if _, err := generatedFile.Write(buf.Bytes()); err != nil {
+		t.Fatalf("failed to write generated advisory: %v", err)
+	}
+	generatedFile.Close()
+
+	// Get absolute paths for Gemini file access
+	absRef, err := filepath.Abs(filepath.Join(referenceBase, "suse-su-2021_4111-1.json"))
+	if err != nil {
+		t.Fatalf("failed to get absolute path: %v", err)
 	}
 
-	// Build the LLM prompt
-	prompt := fmt.Sprintf(`You are a CSAF 2.0 security advisory quality judge. Compare the generated advisory against the reference advisory from Red Hat and score the generated advisory.
+	// Tell Gemini where to find the files — it can read them directly
+	prompt := fmt.Sprintf(`You are a CSAF 2.0 security advisory quality judge.
 
-REFERENCE ADVISORY (Red Hat):
-%s
+Read the REFERENCE ADVISORY (SUSE) from: %s
+Read the GENERATED ADVISORY (our tool) from: %s
 
-GENERATED ADVISORY (our tool):
-%s
-
-Score the GENERATED advisory on these dimensions (1-10 each):
+Compare the generated advisory against the reference and score the generated advisory on these dimensions (1-10 each):
 1. schema_compliance: Is it valid CSAF 2.0 csaf_security_advisory profile?
 2. product_tree_quality: Proper hierarchy, PURL identification, completeness?
 3. vulnerability_detail: CVSS scores, descriptions present and accurate?
@@ -80,10 +86,9 @@ Score the GENERATED advisory on these dimensions (1-10 each):
 
 Respond ONLY with valid JSON in this exact format, no other text:
 {"schema_compliance": N, "product_tree_quality": N, "vulnerability_detail": N, "remediation_clarity": N, "notes_quality": N, "overall_quality": N, "reasoning": "brief explanation"}`,
-		string(refData), generatedAdvisory)
+		absRef, generatedFile.Name())
 
-	// Call gemini CLI
-	cmd := exec.Command(geminiPath, "-p", prompt) //nolint:gosec
+	cmd := exec.Command(geminiPath, "-p", prompt) //nolint:gosec // test-only
 	var geminiOut bytes.Buffer
 	cmd.Stdout = &geminiOut
 	cmd.Stderr = os.Stderr

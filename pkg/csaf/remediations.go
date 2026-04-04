@@ -14,8 +14,9 @@ func addRemediations(vulns []vulnerability, findings []formats.Finding) []vulner
 	}
 	for i := range vulns {
 		v := &vulns[i]
-		allProducts := collectAllProducts(&v.ProductStatus)
-		for _, pid := range allProducts {
+		// Only add remediations for affected/under-investigation products.
+		actionableProducts := append(v.ProductStatus.KnownAffected, v.ProductStatus.UnderInvestigation...) //nolint:gocritic // intentional append to new slice
+		for _, pid := range actionableProducts {
 			f, ok := findingLookup[v.CVE+"|"+pid]
 			if !ok {
 				continue

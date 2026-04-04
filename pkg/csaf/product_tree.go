@@ -6,6 +6,10 @@ func buildProductTree(components []formats.Component, publisherName string) prod
 	productBranches := make([]branch, 0, len(components))
 	for i := range components {
 		c := &components[i]
+		// Skip components without PURLs (e.g. file-type entries from SBOM tools).
+		if c.PURL == "" {
+			continue
+		}
 		helper := &piHelper{PURL: c.PURL}
 		for algo, val := range c.Hashes {
 			helper.Hashes = append(helper.Hashes, piHash{Algorithm: algo, Value: val})

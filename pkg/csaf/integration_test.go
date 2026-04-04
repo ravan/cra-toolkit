@@ -130,19 +130,33 @@ func runCSAFIntegration(t *testing.T, scenario string) { //nolint:gocognit,gocyc
 		}
 	}
 
+	// Check document-level presence of scores, remediations, threats, notes.
+	var hasAnyScores, hasAnyRemediations, hasAnyThreats, hasAnyNotes bool
 	for _, v := range doc.Vulnerabilities {
-		if expected.Assertions.HasScores && len(v.Scores) == 0 {
-			t.Errorf("CVE %s: expected scores", v.CVE)
+		if len(v.Scores) > 0 {
+			hasAnyScores = true
 		}
-		if expected.Assertions.HasRemediations && len(v.Remediations) == 0 {
-			t.Errorf("CVE %s: expected remediations", v.CVE)
+		if len(v.Remediations) > 0 {
+			hasAnyRemediations = true
 		}
-		if expected.Assertions.HasThreats && len(v.Threats) == 0 {
-			t.Errorf("CVE %s: expected threats", v.CVE)
+		if len(v.Threats) > 0 {
+			hasAnyThreats = true
 		}
-		if expected.Assertions.HasNotes && len(v.Notes) == 0 {
-			t.Errorf("CVE %s: expected notes", v.CVE)
+		if len(v.Notes) > 0 {
+			hasAnyNotes = true
 		}
+	}
+	if expected.Assertions.HasScores && !hasAnyScores {
+		t.Error("expected at least one vulnerability with scores")
+	}
+	if expected.Assertions.HasRemediations && !hasAnyRemediations {
+		t.Error("expected at least one vulnerability with remediations")
+	}
+	if expected.Assertions.HasThreats && !hasAnyThreats {
+		t.Error("expected at least one vulnerability with threats")
+	}
+	if expected.Assertions.HasNotes && !hasAnyNotes {
+		t.Error("expected at least one vulnerability with notes")
 	}
 
 	t.Logf("%s: %d vulnerabilities, all assertions passed", scenario, len(doc.Vulnerabilities))

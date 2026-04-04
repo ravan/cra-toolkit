@@ -9,14 +9,14 @@ type csafDocument struct {
 
 // documentMeta holds the /document section of a CSAF advisory.
 type documentMeta struct {
-	Category          string              `json:"category"`
-	CSAFVersion       string              `json:"csaf_version"`
-	Title             string              `json:"title"`
-	Publisher         publisher           `json:"publisher"`
-	Tracking          tracking            `json:"tracking"`
-	Notes             []note              `json:"notes,omitempty"`
-	References        []reference         `json:"references,omitempty"`
-	AggregateSeverity *aggregateSeverity  `json:"aggregate_severity,omitempty"`
+	Category          string             `json:"category"`
+	CSAFVersion       string             `json:"csaf_version"`
+	Title             string             `json:"title"`
+	Publisher         publisher          `json:"publisher"`
+	Tracking          tracking           `json:"tracking"`
+	Notes             []note             `json:"notes,omitempty"`
+	References        []reference        `json:"references,omitempty"`
+	AggregateSeverity *aggregateSeverity `json:"aggregate_severity,omitempty"`
 }
 
 // publisher identifies the issuing authority.
@@ -107,9 +107,9 @@ type vulnerability struct {
 
 // productStatus groups product IDs by their vulnerability status.
 type productStatus struct {
-	KnownNotAffected  []string `json:"known_not_affected,omitempty"`
-	Fixed             []string `json:"fixed,omitempty"`
-	KnownAffected     []string `json:"known_affected,omitempty"`
+	KnownNotAffected   []string `json:"known_not_affected,omitempty"`
+	Fixed              []string `json:"fixed,omitempty"`
+	KnownAffected      []string `json:"known_affected,omitempty"`
 	UnderInvestigation []string `json:"under_investigation,omitempty"`
 }
 

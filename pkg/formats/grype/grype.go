@@ -34,6 +34,7 @@ type fix struct {
 }
 
 type cvss struct {
+	Vector  string      `json:"vector"`
 	Metrics cvssMetrics `json:"metrics"`
 }
 
@@ -67,8 +68,10 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 		}
 
 		var cvssScore float64
+		var cvssVector string
 		if len(m.Vulnerability.CVSS) > 0 {
 			cvssScore = m.Vulnerability.CVSS[0].Metrics.BaseScore
+			cvssVector = m.Vulnerability.CVSS[0].Vector
 		}
 
 		findings = append(findings, formats.Finding{
@@ -78,6 +81,7 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 			FixVersion:   fixVersion,
 			Severity:     strings.ToLower(m.Vulnerability.Severity),
 			CVSS:         cvssScore,
+			CVSSVector:   cvssVector,
 			Description:  m.Vulnerability.Description,
 			DataSource:   "grype",
 			Language:     m.Artifact.Language,

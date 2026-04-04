@@ -18,7 +18,12 @@ func enrichScores(vulns []vulnerability, findings []formats.Finding) []vulnerabi
 			}
 			v.Scores = append(v.Scores, score{
 				Products: []string{pid},
-				CVSS3:    &cvssV3{Version: "3.1", BaseScore: f.CVSS, BaseSeverity: cvssToSeverity(f.CVSS)},
+				CVSS3: &cvssV3{
+					Version:      "3.1",
+					VectorString: f.CVSSVector,
+					BaseScore:    f.CVSS,
+					BaseSeverity: cvssToSeverity(f.CVSS),
+				},
 			})
 		}
 	}
