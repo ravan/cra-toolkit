@@ -1,0 +1,15 @@
+product:
+  name: "suse-cra-toolkit"
+  version: "1.0.0"
+  manufacturer: "SUSE"
+  member_state: "DE"
+  support_end_date: "2031-12-31"
+
+evidence:
+  intended_purpose: "CLI toolkit for CRA compliance automation"
+  product_class: "default"
+  conformity_procedure: "module-A"
+  security_contact: "security@suse.com"
+  cvd_policy_url: "https://www.suse.com/support/security/"
+  standards_applied:
+    - "ISO/IEC 27001:2022"
