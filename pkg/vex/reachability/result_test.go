@@ -19,6 +19,10 @@ func TestCallPath_String(t *testing.T) {
 	if s == "" {
 		t.Error("expected non-empty string representation")
 	}
+	const want = "main (main.py:1) -> handler (handler.py:10) -> yaml.load (yaml/__init__.py:55)"
+	if s != want {
+		t.Errorf("String() = %q, want %q", s, want)
+	}
 	if len(path.Nodes) != 3 {
 		t.Errorf("expected 3 nodes, got %d", len(path.Nodes))
 	}
