@@ -51,21 +51,20 @@ func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tr
 	return symbols, nil
 }
 
-// walkSymbols recursively visits nodes to collect function/class definitions.
-func walkSymbols(
+// walkSymbolsWithDecorators processes a function_definition or class_definition node,
+// using the provided decorators (already collected from a parent decorated_definition).
+func walkSymbolsWithDecorators(
 	node *tree_sitter.Node,
 	src []byte,
 	file, moduleName, className string,
 	symbols *[]*treesitter.Symbol,
 	decoratorMap map[treesitter.SymbolID][]string,
+	decs []string,
 ) {
 	if node == nil {
 		return
 	}
-
-	kind := node.Kind()
-
-	switch kind {
+	switch node.Kind() {
 	case "function_definition":
 		nameNode := node.ChildByFieldName("name")
 		if nameNode == nil {
@@ -73,7 +72,6 @@ func walkSymbols(
 		}
 		name := nodeText(nameNode, src)
 
-		// Determine symbol kind and qualified name
 		symKind := treesitter.SymbolFunction
 		qualifiedName := moduleName + "." + name
 		if className != "" {
@@ -82,15 +80,6 @@ func walkSymbols(
 		}
 
 		id := treesitter.SymbolID(qualifiedName)
-
-		// Collect decorators that appear as children before the function keyword
-		var decs []string
-		for i := uint(0); i < node.ChildCount(); i++ {
-			child := node.Child(i)
-			if child != nil && child.Kind() == "decorator" {
-				decs = append(decs, nodeText(child, src))
-			}
-		}
 		if len(decs) > 0 {
 			decoratorMap[id] = decs
 		}
@@ -108,21 +97,22 @@ func walkSymbols(
 		}
 		*symbols = append(*symbols, sym)
 
-		// Walk the function body for nested definitions
 		bodyNode := node.ChildByFieldName("body")
 		if bodyNode != nil {
 			walkSymbols(bodyNode, src, file, moduleName, className, symbols, decoratorMap)
 		}
-		return
 
 	case "class_definition":
 		nameNode := node.ChildByFieldName("name")
 		if nameNode == nil {
-			break
+			return
 		}
 		name := nodeText(nameNode, src)
 		qualifiedName := moduleName + "." + name
 		id := treesitter.SymbolID(qualifiedName)
+		if len(decs) > 0 {
+			decoratorMap[id] = decs
+		}
 
 		sym := &treesitter.Symbol{
 			ID:            id,
@@ -137,11 +127,56 @@ func walkSymbols(
 		}
 		*symbols = append(*symbols, sym)
 
-		// Walk the class body with className set
 		bodyNode := node.ChildByFieldName("body")
 		if bodyNode != nil {
 			walkSymbols(bodyNode, src, file, moduleName, name, symbols, decoratorMap)
 		}
+	}
+}
+
+// walkSymbols recursively visits nodes to collect function/class definitions.
+func walkSymbols(
+	node *tree_sitter.Node,
+	src []byte,
+	file, moduleName, className string,
+	symbols *[]*treesitter.Symbol,
+	decoratorMap map[treesitter.SymbolID][]string,
+) {
+	if node == nil {
+		return
+	}
+
+	kind := node.Kind()
+
+	switch kind {
+	case "decorated_definition":
+		// Python wraps decorated defs in a decorated_definition node.
+		// Collect all decorators and then process the inner definition.
+		var decs []string
+		var defNode *tree_sitter.Node
+		for i := uint(0); i < node.ChildCount(); i++ {
+			child := node.Child(i)
+			if child == nil {
+				continue
+			}
+			switch child.Kind() {
+			case "decorator":
+				decs = append(decs, nodeText(child, src))
+			case "function_definition", "class_definition":
+				defNode = child
+			}
+		}
+		if defNode != nil {
+			walkSymbolsWithDecorators(defNode, src, file, moduleName, className, symbols, decoratorMap, decs)
+		}
+		return
+
+	case "function_definition":
+		walkSymbolsWithDecorators(node, src, file, moduleName, className, symbols, decoratorMap, nil)
+		return
+
+	case "class_definition":
+		walkSymbolsWithDecorators(node, src, file, moduleName, className, symbols, decoratorMap, nil)
 		return
 	}
 
@@ -319,6 +354,17 @@ func collectCalls(
 	}
 
 	switch node.Kind() {
+	case "decorated_definition":
+		// Find the inner definition node and recurse
+		for i := uint(0); i < node.ChildCount(); i++ {
+			child := node.Child(i)
+			if child != nil && (child.Kind() == "function_definition" || child.Kind() == "class_definition") {
+				collectCalls(child, src, file, moduleName, currentFunc, scope, edges)
+				return
+			}
+		}
+		return
+
 	case "function_definition":
 		nameNode := node.ChildByFieldName("name")
 		if nameNode != nil {
