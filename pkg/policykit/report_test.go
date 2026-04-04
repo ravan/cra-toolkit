@@ -2,6 +2,7 @@ package policykit
 
 import (
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -102,6 +103,86 @@ func TestComputeSummary(t *testing.T) {
 	assert.Equal(t, 1, summary.Failed)
 	assert.Equal(t, 1, summary.Skipped)
 	assert.Equal(t, 2, summary.Human)
+}
+
+func TestRenderMarkdown(t *testing.T) {
+	report := &Report{
+		ReportID:       "rpt-test-001",
+		ToolkitVersion: "0.2.0",
+		Timestamp:      "2026-04-04T12:00:00Z",
+		Summary: Summary{
+			Total:   4,
+			Passed:  1,
+			Failed:  1,
+			Skipped: 1,
+			Human:   1,
+		},
+		Results: []PolicyResult{
+			{
+				RuleID:       "CRA-2.1",
+				Name:         "Vulnerability handling process",
+				CRAReference: "Annex I, Part II, §3",
+				Status:       "FAIL",
+				Severity:     "critical",
+				Evidence:     map[string]any{"policy_found": false, "days_since_review": 400},
+			},
+			{
+				RuleID:       "CRA-1.1",
+				Name:         "SBOM completeness",
+				CRAReference: "Annex I, Part II, §1",
+				Status:       "PASS",
+				Severity:     "high",
+				Evidence:     map[string]any{"components": 42},
+			},
+			{
+				RuleID:       "CRA-3.1",
+				Name:         "Security update mechanism",
+				CRAReference: "Annex I, Part I, §2",
+				Status:       "SKIP",
+				Severity:     "medium",
+			},
+			{
+				RuleID:       "CRA-4.1",
+				Name:         "Secure by default configuration",
+				CRAReference: "Annex I, Part I, §1",
+				Status:       "HUMAN",
+				Severity:     "high",
+				Guidance:     "Verify that default configuration disables unnecessary network services",
+			},
+		},
+	}
+
+	md := RenderMarkdown(report)
+
+	// Title header
+	assert.Contains(t, md, "# CRA PolicyKit Compliance Report")
+
+	// Metadata
+	assert.Contains(t, md, "rpt-test-001")
+	assert.Contains(t, md, "2026-04-04T12:00:00Z")
+	assert.Contains(t, md, "0.2.0")
+
+	// Summary table with PASS/FAIL rows
+	assert.Contains(t, md, "| PASS |")
+	assert.Contains(t, md, "| FAIL |")
+
+	// FAIL section appears before PASS section
+	failIdx := strings.Index(md, "### FAIL: CRA-2.1")
+	passIdx := strings.Index(md, "### PASS: CRA-1.1")
+	assert.Greater(t, failIdx, -1, "FAIL section must exist")
+	assert.Greater(t, passIdx, -1, "PASS section must exist")
+	assert.Less(t, failIdx, passIdx, "FAIL section must appear before PASS section")
+
+	// Human review section with guidance
+	assert.Contains(t, md, "## Requires Human Review")
+	assert.Contains(t, md, "CRA-4.1")
+	assert.Contains(t, md, "Verify that default configuration disables unnecessary network services")
+
+	// Rule IDs appear correctly
+	assert.Contains(t, md, "CRA-2.1")
+	assert.Contains(t, md, "CRA-1.1")
+	assert.Contains(t, md, "CRA-3.1")
+	assert.Contains(t, md, "CRA-4.1")
 }
 
 func TestComputeSummaryEmpty(t *testing.T) {
