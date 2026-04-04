@@ -41,3 +41,6 @@ __pycache__/
 
 # MkDocs
 site/
+
+# Git worktrees
+.worktrees/
