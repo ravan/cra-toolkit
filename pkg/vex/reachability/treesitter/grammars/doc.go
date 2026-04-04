@@ -1,7 +1,7 @@
-// Package reachability provides tree-sitter-based static analysis for
-// determining whether vulnerable code paths in dependencies are reachable
-// from application entry points.
-package reachability
+// Package grammars is a blank-import anchor that prevents go mod tidy from
+// stripping tree-sitter grammar dependencies that are loaded dynamically at
+// runtime via unsafe CGo bindings.
+package grammars
 
 import (
 	_ "github.com/tree-sitter/go-tree-sitter"
