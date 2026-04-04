@@ -1,0 +1,162 @@
+{
+  "report_id": "CRA-RPT-20260404T200519Z",
+  "toolkit_version": "0.1.0",
+  "timestamp": "2026-04-04T20:05:19Z",
+  "summary": {
+    "total": 15,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "human": 8
+  },
+  "results": [
+    {
+      "rule_id": "CRA-AI-2.1",
+      "name": "No known exploited vulnerabilities",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "PASS",
+      "severity": "critical"
+    },
+    {
+      "rule_id": "CRA-AI-3.1",
+      "name": "Build provenance exists (SLSA L1+)",
+      "cra_reference": "Art. 13",
+      "status": "PASS",
+      "severity": "high",
+      "evidence": {
+        "build_type": "https://slsa.dev/provenance/v1",
+        "builder_id": "https://github.com/actions/runner",
+        "source_repo": "https://github.com/acme/my-product"
+      }
+    },
+    {
+      "rule_id": "CRA-AI-1.1",
+      "name": "SBOM exists and is valid",
+      "cra_reference": "Annex I Part II.1",
+      "status": "PASS",
+      "severity": "critical",
+      "evidence": {
+        "component_count": 3,
+        "components_with_purl": 2,
+        "has_metadata": true,
+        "has_supplier": false,
+        "sbom_format": "cyclonedx",
+        "sbom_version": "1.6"
+      }
+    },
+    {
+      "rule_id": "CRA-AI-3.2",
+      "name": "Artifacts cryptographically signed",
+      "cra_reference": "Art. 13",
+      "status": "PASS",
+      "severity": "high",
+      "evidence": {
+        "formats_detected": [
+          "cosign"
+        ],
+        "signature_count": 1
+      }
+    },
+    {
+      "rule_id": "CRA-AI-4.1",
+      "name": "Support period declared and \u003e 5 years",
+      "cra_reference": "Annex I Part II",
+      "status": "PASS",
+      "severity": "medium",
+      "evidence": {
+        "release_date": "2020-01-01",
+        "support_end_date": "2031-01-01",
+        "support_years": 11
+      }
+    },
+    {
+      "rule_id": "CRA-AI-4.2",
+      "name": "Secure update mechanism documented",
+      "cra_reference": "Annex I Part II.7",
+      "status": "PASS",
+      "severity": "medium",
+      "evidence": {
+        "auto_update_default": true,
+        "mechanism_type": "automatic",
+        "security_updates_separate": true,
+        "url_present": true
+      }
+    },
+    {
+      "rule_id": "CRA-AI-2.2",
+      "name": "All critical/high CVEs have VEX assessment",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "PASS",
+      "severity": "high",
+      "evidence": {
+        "assessed": 1,
+        "total_critical_high": 1,
+        "unassessed": []
+      }
+    },
+    {
+      "rule_id": "CRA-HU-1.1",
+      "name": "Appropriate cybersecurity level",
+      "cra_reference": "Annex I Part I.1",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify risk assessment performed and cybersecurity measures are proportionate to identified risks."
+    },
+    {
+      "rule_id": "CRA-HU-1.2",
+      "name": "Secure by default configuration",
+      "cra_reference": "Annex I Part I.2(b)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify product ships with secure defaults and users can reset to original state."
+    },
+    {
+      "rule_id": "CRA-HU-1.3",
+      "name": "Access control mechanisms",
+      "cra_reference": "Annex I Part I.2(d)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify authentication, identity, and access management systems protect against unauthorised access."
+    },
+    {
+      "rule_id": "CRA-HU-1.4",
+      "name": "Data encryption at rest and in transit",
+      "cra_reference": "Annex I Part I.2(e)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify confidentiality of stored, transmitted, and processed data using state of the art encryption."
+    },
+    {
+      "rule_id": "CRA-HU-1.5",
+      "name": "Data integrity protection",
+      "cra_reference": "Annex I Part I.2(f)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify integrity of stored, transmitted data, commands, programs, and configuration against unauthorised modification."
+    },
+    {
+      "rule_id": "CRA-HU-1.6",
+      "name": "Data minimisation",
+      "cra_reference": "Annex I Part I.2(g)",
+      "status": "HUMAN",
+      "severity": "medium",
+      "guidance": "Verify only adequate, relevant, and limited data is processed for the product's intended purpose."
+    },
+    {
+      "rule_id": "CRA-HU-1.7",
+      "name": "Attack surface minimisation",
+      "cra_reference": "Annex I Part I.2(j)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify product is designed to limit attack surfaces including external interfaces."
+    },
+    {
+      "rule_id": "CRA-HU-1.8",
+      "name": "Risk assessment performed",
+      "cra_reference": "Art. 13(2)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify cybersecurity risk assessment has been carried out and is documented."
+    }
+  ]
+}

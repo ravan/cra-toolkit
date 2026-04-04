@@ -1,0 +1,20 @@
+{
+  "description": "Minimal bundle with SBOM + scan only — completeness report shows gaps",
+  "assertions": {
+    "artifact_count": 4,
+    "min_completeness": 50.0,
+    "max_completeness": 65.0,
+    "covered_sections": ["1a", "1b", "1d", "2b-sbom", "2b-cvd", "4", "6", "8"],
+    "missing_sections": ["2a", "2c", "3", "7"],
+    "validation_passed": 3,
+    "validation_failed": 0,
+    "validation_warnings": 0,
+    "failed_checks": [],
+    "product_name": "suse-cra-toolkit",
+    "product_version": "1.0.0",
+    "has_signature": false,
+    "sbom_component_count": 3,
+    "vex_assessed_cves": 0,
+    "error": ""
+  }
+}

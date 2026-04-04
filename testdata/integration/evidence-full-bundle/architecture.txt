@@ -1,0 +1,2 @@
+SUSE CRA Toolkit — System Architecture
+This is a placeholder manufacturer-provided architecture document.
