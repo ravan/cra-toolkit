@@ -48,7 +48,8 @@ func TestLLMJudge_PolicykitAllPass(t *testing.T) {
 		t.Fatalf("policykit.Run() error: %v", err)
 	}
 
-	reportFile, err := os.CreateTemp("", "policykit-report-*.json")
+	// Write report to current directory so it is within Gemini's workspace.
+	reportFile, err := os.CreateTemp(".", "policykit-report-*.json")
 	if err != nil {
 		t.Fatalf("create temp: %v", err)
 	}
@@ -58,29 +59,32 @@ func TestLLMJudge_PolicykitAllPass(t *testing.T) {
 	}
 	reportFile.Close()
 
-	craAnnexPath, err := filepath.Abs("../../docs/eu-cyber-resilience-act.pdf")
-	if err != nil {
-		t.Fatalf("abs path: %v", err)
-	}
+	prompt := fmt.Sprintf(`You are a CRA (EU Cyber Resilience Act) compliance report quality judge.
 
-	prompt := fmt.Sprintf(`You are a CRA compliance report quality judge.
+The CRA Annex I defines requirements for products with digital elements. Key machine-checkable requirements include:
+- Annex I Part II.1: SBOM must exist, have valid format (cyclonedx/spdx), non-empty metadata and components
+- Annex I Part I.2(a): No known exploited vulnerabilities (CISA KEV); all critical/high CVEs must have VEX assessment
+- Art. 13: Build provenance (SLSA L1+) and cryptographic signatures present
+- Annex I Part II: Support period >= 5 years declared; secure update mechanism documented (automatic/manual/hybrid)
 
-Read the CRA REGULATION from: %s (focus on Annex I pages 68-69)
+Human-reviewable requirements (CRA-HU-*) cover: cybersecurity level, secure defaults, access control,
+encryption, data integrity, data minimisation, attack surface minimisation, and risk assessment.
+
 Read the GENERATED REPORT from: %s
 
 Score the generated report on these dimensions (1-10 each):
-1. regulatory_accuracy: Do rule IDs and CRA references correctly cite Annex I / Art. 13?
+1. regulatory_accuracy: Do rule IDs (CRA-AI-* / CRA-HU-*) and CRA references correctly cite Annex I / Art. 13?
 2. evidence_quality: Is evidence specific, verifiable, and actionable?
-3. completeness: Are all machine-checkable requirements covered? Are human-review items listed?
+3. completeness: Are all 7 machine-checkable policies and 8 human-review items present?
 4. report_clarity: Would a compliance officer understand this without CRA expertise?
-5. accuracy: Given the input artifacts, are PASS/FAIL/SKIP statuses correct?
+5. accuracy: Are PASS/FAIL/SKIP statuses consistent with the evidence in the report?
 6. overall_quality: Would a market surveillance authority accept this as part of Annex VII?
 
-Respond ONLY with valid JSON:
+Respond ONLY with valid JSON, no other text:
 {"regulatory_accuracy": N, "evidence_quality": N, "completeness": N, "report_clarity": N, "accuracy": N, "overall_quality": N, "reasoning": "brief explanation"}`,
-		craAnnexPath, reportFile.Name())
+		reportFile.Name())
 
-	cmd := exec.Command(geminiPath, "-p", prompt) //nolint:gosec
+	cmd := exec.Command(geminiPath, "--approval-mode", "plan", "-p", prompt) //nolint:gosec
 	var geminiOut bytes.Buffer
 	cmd.Stdout = &geminiOut
 	cmd.Stderr = os.Stderr

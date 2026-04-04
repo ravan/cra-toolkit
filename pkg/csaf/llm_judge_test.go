@@ -88,7 +88,7 @@ Respond ONLY with valid JSON in this exact format, no other text:
 {"schema_compliance": N, "product_tree_quality": N, "vulnerability_detail": N, "remediation_clarity": N, "notes_quality": N, "overall_quality": N, "reasoning": "brief explanation"}`,
 		absRef, generatedFile.Name())
 
-	cmd := exec.Command(geminiPath, "-p", prompt) //nolint:gosec // test-only
+	cmd := exec.Command(geminiPath, "--yolo", "-p", prompt) //nolint:gosec // test-only
 	var geminiOut bytes.Buffer
 	cmd.Stdout = &geminiOut
 	cmd.Stderr = os.Stderr
