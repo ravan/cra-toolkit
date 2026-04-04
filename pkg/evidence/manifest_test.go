@@ -12,8 +12,8 @@ import (
 
 func TestComputeManifest(t *testing.T) {
 	dir := t.TempDir()
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "file1.txt"), []byte("hello"), 0o644))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "file2.txt"), []byte("world"), 0o644))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "file1.txt"), []byte("hello"), 0o600))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "file2.txt"), []byte("world"), 0o600))
 
 	manifest, err := evidence.ComputeManifest(dir)
 	require.NoError(t, err)
@@ -27,8 +27,8 @@ func TestComputeManifest(t *testing.T) {
 
 func TestComputeManifest_Subdirectories(t *testing.T) {
 	dir := t.TempDir()
-	require.NoError(t, os.MkdirAll(filepath.Join(dir, "sub"), 0o755))
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "sub", "nested.txt"), []byte("nested"), 0o644))
+	require.NoError(t, os.MkdirAll(filepath.Join(dir, "sub"), 0o750))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "sub", "nested.txt"), []byte("nested"), 0o600))
 
 	manifest, err := evidence.ComputeManifest(dir)
 	require.NoError(t, err)
@@ -49,7 +49,7 @@ func TestWriteManifest(t *testing.T) {
 	err := evidence.WriteManifest(manifest, path)
 	require.NoError(t, err)
 
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(path) //nolint:gosec // test temp file
 	require.NoError(t, err)
 	content := string(data)
 	assert.Contains(t, content, "abc123  file1.txt")
