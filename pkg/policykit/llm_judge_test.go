@@ -52,8 +52,10 @@ func TestLLMJudge_PolicykitAllPass(t *testing.T) {
 	if err != nil {
 		t.Fatalf("create temp: %v", err)
 	}
-	defer os.Remove(reportFile.Name())
-	reportFile.Write(buf.Bytes())
+	defer os.Remove(reportFile.Name()) //nolint:errcheck // test cleanup
+	if _, err := reportFile.Write(buf.Bytes()); err != nil {
+		t.Fatalf("failed to write report: %v", err)
+	}
 	reportFile.Close()
 
 	craAnnexPath, err := filepath.Abs("../../docs/eu-cyber-resilience-act.pdf")
