@@ -68,6 +68,16 @@ tasks:
     cmds:
       - go test -race -count=1 -tags llmjudge -run TestLLMJudge -v ./pkg/report/...
 
+  test:evidence:
+    desc: Run evidence integration tests
+    cmds:
+      - go test -race -count=1 -run TestIntegration ./pkg/evidence/...
+
+  test:evidence:llmjudge:
+    desc: Run evidence LLM quality judge tests (requires gemini CLI)
+    cmds:
+      - go test -race -count=1 -tags llmjudge -run TestLLMJudge -v ./pkg/evidence/...
+
   fmt:
     desc: Format code with gofumpt
     cmds:
