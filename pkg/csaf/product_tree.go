@@ -6,8 +6,8 @@ func buildProductTree(components []formats.Component, publisherName string) prod
 	productBranches := make([]branch, 0, len(components))
 	for i := range components {
 		c := &components[i]
-		// Skip components without PURLs (e.g. file-type entries from SBOM tools).
-		if c.PURL == "" {
+		// Skip components without PURLs or usable versions.
+		if c.PURL == "" || c.Version == "" || c.Version == "UNKNOWN" {
 			continue
 		}
 		helper := &piHelper{PURL: c.PURL}
