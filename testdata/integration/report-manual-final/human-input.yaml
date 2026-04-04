@@ -1,0 +1,9 @@
+vulnerabilities:
+  CVE-2022-32149:
+    corrective_measure_date: "2022-10-11"
+    root_cause: "Algorithmic complexity vulnerability in ParseAcceptLanguage allows denial of service via crafted Accept-Language headers"
+    threat_actor_info: "No specific threat actor identified; exploitation observed via automated scanning"
+    security_update: "golang.org/x/text v0.3.8 fixes the vulnerability"
+    preventive_measures:
+      - "Added input length validation for Accept-Language headers"
+      - "Implemented request rate limiting on language negotiation endpoints"

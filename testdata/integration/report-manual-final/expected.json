@@ -1,0 +1,14 @@
+{
+  "description": "Manually flagged CVE-2022-32149 final report with human input merged",
+  "assertions": {
+    "stage": "final-report",
+    "vulnerability_count": 1,
+    "cves": ["CVE-2022-32149"],
+    "exploitation_signals": {"CVE-2022-32149": ["manual"]},
+    "has_root_cause": true,
+    "has_threat_actor_info": true,
+    "has_corrective_measure_date": true,
+    "min_completeness": 0.9,
+    "error": ""
+  }
+}

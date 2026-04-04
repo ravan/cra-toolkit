@@ -1,0 +1,17 @@
+{
+  "description": "Two CVEs with different signals: CVE-2022-32149 (KEV) + CVE-2022-27664 (EPSS)",
+  "assertions": {
+    "stage": "notification",
+    "vulnerability_count": 2,
+    "cves": ["CVE-2022-32149", "CVE-2022-27664"],
+    "exploitation_signals": {
+      "CVE-2022-32149": ["kev"],
+      "CVE-2022-27664": ["epss"]
+    },
+    "csirt_country": "DE",
+    "has_description": true,
+    "has_impact": true,
+    "min_completeness": 0.8,
+    "error": ""
+  }
+}

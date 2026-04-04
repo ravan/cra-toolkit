@@ -1,0 +1,15 @@
+{
+  "description": "CVE-2022-32149 KEV-signaled early warning with DE CSIRT coordinator",
+  "assertions": {
+    "stage": "early-warning",
+    "vulnerability_count": 1,
+    "cves": ["CVE-2022-32149"],
+    "exploitation_signals": {"CVE-2022-32149": ["kev"]},
+    "csirt_country": "DE",
+    "csirt_name": "BSI (CERT-Bund)",
+    "submission_channel": "ENISA Single Reporting Platform (Art. 16)",
+    "has_user_notification": true,
+    "min_completeness": 0.95,
+    "error": ""
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "description": "CVE-2022-32149 EPSS-signaled notification with 72h fields populated",
+  "assertions": {
+    "stage": "notification",
+    "vulnerability_count": 1,
+    "cves": ["CVE-2022-32149"],
+    "exploitation_signals": {"CVE-2022-32149": ["epss"]},
+    "csirt_country": "DE",
+    "has_description": true,
+    "has_corrective_actions": true,
+    "has_impact": true,
+    "min_completeness": 0.8,
+    "error": ""
+  }
+}

@@ -1,0 +1,15 @@
+product:
+  name: "go-reachable-test"
+  version: "1.0.0"
+  support_period: "2031-01-01"
+  update_mechanism: "automatic"
+
+manufacturer:
+  name: "SUSE LLC"
+  member_state: "DE"
+  contact_email: "security@suse.com"
+  website: "https://suse.com"
+  member_states_available:
+    - DE
+    - FR
+    - NL

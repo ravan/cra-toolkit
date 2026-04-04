@@ -1,0 +1,13 @@
+product:
+  name: "go-reachable-test"
+  version: "1.0.0"
+
+manufacturer:
+  name: "SUSE LLC"
+  member_state: "DE"
+  contact_email: "security@suse.com"
+
+exploitation_overrides:
+  - cve: "CVE-2022-32149"
+    source: "manual"
+    reason: "Internal security team confirmed exploitation in customer environments"
