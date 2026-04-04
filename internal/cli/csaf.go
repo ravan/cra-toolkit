@@ -61,7 +61,7 @@ func newCsafCmd() *urfave.Command {
 				return fmt.Errorf("at least one --scan path is required")
 			}
 			w, closer := OutputWriter(cmd)
-			defer closer() //nolint:errcheck
+			defer closer() //nolint:errcheck // closer returns nil for stdout
 			return csaf.Run(opts, w)
 		},
 	}

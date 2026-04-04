@@ -7,13 +7,14 @@ import (
 )
 
 func addRemediations(vulns []vulnerability, findings []formats.Finding) []vulnerability {
-	findingLookup := make(map[string]formats.Finding, len(findings))
-	for _, f := range findings {
+	findingLookup := make(map[string]*formats.Finding, len(findings))
+	for i := range findings {
+		f := &findings[i]
 		findingLookup[f.CVE+"|"+f.AffectedPURL] = f
 	}
 	for i := range vulns {
 		v := &vulns[i]
-		allProducts := collectAllProducts(v.ProductStatus)
+		allProducts := collectAllProducts(&v.ProductStatus)
 		for _, pid := range allProducts {
 			f, ok := findingLookup[v.CVE+"|"+pid]
 			if !ok {

@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestCSAFDocumentSerializesToValidJSON(t *testing.T) {
+func TestCSAFDocumentSerializesToValidJSON(t *testing.T) { //nolint:gocognit,gocyclo // test validates complex document structure
 	doc := csafDocument{
 		Document: documentMeta{
 			Category:    "csaf_security_advisory",

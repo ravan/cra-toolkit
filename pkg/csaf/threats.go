@@ -8,7 +8,8 @@ import (
 
 func addThreats(vulns []vulnerability, findings []formats.Finding) []vulnerability {
 	severityLookup := make(map[string]string, len(findings))
-	for _, f := range findings {
+	for i := range findings {
+		f := &findings[i]
 		if _, exists := severityLookup[f.CVE]; !exists {
 			severityLookup[f.CVE] = f.Severity
 		}

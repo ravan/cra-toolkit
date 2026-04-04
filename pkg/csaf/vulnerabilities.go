@@ -4,7 +4,7 @@ import "github.com/ravan/suse-cra-toolkit/pkg/formats"
 
 // mapVulnerabilities correlates scanner findings with VEX results and returns
 // CSAF vulnerability entries grouped by CVE in finding order.
-func mapVulnerabilities(findings []formats.Finding, vexResults []formats.VEXResult) []vulnerability {
+func mapVulnerabilities(findings []formats.Finding, vexResults []formats.VEXResult) []vulnerability { //nolint:gocyclo // VEX status mapping requires branching
 	// Build lookup: "CVE|PURL" -> VEXResult
 	vexLookup := make(map[string]formats.VEXResult, len(vexResults))
 	for _, vr := range vexResults {
@@ -15,7 +15,8 @@ func mapVulnerabilities(findings []formats.Finding, vexResults []formats.VEXResu
 	vulnMap := make(map[string]*vulnerability)
 	var vulnOrder []string
 
-	for _, f := range findings {
+	for i := range findings {
+		f := &findings[i]
 		productID := f.AffectedPURL
 
 		if _, exists := vulnMap[f.CVE]; !exists {

@@ -79,7 +79,7 @@ func TestAddRemediations_NoFixVersion_NoneAvailable(t *testing.T) {
 }
 
 func containsSubstring(s, substr string) bool {
-	return len(s) >= len(substr) && (s == substr || len(s) > 0 && findSubstring(s, substr))
+	return len(s) >= len(substr) && (s == substr || s != "" && findSubstring(s, substr))
 }
 
 func findSubstring(s, substr string) bool {

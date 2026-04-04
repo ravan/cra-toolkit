@@ -6,7 +6,7 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/formats"
 )
 
-func TestBuildProductTree_SingleComponent(t *testing.T) {
+func TestBuildProductTree_SingleComponent(t *testing.T) { //nolint:gocognit,gocyclo // test validates hierarchical tree structure
 	components := []formats.Component{
 		{
 			Name:      "golang.org/x/text",
@@ -54,7 +54,7 @@ func TestBuildProductTree_SingleComponent(t *testing.T) {
 		t.Errorf("expected product_version category, got %q", verBranch.Category)
 	}
 
-	// product.ProductID = PURL
+	// Verify that ProductID matches the component PURL
 	if verBranch.Product == nil {
 		t.Fatal("expected product on version branch, got nil")
 	}
@@ -62,7 +62,7 @@ func TestBuildProductTree_SingleComponent(t *testing.T) {
 		t.Errorf("expected ProductID to be PURL, got %q", verBranch.Product.ProductID)
 	}
 
-	// piHelper.PURL = PURL
+	// Verify that PIHelper PURL matches the component PURL
 	if verBranch.Product.PIHelper == nil {
 		t.Fatal("expected PIHelper on product, got nil")
 	}

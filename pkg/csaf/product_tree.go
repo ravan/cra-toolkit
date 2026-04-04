@@ -4,7 +4,8 @@ import "github.com/ravan/suse-cra-toolkit/pkg/formats"
 
 func buildProductTree(components []formats.Component, publisherName string) productTree {
 	productBranches := make([]branch, 0, len(components))
-	for _, c := range components {
+	for i := range components {
+		c := &components[i]
 		helper := &piHelper{PURL: c.PURL}
 		for algo, val := range c.Hashes {
 			helper.Hashes = append(helper.Hashes, piHash{Algorithm: algo, Value: val})

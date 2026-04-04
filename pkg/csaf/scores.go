@@ -3,13 +3,14 @@ package csaf
 import "github.com/ravan/suse-cra-toolkit/pkg/formats"
 
 func enrichScores(vulns []vulnerability, findings []formats.Finding) []vulnerability {
-	findingLookup := make(map[string]formats.Finding, len(findings))
-	for _, f := range findings {
+	findingLookup := make(map[string]*formats.Finding, len(findings))
+	for i := range findings {
+		f := &findings[i]
 		findingLookup[f.CVE+"|"+f.AffectedPURL] = f
 	}
 	for i := range vulns {
 		v := &vulns[i]
-		allProducts := collectAllProducts(v.ProductStatus)
+		allProducts := collectAllProducts(&v.ProductStatus)
 		for _, pid := range allProducts {
 			f, ok := findingLookup[v.CVE+"|"+pid]
 			if !ok || f.CVSS == 0 {
@@ -39,7 +40,7 @@ func cvssToSeverity(score float64) string {
 	}
 }
 
-func collectAllProducts(ps productStatus) []string {
+func collectAllProducts(ps *productStatus) []string {
 	var all []string
 	all = append(all, ps.KnownAffected...)
 	all = append(all, ps.KnownNotAffected...)

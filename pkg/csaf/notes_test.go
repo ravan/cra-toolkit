@@ -37,7 +37,7 @@ func TestBuildVulnNotes_IncludesDescription(t *testing.T) {
 	}
 	vexResult := formats.VEXResult{}
 
-	got := buildVulnNotes(finding, vexResult)
+	got := buildVulnNotes(&finding, &vexResult)
 
 	if len(got) < 1 {
 		t.Fatal("expected at least 1 note")
@@ -64,7 +64,7 @@ func TestBuildVulnNotes_HighConfidenceVEX_IncludesEvidence(t *testing.T) {
 		Evidence:   "govulncheck confirmed vulnerable symbols are not reachable",
 	}
 
-	got := buildVulnNotes(finding, vexResult)
+	got := buildVulnNotes(&finding, &vexResult)
 
 	found := false
 	for _, n := range got {
@@ -88,7 +88,7 @@ func TestBuildVulnNotes_LowConfidence_NoEvidenceNote(t *testing.T) {
 		Evidence:   "some evidence",
 	}
 
-	got := buildVulnNotes(finding, vexResult)
+	got := buildVulnNotes(&finding, &vexResult)
 
 	for _, n := range got {
 		if n.Category == "details" {

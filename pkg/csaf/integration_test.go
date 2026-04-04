@@ -63,7 +63,7 @@ func TestIntegration_CSAFMixedStatus(t *testing.T) {
 	runCSAFIntegration(t, "csaf-mixed-status")
 }
 
-func runCSAFIntegration(t *testing.T, scenario string) {
+func runCSAFIntegration(t *testing.T, scenario string) { //nolint:gocognit,gocyclo // integration test validates many assertions
 	t.Helper()
 	dir := filepath.Join(fixtureBase, scenario)
 
@@ -150,7 +150,7 @@ func runCSAFIntegration(t *testing.T, scenario string) {
 
 func loadExpectedCSAF(t *testing.T, dir string) expectedCSAF {
 	t.Helper()
-	data, err := os.ReadFile(filepath.Join(dir, "expected.json")) //nolint:gosec
+	data, err := os.ReadFile(filepath.Join(dir, "expected.json")) //nolint:gosec // test fixture path
 	if err != nil {
 		t.Fatalf("failed to read expected.json: %v", err)
 	}

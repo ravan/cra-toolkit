@@ -31,7 +31,7 @@ type Options struct {
 }
 
 // Run executes the CSAF advisory generation pipeline.
-func Run(opts *Options, out io.Writer) error {
+func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // CSAF pipeline has many sequential stages
 	// 1. Parse SBOM.
 	components, err := parseSBOM(opts.SBOMPath)
 	if err != nil {
@@ -75,10 +75,11 @@ func Run(opts *Options, out io.Writer) error {
 		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = vr
 	}
 	for i := range vulns {
-		for _, f := range findings {
+		for j := range findings {
+			f := &findings[j]
 			if f.CVE == vulns[i].CVE {
 				vr := vexLookup[f.CVE+"|"+f.AffectedPURL]
-				vulns[i].Notes = buildVulnNotes(f, vr)
+				vulns[i].Notes = buildVulnNotes(f, &vr)
 				break
 			}
 		}
@@ -137,7 +138,8 @@ func Run(opts *Options, out io.Writer) error {
 func generateTitle(findings []formats.Finding) string {
 	seen := make(map[string]bool)
 	var cves []string
-	for _, f := range findings {
+	for i := range findings {
+		f := &findings[i]
 		if !seen[f.CVE] {
 			seen[f.CVE] = true
 			cves = append(cves, f.CVE)
@@ -151,7 +153,8 @@ func generateTitle(findings []formats.Finding) string {
 
 func computeAggregateSeverity(findings []formats.Finding) *aggregateSeverity {
 	var maxCVSS float64
-	for _, f := range findings {
+	for i := range findings {
+		f := &findings[i]
 		if f.CVSS > maxCVSS {
 			maxCVSS = f.CVSS
 		}
@@ -206,7 +209,7 @@ func parseSBOM(path string) ([]formats.Component, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close() //nolint:errcheck
+	defer f.Close() //nolint:errcheck // read-only file
 	switch format {
 	case formats.FormatCycloneDX:
 		return cyclonedx.Parser{}.Parse(f)
@@ -222,7 +225,7 @@ func parseScan(path string) ([]formats.Finding, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close() //nolint:errcheck
+	defer f.Close() //nolint:errcheck // read-only file
 	switch format {
 	case formats.FormatGrype:
 		return grype.Parser{}.Parse(f)
@@ -240,7 +243,7 @@ func parseVEXStatements(path string) ([]formats.VEXStatement, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close() //nolint:errcheck
+	defer f.Close() //nolint:errcheck // read-only file
 	switch format {
 	case formats.FormatOpenVEX:
 		return openvex.Parser{}.Parse(f)

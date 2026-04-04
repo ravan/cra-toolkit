@@ -10,7 +10,8 @@ import (
 func buildDocumentNotes(findings []formats.Finding) []note {
 	var cves []string
 	seen := make(map[string]bool)
-	for _, f := range findings {
+	for i := range findings {
+		f := &findings[i]
 		if !seen[f.CVE] {
 			seen[f.CVE] = true
 			cves = append(cves, f.CVE)
@@ -23,7 +24,7 @@ func buildDocumentNotes(findings []formats.Finding) []note {
 	}}
 }
 
-func buildVulnNotes(finding formats.Finding, vexResult formats.VEXResult) []note {
+func buildVulnNotes(finding *formats.Finding, vexResult *formats.VEXResult) []note {
 	var notes []note
 	if finding.Description != "" {
 		notes = append(notes, note{Category: "description", Text: finding.Description})
