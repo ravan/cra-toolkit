@@ -42,6 +42,12 @@ var nuxtHandlerNames = []string{
 	"defineEventHandler", "eventHandler", "defineLazyEventHandler",
 }
 
+// astroHTTPExports are the exported function names that Astro API routes treat as handlers.
+var astroHTTPExports = map[string]bool{
+	"GET": true, "POST": true, "PUT": true, "DELETE": true,
+	"PATCH": true, "ALL": true, "prerender": true,
+}
+
 // FindEntryPoints returns SymbolIDs of functions/methods that are entry points.
 //
 // Detection strategies (in priority order):
@@ -75,6 +81,12 @@ func (e *Extractor) FindEntryPoints(symbols []*treesitter.Symbol, _ string) []tr
 
 		// 2. SvelteKit HTTP method exports
 		if isSvelteKitFile(sym.File) && svelteKitHTTPExports[sym.Name] {
+			eps = append(eps, sym.ID)
+			continue
+		}
+
+		// 2a. Astro API routes (src/pages/ directory with exported HTTP handlers)
+		if isAstroAPIFile(sym.File) && astroHTTPExports[sym.Name] && e.exported[sym.ID] {
 			eps = append(eps, sym.ID)
 			continue
 		}
@@ -152,6 +164,11 @@ func isNuxtHandler(name string) bool {
 		}
 	}
 	return false
+}
+
+// isAstroAPIFile returns true if the file is an Astro API route (in src/pages/).
+func isAstroAPIFile(file string) bool {
+	return strings.Contains(file, "src/pages/")
 }
 
 // isLikelyRouteHandler returns true if the symbol name looks like an HTTP route handler.

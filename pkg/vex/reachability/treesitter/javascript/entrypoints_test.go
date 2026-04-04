@@ -278,3 +278,62 @@ func TestFindEntryPoints_ExportsMain(t *testing.T) {
 		t.Errorf("expected at least 1 entry point for function named 'main', got %d", len(eps))
 	}
 }
+
+//nolint:gocognit,gocyclo // test validates multiple Astro entry points with individual assertions
+func TestFindEntryPoints_Astro(t *testing.T) {
+	source := `export const GET = async ({ request }) => {
+    return new Response(JSON.stringify({ status: 'ok' }));
+};
+
+export const POST = async ({ request }) => {
+    const data = await request.json();
+    return new Response(JSON.stringify(data));
+};
+
+const internalHelper = () => {
+    return 'not exported';
+};
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	// File must be in src/pages/ for Astro detection
+	symbols, err := ext.ExtractSymbols("src/pages/api/status.js", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols: %v", err)
+	}
+	eps := ext.FindEntryPoints(symbols, "/project")
+
+	if len(eps) < 2 {
+		t.Errorf("expected at least 2 entry points (GET, POST) for Astro API route, got %d", len(eps))
+		for _, ep := range eps {
+			t.Logf("  entry point: %s", ep)
+		}
+	}
+
+	var foundGET, foundPOST bool
+	for _, ep := range eps {
+		epStr := string(ep)
+		switch {
+		case len(epStr) >= 3 && epStr[len(epStr)-3:] == "GET":
+			foundGET = true
+		case len(epStr) >= 4 && epStr[len(epStr)-4:] == "POST":
+			foundPOST = true
+		}
+	}
+	if !foundGET {
+		t.Error("expected GET to be an Astro entry point")
+	}
+	if !foundPOST {
+		t.Error("expected POST to be an Astro entry point")
+	}
+
+	// internalHelper should NOT be an entry point
+	for _, ep := range eps {
+		epStr := string(ep)
+		if len(epStr) >= len("internalHelper") && epStr[len(epStr)-len("internalHelper"):] == "internalHelper" {
+			t.Error("'internalHelper' should not be an entry point")
+		}
+	}
+}

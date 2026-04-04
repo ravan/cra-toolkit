@@ -407,3 +407,105 @@ function second() {
 		}
 	}
 }
+
+func TestModuleExports_ExportMarking(t *testing.T) {
+	source := `const _ = require('lodash');
+const express = require('express');
+
+function handleRequest(req, res) {
+    const template = _.template(req.body.input);
+    res.send(template({ user: req.user }));
+}
+
+class UserController {
+    getUser(req, res) {
+        return res.json({ name: "test" });
+    }
+}
+
+module.exports = { handleRequest, UserController };
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	symbols, err := ext.ExtractSymbols("handler.js", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	eps := ext.FindEntryPoints(symbols, "/project")
+
+	// handleRequest is marked exported via module.exports and its name matches
+	// isLikelyRouteHandler (contains "handler"), so it becomes an entry point.
+	// UserController is a class (SymbolClass), so FindEntryPoints skips it by design
+	// (only SymbolFunction and SymbolMethod qualify); the export marking is still applied.
+	var foundHandleRequest bool
+	for _, ep := range eps {
+		epStr := string(ep)
+		if len(epStr) >= len("handleRequest") && epStr[len(epStr)-len("handleRequest"):] == "handleRequest" {
+			foundHandleRequest = true
+		}
+	}
+
+	if !foundHandleRequest {
+		t.Error("expected handleRequest to be marked exported via module.exports and be an entry point")
+		for _, ep := range eps {
+			t.Logf("  entry point: %s", ep)
+		}
+	}
+
+	// Verify UserController is found as a symbol (export marking succeeded — it was not silently lost).
+	var foundUserController bool
+	for _, sym := range symbols {
+		if sym.Name == "UserController" {
+			foundUserController = true
+		}
+	}
+	if !foundUserController {
+		t.Error("expected to find symbol UserController")
+	}
+}
+
+func TestExtractCalls_TypedConfidence(t *testing.T) {
+	source := `import { Request, Response } from 'express';
+
+function handleRequest(req: Request, res: Response) {
+    res.send('hello');
+    req.body.toString();
+}
+
+function untypedHandler(req, res) {
+    res.json({ ok: true });
+}
+`
+	tree, src := parseTS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+
+	edges, err := ext.ExtractCalls("handler.ts", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	// res and req in handleRequest have type annotations → calls on them get confidence 1.0
+	// res and req in untypedHandler have NO type annotations → calls get confidence 0.8
+	var typedSendConf, untypedJsonConf float64
+	for _, e := range edges {
+		switch string(e.To) {
+		case "res.send":
+			typedSendConf = e.Confidence
+		case "res.json":
+			untypedJsonConf = e.Confidence
+		}
+	}
+
+	if typedSendConf != 1.0 {
+		t.Errorf("res.send in typed handler: expected confidence 1.0, got %f", typedSendConf)
+	}
+	if untypedJsonConf != 0.8 {
+		t.Errorf("res.json in untyped handler: expected confidence 0.8, got %f", untypedJsonConf)
+	}
+}

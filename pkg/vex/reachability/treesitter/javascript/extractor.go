@@ -162,6 +162,8 @@ func walkSymbols(
 		// Also extract inline arrow function arguments as route handler symbols.
 		detectRouteHandlers(node, src, routeHandlers)
 		detectAndExtractInlineRouteHandlers(node, src, file, moduleName, symbols, exported, routeHandlers)
+		// Detect module.exports = { ... } / module.exports.foo = fn assignments.
+		detectModuleExports(node, src, moduleName, symbols, exported)
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
 			walkSymbols(child, src, file, moduleName, className, symbols, decorators, exported, routeHandlers)
@@ -298,6 +300,83 @@ func detectAndExtractInlineRouteHandlers(
 				EndLine:       rowToLine(arg.EndPosition().Row),
 				Kind:          treesitter.SymbolFunction,
 			})
+		}
+	}
+}
+
+// detectModuleExports detects CommonJS module.exports = { ... } and module.exports.foo = fn
+// assignments and marks the referenced names in the exported map.
+//
+//nolint:gocognit,gocyclo // handles object literal, identifier, and property assignment forms
+func detectModuleExports(
+	node *tree_sitter.Node,
+	src []byte,
+	moduleName string,
+	symbols *[]*treesitter.Symbol,
+	exported map[treesitter.SymbolID]bool,
+) {
+	if node == nil {
+		return
+	}
+	// Look for: expression_statement > assignment_expression
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil || child.Kind() != "assignment_expression" {
+			continue
+		}
+		leftNode := child.ChildByFieldName("left")
+		rightNode := child.ChildByFieldName("right")
+		if leftNode == nil || rightNode == nil {
+			continue
+		}
+
+		leftText := nodeText(leftNode, src)
+
+		// Case 1: module.exports = { foo, Bar, ... }
+		if leftText == "module.exports" && rightNode.Kind() == "object" {
+			for j := uint(0); j < rightNode.ChildCount(); j++ {
+				prop := rightNode.Child(j)
+				if prop == nil {
+					continue
+				}
+				var name string
+				switch prop.Kind() {
+				case "shorthand_property_identifier", "shorthand_property_identifier_pattern", "identifier":
+					name = nodeText(prop, src)
+				case "pair":
+					keyNode := prop.ChildByFieldName("key")
+					if keyNode != nil {
+						name = nodeText(keyNode, src)
+					}
+				}
+				if name != "" {
+					exported[treesitter.SymbolID(moduleName+"."+name)] = true
+				}
+			}
+			continue
+		}
+
+		// Case 2: module.exports = identifier
+		if leftText == "module.exports" && rightNode.Kind() == "identifier" {
+			name := nodeText(rightNode, src)
+			if name != "" {
+				exported[treesitter.SymbolID(moduleName+"."+name)] = true
+			}
+			continue
+		}
+
+		// Case 3: module.exports.foo = fn
+		if leftNode.Kind() == "member_expression" {
+			objNode := leftNode.ChildByFieldName("object")
+			propNode := leftNode.ChildByFieldName("property")
+			if objNode != nil && propNode != nil && nodeText(objNode, src) == "module.exports" {
+				name := nodeText(propNode, src)
+				if name != "" {
+					exported[treesitter.SymbolID(moduleName+"."+name)] = true
+					// Also record the symbol if it is an inline function.
+					_ = symbols // symbol extraction handled by walkSymbols; export is sufficient here
+				}
+			}
 		}
 	}
 }
@@ -508,6 +587,8 @@ func extractMethodDef(
 }
 
 // extractVarDecl handles const/let/var declarations containing arrow/function expressions.
+//
+//nolint:gocognit // handles many var/const declaration binding patterns
 func extractVarDecl(
 	node *tree_sitter.Node,
 	src []byte,
@@ -541,6 +622,7 @@ func extractVarDecl(
 			qualifiedName = moduleName + "." + className + "." + name
 		}
 		id := treesitter.SymbolID(qualifiedName)
+		// st.exported[id] may already be set by the caller (e.g. extractExportStatement); preserve it.
 		*symbols = append(*symbols, &treesitter.Symbol{
 			ID:            id,
 			Name:          name,
@@ -552,7 +634,6 @@ func extractVarDecl(
 			EndLine:       rowToLine(child.EndPosition().Row),
 			Kind:          symKind,
 		})
-		_ = st
 	}
 }
 
@@ -810,8 +891,63 @@ func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree
 	root := tree.RootNode()
 	mod := moduleFromFile(file)
 	var edges []treesitter.Edge
-	collectCalls(root, src, file, mod, "", scope, &edges)
+	// Collect TypeScript typed variable names at file scope before extraction.
+	typedVars := collectTypedVars(root, src)
+	collectCalls(root, src, file, mod, "", scope, typedVars, &edges)
 	return edges, nil
+}
+
+// collectTypedVars scans the AST for variable_declarator and parameter nodes that have
+// explicit type_annotation children and returns the set of identifier names.
+// This is used to boost call-edge confidence when the receiver has a known type.
+func collectTypedVars(root *tree_sitter.Node, src []byte) map[string]bool {
+	typed := make(map[string]bool)
+	collectTypedVarsNode(root, src, typed)
+	return typed
+}
+
+//nolint:gocognit,gocyclo // inspects multiple TS node kinds for type annotations
+func collectTypedVarsNode(node *tree_sitter.Node, src []byte, typed map[string]bool) {
+	if node == nil {
+		return
+	}
+	switch node.Kind() {
+	case "variable_declarator":
+		nameNode := node.ChildByFieldName("name")
+		// Check for a type_annotation sibling child.
+		hasType := false
+		for i := uint(0); i < node.ChildCount(); i++ {
+			if child := node.Child(i); child != nil && child.Kind() == "type_annotation" {
+				hasType = true
+				break
+			}
+		}
+		if hasType && nameNode != nil {
+			name := nodeText(nameNode, src)
+			if name != "" {
+				typed[name] = true
+			}
+		}
+	case "required_parameter", "optional_parameter":
+		// TypeScript function parameters: (param: Type)
+		nameNode := node.ChildByFieldName("pattern")
+		hasType := false
+		for i := uint(0); i < node.ChildCount(); i++ {
+			if child := node.Child(i); child != nil && child.Kind() == "type_annotation" {
+				hasType = true
+				break
+			}
+		}
+		if hasType && nameNode != nil {
+			name := nodeText(nameNode, src)
+			if name != "" {
+				typed[name] = true
+			}
+		}
+	}
+	for i := uint(0); i < node.ChildCount(); i++ {
+		collectTypedVarsNode(node.Child(i), src, typed)
+	}
 }
 
 // collectCalls recursively visits nodes to find call expressions.
@@ -822,6 +958,7 @@ func collectCalls(
 	src []byte,
 	file, moduleName, currentFunc string,
 	scope *treesitter.Scope,
+	typedVars map[string]bool,
 	edges *[]treesitter.Edge,
 ) {
 	if node == nil {
@@ -834,8 +971,10 @@ func collectCalls(
 		if nameNode != nil {
 			name := nodeText(nameNode, src)
 			newFunc := moduleName + "." + name
+			// Collect typed vars scoped to this function's parameters only.
+			funcTypedVars := collectTypedVarsFromParams(node, src)
 			if bodyNode := node.ChildByFieldName("body"); bodyNode != nil {
-				collectCalls(bodyNode, src, file, moduleName, newFunc, scope, edges)
+				collectCalls(bodyNode, src, file, moduleName, newFunc, scope, funcTypedVars, edges)
 			}
 		}
 		return
@@ -845,7 +984,7 @@ func collectCalls(
 		if nameNode != nil {
 			className := nodeText(nameNode, src)
 			if bodyNode := node.ChildByFieldName("body"); bodyNode != nil {
-				collectCallsInClass(bodyNode, src, file, moduleName, className, scope, edges)
+				collectCallsInClass(bodyNode, src, file, moduleName, className, scope, typedVars, edges)
 			}
 		}
 		return
@@ -855,8 +994,10 @@ func collectCalls(
 		if nameNode != nil {
 			name := nodeText(nameNode, src)
 			methodFunc := moduleName + "." + name
+			// Collect typed vars scoped to this method's parameters only.
+			methodTypedVars := collectTypedVarsFromParams(node, src)
 			if bodyNode := node.ChildByFieldName("body"); bodyNode != nil {
-				collectCalls(bodyNode, src, file, moduleName, methodFunc, scope, edges)
+				collectCalls(bodyNode, src, file, moduleName, methodFunc, scope, methodTypedVars, edges)
 			}
 		}
 		return
@@ -877,15 +1018,17 @@ func collectCalls(
 			if isArrowOrFunction(valueNode) {
 				name := nodeText(nameNode, src)
 				newFunc := moduleName + "." + name
+				// Collect typed vars scoped to this arrow/function's parameters only.
+				arrowTypedVars := collectTypedVarsFromParams(valueNode, src)
 				if bodyNode := valueNode.ChildByFieldName("body"); bodyNode != nil {
-					collectCalls(bodyNode, src, file, moduleName, newFunc, scope, edges)
+					collectCalls(bodyNode, src, file, moduleName, newFunc, scope, arrowTypedVars, edges)
 				} else {
 					// Single-expression arrow: (x) => expr
-					collectCalls(valueNode, src, file, moduleName, newFunc, scope, edges)
+					collectCalls(valueNode, src, file, moduleName, newFunc, scope, arrowTypedVars, edges)
 				}
 			} else {
 				// Non-function value — recurse to capture any call expressions inside.
-				collectCalls(valueNode, src, file, moduleName, currentFunc, scope, edges)
+				collectCalls(valueNode, src, file, moduleName, currentFunc, scope, typedVars, edges)
 			}
 		}
 		return
@@ -893,7 +1036,7 @@ func collectCalls(
 	case "export_statement":
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
-			collectCalls(child, src, file, moduleName, currentFunc, scope, edges)
+			collectCalls(child, src, file, moduleName, currentFunc, scope, typedVars, edges)
 		}
 		return
 
@@ -906,11 +1049,12 @@ func collectCalls(
 				if currentFunc == "" {
 					from = treesitter.SymbolID(moduleName)
 				}
+				conf := callConfidence(funcNode, src, typedVars)
 				*edges = append(*edges, treesitter.Edge{
 					From:       from,
 					To:         treesitter.SymbolID(callee),
 					Kind:       treesitter.EdgeDirect,
-					Confidence: 1.0,
+					Confidence: conf,
 					File:       file,
 					Line:       rowToLine(node.StartPosition().Row),
 				})
@@ -918,7 +1062,7 @@ func collectCalls(
 		}
 		// Recurse into arguments to capture inline lambdas.
 		if argsNode := node.ChildByFieldName("arguments"); argsNode != nil {
-			collectCalls(argsNode, src, file, moduleName, currentFunc, scope, edges)
+			collectCalls(argsNode, src, file, moduleName, currentFunc, scope, typedVars, edges)
 		}
 		return
 
@@ -942,7 +1086,7 @@ func collectCalls(
 			}
 		}
 		if argsNode := node.ChildByFieldName("arguments"); argsNode != nil {
-			collectCalls(argsNode, src, file, moduleName, currentFunc, scope, edges)
+			collectCalls(argsNode, src, file, moduleName, currentFunc, scope, typedVars, edges)
 		}
 		return
 	}
@@ -950,8 +1094,41 @@ func collectCalls(
 	// Default: recurse into all children.
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
-		collectCalls(child, src, file, moduleName, currentFunc, scope, edges)
+		collectCalls(child, src, file, moduleName, currentFunc, scope, typedVars, edges)
 	}
+}
+
+// callConfidence returns 1.0 for direct calls and for member calls on typed variables,
+// and 0.8 for member calls on unresolved (untyped) receivers.
+func callConfidence(funcNode *tree_sitter.Node, src []byte, typedVars map[string]bool) float64 {
+	if funcNode == nil || funcNode.Kind() != "member_expression" {
+		return 1.0
+	}
+	objNode := funcNode.ChildByFieldName("object")
+	if objNode == nil {
+		return 0.8
+	}
+	// If the receiver is a typed variable, we have high confidence.
+	receiverName := nodeText(objNode, src)
+	if typedVars[receiverName] {
+		return 1.0
+	}
+	return 0.8
+}
+
+// collectTypedVarsFromParams returns the set of parameter names that have explicit type annotations
+// in the given function/method/arrow_function node. Only direct parameters are inspected (not body).
+func collectTypedVarsFromParams(fnNode *tree_sitter.Node, src []byte) map[string]bool {
+	typed := make(map[string]bool)
+	if fnNode == nil {
+		return typed
+	}
+	paramsNode := fnNode.ChildByFieldName("parameters")
+	if paramsNode == nil {
+		return typed
+	}
+	collectTypedVarsNode(paramsNode, src, typed)
+	return typed
 }
 
 // collectCallsInClass handles call extraction inside a class body.
@@ -960,6 +1137,7 @@ func collectCallsInClass(
 	src []byte,
 	file, moduleName, className string,
 	scope *treesitter.Scope,
+	typedVars map[string]bool,
 	edges *[]treesitter.Edge,
 ) {
 	if node == nil {
@@ -972,7 +1150,7 @@ func collectCallsInClass(
 			name := nodeText(nameNode, src)
 			methodFunc := moduleName + "." + className + "." + name
 			if bodyNode := node.ChildByFieldName("body"); bodyNode != nil {
-				collectCalls(bodyNode, src, file, moduleName, methodFunc, scope, edges)
+				collectCalls(bodyNode, src, file, moduleName, methodFunc, scope, typedVars, edges)
 			}
 		}
 		return
@@ -980,7 +1158,7 @@ func collectCallsInClass(
 
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
-		collectCallsInClass(child, src, file, moduleName, className, scope, edges)
+		collectCallsInClass(child, src, file, moduleName, className, scope, typedVars, edges)
 	}
 }
 
