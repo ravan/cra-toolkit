@@ -8,12 +8,19 @@ import (
 // and call edges from a parsed AST for a specific programming language.
 type LanguageExtractor interface {
 	// ExtractSymbols extracts all function/method/class definitions from a file.
-	ExtractSymbols(node *tree_sitter.Node, source []byte, file string) ([]*Symbol, error)
+	// Returns symbols with their qualified names, kinds, and source locations.
+	ExtractSymbols(file string, source []byte, tree *tree_sitter.Tree) ([]*Symbol, error)
 
-	// ExtractImports extracts all import statements from a file.
-	ExtractImports(node *tree_sitter.Node, source []byte, file string) ([]Import, error)
+	// ResolveImports extracts and resolves all import statements from a file.
+	// projectRoot is used for resolving relative imports.
+	ResolveImports(file string, source []byte, tree *tree_sitter.Tree, projectRoot string) ([]Import, error)
 
 	// ExtractCalls extracts all call edges from a file, resolving callee IDs
 	// using the provided symbol scope.
-	ExtractCalls(node *tree_sitter.Node, source []byte, file string, scope *Scope) ([]Edge, error)
+	ExtractCalls(file string, source []byte, tree *tree_sitter.Tree, scope *Scope) ([]Edge, error)
+
+	// FindEntryPoints identifies entry point symbols from the given symbol set.
+	// Entry points are functions reachable from outside the application
+	// (HTTP handlers, CLI commands, task workers, main functions, etc.)
+	FindEntryPoints(symbols []*Symbol, projectRoot string) []SymbolID
 }

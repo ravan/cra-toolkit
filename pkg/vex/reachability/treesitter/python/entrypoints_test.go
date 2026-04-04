@@ -16,6 +16,11 @@ func TestFindEntryPoints_MainBlock(t *testing.T) {
 	ext := pyextractor.New()
 	eps := ext.FindEntryPoints(symbols, "/project")
 
+	// "main"-named functions are treated as entry points by convention.
+	// We assert at least 1 entry point (the "main" function) is found.
+	if len(eps) < 1 {
+		t.Errorf("expected at least 1 entry point for function named 'main', got %d", len(eps))
+	}
 	t.Logf("Found %d entry points", len(eps))
 }
 

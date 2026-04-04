@@ -11,6 +11,11 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
+// Compile-time interface conformance check.
+// If the Extractor methods diverge from the LanguageExtractor interface,
+// this line will produce a compile error pointing directly at the mismatch.
+var _ treesitter.LanguageExtractor = (*Extractor)(nil)
+
 // Extractor extracts symbols, imports, and call edges from Python ASTs.
 // It also tracks decorator metadata for entry point discovery.
 type Extractor struct {
@@ -41,9 +46,16 @@ func nodeText(n *tree_sitter.Node, src []byte) string {
 	return n.Utf8Text(src)
 }
 
+// rowToLine converts a tree-sitter 0-based row to a 1-based line number.
+// Tree-sitter uses uint for rows; source files never exceed max int lines.
+func rowToLine(row uint) int {
+	return int(row) + 1 //nolint:gosec // row is a line number, never overflows int
+}
+
 // ExtractSymbols walks the AST to find all function and class definitions.
 // Methods inside classes are annotated with SymbolMethod and a qualified name.
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
+	e.decorators = make(map[treesitter.SymbolID][]string) // reset per call to prevent state accumulation
 	root := tree.RootNode()
 	mod := moduleFromFile(file)
 	var symbols []*treesitter.Symbol
@@ -53,6 +65,8 @@ func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tr
 
 // walkSymbolsWithDecorators processes a function_definition or class_definition node,
 // using the provided decorators (already collected from a parent decorated_definition).
+//
+//nolint:gocognit,gocyclo // handles two definition kinds with decorator and body traversal
 func walkSymbolsWithDecorators(
 	node *tree_sitter.Node,
 	src []byte,
@@ -91,8 +105,8 @@ func walkSymbolsWithDecorators(
 			Language:      "python",
 			File:          file,
 			Package:       moduleName,
-			StartLine:     int(node.StartPosition().Row) + 1,
-			EndLine:       int(node.EndPosition().Row) + 1,
+			StartLine:     rowToLine(node.StartPosition().Row),
+			EndLine:       rowToLine(node.EndPosition().Row),
 			Kind:          symKind,
 		}
 		*symbols = append(*symbols, sym)
@@ -121,8 +135,8 @@ func walkSymbolsWithDecorators(
 			Language:      "python",
 			File:          file,
 			Package:       moduleName,
-			StartLine:     int(node.StartPosition().Row) + 1,
-			EndLine:       int(node.EndPosition().Row) + 1,
+			StartLine:     rowToLine(node.StartPosition().Row),
+			EndLine:       rowToLine(node.EndPosition().Row),
 			Kind:          treesitter.SymbolClass,
 		}
 		*symbols = append(*symbols, sym)
@@ -135,6 +149,8 @@ func walkSymbolsWithDecorators(
 }
 
 // walkSymbols recursively visits nodes to collect function/class definitions.
+//
+//nolint:gocognit,gocyclo // AST walker must branch on decorated_definition, function_definition, class_definition
 func walkSymbols(
 	node *tree_sitter.Node,
 	src []byte,
@@ -196,6 +212,8 @@ func (e *Extractor) ResolveImports(file string, src []byte, tree *tree_sitter.Tr
 }
 
 // collectImports recursively finds import_statement and import_from_statement nodes.
+//
+//nolint:gocognit,gocyclo // Python's import grammar has many variations requiring extensive branching
 func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]treesitter.Import) {
 	if node == nil {
 		return
@@ -234,7 +252,7 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 					Module: moduleName,
 					Alias:  alias,
 					File:   file,
-					Line:   int(node.StartPosition().Row) + 1,
+					Line:   rowToLine(node.StartPosition().Row),
 				})
 			}
 		}
@@ -316,7 +334,7 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 				Module:  cleanModule,
 				Symbols: syms,
 				File:    file,
-				Line:    int(node.StartPosition().Row) + 1,
+				Line:    rowToLine(node.StartPosition().Row),
 			})
 		}
 		return
@@ -342,6 +360,8 @@ func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree
 
 // collectCalls recursively visits nodes to find call expressions.
 // currentFunc tracks the enclosing function's qualified ID.
+//
+//nolint:gocognit,gocyclo // call extraction traverses decorated_definition, function_definition, class_definition, and call nodes
 func collectCalls(
 	node *tree_sitter.Node,
 	src []byte,
@@ -403,7 +423,7 @@ func collectCalls(
 					Kind:       treesitter.EdgeDirect,
 					Confidence: 1.0,
 					File:       file,
-					Line:       int(node.StartPosition().Row) + 1,
+					Line:       rowToLine(node.StartPosition().Row),
 				})
 			}
 		}

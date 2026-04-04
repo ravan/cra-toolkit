@@ -105,10 +105,10 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 
 	// Parse all files
 	parseResults, parseErrs := treesitter.ParseFiles(files, grammarpython.Language())
-	for _, err := range parseErrs {
-		// Non-fatal: log but continue
-		_ = err
-	}
+	// Non-fatal: partial analysis is better than no analysis.
+	// Parse errors are tracked and included in the evidence string so callers
+	// can see degraded coverage (e.g. syntax errors in vendored files).
+	parseErrCount := len(parseErrs)
 	defer func() {
 		for _, pr := range parseResults {
 			pr.Tree.Close()
@@ -244,18 +244,24 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		}
 	}
 
+	parseErrSuffix := ""
+	if parseErrCount > 0 {
+		parseErrSuffix = fmt.Sprintf(" (%d file(s) skipped due to parse errors)", parseErrCount)
+	}
+
 	if len(allPaths) == 0 {
 		return reachability.Result{
 			Reachable:  false,
 			Confidence: formats.ConfidenceHigh,
-			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to %s.{%s}", importName, strings.Join(finding.Symbols, ",")),
+			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to %s.{%s}%s", importName, strings.Join(finding.Symbols, ","), parseErrSuffix),
 		}, nil
 	}
 
-	evidence := fmt.Sprintf("tree-sitter call graph: %s is reachable via %d path(s): %s",
+	evidence := fmt.Sprintf("tree-sitter call graph: %s is reachable via %d path(s): %s%s",
 		strings.Join(reachedSymbols, ", "),
 		len(allPaths),
 		allPaths[0].String(),
+		parseErrSuffix,
 	)
 
 	return reachability.Result{
