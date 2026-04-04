@@ -65,7 +65,8 @@ func TestVersionCmd_Text(t *testing.T) {
 }
 
 func TestSubcommandStubs_ReturnNotImplemented(t *testing.T) {
-	subcmds := []string{"report", "evidence"}
+	// evidence is still a stub; report is fully implemented (required flags guard it).
+	subcmds := []string{"evidence"}
 	for _, name := range subcmds {
 		t.Run(name, func(t *testing.T) {
 			cmd := cli.New("test")
@@ -77,5 +78,17 @@ func TestSubcommandStubs_ReturnNotImplemented(t *testing.T) {
 				t.Errorf("expected 'not implemented' error, got %q", err.Error())
 			}
 		})
+	}
+}
+
+func TestReportCmd_RequiredFlagsEnforced(t *testing.T) {
+	cmd := cli.New("test")
+	err := cmd.Run(context.Background(), []string{"cra", "report"})
+	if err == nil {
+		t.Fatal("expected error when required flags are missing, got nil")
+	}
+	// urfave/cli v3 reports missing required flags — not "not implemented".
+	if strings.Contains(err.Error(), "not implemented") {
+		t.Errorf("report command should not return 'not implemented'; got %q", err.Error())
 	}
 }
