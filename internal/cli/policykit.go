@@ -2,6 +2,7 @@ package cli
 
 import (
 	"context"
+	"os"
 
 	urfave "github.com/urfave/cli/v3"
 
@@ -13,7 +14,8 @@ func newPolicykitCmd() *urfave.Command {
 		Name:  "policykit",
 		Usage: "Evaluate CRA Annex I compliance policies against product artifacts",
 		Action: func(_ context.Context, _ *urfave.Command) error {
-			return policykit.Run()
+			// TODO: wire CLI flags in Task 9
+			return policykit.Run(&policykit.Options{}, os.Stdout)
 		},
 	}
 }
