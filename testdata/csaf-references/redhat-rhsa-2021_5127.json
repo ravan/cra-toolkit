@@ -1,0 +1,1900 @@
+{
+  "document": {
+    "aggregate_severity": {
+      "namespace": "https://access.redhat.com/security/updates/classification/",
+      "text": "Moderate"
+    },
+    "category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "distribution": {
+      "text": "Copyright © Red Hat, Inc. All rights reserved.",
+      "tlp": {
+        "label": "WHITE",
+        "url": "https://www.first.org/tlp/"
+      }
+    },
+    "lang": "en",
+    "notes": [
+      {
+        "category": "summary",
+        "text": "An update is now available for OpenShift Logging 5.2.\n\nRed Hat Product Security has rated this update as having a security impact of Moderate. A Common Vulnerability Scoring System (CVSS) base score, which gives a detailed severity rating, is available for each vulnerability from the CVE link(s) in the References section.",
+        "title": "Topic"
+      },
+      {
+        "category": "general",
+        "text": "Openshift Logging Security and Bug Fix Release (5.2.4)\n\nSecurity Fix(es):\n\n* log4j-core: Remote code execution in Log4j 2.x when logs contain an attacker-controlled string value (CVE-2021-44228)\n\n* netty: Request smuggling via content-length header (CVE-2021-21409)\n\n* netty-codec: Bzip2Decoder doesn't allow setting size restrictions for decompressed data (CVE-2021-37136)\n\n* netty-codec: SnappyFrameDecoder doesn't restrict chunk length and may buffer skippable chunks in an unnecessary way (CVE-2021-37137)\n\nFor more details about the security issue(s), including the impact, a CVSS score, acknowledgments, and other related information, refer to the CVE page(s) listed in the References section.",
+        "title": "Details"
+      },
+      {
+        "category": "legal_disclaimer",
+        "text": "This content is licensed under the Creative Commons Attribution 4.0 International License (https://creativecommons.org/licenses/by/4.0/). If you distribute this content, or a modified version of it, you must provide attribution to Red Hat Inc. and provide a link to the original.",
+        "title": "Terms of Use"
+      }
+    ],
+    "publisher": {
+      "category": "vendor",
+      "contact_details": "https://access.redhat.com/security/team/contact/",
+      "issuing_authority": "Red Hat Product Security is responsible for vulnerability handling across all Red Hat products and services.",
+      "name": "Red Hat Product Security",
+      "namespace": "https://www.redhat.com"
+    },
+    "references": [
+      {
+        "category": "self",
+        "summary": "https://access.redhat.com/errata/RHSA-2021:5127",
+        "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+      },
+      {
+        "category": "external",
+        "summary": "https://access.redhat.com/security/updates/classification/#moderate",
+        "url": "https://access.redhat.com/security/updates/classification/#moderate"
+      },
+      {
+        "category": "external",
+        "summary": "https://access.redhat.com/security/vulnerabilities/RHSB-2021-009",
+        "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2021-009"
+      },
+      {
+        "category": "external",
+        "summary": "1944888",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1944888"
+      },
+      {
+        "category": "external",
+        "summary": "2004133",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2004133"
+      },
+      {
+        "category": "external",
+        "summary": "2004135",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2004135"
+      },
+      {
+        "category": "external",
+        "summary": "2030932",
+        "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2030932"
+      },
+      {
+        "category": "external",
+        "summary": "LOG-1775",
+        "url": "https://issues.redhat.com/browse/LOG-1775"
+      },
+      {
+        "category": "external",
+        "summary": "LOG-1824",
+        "url": "https://issues.redhat.com/browse/LOG-1824"
+      },
+      {
+        "category": "external",
+        "summary": "LOG-1963",
+        "url": "https://issues.redhat.com/browse/LOG-1963"
+      },
+      {
+        "category": "external",
+        "summary": "LOG-1970",
+        "url": "https://issues.redhat.com/browse/LOG-1970"
+      },
+      {
+        "category": "self",
+        "summary": "Canonical URL",
+        "url": "https://security.access.redhat.com/data/csaf/v2/advisories/2021/rhsa-2021_5127.json"
+      }
+    ],
+    "title": "Red Hat Security Advisory: Openshift Logging security and bug update (5.2.4)",
+    "tracking": {
+      "current_release_date": "2026-04-01T18:52:52+00:00",
+      "generator": {
+        "date": "2026-04-01T18:52:52+00:00",
+        "engine": {
+          "name": "Red Hat SDEngine",
+          "version": "4.7.4"
+        }
+      },
+      "id": "RHSA-2021:5127",
+      "initial_release_date": "2021-12-14T18:38:45+00:00",
+      "revision_history": [
+        {
+          "date": "2021-12-14T18:38:45+00:00",
+          "number": "1",
+          "summary": "Initial version"
+        },
+        {
+          "date": "2021-12-14T18:38:45+00:00",
+          "number": "2",
+          "summary": "Last updated version"
+        },
+        {
+          "date": "2026-04-01T18:52:52+00:00",
+          "number": "3",
+          "summary": "Last generated version"
+        }
+      ],
+      "status": "final",
+      "version": "3"
+    }
+  },
+  "product_tree": {
+    "branches": [
+      {
+        "branches": [
+          {
+            "branches": [
+              {
+                "category": "product_name",
+                "name": "OpenShift Logging 5.2",
+                "product": {
+                  "name": "OpenShift Logging 5.2",
+                  "product_id": "8Base-OSE-LOGGING-5.2",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/a:redhat:logging:5.2::el8"
+                  }
+                }
+              }
+            ],
+            "category": "product_family",
+            "name": "Red Hat OpenShift Enterprise"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+                "product": {
+                  "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+                  "product_id": "openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2?arch=s390x&repository_url=registry.redhat.io/openshift-logging/cluster-logging-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+                  "product_id": "openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294?arch=s390x&repository_url=registry.redhat.io/openshift-logging/elasticsearch-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+                  "product_id": "openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5?arch=s390x&repository_url=registry.redhat.io/openshift-logging/elasticsearch-proxy-rhel8&tag=v1.0.0-67"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+                "product": {
+                  "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+                  "product_id": "openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a?arch=s390x&repository_url=registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel8&tag=v1.0.0-44"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+                "product": {
+                  "name": "openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+                  "product_id": "openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62?arch=s390x&repository_url=registry.redhat.io/openshift-logging/logging-curator5-rhel8&tag=v5.8.1-47"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+                "product": {
+                  "name": "openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+                  "product_id": "openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8?arch=s390x&repository_url=registry.redhat.io/openshift-logging/elasticsearch6-rhel8&tag=v6.8.1-66"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+                "product": {
+                  "name": "openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+                  "product_id": "openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7?arch=s390x&repository_url=registry.redhat.io/openshift-logging/eventrouter-rhel8&tag=v0.3.0-64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+                "product": {
+                  "name": "openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+                  "product_id": "openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4?arch=s390x&repository_url=registry.redhat.io/openshift-logging/fluentd-rhel8&tag=v1.7.4-71"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+                "product": {
+                  "name": "openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+                  "product_id": "openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1?arch=s390x&repository_url=registry.redhat.io/openshift-logging/kibana6-rhel8&tag=v6.8.1-74"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "s390x"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+                "product": {
+                  "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+                  "product_id": "openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/cluster-logging-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+                  "product_id": "openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/elasticsearch-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+                  "product_id": "openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/elasticsearch-proxy-rhel8&tag=v1.0.0-67"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+                "product": {
+                  "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+                  "product_id": "openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel8&tag=v1.0.0-44"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le",
+                "product": {
+                  "name": "openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le",
+                  "product_id": "openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/logging-curator5-rhel8&tag=v5.8.1-47"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+                "product": {
+                  "name": "openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+                  "product_id": "openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/elasticsearch6-rhel8&tag=v6.8.1-66"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+                "product": {
+                  "name": "openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+                  "product_id": "openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/eventrouter-rhel8&tag=v0.3.0-64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+                "product": {
+                  "name": "openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+                  "product_id": "openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/fluentd-rhel8&tag=v1.7.4-71"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+                "product": {
+                  "name": "openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+                  "product_id": "openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65?arch=ppc64le&repository_url=registry.redhat.io/openshift-logging/kibana6-rhel8&tag=v6.8.1-74"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "ppc64le"
+          },
+          {
+            "branches": [
+              {
+                "category": "product_version",
+                "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+                "product": {
+                  "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+                  "product_id": "openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6?arch=amd64&repository_url=registry.redhat.io/openshift-logging/cluster-logging-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+                "product": {
+                  "name": "openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+                  "product_id": "openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6?arch=amd64&repository_url=registry.redhat.io/openshift-logging/cluster-logging-operator-bundle&tag=v5.2.4-17"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+                  "product_id": "openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43?arch=amd64&repository_url=registry.redhat.io/openshift-logging/elasticsearch-rhel8-operator&tag=v5.2.4-4"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+                  "product_id": "openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2?arch=amd64&repository_url=registry.redhat.io/openshift-logging/elasticsearch-operator-bundle&tag=v5.2.4-17"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+                "product": {
+                  "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+                  "product_id": "openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6?arch=amd64&repository_url=registry.redhat.io/openshift-logging/elasticsearch-proxy-rhel8&tag=v1.0.0-67"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+                "product": {
+                  "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+                  "product_id": "openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2?arch=amd64&repository_url=registry.redhat.io/openshift-logging/log-file-metric-exporter-rhel8&tag=v1.0.0-44"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+                "product": {
+                  "name": "openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+                  "product_id": "openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa?arch=amd64&repository_url=registry.redhat.io/openshift-logging/logging-curator5-rhel8&tag=v5.8.1-47"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+                "product": {
+                  "name": "openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+                  "product_id": "openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418?arch=amd64&repository_url=registry.redhat.io/openshift-logging/elasticsearch6-rhel8&tag=v6.8.1-66"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+                "product": {
+                  "name": "openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+                  "product_id": "openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34?arch=amd64&repository_url=registry.redhat.io/openshift-logging/eventrouter-rhel8&tag=v0.3.0-64"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+                "product": {
+                  "name": "openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+                  "product_id": "openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133?arch=amd64&repository_url=registry.redhat.io/openshift-logging/fluentd-rhel8&tag=v1.7.4-71"
+                  }
+                }
+              },
+              {
+                "category": "product_version",
+                "name": "openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+                "product": {
+                  "name": "openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+                  "product_id": "openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+                  "product_identification_helper": {
+                    "purl": "pkg:oci/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca?arch=amd64&repository_url=registry.redhat.io/openshift-logging/kibana6-rhel8&tag=v6.8.1-74"
+                  }
+                }
+              }
+            ],
+            "category": "architecture",
+            "name": "amd64"
+          }
+        ],
+        "category": "vendor",
+        "name": "Red Hat"
+      }
+    ],
+    "relationships": [
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64"
+        },
+        "product_reference": "openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x"
+        },
+        "product_reference": "openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le"
+        },
+        "product_reference": "openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64"
+        },
+        "product_reference": "openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64"
+        },
+        "product_reference": "openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64"
+        },
+        "product_reference": "openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x"
+        },
+        "product_reference": "openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le"
+        },
+        "product_reference": "openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le"
+        },
+        "product_reference": "openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64"
+        },
+        "product_reference": "openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x"
+        },
+        "product_reference": "openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64"
+        },
+        "product_reference": "openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le"
+        },
+        "product_reference": "openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        },
+        "product_reference": "openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le"
+        },
+        "product_reference": "openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64"
+        },
+        "product_reference": "openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x"
+        },
+        "product_reference": "openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64"
+        },
+        "product_reference": "openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le"
+        },
+        "product_reference": "openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x"
+        },
+        "product_reference": "openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64"
+        },
+        "product_reference": "openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le"
+        },
+        "product_reference": "openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x"
+        },
+        "product_reference": "openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x"
+        },
+        "product_reference": "openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64"
+        },
+        "product_reference": "openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le"
+        },
+        "product_reference": "openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64 as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64"
+        },
+        "product_reference": "openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x"
+        },
+        "product_reference": "openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le as a component of OpenShift Logging 5.2",
+          "product_id": "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        },
+        "product_reference": "openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le",
+        "relates_to_product_reference": "8Base-OSE-LOGGING-5.2"
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2021-21409",
+      "cwe": {
+        "id": "CWE-444",
+        "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+      },
+      "discovery_date": "2021-03-30T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "1944888"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A flaw was found in Netty. There is an issue where the content-length header is not validated correctly if the request uses a single Http2HeaderFrame with the endstream set to true. This flaw leads to request smuggling if the request is proxied to a remote peer and translated to HTTP/1.1. The highest threat from this vulnerability is to integrity.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "netty: Request smuggling via content-length header",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "Red Hat Satellite ships a vulnerable Netty version embedded in Candlepin. However, it is not directly vulnerable since the HTTP requests are handled by Tomcat and not by Netty.\nRed Hat OpenStack Platform's OpenDaylight will not be updated for this flaw because it was deprecated as of OpenStack Platform 14 and is only receiving security fixes for Important and Critical flaws.\n\nIn OpenShift Container Platform (OCP), the Hive/Presto/Hadoop components that comprise the OCP Metering stack, ship the vulnerable version of netty-codec-http package.\nSince the release of OCP 4.6, the Metering product has been deprecated [1], hence the affected components are marked as wontfix.\nThis may be fixed in the future.",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        ],
+        "known_not_affected": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-21409"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#1944888",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1944888"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2021-21409",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2021-21409"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2021-21409",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-21409"
+        },
+        {
+          "category": "external",
+          "summary": "https://github.com/netty/netty/security/advisories/GHSA-f256-j965-7f32",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-f256-j965-7f32"
+        }
+      ],
+      "release_date": "2021-03-30T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "date": "2021-12-14T18:38:45+00:00",
+          "details": "For OpenShift Container Platform 4.8 see the following documentation, which will be updated shortly for this release, for important instructions on how to upgrade your cluster and fully apply this errata update:\n\nhttps://docs.openshift.com/container-platform/4.8/release_notes/ocp-4-8-release-notes.html\n\nFor Red Hat OpenShift Logging 5.2, see the following instructions to apply this update:\n\nhttps://docs.openshift.com/container-platform/4.7/logging/cluster-logging-upgrading.html",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "HIGH",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "NONE",
+            "baseScore": 5.9,
+            "baseSeverity": "MEDIUM",
+            "confidentialityImpact": "NONE",
+            "integrityImpact": "HIGH",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "version": "3.1"
+          },
+          "products": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Moderate"
+        }
+      ],
+      "title": "netty: Request smuggling via content-length header"
+    },
+    {
+      "cve": "CVE-2021-37136",
+      "cwe": {
+        "id": "CWE-400",
+        "name": "Uncontrolled Resource Consumption"
+      },
+      "discovery_date": "2021-09-14T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "2004133"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A flaw was found in Netty's netty-codec due to size restrictions for decompressed data in the Bzip2Decoder. By sending a specially-crafted input, a remote attacker could cause a denial of service.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "netty-codec: Bzip2Decoder doesn't allow setting size restrictions for decompressed data",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "In the OpenShift Container Platform (OCP), the Hive/Presto/Hadoop components that comprise the OCP Metering stack ship the vulnerable version of netty-codec package. Since the release of OCP 4.6, the Metering product has been deprecated [1], so the affected components are marked as wontfix. This may be fixed in the future.\n\nStarting in OCP 4.7, the elasticsearch component is shipping as a part of the OpenShift Logging product (openshift-logging/elasticsearch6-rhel8). The elasticsearch component delivered in OCP 4.6 is marked as `Out of support scope` because these versions are already under Maintenance Phase of the support.\n\n[1] https://docs.openshift.com/container-platform/4.6/release_notes/ocp-4-6-release-notes.html#ocp-4-6-metering-operator-deprecated",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        ],
+        "known_not_affected": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-37136"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#2004133",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2004133"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2021-37136",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2021-37136"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2021-37136",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37136"
+        },
+        {
+          "category": "external",
+          "summary": "https://github.com/netty/netty/security/advisories/GHSA-grg4-wf29-r9vv",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-grg4-wf29-r9vv"
+        }
+      ],
+      "release_date": "2021-09-09T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "date": "2021-12-14T18:38:45+00:00",
+          "details": "For OpenShift Container Platform 4.8 see the following documentation, which will be updated shortly for this release, for important instructions on how to upgrade your cluster and fully apply this errata update:\n\nhttps://docs.openshift.com/container-platform/4.8/release_notes/ocp-4-8-release-notes.html\n\nFor Red Hat OpenShift Logging 5.2, see the following instructions to apply this update:\n\nhttps://docs.openshift.com/container-platform/4.7/logging/cluster-logging-upgrading.html",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "LOW",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "HIGH",
+            "baseScore": 7.5,
+            "baseSeverity": "HIGH",
+            "confidentialityImpact": "NONE",
+            "integrityImpact": "NONE",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "version": "3.1"
+          },
+          "products": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Moderate"
+        }
+      ],
+      "title": "netty-codec: Bzip2Decoder doesn't allow setting size restrictions for decompressed data"
+    },
+    {
+      "cve": "CVE-2021-37137",
+      "cwe": {
+        "id": "CWE-400",
+        "name": "Uncontrolled Resource Consumption"
+      },
+      "discovery_date": "2021-09-14T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "2004135"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A flaw was found in the Netty's netty-codec due to unrestricted chunk lengths in the SnappyFrameDecoder. By sending a specially-crafted input, a remote attacker could cause excessive memory usage resulting in a denial of service.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "netty-codec: SnappyFrameDecoder doesn't restrict chunk length and may buffer skippable chunks in an unnecessary way",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "In OpenShift Container Platform (OCP), the Hive/Presto/Hadoop components that comprise the OCP Metering stack, ship the vulnerable version of netty-codec package.\nSince the release of OCP 4.6, the Metering product has been deprecated [1], hence the affected components are marked as wontfix.\nThis may be fixed in the future.\n\nStarting in OCP 4.7, the elasticsearch component is shipping as a part of the OpenShift Logging product (openshift-logging/elasticsearch6-rhel8). The elasticsearch component delivered in OCP 4.6 is marked as `Out of support scope` because these versions are already under Maintenance Phase of the support.\n\n[1] https://docs.openshift.com/container-platform/4.6/release_notes/ocp-4-6-release-notes.html#ocp-4-6-metering-operator-deprecated",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        ],
+        "known_not_affected": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-37137"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#2004135",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2004135"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2021-37137",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2021-37137"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2021-37137",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37137"
+        },
+        {
+          "category": "external",
+          "summary": "https://github.com/netty/netty/security/advisories/GHSA-grg4-wf29-r9vv",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-grg4-wf29-r9vv"
+        }
+      ],
+      "release_date": "2021-09-09T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "date": "2021-12-14T18:38:45+00:00",
+          "details": "For OpenShift Container Platform 4.8 see the following documentation, which will be updated shortly for this release, for important instructions on how to upgrade your cluster and fully apply this errata update:\n\nhttps://docs.openshift.com/container-platform/4.8/release_notes/ocp-4-8-release-notes.html\n\nFor Red Hat OpenShift Logging 5.2, see the following instructions to apply this update:\n\nhttps://docs.openshift.com/container-platform/4.7/logging/cluster-logging-upgrading.html",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "LOW",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "HIGH",
+            "baseScore": 7.5,
+            "baseSeverity": "HIGH",
+            "confidentialityImpact": "NONE",
+            "integrityImpact": "NONE",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "version": "3.1"
+          },
+          "products": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Moderate"
+        }
+      ],
+      "title": "netty-codec: SnappyFrameDecoder doesn't restrict chunk length and may buffer skippable chunks in an unnecessary way"
+    },
+    {
+      "cve": "CVE-2021-44228",
+      "cwe": {
+        "id": "CWE-20",
+        "name": "Improper Input Validation"
+      },
+      "discovery_date": "2021-12-10T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "2030932"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A flaw was found in the Apache Log4j logging library in versions from 2.0.0 and before 2.15.0. A remote attacker who can control log messages or log message parameters, can execute arbitrary code on the server via JNDI LDAP endpoint.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "log4j-core: Remote code execution in Log4j 2.x when logs contain an attacker-controlled string value",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "This issue only affects log4j versions between 2.0  and 2.14.1. In order to exploit this flaw you need:\n- A remotely accessible endpoint with any protocol (HTTP, TCP, etc) that allows an attacker to send arbitrary data,\n- A log statement in the endpoint that logs the attacker controlled data.\n\nIn Red Hat OpenShift Logging the vulnerable log4j library is shipped in the Elasticsearch components. Because Elasticsearch is not susceptible to remote code execution with this vulnerability due to use of the Java Security Manager and because access to these components is limited, the impact by this vulnerability is reduced to Moderate.\n\nAs per upstream applications using Log4j 1.x may be impacted by this flaw if their configuration uses JNDI. However, the risk is much lower. This flaw in Log4j 1.x is tracked via https://access.redhat.com/security/cve/CVE-2021-4104 and has been rated as having Moderate security impact.\n\nCodeReady Studio version 12.21.1 was released containing a fix for this vulnerability.\n\nThe following products are NOT affected by this flaw and have been explicitly listed here for the benefit of our customers.\n- Red Hat Enterprise Linux\n- Red Hat Advanced Cluster Management for Kubernetes \n- Red Hat Advanced Cluster Security for Kubernetes\n- Red Hat Ansible Automation Platform (Engine and Tower)\n- Red Hat Certificate System\n- Red Hat Directory Server\n- Red Hat Identity Management\n- Red Hat CloudForms \n- Red Hat Update Infrastructure\n- Red Hat Satellite\n- Red Hat Ceph Storage\n- Red Hat Gluster Storage\n- Red Hat OpenShift Data Foundation\n- Red Hat OpenStack Platform\n- Red Hat Virtualization\n- Red Hat Single Sign-On\n- Red Hat 3scale API Management",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        ],
+        "known_not_affected": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-44228"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#2030932",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2030932"
+        },
+        {
+          "category": "external",
+          "summary": "RHSB-2021-009",
+          "url": "https://access.redhat.com/security/vulnerabilities/RHSB-2021-009"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2021-44228",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2021-44228"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
+        },
+        {
+          "category": "external",
+          "summary": "https://github.com/advisories/GHSA-jfh8-c2jp-5v3q",
+          "url": "https://github.com/advisories/GHSA-jfh8-c2jp-5v3q"
+        },
+        {
+          "category": "external",
+          "summary": "https://logging.apache.org/log4j/2.x/security.html",
+          "url": "https://logging.apache.org/log4j/2.x/security.html"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.lunasec.io/docs/blog/log4j-zero-day/",
+          "url": "https://www.lunasec.io/docs/blog/log4j-zero-day/"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        }
+      ],
+      "release_date": "2021-12-10T02:01:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "date": "2021-12-14T18:38:45+00:00",
+          "details": "For OpenShift Container Platform 4.8 see the following documentation, which will be updated shortly for this release, for important instructions on how to upgrade your cluster and fully apply this errata update:\n\nhttps://docs.openshift.com/container-platform/4.8/release_notes/ocp-4-8-release-notes.html\n\nFor Red Hat OpenShift Logging 5.2, see the following instructions to apply this update:\n\nhttps://docs.openshift.com/container-platform/4.7/logging/cluster-logging-upgrading.html",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+        },
+        {
+          "category": "workaround",
+          "details": "For Log4j versions >=2.10\nset the system property log4j2.formatMsgNoLookups or the environment variable LOG4J_FORMAT_MSG_NO_LOOKUPS to true\n\nFor Log4j versions >=2.7 and <=2.14.1\nall PatternLayout patterns can be modified to specify the message converter as %m{nolookups} instead of just %m\n\nFor Log4j versions >=2.0-beta9 and <=2.10.0\nremove the JndiLookup class from the classpath. For example: \n```\nzip -q -d log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class\n```\n\nOn OpenShift 4 and in OpenShift Logging, the above mitigation can be applied by following the steps in this article: https://access.redhat.com/solutions/6578421\n\nOn OpenShift 3.11, mitigation to the affected Elasticsearch component can be applied by following the steps in this article: https://access.redhat.com/solutions/6578441",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "LOW",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "HIGH",
+            "baseScore": 9.8,
+            "baseSeverity": "CRITICAL",
+            "confidentialityImpact": "HIGH",
+            "integrityImpact": "HIGH",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "version": "3.1"
+          },
+          "products": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "exploit_status",
+          "date": "2021-12-10T00:00:00+00:00",
+          "details": "CISA: https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        },
+        {
+          "category": "impact",
+          "details": "Moderate"
+        }
+      ],
+      "title": "log4j-core: Remote code execution in Log4j 2.x when logs contain an attacker-controlled string value"
+    },
+    {
+      "cve": "CVE-2021-45046",
+      "cwe": {
+        "id": "CWE-917",
+        "name": "Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection')"
+      },
+      "discovery_date": "2021-12-14T00:00:00+00:00",
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "ids": [
+        {
+          "system_name": "Red Hat Bugzilla ID",
+          "text": "2032580"
+        }
+      ],
+      "notes": [
+        {
+          "category": "description",
+          "text": "A flaw was found in the Apache Log4j logging library in versions from 2.0.0 and before 2.16.0. A remote attacker with control over Thread Context Map (MDC) input data could craft malicious input using a JNDI Lookup pattern resulting in remote code execution (RCE) in a limited number of environments.",
+          "title": "Vulnerability description"
+        },
+        {
+          "category": "summary",
+          "text": "log4j-core: DoS in log4j 2.x with thread context message pattern and context lookup pattern (incomplete fix for CVE-2021-44228)",
+          "title": "Vulnerability summary"
+        },
+        {
+          "category": "other",
+          "text": "Although we have matched Apache's CVSS score, with the exception of the scope metric which will remain unaltered at \"unchanged\"; as we believe code execution would be at the permission levels of the running JVM and not exceeding that of the original CVE-2021-44228 flaw.\n \nWe have given this vulnerability an impact rating of Moderate, this is because of the unlikely nature of log4j lookup mapping values being derived from attacker controlled values. This is not the default configuration for end-applications using log4j 2.x and would require explicit action from a privileged user (a developer or administrator) to access the vulnerability. \nIn certain non-default configurations, it was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was insufficient.\n\nThis issue affects the log4j version between 2.0 and 2.15. Log4j 1.x is NOT impacted by this vulnerability. \n\nPrerequisites to exploit this flaw are :\n\n- A remotely accessible endpoint with any protocol (HTTP, TCP, etc) that allows an attacker to send arbitrary data,\n- A log statement in the endpoint that logs the attacker controlled data.\n- Log4j configuration file should be explicitly configured to use a non-default Pattern Layout with a Context Lookup eg. ($${ctx:loginId}) \n\nIn most cases, the mitigation suggested for CVE-2021-44228 (i.e. to set the system property `log4j2.noFormatMsgLookup` to `true) does NOT mitigate this specific vulnerability. \nLog4j 2.16.0 fixes this issue by removing support for message lookup patterns and disabling JNDI functionality by default.\n\nFor Elasticsearch, as shipped in OpenShift 3.11, the \"log4j2.formatMsgNoLookups=true\" system property mitigation is sufficient as there are no included non-standard configurations that allow for exploitation:\n\nhttps://github.com/openshift/openshift-ansible/blob/release-3.11/roles/openshift_logging_elasticsearch/templates/log4j2.properties.j2\n\nhttps://discuss.elastic.co/t/apache-log4j2-remote-code-execution-rce-vulnerability-cve-2021-44228-esa-2021-31/291476\n\nFor CodeReady Studio the fix for this flaw is available on CodeReady Studio 12.21.3 and above versions.",
+          "title": "Statement"
+        },
+        {
+          "category": "general",
+          "text": "The CVSS score(s) listed for this vulnerability do not reflect the associated product's status, and are included for informational purposes to better understand the severity of this vulnerability.",
+          "title": "CVSS score applicability"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+        ],
+        "known_not_affected": [
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+          "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+        ]
+      },
+      "references": [
+        {
+          "category": "self",
+          "summary": "Canonical URL",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-45046"
+        },
+        {
+          "category": "external",
+          "summary": "RHBZ#2032580",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2032580"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cve.org/CVERecord?id=CVE-2021-45046",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2021-45046"
+        },
+        {
+          "category": "external",
+          "summary": "https://nvd.nist.gov/vuln/detail/CVE-2021-45046",
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45046"
+        },
+        {
+          "category": "external",
+          "summary": "https://access.redhat.com/security/cve/CVE-2021-44228",
+          "url": "https://access.redhat.com/security/cve/CVE-2021-44228"
+        },
+        {
+          "category": "external",
+          "summary": "https://logging.apache.org/log4j/2.x/security.html",
+          "url": "https://logging.apache.org/log4j/2.x/security.html"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.openwall.com/lists/oss-security/2021/12/14/4",
+          "url": "https://www.openwall.com/lists/oss-security/2021/12/14/4"
+        },
+        {
+          "category": "external",
+          "summary": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        }
+      ],
+      "release_date": "2021-12-14T00:00:00+00:00",
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "date": "2021-12-14T18:38:45+00:00",
+          "details": "For OpenShift Container Platform 4.8 see the following documentation, which will be updated shortly for this release, for important instructions on how to upgrade your cluster and fully apply this errata update:\n\nhttps://docs.openshift.com/container-platform/4.8/release_notes/ocp-4-8-release-notes.html\n\nFor Red Hat OpenShift Logging 5.2, see the following instructions to apply this update:\n\nhttps://docs.openshift.com/container-platform/4.7/logging/cluster-logging-upgrading.html",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x"
+          ],
+          "restart_required": {
+            "category": "none"
+          },
+          "url": "https://access.redhat.com/errata/RHSA-2021:5127"
+        },
+        {
+          "category": "workaround",
+          "details": "For Log4j versions up to and including 2.15.0, this issue can be mitigated by removing the JndiLookup class from the classpath (example: zip -q -d log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class).",
+          "product_ids": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "scores": [
+        {
+          "cvss_v3": {
+            "attackComplexity": "HIGH",
+            "attackVector": "NETWORK",
+            "availabilityImpact": "HIGH",
+            "baseScore": 8.1,
+            "baseSeverity": "HIGH",
+            "confidentialityImpact": "HIGH",
+            "integrityImpact": "HIGH",
+            "privilegesRequired": "NONE",
+            "scope": "UNCHANGED",
+            "userInteraction": "NONE",
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "version": "3.1"
+          },
+          "products": [
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-operator-bundle@sha256:0f2ab3b589e2945e2aae7a6d520f1b696c8a95292580c24b659a1579e3c857f6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:82cbec57284b21e914fad6fe3ea8244932a735da4aca2a9c74ced7689767c0b2_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:be71a022fe66b9dca3aecf7df3b9fd81e42f7f46f039ce1ae8778dcc332162e1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/cluster-logging-rhel8-operator@sha256:e99648fe21236aef69ca9f2def30fc4970983d8835f55fbfe8d5c804ebd0e9b6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-operator-bundle@sha256:9dcc85f510f69be9e97888d5ad32629bc23554c47d8ebe397932933b289a35c2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:7fdb8b62f8fb7d1469dba362fb1d91239b31437b0be150732845a6e9eb325ef6_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:887c26a6c4356b64c9802fb3b870f79eb98a8f0f2ad1b2bbebd086c936c68fe5_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-proxy-rhel8@sha256:8d8f0cc525b00a39583ba6cdd87253c17487a9366f5fa0d6011d23e5814fd95d_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:5ee8c4ba3f91bcbb3cfa0eb2b91d3f5b04450fa2f0415e46b40b634b280e54c7_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:d8ce76443afdf4361842c2f6da80d939b2bb86081076d41e5bcb1b9858380c43_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch-rhel8-operator@sha256:ef2c1f7249a377b940bbdd2d52e2ab53ed6283f4e4d1290da6bb3edbb2109294_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:33f40783cb6ac656b56a6c64208f38ef17ab8023171321551be2cd14876a1418_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:42152d9ca72d1d7d9e24386f8144382b1c4309e11b179ad18206efa7758d07c6_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/elasticsearch6-rhel8@sha256:c8a03e59904b96bac438e2607094dff1e652c7c42ddbba31006f7760cf17b9d8_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:0796e6b8d8da736d5841d9ddeb076fdc1ca26022643f0e370bfda023f212df39_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:b565f6ce66b74161a0b6dc19246b42754db2c54a01e7f2314994544ccd514f34_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/eventrouter-rhel8@sha256:ce98ee3a74cbabe1a5eb4d2c647389824b1a3ffe7d2051668a1aac9fe1ec2dc7_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:0e10ff493ad914b7011291590e497c27cca51a587d28e9d2bd1bc89154c2b133_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:685d7f18502ac2a24a37cdb9ae74616098d3843f80e9d9f0e8dd27930ca174a9_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/fluentd-rhel8@sha256:7dd06969de6e2d0345fb6595c24526e184030a1d2c50ffae0d201f0bfd33abb4_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:a2d914120d489c00d8d8c40cf9f1fa1ba627c5e386fc113ae9299113dee253ca_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d5c47750ae81e99b3cc4f9f71127cb394b69b747177c08c53768df8b8b52ba65_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/kibana6-rhel8@sha256:d7fa8453d07409cd344cde67e772fb4d2941398b853ce1ea3bcaf6135d5645c1_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:67e23735a1005bb7f06d3f05677bfe8c38bccc5bfc1cc4cf16832ddeda29931a_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:9c2decd7838d0e1a56c27ff7fa8af82ed2ac33d0618240b80d26fd932f5804f2_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/log-file-metric-exporter-rhel8@sha256:cb884b83fecaa7d6f4aae548fd299568edf59feb5d752704dcd4598b1f826ff1_ppc64le",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:1982a509b8a209720b92fba4812a3fcc5ce0e519908cdec876beb92f895699fa_amd64",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:66e46f68e5313e4f58cfd3b6fccb8edeb97a574210bff799d0bd5471b73f9f62_s390x",
+            "8Base-OSE-LOGGING-5.2:openshift-logging/logging-curator5-rhel8@sha256:d3b3ab31d012a82acb832e705f1a5ba60912d1b32dd035fad9106f1088de35a8_ppc64le"
+          ]
+        }
+      ],
+      "threats": [
+        {
+          "category": "exploit_status",
+          "date": "2023-05-01T00:00:00+00:00",
+          "details": "CISA: https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        },
+        {
+          "category": "impact",
+          "details": "Moderate"
+        }
+      ],
+      "title": "log4j-core: DoS in log4j 2.x with thread context message pattern and context lookup pattern (incomplete fix for CVE-2021-44228)"
+    }
+  ]
+}
