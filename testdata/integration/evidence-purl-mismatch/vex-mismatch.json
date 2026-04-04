@@ -1,0 +1,15 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://suse.com/vex/mismatch-test",
+  "author": "test",
+  "timestamp": "2026-04-04T00:00:00Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {"name": "CVE-2099-99999"},
+      "products": [{"@id": "pkg:golang/nonexistent/package@v1.0.0"}],
+      "status": "not_affected",
+      "justification": "component_not_present"
+    }
+  ]
+}
