@@ -50,7 +50,7 @@ func TestIntegration_PolicykitMixed(t *testing.T) {
 	runPolicykitIntegration(t, "policykit-mixed")
 }
 
-func runPolicykitIntegration(t *testing.T, scenario string) {
+func runPolicykitIntegration(t *testing.T, scenario string) { //nolint:gocyclo // integration test helper validates multiple optional fields per scenario
 	t.Helper()
 	dir := filepath.Join(fixtureBase, scenario)
 
@@ -120,7 +120,7 @@ func runPolicykitIntegration(t *testing.T, scenario string) {
 
 func loadExpectedPolicykit(t *testing.T, dir string) expectedPolicykit {
 	t.Helper()
-	data, err := os.ReadFile(filepath.Join(dir, "expected.json")) //nolint:gosec
+	data, err := os.ReadFile(filepath.Join(dir, "expected.json")) //nolint:gosec // test fixture path constructed from constant base + scenario name
 	require.NoError(t, err, "read expected.json")
 	var expected expectedPolicykit
 	require.NoError(t, json.Unmarshal(data, &expected), "parse expected.json")

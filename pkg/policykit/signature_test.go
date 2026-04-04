@@ -13,7 +13,7 @@ import (
 func TestParseSignature_CosignBundle(t *testing.T) {
 	f, err := os.Open("../../testdata/policykit/cosign-bundle.json")
 	require.NoError(t, err)
-	defer f.Close()
+	defer func() { _ = f.Close() }() //nolint:errcheck // read-only test file
 
 	sig, err := policykit.ParseSignature(f, "cosign-bundle.json")
 	require.NoError(t, err)

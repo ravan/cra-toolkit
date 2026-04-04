@@ -13,7 +13,7 @@ import (
 func TestParseProvenance_SLSA_V1(t *testing.T) {
 	f, err := os.Open("../../testdata/policykit/slsa-provenance-v1.json")
 	require.NoError(t, err)
-	defer f.Close()
+	defer func() { _ = f.Close() }() //nolint:errcheck // read-only test file
 
 	prov, err := policykit.ParseProvenance(f)
 	require.NoError(t, err)

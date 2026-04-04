@@ -82,7 +82,8 @@ func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // pipe
 	}
 
 	// Stage 5: Assemble report.
-	allResults := append(machineResults, HumanReviewItems()...)
+	machineResults = append(machineResults, HumanReviewItems()...)
+	allResults := machineResults
 	summary := ComputeSummary(allResults)
 
 	report := &Report{
@@ -107,7 +108,7 @@ func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // pipe
 }
 
 // parseArtifacts loads and parses all input artifacts from the given options.
-func parseArtifacts(opts *Options) (*ParsedArtifacts, error) {
+func parseArtifacts(opts *Options) (*ParsedArtifacts, error) { //nolint:gocognit,gocyclo // sequential artifact parsing requires checking each optional field
 	a := &ParsedArtifacts{}
 
 	// Parse SBOM.

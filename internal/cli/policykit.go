@@ -74,7 +74,7 @@ func newPolicykitCmd() *urfave.Command {
 			}
 
 			w, closer := OutputWriter(cmd)
-			defer closer() //nolint:errcheck
+			defer closer() //nolint:errcheck // output writer close errors are non-actionable at this point
 
 			return policykit.Run(opts, w)
 		},

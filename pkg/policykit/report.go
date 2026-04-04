@@ -35,7 +35,7 @@ type PolicyResult struct {
 }
 
 // RenderMarkdown produces a human-readable markdown compliance report for auditors.
-func RenderMarkdown(r *Report) string {
+func RenderMarkdown(r *Report) string { //nolint:gocognit,gocyclo // markdown rendering requires iterating over multiple status groups
 	var b strings.Builder
 
 	// Title
@@ -43,7 +43,7 @@ func RenderMarkdown(r *Report) string {
 
 	// Metadata
 	b.WriteString("## Metadata\n\n")
-	b.WriteString(fmt.Sprintf("| Field | Value |\n"))
+	b.WriteString("| Field | Value |\n")
 	b.WriteString("| --- | --- |\n")
 	b.WriteString(fmt.Sprintf("| Report ID | %s |\n", r.ReportID))
 	b.WriteString(fmt.Sprintf("| Generated | %s |\n", r.Timestamp))
@@ -70,7 +70,7 @@ func RenderMarkdown(r *Report) string {
 				continue
 			}
 			severity := pr.Severity
-			if len(severity) > 0 {
+			if severity != "" {
 				severity = strings.ToUpper(severity[:1]) + severity[1:]
 			}
 			b.WriteString(fmt.Sprintf("### %s: %s — %s\n\n", pr.Status, pr.RuleID, pr.Name))
@@ -89,23 +89,24 @@ func RenderMarkdown(r *Report) string {
 	// Requires Human Review section
 	hasHuman := false
 	for _, pr := range r.Results {
-		if pr.Status == "HUMAN" {
-			if !hasHuman {
-				b.WriteString("## Requires Human Review\n\n")
-				hasHuman = true
-			}
-			severity := pr.Severity
-			if len(severity) > 0 {
-				severity = strings.ToUpper(severity[:1]) + severity[1:]
-			}
-			b.WriteString(fmt.Sprintf("### HUMAN: %s — %s\n\n", pr.RuleID, pr.Name))
-			b.WriteString(fmt.Sprintf("- **CRA Reference:** %s\n", pr.CRAReference))
-			b.WriteString(fmt.Sprintf("- **Severity:** %s\n", severity))
-			if pr.Guidance != "" {
-				b.WriteString(fmt.Sprintf("- **Guidance:** %s\n", pr.Guidance))
-			}
-			b.WriteString("\n")
+		if pr.Status != "HUMAN" {
+			continue
 		}
+		if !hasHuman {
+			b.WriteString("## Requires Human Review\n\n")
+			hasHuman = true
+		}
+		severity := pr.Severity
+		if severity != "" {
+			severity = strings.ToUpper(severity[:1]) + severity[1:]
+		}
+		b.WriteString(fmt.Sprintf("### HUMAN: %s — %s\n\n", pr.RuleID, pr.Name))
+		b.WriteString(fmt.Sprintf("- **CRA Reference:** %s\n", pr.CRAReference))
+		b.WriteString(fmt.Sprintf("- **Severity:** %s\n", severity))
+		if pr.Guidance != "" {
+			b.WriteString(fmt.Sprintf("- **Guidance:** %s\n", pr.Guidance))
+		}
+		b.WriteString("\n")
 	}
 
 	return b.String()

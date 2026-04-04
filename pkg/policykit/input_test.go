@@ -8,7 +8,7 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/formats"
 )
 
-func TestBuildInput_FullArtifacts(t *testing.T) { //nolint:gocognit // test validation requires many checks
+func TestBuildInput_FullArtifacts(t *testing.T) { //nolint:gocognit,gocyclo // test validation requires many assertion checks
 	arts := &ParsedArtifacts{
 		Components: []formats.Component{
 			{Name: "golang.org/x/text", Version: "0.3.7", PURL: "pkg:golang/golang.org/x/text@0.3.7", Type: "golang"},

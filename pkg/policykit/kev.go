@@ -99,7 +99,7 @@ func LoadKEV(localPath string) (*KEVCatalog, error) {
 		}
 		return nil, fmt.Errorf("fetching KEV catalog: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }() //nolint:errcheck // network response body
 
 	if resp.StatusCode != http.StatusOK {
 		if info != nil {
@@ -113,20 +113,20 @@ func LoadKEV(localPath string) (*KEVCatalog, error) {
 		return nil, fmt.Errorf("reading KEV response: %w", err)
 	}
 
-	// Cache the response.
-	if err := os.MkdirAll(filepath.Dir(cachePath), 0o755); err == nil {
-		_ = os.WriteFile(cachePath, body, 0o644)
+	// Cache the response (best-effort; ignore errors).
+	if err := os.MkdirAll(filepath.Dir(cachePath), 0o750); err == nil { //nolint:gosec // cache dir
+		_ = os.WriteFile(cachePath, body, 0o600) //nolint:gosec // cache file
 	}
 
 	return ParseKEV(bytes.NewReader(body))
 }
 
 func loadKEVFromFile(path string) (*KEVCatalog, error) {
-	f, err := os.Open(path)
+	f, err := os.Open(path) //nolint:gosec // caller-controlled path (CLI flag or cache path)
 	if err != nil {
 		return nil, fmt.Errorf("opening KEV file %s: %w", path, err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }() //nolint:errcheck // read-only file
 	return ParseKEV(f)
 }
 

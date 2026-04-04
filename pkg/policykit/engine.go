@@ -36,7 +36,7 @@ func (e *Engine) AddCustomPolicies(modules map[string]string) error {
 
 // Evaluate runs all loaded policies against the given input and returns results.
 // It returns an error if duplicate rule_ids are detected across packages.
-func (e *Engine) Evaluate(ctx context.Context, input map[string]any) ([]PolicyResult, error) {
+func (e *Engine) Evaluate(ctx context.Context, input map[string]any) ([]PolicyResult, error) { //nolint:gocognit,gocyclo // OPA result unmarshalling requires sequential package iteration
 	opts := []func(*rego.Rego){
 		rego.Query("data.cra"),
 	}
@@ -72,8 +72,8 @@ func (e *Engine) Evaluate(ctx context.Context, input map[string]any) ([]PolicyRe
 	}
 	sort.Strings(pkgNames)
 
-	var results []PolicyResult
-	seen := make(map[string]string) // rule_id -> package name
+	results := make([]PolicyResult, 0, len(pkgNames))
+	seen := make(map[string]string, len(pkgNames)) // rule_id -> package name
 
 	for _, pkgName := range pkgNames {
 		pkgVal := packages[pkgName]

@@ -11,7 +11,7 @@ func TestParseKEV_RealSnapshot(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open snapshot: %v", err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }() //nolint:errcheck // read-only test file
 
 	cat, err := ParseKEV(f)
 	if err != nil {
@@ -68,7 +68,7 @@ func TestMatchFindings(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open snapshot: %v", err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }() //nolint:errcheck // read-only test file
 
 	cat, err := ParseKEV(f)
 	if err != nil {
