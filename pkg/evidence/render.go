@@ -49,7 +49,7 @@ func RenderCompletenessMarkdown(report CompletenessReport) string {
 }
 
 // RenderSummaryMarkdown produces a human-readable Annex VII summary.
-func RenderSummaryMarkdown(summary AnnexVIISummary) string {
+func RenderSummaryMarkdown(summary *AnnexVIISummary) string {
 	var b strings.Builder
 
 	b.WriteString("# CRA Annex VII Technical Documentation Summary\n\n")
