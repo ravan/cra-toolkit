@@ -1,0 +1,6 @@
+{
+  "reachable": true,
+  "confidence": "high",
+  "cve": "CVE-2020-1747",
+  "package": "pkg:pypi/PyYAML@5.3"
+}
