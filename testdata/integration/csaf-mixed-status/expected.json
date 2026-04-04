@@ -1,0 +1,14 @@
+{
+  "description": "Mixed VEX statuses: CVE-2022-32149 not_affected, CVE-2022-27664 affected.",
+  "assertions": {
+    "document_category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "vulnerability_count": 2,
+    "cves": ["CVE-2022-32149", "CVE-2022-27664"],
+    "has_product_tree": true,
+    "has_scores": true,
+    "has_remediations": true,
+    "has_threats": true,
+    "has_notes": true
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://suse.com/vex/20260404T114134Z",
+  "author": "SUSE CRA Toolkit",
+  "role": "Document Creator",
+  "timestamp": "2026-04-04T11:41:34Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2022-32149"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/golang.org/x/text@v0.3.7"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2022-32149"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/golang.org/x/text/language@v0.3.7"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    }
+  ]
+}
