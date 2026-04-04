@@ -11,6 +11,7 @@ type Finding struct {
 	FixVersion       string   // version that fixes the vulnerability (empty if no fix)
 	Severity         string   // "critical", "high", "medium", "low", "unknown"
 	CVSS             float64  // CVSS score (0-10)
+	CVSSVector       string   // CVSS vector string (e.g. "CVSS:3.1/AV:N/AC:L/...")
 	Description      string   // vulnerability description
 	DataSource       string   // where this finding came from (e.g. "grype", "trivy", "sarif")
 	Symbols          []string // vulnerable function/symbol names (if known)

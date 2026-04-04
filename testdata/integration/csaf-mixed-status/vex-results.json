@@ -1,0 +1,23 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://example.com/vex/mixed-status-test",
+  "author": "CRA Toolkit Test",
+  "role": "Document Creator",
+  "timestamp": "2024-01-15T10:00:00.000Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {"name": "CVE-2022-32149"},
+      "products": [{"@id": "pkg:golang/golang.org/x/text@v0.3.7"}],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "The vulnerable function ParseAcceptLanguage is not called."
+    },
+    {
+      "vulnerability": {"name": "CVE-2022-27664"},
+      "products": [{"@id": "pkg:golang/golang.org/x/net@v0.0.0-20220722155237-a158d28d115b"}],
+      "status": "affected",
+      "impact_statement": "The vulnerable HTTP/2 handler is in the call path."
+    }
+  ]
+}

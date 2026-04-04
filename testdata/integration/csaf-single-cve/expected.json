@@ -1,0 +1,14 @@
+{
+  "description": "Single CVE (CVE-2022-32149) affecting golang.org/x/text@v0.3.7. Baseline CSAF security advisory generation test with VEX results from cra vex.",
+  "assertions": {
+    "document_category": "csaf_security_advisory",
+    "csaf_version": "2.0",
+    "vulnerability_count": 1,
+    "cves": ["CVE-2022-32149"],
+    "has_product_tree": true,
+    "has_scores": true,
+    "has_remediations": true,
+    "has_threats": true,
+    "has_notes": true
+  }
+}
