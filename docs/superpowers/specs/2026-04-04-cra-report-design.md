@@ -13,6 +13,20 @@
 
 **Phase 1 constraints:** Deterministic, no LLM. Template-based generation from structured data. Human input file for fields requiring judgment (root cause, threat actor info).
 
+## Regulatory Honesty Notes
+
+These constraints are documented upfront so the tool does not create false confidence:
+
+1. **Submission channel.** Per Art. 14(1) and Art. 14(7), all notifications are submitted via the ENISA Single Reporting Platform (SRP) established under Art. 16. This tool generates notification *documents* — it does not submit them. The SRP API schema is not yet published (Art. 14(10) allows the Commission to specify format by implementing acts). When the SRP schema is available, a format adapter will be added. Until then, the tool produces documents for manual upload to the SRP portal.
+
+2. **Exploitation determination is the manufacturer's responsibility.** Art. 14(1) says the manufacturer notifies vulnerabilities "that it becomes aware of." The tool aggregates exploitation *signals* (CISA KEV matches, EPSS scores, manual flags) to support the manufacturer's determination. It does not make the regulatory determination itself. Output labels signals with their source and confidence, not as definitive classifications.
+
+3. **14-day final report deadline.** Art. 14(2)(c) triggers "no later than 14 days after a corrective or mitigating measure is available" — NOT 14 days from awareness. The tool accepts the corrective measure availability date as input.
+
+4. **Completeness score is a toolkit quality metric.** The CRA does not define completeness percentages or thresholds. The completeness tracking in this tool is our own quality metric to help users identify unfilled fields. It is not a regulatory compliance measure.
+
+5. **Format may change.** Art. 14(10) empowers the Commission to specify notification format via implementing acts. Our structured format is based on the Art. 14(2) required fields as written in the regulation. It will need adaptation when implementing acts are published.
+
 ## Architecture: Stage-Based Pipeline
 
 Stateless, single-stage generation. The user passes `--stage` to select which notification stage to produce. No state tracking between stages — the caller (CI/CD or Phase 2 agent) manages sequencing.
@@ -29,15 +43,15 @@ Run(opts, io.Writer)
 |     +- parseProductConfig (extended with manufacturer)
 |     +- parseHumanInput (optional, 14-day stage only)
 |
-+- 2. classifyExploitation(findings, kev, epssThreshold, manualFlags)
-|     -> []ExploitedVuln (filtered to only exploited CVEs)
++- 2. aggregateExploitationSignals(findings, kev, epss, manualFlags)
+|     -> []ExploitedVuln (filtered to CVEs with at least one exploitation signal)
 |
 +- 3. buildStage(stage, exploitedVulns, context)
 |     +- StageEarlyWarning  -> BuildEarlyWarning(vulns, manufacturer)
 |     +- StageNotification  -> BuildNotification(vulns, manufacturer, sbomContext)
 |     +- StageFinalReport   -> BuildFinalReport(vulns, manufacturer, sbomContext, humanInput)
 |
-+- 4. routeCSIRT(manufacturer.MemberState) -> CSIRTEndpoint
++- 4. lookupCSIRT(manufacturer.MemberState) -> CSIRTInfo (informational metadata only)
 |
 +- 5. buildUserNotification(vulns, csafRef) -> UserNotification
 |
@@ -48,9 +62,12 @@ Run(opts, io.Writer)
 
 ### Key Design Decisions
 
-- **No exploited vulns = no notification.** If the classifier finds zero exploited CVEs, `Run` returns `ErrNoExploitedVulns`. No document generated.
-- **EPSS is optional.** If `--epss-path` is omitted, EPSS classification is skipped. Only KEV and manual sources used.
-- **Stage validation.** The 14-day final report includes human input where available. Missing fields get `[HUMAN INPUT REQUIRED]` placeholders. Completeness score reflects it.
+- **No exploitation signals = no notification.** If the aggregator finds zero CVEs with exploitation signals, `Run` returns `ErrNoExploitedVulns`. No document generated.
+- **Signals, not determinations.** The tool presents exploitation signals with their sources. The manufacturer makes the regulatory determination per Art. 14(1).
+- **EPSS is optional.** If `--epss-path` is omitted, EPSS signal aggregation is skipped. Only KEV and manual sources used.
+- **14-day deadline anchors to corrective measure date.** Per Art. 14(2)(c), not discovery date. The tool accepts this date as input and includes it in the output.
+- **Stage validation.** The 14-day final report includes human input where available. Missing fields get `[HUMAN INPUT REQUIRED]` placeholders. Completeness score (toolkit metric) reflects it.
+- **Submission is the user's responsibility.** The tool generates documents. Submission to the ENISA SRP is out of scope until the SRP API is published.
 - **Shared code refactoring.** `LoadKEV` moves from `pkg/policykit` to `pkg/vuln`. Product config parsing moves to a shared location. Both `pkg/report` and `pkg/policykit` import from shared packages.
 
 ## Data Model
@@ -67,22 +84,27 @@ const (
 )
 ```
 
-### Exploitation Classification
+### Exploitation Signal Aggregation
+
+The tool does NOT determine whether a vulnerability is "actively exploited" in the regulatory
+sense — that is the manufacturer's responsibility per Art. 14(1). The tool aggregates signals
+from external data sources to support the manufacturer's determination.
 
 ```go
 type ExploitationSource string
 
 const (
-    ExploitationKEV    ExploitationSource = "kev"
-    ExploitationEPSS   ExploitationSource = "epss"
-    ExploitationManual ExploitationSource = "manual"
+    ExploitationKEV    ExploitationSource = "kev"     // CISA KEV catalog match — strong signal
+    ExploitationEPSS   ExploitationSource = "epss"    // EPSS score above threshold — probabilistic signal
+    ExploitationManual ExploitationSource = "manual"   // Manufacturer's explicit determination
 )
 
 type ExploitedVuln struct {
     CVE               string
-    Source            ExploitationSource
+    Source            ExploitationSource  // Which signal triggered inclusion
     EPSSScore         float64            // 0-1, only set when Source=epss
     KEVDateAdded      string             // only set when Source=kev
+    ManualReason      string             // only set when Source=manual
     AffectedProducts  []AffectedProduct
     Severity          string
     CVSS              float64
@@ -98,27 +120,30 @@ type AffectedProduct struct {
 }
 ```
 
-**Classification priority:** KEV > Manual > EPSS. A CVE matched by multiple sources gets the highest-confidence label.
+**Signal priority:** When multiple signals match a CVE, the output records the strongest:
+KEV > Manual > EPSS. All matching signals are preserved in the output for transparency.
 
 **Edge cases:**
-- CVE in KEV and manual: KEV wins (authoritative source)
-- CVE in KEV but EPSS below threshold: still exploited (KEV is definitive)
-- CVE with EPSS above threshold but not in KEV: classified as EPSS, labeled probabilistic
-- Zero exploited CVEs: `ErrNoExploitedVulns` returned
+- CVE in KEV and manual: KEV is primary signal (authoritative source), manual reason also recorded
+- CVE in KEV but EPSS below threshold: KEV signal is sufficient regardless of EPSS
+- CVE with EPSS above threshold but not in KEV: EPSS signal — output clearly labels this as probabilistic, not confirmed exploitation
+- Zero signaled CVEs: `ErrNoExploitedVulns` returned — no document generated
 
 ### Notification Document
 
 ```go
 type Notification struct {
-    NotificationID   string              `json:"notification_id"`
-    ToolkitVersion   string              `json:"toolkit_version"`
-    Timestamp        string              `json:"timestamp"`
-    Stage            Stage               `json:"stage"`
-    Manufacturer     Manufacturer        `json:"manufacturer"`
-    CSIRTEndpoint    CSIRTEndpoint       `json:"csirt_endpoint"`
-    Vulnerabilities  []VulnEntry         `json:"vulnerabilities"`
-    UserNotification *UserNotification   `json:"user_notification,omitempty"`
-    Completeness     Completeness        `json:"completeness"`
+    NotificationID    string              `json:"notification_id"`
+    ToolkitVersion    string              `json:"toolkit_version"`
+    Timestamp         string              `json:"timestamp"`
+    Stage             Stage               `json:"stage"`
+    CRAReference      string              `json:"cra_reference"`       // e.g., "Art. 14(2)(a)"
+    SubmissionChannel string              `json:"submission_channel"`  // Always "ENISA Single Reporting Platform (Art. 16)"
+    Manufacturer      Manufacturer        `json:"manufacturer"`
+    CSIRTCoordinator  CSIRTInfo           `json:"csirt_coordinator"`   // Informational — identifies the designated CSIRT
+    Vulnerabilities   []VulnEntry         `json:"vulnerabilities"`
+    UserNotification  *UserNotification   `json:"user_notification,omitempty"`
+    Completeness      Completeness        `json:"completeness"`
 }
 ```
 
@@ -127,27 +152,34 @@ type Notification struct {
 ```go
 type VulnEntry struct {
     // All stages (24h early warning)
-    CVE                string             `json:"cve"`
-    ExploitationSource ExploitationSource `json:"exploitation_source"`
-    Severity           string             `json:"severity"`
-    CVSS               float64            `json:"cvss"`
-    ActivelyExploited  bool               `json:"actively_exploited"`
-    AffectedProducts   []AffectedProduct  `json:"affected_products"`
-    MemberStates       []string           `json:"member_states,omitempty"`
+    CVE                  string               `json:"cve"`
+    ExploitationSignals  []ExploitationSignal  `json:"exploitation_signals"`
+    Severity             string               `json:"severity"`
+    CVSS                 float64              `json:"cvss"`
+    AffectedProducts     []AffectedProduct    `json:"affected_products"`
+    MemberStates         []string             `json:"member_states,omitempty"`
 
     // 72h notification adds:
     Description          string   `json:"description,omitempty"`
-    GeneralNature        string   `json:"general_nature,omitempty"`
+    GeneralNature        string   `json:"general_nature,omitempty"`       // from CVE description, supplemented by CVSS vector metadata
     CorrectiveActions    []string `json:"corrective_actions,omitempty"`
     MitigatingMeasures   []string `json:"mitigating_measures,omitempty"`
     EstimatedImpact      *Impact  `json:"estimated_impact,omitempty"`
     InformationSensitivity string `json:"information_sensitivity,omitempty"`
 
     // 14-day final report adds:
+    CorrectiveMeasureDate string   `json:"corrective_measure_date,omitempty"` // Art. 14(2)(c) deadline anchor
     RootCause            string   `json:"root_cause,omitempty"`
     ThreatActorInfo      string   `json:"threat_actor_info,omitempty"`
     SecurityUpdate       string   `json:"security_update,omitempty"`
     PreventiveMeasures   []string `json:"preventive_measures,omitempty"`
+}
+
+// ExploitationSignal records one data source's indication of active exploitation.
+// Multiple signals may exist for a single CVE (e.g., both KEV and EPSS).
+type ExploitationSignal struct {
+    Source    ExploitationSource `json:"source"`
+    Detail   string             `json:"detail"`    // e.g., "Added to KEV 2021-12-10" or "EPSS 0.975" or user-provided reason
 }
 
 type Impact struct {
@@ -158,6 +190,12 @@ type Impact struct {
 
 ### Completeness
 
+**This is a toolkit quality metric, not a regulatory requirement.** The CRA does not define
+completeness percentages or thresholds. This metric helps users identify which fields still
+need attention before submission. A "complete" notification per this metric does not guarantee
+regulatory compliance — the manufacturer is responsible for ensuring all Art. 14(2) required
+information is accurate and sufficient.
+
 ```go
 type Completeness struct {
     Score            float64  `json:"score"`          // 0.0-1.0
@@ -166,6 +204,7 @@ type Completeness struct {
     MachineGenerated int      `json:"machine_generated"`
     HumanProvided    int      `json:"human_provided"`
     Pending          []string `json:"pending,omitempty"`
+    Note             string   `json:"note"`           // Always set: "Toolkit quality metric. CRA Art. 14 does not define completeness thresholds."
 }
 ```
 
@@ -181,12 +220,14 @@ type Manufacturer struct {
     MemberStatesAvailable []string `json:"member_states_available,omitempty" yaml:"member_states_available,omitempty"`
 }
 
-type CSIRTEndpoint struct {
-    Name        string `json:"name"`
-    Country     string `json:"country"`
-    NotifyURL   string `json:"notify_url"`
-    Email       string `json:"email"`
-    ENISANotify bool   `json:"enisa_simultaneous"`
+// CSIRTInfo identifies the designated CSIRT coordinator for the manufacturer's
+// Member State. This is informational metadata for the notification document.
+// Actual submission is via the ENISA Single Reporting Platform (Art. 16),
+// NOT directly to the CSIRT.
+type CSIRTInfo struct {
+    Name              string `json:"name"`               // e.g., "BSI (CERT-Bund)"
+    Country           string `json:"country"`            // ISO 3166-1 alpha-2
+    SubmissionChannel string `json:"submission_channel"` // Always "ENISA Single Reporting Platform (Art. 16)"
 }
 
 type UserNotification struct {
@@ -199,17 +240,19 @@ type UserNotification struct {
 
 ### CSIRT Lookup Table
 
-Embedded Go data covering all 27 EU + 3 EEA Member States. Source: ENISA CSIRT-network directory + NIS2 Directive Art. 12(1). Examples:
+Embedded Go data covering all 27 EU + 3 EEA Member States mapping ISO country code to the designated CSIRT coordinator name. Source: ENISA CSIRT-network member list.
 
-| Code | CSIRT | URL |
-|------|-------|-----|
-| DE | BSI (CERT-Bund) | cert-bund.de |
-| FR | CERT-FR (ANSSI) | cert.ssi.gouv.fr |
-| NL | NCSC-NL | ncsc.nl |
-| AT | CERT.at | cert.at |
-| SE | CERT-SE | cert.se |
+**This is informational metadata only.** The tool identifies which CSIRT is the coordinator for the manufacturer's Member State so the notification document is correctly addressed. The manufacturer does NOT contact the CSIRT directly — per Art. 14(7), submission is via the ENISA Single Reporting Platform (Art. 16), which routes to the appropriate CSIRT.
 
-Routing per Art. 14(7): manufacturer's main EU establishment Member State determines the CSIRT. All notifications indicate `enisa_simultaneous: true` per Art. 14(1).
+| Code | CSIRT Coordinator |
+|------|-------------------|
+| DE | BSI (CERT-Bund) |
+| FR | CERT-FR (ANSSI) |
+| NL | NCSC-NL |
+| AT | CERT.at |
+| SE | CERT-SE |
+
+Per Art. 14(7), the CSIRT coordinator is determined by the manufacturer's main EU establishment Member State. The `submission_channel` field is always set to `"ENISA Single Reporting Platform (Art. 16)"` to prevent confusion about where notifications are actually submitted.
 
 ## CLI Options
 
@@ -227,9 +270,11 @@ type Options struct {
     EPSSThreshold  float64  // default 0.7
 
     // Optional enrichment
-    VEXPath         string
-    HumanInputPath  string  // YAML with root cause, threat actor (14-day stage)
-    CSAFAdvisoryRef string  // companion CSAF advisory ID for Art. 14(8)
+    VEXPath                string
+    HumanInputPath         string  // YAML with root cause, threat actor (14-day stage)
+    CSAFAdvisoryRef        string  // companion CSAF advisory ID for Art. 14(8)
+    CorrectiveMeasureDate  string  // ISO 8601 date when corrective measure became available
+                                   // Art. 14(2)(c) 14-day deadline anchors to this date, not discovery date
 
     // Output
     OutputFormat   string   // "json" or "markdown"
@@ -266,12 +311,18 @@ exploitation_overrides:
 ```yaml
 vulnerabilities:
   CVE-2021-44228:
+    corrective_measure_date: "2021-12-12"   # when the fix/mitigation became available
     root_cause: "Insufficient input validation in JNDI lookup functionality..."
     threat_actor_info: "Multiple APT groups including..."
+    security_update: "Log4j 2.17.0 disables JNDI by default"
     preventive_measures:
       - "Implemented input validation for all JNDI lookups"
       - "Added runtime protection against recursive lookups"
 ```
+
+Note: `corrective_measure_date` can also be provided via `--corrective-measure-date` CLI flag.
+Per Art. 14(2)(c), the 14-day final report deadline is "no later than 14 days after a corrective
+or mitigating measure is available" — not 14 days from discovery.
 
 ### EPSS Data Format
 
@@ -290,49 +341,51 @@ vulnerabilities:
 
 ### Early Warning -- Art. 14(2)(a) -- 24h
 
-| Field | Source | Automatable |
-|-------|--------|-------------|
-| CVE identifier | Scanner findings | Yes |
-| Actively exploited flag | Classifier | Yes |
-| Exploitation source + confidence | Classifier | Yes |
-| Affected product name/version | SBOM + product config | Yes |
-| Severity (CVSS) | Scanner findings | Yes |
-| Member States where product available | Product config | Yes |
-| Manufacturer identity | Product config | Yes |
-| CSIRT endpoint | Embedded table | Yes |
+| Field | Source | Art. 14 Ref | Automatable |
+|-------|--------|-------------|-------------|
+| CVE identifier | Scanner findings | 14(2)(a) | Yes |
+| Exploitation signals | Signal aggregator (KEV/EPSS/manual) | 14(1) "actively exploited" | Yes — signals only, not regulatory determination |
+| Affected product name/version | SBOM + product config | 14(2)(a) | Yes |
+| Severity (CVSS) | Scanner findings | 14(2)(a) | Yes |
+| Member States where product available | Product config | 14(2)(a) "where applicable" | Yes |
+| Manufacturer identity | Product config | 14(1) | Yes |
+| CSIRT coordinator (informational) | Embedded lookup table | 14(7) | Yes — metadata only, submission via ENISA SRP |
 
-**Expected completeness: ~1.0**
+**Expected completeness: ~1.0** (toolkit metric)
 
 ### Notification -- Art. 14(2)(b) -- 72h
 
 Everything from early warning, plus:
 
-| Field | Source | Automatable |
-|-------|--------|-------------|
-| Vulnerability description | Scanner findings | Yes |
-| General nature of exploit | Derived from CVSS vector: AV (attack vector) maps to network/local/physical, AC (attack complexity) maps to complexity description, PR (privileges required) maps to authentication needs | Yes (approximation) |
-| Corrective actions planned | Derived from fix versions | Yes |
-| Mitigating measures for users | Derived from VEX justifications | Partial (needs VEX) |
-| Estimated impact | Component count from SBOM | Yes |
-| Information sensitivity | Default "high", configurable | Yes |
+| Field | Source | Art. 14 Ref | Automatable |
+|-------|--------|-------------|-------------|
+| Vulnerability description | Scanner findings (CVE description field — Grype/Trivy populate this from NVD/OSV) | 14(2)(b) "general information... about the vulnerability" | Yes |
+| General nature of exploit | CVE description is the primary source. CVSS vector metadata (AV/AC/PR) supplements as structured context. We do not synthesize exploit analysis. | 14(2)(b) "the general nature of the exploit" | Yes (from existing scanner data) |
+| Corrective actions planned | Fix versions from scanner findings | 14(2)(b) "corrective or mitigating measures taken" | Yes (if fix version exists) |
+| Mitigating measures for users | VEX justifications if provided | 14(2)(b) "corrective or mitigating measures that users can take" | Partial (needs VEX input) |
+| Estimated impact | Component count from SBOM, severity distribution | 14(2)(b) "general information about the product" | Yes |
+| Information sensitivity | Default "high" for actively exploited, configurable via product config | 14(2)(b) "how sensitive the manufacturer considers the notified information" | Yes |
 
-**Expected completeness: ~0.85-0.95**
+**Expected completeness: ~0.85-0.95** (toolkit metric — depends on whether VEX and fix versions are available in scanner data)
 
 ### Final Report -- Art. 14(2)(c) -- 14 days
 
 Everything from notification, plus:
 
-| Field | Source | Automatable |
-|-------|--------|-------------|
-| Root cause analysis | Human input file | No (Phase 1) |
-| Vulnerability severity & impact detail | Machine + human refinement | Partial |
-| Threat actor information | Human input file | No (Phase 1) |
-| Security update details | Fix versions + human input | Partial |
-| Corrective measures applied | Human input file | No (Phase 1) |
-| Preventive measures | Human input file | No (Phase 1) |
+**Deadline: 14 days after corrective or mitigating measure is available (NOT 14 days from awareness). Per Art. 14(2)(c).**
 
-**Expected completeness without human input: ~0.55-0.65**
-**Expected completeness with human input: ~0.95-1.0**
+| Field | Source | Art. 14 Ref | Automatable |
+|-------|--------|-------------|-------------|
+| Corrective measure date | `--corrective-measure-date` flag or human input file | 14(2)(c) "after a corrective or mitigating measure is available" | No — manufacturer must provide |
+| Vulnerability severity & impact | Machine (CVSS, component count) + human refinement | 14(2)(c)(i) "description of the vulnerability, including its severity and impact" | Partial |
+| Root cause analysis | Human input file | 14(2)(c)(i) | No (Phase 1) |
+| Threat actor information | Human input file | 14(2)(c)(ii) "where available" | No (Phase 1) |
+| Security update details | Fix versions from scanner + human input | 14(2)(c)(iii) "details about the security update" | Partial |
+| Corrective measures applied | Human input file | 14(2)(c)(iii) "other corrective measures" | No (Phase 1) |
+| Preventive measures | Human input file | (good practice, not explicitly in 14(2)(c)) | No (Phase 1) |
+
+**Expected completeness without human input: ~0.55-0.65** (toolkit metric)
+**Expected completeness with human input: ~0.95-1.0** (toolkit metric)
 
 ## Package Layout
 
@@ -340,8 +393,8 @@ Everything from notification, plus:
 pkg/report/
 +-- report.go              # Run() pipeline, Options, Stage constants
 +-- types.go               # Notification, VulnEntry, Completeness, etc.
-+-- classify.go            # Exploitation classifier (KEV/EPSS/manual)
-+-- classify_test.go
++-- signals.go             # Exploitation signal aggregator (KEV/EPSS/manual)
++-- signals_test.go
 +-- early_warning.go       # BuildEarlyWarning()
 +-- early_warning_test.go
 +-- notification.go        # BuildNotification()
@@ -350,7 +403,7 @@ pkg/report/
 +-- final_report_test.go
 +-- completeness.go        # computeCompleteness()
 +-- completeness_test.go
-+-- csirt.go               # Embedded CSIRT table + routeCSIRT()
++-- csirt.go               # Embedded CSIRT coordinator table + lookupCSIRT() (informational metadata)
 +-- csirt_test.go
 +-- user_notify.go         # buildUserNotification() for Art. 14(8)
 +-- user_notify_test.go
@@ -377,7 +430,7 @@ pkg/report/
 |----------|------------------|-------|---------------|
 | `report-kev-early-warning` | Log4Shell (CVE-2021-44228) in KEV | early-warning | KEV classification, CSIRT routing DE, completeness ~1.0 |
 | `report-epss-notification` | CVE-2022-32149 with EPSS 0.85 | notification | EPSS source labeled, 72h fields populated, impact from SBOM |
-| `report-manual-final` | Manually flagged CVE + human input | final-report | Human input merged, root cause present, completeness ~0.95+ |
+| `report-manual-final` | Manually flagged CVE + human input + corrective measure date | final-report | Human input merged, root cause present, corrective measure date anchors deadline, completeness ~0.95+ |
 | `report-no-exploited` | CVE below EPSS threshold, not in KEV | N/A | `ErrNoExploitedVulns` returned, no document |
 | `report-multi-cve` | Log4Shell (KEV) + second CVE (EPSS) | notification | Both vulns, different sources, severity ordering |
 | `report-mixed-exploited` | 3 CVEs: KEV + EPSS + not exploited | early-warning | 2 exploited in output, 1 filtered out |
@@ -400,14 +453,15 @@ testdata/integration/report-kev-early-warning/
 
 ```json
 {
-  "description": "Log4Shell KEV-confirmed early warning with DE CSIRT routing",
+  "description": "Log4Shell KEV-signaled early warning with DE CSIRT coordinator identified",
   "assertions": {
     "stage": "early-warning",
     "vulnerability_count": 1,
     "cves": ["CVE-2021-44228"],
-    "exploitation_sources": {"CVE-2021-44228": "kev"},
+    "exploitation_signals": {"CVE-2021-44228": ["kev"]},
     "csirt_country": "DE",
     "csirt_name": "BSI (CERT-Bund)",
+    "submission_channel": "ENISA Single Reporting Platform (Art. 16)",
     "has_user_notification": true,
     "min_completeness": 0.95,
     "error": ""
@@ -425,12 +479,12 @@ Uses Gemini CLI (same pattern as csaf and policykit LLM judges). Generates a `no
 
 | Dimension | What It Checks |
 |-----------|---------------|
-| `regulatory_accuracy` | Fields map correctly to Art. 14(2)(a-c) required content |
-| `exploitation_classification` | KEV/EPSS/manual source correctly identified and justified |
-| `completeness_accuracy` | Completeness score honestly reflects filled vs. pending fields |
-| `csirt_routing` | Correct Member State CSIRT identified per Art. 14(7) |
-| `user_notification_quality` | Art. 14(8) section actionable for downstream users |
-| `overall_quality` | Compliance officer would trust this for ENISA submission |
+| `regulatory_accuracy` | Fields map correctly to Art. 14(2)(a-c) required content. Tool does not overstate its role (signals vs. determinations). |
+| `signal_transparency` | Exploitation signals clearly labeled with source and confidence. KEV/EPSS/manual distinguished. No false certainty. |
+| `submission_honesty` | Output correctly identifies ENISA SRP as submission channel, not direct CSIRT contact. CSIRT info is metadata only. |
+| `deadline_accuracy` | 14-day final report deadline correctly anchored to corrective measure date per Art. 14(2)(c), not discovery date. |
+| `user_notification_quality` | Art. 14(8) section actionable for downstream users. References companion CSAF advisory. |
+| `overall_quality` | Compliance officer would trust this as input for ENISA SRP submission. Tool is honest about what it can and cannot automate. |
 
 ## Output Formats
 
@@ -449,8 +503,9 @@ Human-readable report following policykit's `RenderMarkdown` pattern:
 | Field | Value |
 | --- | --- |
 | Notification ID | CRA-NOTIF-20260404T120000Z |
-| Stage | Early Warning (24h) |
+| Stage | Early Warning (24h) — Art. 14(2)(a) |
 | Generated | 2026-04-04T12:00:00Z |
+| Submission Channel | ENISA Single Reporting Platform (Art. 16) |
 
 ## Manufacturer
 | Field | Value |
@@ -458,28 +513,36 @@ Human-readable report following policykit's `RenderMarkdown` pattern:
 | Name | SUSE LLC |
 | Member State | DE |
 
-## CSIRT Routing
+## CSIRT Coordinator (Informational)
 | Field | Value |
 | --- | --- |
 | CSIRT | BSI (CERT-Bund) |
 | Country | DE |
-| ENISA Simultaneous | Yes |
 
-## Actively Exploited Vulnerabilities
+> **Note:** Per Art. 14(7), this notification is submitted via the ENISA Single
+> Reporting Platform, which routes to the CSIRT coordinator simultaneously with ENISA.
+
+## Vulnerabilities with Exploitation Signals
 
 ### CVE-2021-44228
-- **Exploitation Source:** KEV (confirmed)
+- **Exploitation Signals:** KEV (Added 2021-12-10)
 - **Severity:** Critical (CVSS 10.0)
 - **Affected Products:** ...
+
+> **Note:** Exploitation signals are provided to support the manufacturer's
+> determination per Art. 14(1). The manufacturer is responsible for the
+> regulatory decision to notify.
 
 ## User Notification (Art. 14(8))
 ...
 
-## Completeness
+## Completeness (Toolkit Quality Metric)
 | Metric | Value |
 | --- | --- |
 | Score | 100% |
 | Machine Generated | 8 |
 | Human Provided | 0 |
 | Pending | 0 |
+
+> This is a toolkit quality metric. CRA Art. 14 does not define completeness thresholds.
 ```
