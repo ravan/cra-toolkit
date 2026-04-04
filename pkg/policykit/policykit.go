@@ -220,10 +220,10 @@ func parseSBOMWithMeta(path string) ([]formats.Component, string, sbomMeta, erro
 	switch format {
 	case formats.FormatCycloneDX:
 		components, err = cyclonedx.Parser{}.Parse(f)
-		formatName = "CycloneDX"
+		formatName = "cyclonedx"
 	case formats.FormatSPDX:
 		components, err = spdx.Parser{}.Parse(f)
-		formatName = "SPDX"
+		formatName = "spdx"
 	default:
 		return nil, "", sbomMeta{}, fmt.Errorf("unsupported SBOM format: %s", format)
 	}

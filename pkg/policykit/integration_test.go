@@ -18,10 +18,10 @@ type expectedPolicykit struct {
 	Description string `json:"description"`
 	Assertions  struct {
 		TotalResults     int               `json:"total_results"`
-		Passed           int               `json:"passed"`
-		Failed           int               `json:"failed"`
-		Skipped          int               `json:"skipped"`
-		Human            int               `json:"human"`
+		Passed           *int              `json:"passed"`
+		Failed           *int              `json:"failed"`
+		Skipped          *int              `json:"skipped"`
+		Human            *int              `json:"human"`
 		ExpectedStatuses map[string]string `json:"expected_statuses"`
 	} `json:"assertions"`
 }
@@ -86,17 +86,17 @@ func runPolicykitIntegration(t *testing.T, scenario string) {
 	if expected.Assertions.TotalResults > 0 {
 		assert.Equal(t, expected.Assertions.TotalResults, report.Summary.Total, "total results count")
 	}
-	if expected.Assertions.Passed >= 0 {
-		assert.Equal(t, expected.Assertions.Passed, report.Summary.Passed, "passed count")
+	if expected.Assertions.Passed != nil {
+		assert.Equal(t, *expected.Assertions.Passed, report.Summary.Passed, "passed count")
 	}
-	if expected.Assertions.Failed >= 0 {
-		assert.Equal(t, expected.Assertions.Failed, report.Summary.Failed, "failed count")
+	if expected.Assertions.Failed != nil {
+		assert.Equal(t, *expected.Assertions.Failed, report.Summary.Failed, "failed count")
 	}
-	if expected.Assertions.Skipped >= 0 {
-		assert.Equal(t, expected.Assertions.Skipped, report.Summary.Skipped, "skipped count")
+	if expected.Assertions.Skipped != nil {
+		assert.Equal(t, *expected.Assertions.Skipped, report.Summary.Skipped, "skipped count")
 	}
-	if expected.Assertions.Human >= 0 {
-		assert.Equal(t, expected.Assertions.Human, report.Summary.Human, "human count")
+	if expected.Assertions.Human != nil {
+		assert.Equal(t, *expected.Assertions.Human, report.Summary.Human, "human count")
 	}
 
 	// Validate per-rule statuses

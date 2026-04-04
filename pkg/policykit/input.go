@@ -135,7 +135,7 @@ func buildSBOM(a *ParsedArtifacts) map[string]any {
 		})
 	}
 	return map[string]any{
-		"format":  strings.ToLower(a.SBOMFormat),
+		"format":  a.SBOMFormat,
 		"version": a.SBOMVersion,
 		"metadata": map[string]any{
 			"name":     a.SBOMName,
