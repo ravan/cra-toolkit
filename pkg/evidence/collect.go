@@ -47,8 +47,6 @@ func BuildProductIdentity(cfg *EvidenceConfig) ProductIdentity {
 // ResolveArtifacts checks that all specified artifact paths exist and returns
 // an artifactInput slice describing each artifact.
 func ResolveArtifacts(opts *Options) ([]artifactInput, error) {
-	var arts []artifactInput
-
 	type inputSpec struct {
 		path        string
 		annexRef    string
@@ -69,6 +67,8 @@ func ResolveArtifacts(opts *Options) ([]artifactInput, error) {
 		{opts.CVDPolicy, "2b", "manufacturer", "Coordinated vulnerability disclosure policy"},
 		{opts.StandardsDoc, "5", "manufacturer", "Harmonised standards applied"},
 	}
+
+	arts := make([]artifactInput, 0, len(singles)+len(opts.ScanPaths))
 
 	for _, s := range singles {
 		if s.path == "" {
@@ -123,7 +123,7 @@ func detectFormatSafe(path string) string {
 }
 
 // parseSBOMComponents parses SBOM components from a CycloneDX or SPDX file.
-func parseSBOMComponents(path string) ([]componentInfo, error) {
+func parseSBOMComponents(path string) ([]componentInfo, error) { //nolint:unused // used in tasks 3-6
 	format, f, err := openDetected(path)
 	if err != nil {
 		return nil, err
@@ -144,7 +144,8 @@ func parseSBOMComponents(path string) ([]componentInfo, error) {
 	}
 
 	infos := make([]componentInfo, 0, len(components))
-	for _, c := range components {
+	for i := range components {
+		c := components[i]
 		infos = append(infos, componentInfo{
 			Name:    c.Name,
 			Version: c.Version,
@@ -155,33 +156,15 @@ func parseSBOMComponents(path string) ([]componentInfo, error) {
 }
 
 // parseScanFindings parses vulnerability findings from Grype, Trivy, or SARIF files.
-func parseScanFindings(paths []string) ([]findingInfo, error) {
+func parseScanFindings(paths []string) ([]findingInfo, error) { //nolint:unused // used in tasks 3-6
 	var all []findingInfo
 	for _, path := range paths {
-		format, f, err := openDetected(path)
+		findings, err := parseSingleScanFile(path)
 		if err != nil {
-			return nil, fmt.Errorf("scan %s: %w", path, err)
+			return nil, err
 		}
-
-		var findings []formats.Finding
-		switch format {
-		case formats.FormatGrype:
-			findings, err = grype.Parser{}.Parse(f)
-		case formats.FormatTrivy:
-			findings, err = trivy.Parser{}.Parse(f)
-		case formats.FormatSARIF:
-			findings, err = sarif.Parser{}.Parse(f)
-		default:
-			f.Close() //nolint:errcheck // read-only
-			return nil, fmt.Errorf("unsupported scan format: %s", format)
-		}
-		f.Close() //nolint:errcheck // read-only
-
-		if err != nil {
-			return nil, fmt.Errorf("parse scan %s: %w", path, err)
-		}
-
-		for _, fi := range findings {
+		for i := range findings {
+			fi := findings[i]
 			all = append(all, findingInfo{
 				CVE:          fi.CVE,
 				AffectedPURL: fi.AffectedPURL,
@@ -192,8 +175,33 @@ func parseScanFindings(paths []string) ([]findingInfo, error) {
 	return all, nil
 }
 
+// parseSingleScanFile parses vulnerability findings from a single scan file.
+func parseSingleScanFile(path string) ([]formats.Finding, error) { //nolint:unused // used in tasks 3-6
+	format, f, err := openDetected(path)
+	if err != nil {
+		return nil, fmt.Errorf("scan %s: %w", path, err)
+	}
+	defer f.Close() //nolint:errcheck // read-only
+
+	var findings []formats.Finding
+	switch format {
+	case formats.FormatGrype:
+		findings, err = grype.Parser{}.Parse(f)
+	case formats.FormatTrivy:
+		findings, err = trivy.Parser{}.Parse(f)
+	case formats.FormatSARIF:
+		findings, err = sarif.Parser{}.Parse(f)
+	default:
+		return nil, fmt.Errorf("unsupported scan format: %s", format)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("parse scan %s: %w", path, err)
+	}
+	return findings, nil
+}
+
 // parseVEXData parses VEX statements from an OpenVEX or CSAF VEX file.
-func parseVEXData(path string) ([]vexInfo, error) {
+func parseVEXData(path string) ([]vexInfo, error) { //nolint:unused // used in tasks 3-6
 	format, f, err := openDetected(path)
 	if err != nil {
 		return nil, err
@@ -225,7 +233,7 @@ func parseVEXData(path string) ([]vexInfo, error) {
 }
 
 // parsePolicyReportData parses a policy report JSON file.
-func parsePolicyReportData(path string) (*policyReportData, error) {
+func parsePolicyReportData(path string) (*policyReportData, error) { //nolint:unused // used in tasks 3-6
 	data, err := os.ReadFile(path) //nolint:gosec // CLI flag
 	if err != nil {
 		return nil, fmt.Errorf("read policy report: %w", err)
@@ -256,7 +264,7 @@ func parsePolicyReportData(path string) (*policyReportData, error) {
 
 // openDetected opens a file and detects its format, returning both.
 // The caller is responsible for closing the returned file.
-func openDetected(path string) (formats.Format, *os.File, error) {
+func openDetected(path string) (formats.Format, *os.File, error) { //nolint:unused // used in tasks 3-6
 	df, err := os.Open(path) //nolint:gosec // CLI flag
 	if err != nil {
 		return formats.FormatUnknown, nil, fmt.Errorf("open for detection: %w", err)
@@ -273,6 +281,4 @@ func openDetected(path string) (formats.Format, *os.File, error) {
 	return format, pf, nil
 }
 
-var jsonUnmarshal = func(data []byte, v any) error {
-	return json.Unmarshal(data, v)
-}
+var jsonUnmarshal = json.Unmarshal //nolint:unused // used in tasks 3-6

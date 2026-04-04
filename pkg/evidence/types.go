@@ -200,7 +200,7 @@ type EvidenceSection struct {
 }
 
 // bundleContext is the internal context built during the collect stage.
-type bundleContext struct {
+type bundleContext struct { //nolint:unused // used in tasks 3-6
 	config     *EvidenceConfig
 	product    ProductIdentity
 	artifacts  []artifactInput
@@ -220,28 +220,28 @@ type artifactInput struct {
 }
 
 // componentInfo holds parsed SBOM component data for cross-validation.
-type componentInfo struct {
+type componentInfo struct { //nolint:unused // used in tasks 3-6
 	Name    string
 	Version string
 	PURL    string
 }
 
 // findingInfo holds parsed scan finding data for cross-validation.
-type findingInfo struct {
+type findingInfo struct { //nolint:unused // used in tasks 3-6
 	CVE          string
 	AffectedPURL string
 	Severity     string
 }
 
 // vexInfo holds parsed VEX result data for cross-validation.
-type vexInfo struct {
+type vexInfo struct { //nolint:unused // used in tasks 3-6
 	CVE           string
 	ComponentPURL string
 	Status        string
 }
 
 // policyReportData holds parsed policy report data for summary stats.
-type policyReportData struct {
+type policyReportData struct { //nolint:unused // used in tasks 3-6
 	Total   int `json:"total"`
 	Passed  int `json:"passed"`
 	Failed  int `json:"failed"`
