@@ -46,11 +46,14 @@ func TestCrossValidate_SBOMvsVEX_AllMatch(t *testing.T) {
 	)
 	require.NoError(t, err)
 
+	var found bool
 	for _, c := range checks {
 		if c.CheckID == "CV-SBOM-VEX-PURL" {
+			found = true
 			assert.Equal(t, "pass", c.Status, "details: %s", c.Details)
 		}
 	}
+	assert.True(t, found, "CV-SBOM-VEX-PURL check not found in results")
 }
 
 func TestCrossValidate_SkipsWhenMissing(t *testing.T) {

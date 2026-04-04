@@ -74,9 +74,17 @@ func runCrossChecks(sbomPath, vexPath string, scanPaths []string, reportPath str
 	// CV-REPORT-SCAN: Art. 14 notification CVEs must exist in scan results.
 	if reportPath != "" && len(scanPaths) > 0 {
 		c, err := checkReportVsScans(reportPath, a.findings)
-		if err == nil {
-			checks = append(checks, c)
+		if err != nil {
+			c = ValidationCheck{
+				CheckID:     "CV-REPORT-SCAN",
+				Description: "Art. 14 notification CVEs exist in scan results",
+				Status:      "fail",
+				Details:     fmt.Sprintf("Cannot read Art. 14 report: %v", err),
+				ArtifactA:   "art14-report",
+				ArtifactB:   "scans",
+			}
 		}
+		checks = append(checks, c)
 	}
 
 	return checks, nil
