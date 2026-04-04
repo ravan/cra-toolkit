@@ -17,6 +17,10 @@ type bfsNode struct {
 }
 
 // FindReachablePaths performs BFS from each entry point to the target symbol.
+//
+// Note: BFS uses a shared visited set per entry point, so when MaxPaths > 1,
+// only distinct non-branching paths through new nodes are found. For most
+// reachability checks (is it reachable at all?), this is sufficient.
 func FindReachablePaths(g *Graph, entryPoints []SymbolID, target SymbolID, cfg ReachabilityConfig) []reachability.CallPath {
 	if cfg.MaxDepth == 0 {
 		cfg.MaxDepth = 50
@@ -36,6 +40,7 @@ func FindReachablePaths(g *Graph, entryPoints []SymbolID, target SymbolID, cfg R
 	return allPaths
 }
 
+// bfs performs BFS from start to target, returning up to maxPaths shortest paths.
 func bfs(g *Graph, start, target SymbolID, maxDepth, maxPaths int) []reachability.CallPath {
 	if start == target {
 		sym := g.GetSymbol(start)
@@ -60,28 +65,35 @@ func bfs(g *Graph, start, target SymbolID, maxDepth, maxPaths int) []reachabilit
 			continue
 		}
 
-		for _, edge := range g.ForwardEdges(current.id) {
-			if edge.To == target {
-				fullPath := append(current.path, target)
-				callPath := symbolsToCallPath(g, fullPath)
-				results = append(results, callPath)
-				if len(results) >= maxPaths {
-					return results
-				}
-				continue
-			}
-
-			if !visited[edge.To] {
-				visited[edge.To] = true
-				newPath := make([]SymbolID, len(current.path)+1)
-				copy(newPath, current.path)
-				newPath[len(current.path)] = edge.To
-				queue = append(queue, bfsNode{id: edge.To, path: newPath})
-			}
-		}
+		queue, results = processEdges(g, current, target, visited, queue, results, maxPaths)
 	}
 
 	return results
+}
+
+// processEdges handles all outgoing edges from current, updating the BFS queue and results.
+func processEdges(g *Graph, current bfsNode, target SymbolID, visited map[SymbolID]bool, queue []bfsNode, results []reachability.CallPath, maxPaths int) ([]bfsNode, []reachability.CallPath) {
+	for _, edge := range g.ForwardEdges(current.id) {
+		if edge.To == target {
+			fullPath := make([]SymbolID, len(current.path)+1)
+			copy(fullPath, current.path)
+			fullPath[len(current.path)] = target
+			results = append(results, symbolsToCallPath(g, fullPath))
+			if len(results) >= maxPaths {
+				return queue, results
+			}
+			continue
+		}
+
+		if !visited[edge.To] {
+			visited[edge.To] = true
+			newPath := make([]SymbolID, len(current.path)+1)
+			copy(newPath, current.path)
+			newPath[len(current.path)] = edge.To
+			queue = append(queue, bfsNode{id: edge.To, path: newPath})
+		}
+	}
+	return queue, results
 }
 
 func symbolsToCallPath(g *Graph, ids []SymbolID) reachability.CallPath {

@@ -13,6 +13,7 @@ func TestGraph_AddSymbol(t *testing.T) {
 	got := g.GetSymbol("main.main")
 	if got == nil {
 		t.Fatal("expected to find symbol main.main")
+		return
 	}
 	if got.Name != "main" {
 		t.Errorf("expected name 'main', got %q", got.Name)
