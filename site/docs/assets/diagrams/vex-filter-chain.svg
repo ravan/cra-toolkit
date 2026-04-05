@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 920" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#0C322C"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="920" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">VEX Filter Chain</text>
+  <text x="300" y="48" text-anchor="middle" font-size="11" fill="#2E7D32">Each finding passes through filters in sequence</text>
+
+  <!-- ── Input: Vulnerability Finding ── -->
+  <polygon points="220,65 380,65 400,100 200,100" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="87" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">Vulnerability Finding</text>
+
+  <!-- Arrow: Input -> Filter 1 -->
+  <line x1="300" y1="100" x2="300" y2="125" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Filter 1: Upstream Filter ── -->
+  <rect x="195" y="135" width="210" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="158" text-anchor="middle" font-size="13" font-weight="700" fill="white">1. Upstream Filter</text>
+  <text x="300" y="175" text-anchor="middle" font-size="10" fill="#E8F5E9">Check upstream VEX documents</text>
+  <!-- Badge -->
+  <rect x="370" y="131" width="42" height="16" rx="8" fill="#2E7D32"/>
+  <text x="391" y="142" text-anchor="middle" font-size="8" font-weight="600" fill="white">VEX</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="195" y1="165" x2="95" y2="165" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="153" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="169" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Short-circuit right: affected -->
+  <line x1="405" y1="165" x2="500" y2="165" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="507" y="153" width="68" height="24" rx="6" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <text x="541" y="169" text-anchor="middle" font-size="9" font-weight="600" fill="#C62828">affected</text>
+
+  <!-- Arrow: Filter 1 -> Filter 2 -->
+  <line x1="300" y1="195" x2="300" y2="235" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="218" font-size="9" fill="#666">pass</text>
+
+  <!-- ── Filter 2: Presence Filter ── -->
+  <rect x="195" y="245" width="210" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="268" text-anchor="middle" font-size="13" font-weight="700" fill="white">2. Presence Filter</text>
+  <text x="300" y="285" text-anchor="middle" font-size="10" fill="#E8F5E9">Component present in SBOM?</text>
+  <!-- Badge -->
+  <rect x="370" y="241" width="52" height="16" rx="8" fill="#2E7D32"/>
+  <text x="396" y="252" text-anchor="middle" font-size="8" font-weight="600" fill="white">PURL</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="195" y1="275" x2="95" y2="275" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="263" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="279" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Arrow: Filter 2 -> Filter 3 -->
+  <line x1="300" y1="305" x2="300" y2="345" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="328" font-size="9" fill="#666">pass</text>
+
+  <!-- ── Filter 3: Version Filter ── -->
+  <rect x="195" y="355" width="210" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="378" text-anchor="middle" font-size="13" font-weight="700" fill="white">3. Version Filter</text>
+  <text x="300" y="395" text-anchor="middle" font-size="10" fill="#E8F5E9">Version in vulnerable range?</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="195" y1="385" x2="95" y2="385" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="373" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="389" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Arrow: Filter 3 -> Filter 4 -->
+  <line x1="300" y1="415" x2="300" y2="455" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="438" font-size="9" fill="#666">pass</text>
+
+  <!-- ── Filter 4: Platform Filter ── -->
+  <rect x="195" y="465" width="210" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="488" text-anchor="middle" font-size="13" font-weight="700" fill="white">4. Platform Filter</text>
+  <text x="300" y="505" text-anchor="middle" font-size="10" fill="#E8F5E9">OS/architecture match?</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="195" y1="495" x2="95" y2="495" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="483" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="499" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Arrow: Filter 4 -> Filter 5 -->
+  <line x1="300" y1="525" x2="300" y2="565" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="548" font-size="9" fill="#666">pass</text>
+
+  <!-- ── Filter 5: Patch Filter ── -->
+  <rect x="195" y="575" width="210" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="300" y="598" text-anchor="middle" font-size="13" font-weight="700" fill="white">5. Patch Filter</text>
+  <text x="300" y="615" text-anchor="middle" font-size="10" fill="#E8F5E9">Vulnerability patched?</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="195" y1="605" x2="95" y2="605" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="593" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="609" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Arrow: Filter 5 -> Filter 6 -->
+  <line x1="300" y1="635" x2="300" y2="675" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="658" font-size="9" fill="#666">pass</text>
+
+  <!-- ── Filter 6: Reachability Filter (larger) ── -->
+  <rect x="165" y="685" width="270" height="95" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+  <text x="300" y="710" text-anchor="middle" font-size="14" font-weight="700" fill="white">6. Reachability Filter</text>
+  <text x="300" y="728" text-anchor="middle" font-size="10" fill="#E8F5E9">Tree-sitter call graph analysis</text>
+  <text x="300" y="745" text-anchor="middle" font-size="10" fill="#E8F5E9">8 languages: Go, Rust, Python, JS,</text>
+  <text x="300" y="760" text-anchor="middle" font-size="10" fill="#E8F5E9">Java, C#, PHP, Ruby</text>
+
+  <!-- Short-circuit left: not_affected -->
+  <line x1="165" y1="730" x2="95" y2="730" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="20" y="718" width="68" height="24" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="54" y="734" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">not_affected</text>
+
+  <!-- Short-circuit right: affected -->
+  <line x1="435" y1="730" x2="500" y2="730" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <rect x="507" y="718" width="68" height="24" rx="6" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <text x="541" y="734" text-anchor="middle" font-size="9" font-weight="600" fill="#C62828">affected</text>
+
+  <!-- Arrow: Filter 6 -> Output -->
+  <line x1="300" y1="780" x2="300" y2="820" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="312" y="803" font-size="9" fill="#666">no determination</text>
+
+  <!-- ── Output: under_investigation ── -->
+  <polygon points="210,830 390,830 410,870 190,870" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="300" y="855" text-anchor="middle" font-size="12" font-weight="600" fill="#E65100">under_investigation</text>
+
+  <!-- ── Legend ── -->
+  <rect x="20" y="893" width="14" height="14" rx="3" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="40" y="904" font-size="10" fill="#0C322C">Filter stage</text>
+  <line x1="120" y1="900" x2="160" y2="900" stroke="#0C322C" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="168" y="904" font-size="10" fill="#0C322C">Short-circuit exit</text>
+  <line x1="290" y1="900" x2="330" y2="900" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="338" y="904" font-size="10" fill="#0C322C">Pass-through</text>
+</svg>
