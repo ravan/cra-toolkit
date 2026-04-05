@@ -161,5 +161,5 @@ The CRA establishes significant penalties for non-compliance, enforced by market
 ---
 
 !!! tip "Toolkit Implementation"
-    The SUSE CRA Compliance Toolkit automates key requirements across the CRA.
+    The CRA Compliance Toolkit automates key requirements across the CRA.
     See the [Compliance Mapping](compliance-mapping.md) for a complete requirement-to-tool matrix.

@@ -40,7 +40,7 @@ Checks whether the vulnerability is specific to an OS or CPU architecture that d
 
 #### 5. Patch Filter
 
-Detects whether the vulnerability has been patched in the installed version. This covers cases where a distribution (such as SUSE) backports a security fix into an older package version. The patched package version may still fall within the nominally vulnerable range, but the vulnerability is no longer exploitable.
+Detects whether the vulnerability has been patched in the installed version. This covers cases where a distribution backports a security fix into an older package version. The patched package version may still fall within the nominally vulnerable range, but the vulnerability is no longer exploitable.
 
 #### 6. Reachability Filter
 
