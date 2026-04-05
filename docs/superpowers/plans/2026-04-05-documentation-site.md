@@ -43,7 +43,7 @@ site_name: SUSE CRA Compliance Toolkit
 site_description: >
   Open-source toolkit for EU Cyber Resilience Act compliance.
   Reference guide for the CRA and tools to automate compliance.
-repo_url: https://github.com/ravan/suse-cra-toolkit
+repo_url: https://github.com/ravan/cra-toolkit
 
 theme:
   name: material
@@ -249,7 +249,7 @@ Replace `site/docs/index.md` with problem-first landing page:
 5. **Quick start** section:
 ```bash
 # Install
-go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+go install github.com/ravan/cra-toolkit/cmd/cra@latest
 
 # Run VEX determination
 cra vex --sbom sbom.cdx.json --scan grype.json -o vex.json
@@ -1359,7 +1359,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: scan }
       - name: Install CRA toolkit
-        run: go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+        run: go install github.com/ravan/cra-toolkit/cmd/cra@latest
       - name: VEX determination
         run: cra vex --sbom sbom.cdx.json --scan grype.json --source-dir . -o vex.json
       - uses: actions/upload-artifact@v4
@@ -1378,7 +1378,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: vex }
       - name: Install CRA toolkit
-        run: go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+        run: go install github.com/ravan/cra-toolkit/cmd/cra@latest
       - name: Evaluate policies
         run: |
           cra policykit --sbom sbom.cdx.json --scan grype.json --vex vex.json \
@@ -1399,7 +1399,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: vex }
       - name: Install CRA toolkit
-        run: go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+        run: go install github.com/ravan/cra-toolkit/cmd/cra@latest
       - name: Generate CSAF advisory
         run: |
           cra csaf --sbom sbom.cdx.json --scan grype.json --vex vex.json \
@@ -1417,7 +1417,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
       - name: Install CRA toolkit
-        run: go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+        run: go install github.com/ravan/cra-toolkit/cmd/cra@latest
       - name: Bundle evidence
         run: |
           cra evidence --product-config product.yaml --output-dir ./evidence \

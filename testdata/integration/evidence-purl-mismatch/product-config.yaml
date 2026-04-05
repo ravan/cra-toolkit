@@ -1,5 +1,5 @@
 product:
-  name: "suse-cra-toolkit"
+  name: "cra-toolkit"
   version: "1.0.0"
   manufacturer: "SUSE"
   member_state: "DE"

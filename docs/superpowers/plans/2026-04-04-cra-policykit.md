@@ -63,7 +63,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -233,7 +233,7 @@ var ErrNotImplemented = errors.New("policykit: not implemented")
 
 Run:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 go get github.com/open-policy-agent/opa/v1@latest
 go mod tidy
 ```
@@ -439,7 +439,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -596,7 +596,7 @@ func kevCachePath() string {
 		home, _ := os.UserHomeDir()
 		cacheDir = filepath.Join(home, ".cache")
 	}
-	return filepath.Join(cacheDir, "suse-cra-toolkit", "kev.json")
+	return filepath.Join(cacheDir, "cra-toolkit", "kev.json")
 }
 ```
 
@@ -690,7 +690,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -815,7 +815,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -946,8 +946,8 @@ package policykit_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1054,7 +1054,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"gopkg.in/yaml.v3"
 )
 
@@ -1332,7 +1332,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1983,14 +1983,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 )
 
 //go:embed ../../policies/*.rego
@@ -2342,11 +2342,11 @@ import "embed"
 var Embedded embed.FS
 ```
 
-Then in `policykit.go`, import `github.com/ravan/suse-cra-toolkit/policies` and use `policies.Embedded` instead of a local embed. Remove the `//go:embed` line from policykit.go.
+Then in `policykit.go`, import `github.com/ravan/cra-toolkit/policies` and use `policies.Embedded` instead of a local embed. Remove the `//go:embed` line from policykit.go.
 
 Update the import to:
 ```go
-import "github.com/ravan/suse-cra-toolkit/policies"
+import "github.com/ravan/cra-toolkit/policies"
 ```
 
 And change `loadEmbeddedPolicies` to walk `policies.Embedded`.
@@ -2384,7 +2384,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 func newPolicykitCmd() *urfave.Command {
@@ -2628,7 +2628,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -2795,7 +2795,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 type policykitLLMScores struct {

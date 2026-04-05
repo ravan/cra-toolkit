@@ -53,7 +53,7 @@ Vulnerability scanners consume your SBOM and source code to produce findings. `c
 
 ```bash
 # Install
-go install github.com/ravan/suse-cra-toolkit/cmd/cra@latest
+go install github.com/ravan/cra-toolkit/cmd/cra@latest
 
 # Run VEX determination
 cra vex --sbom sbom.cdx.json --scan grype.json -o vex.json

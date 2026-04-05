@@ -14,8 +14,8 @@ Follow these steps to set up the SUSE CRA Compliance Toolkit and start generatin
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/ravan/suse-cra-toolkit.git
-    cd suse-cra-toolkit
+    git clone https://github.com/ravan/cra-toolkit.git
+    cd cra-toolkit
     ```
 2.  **Build the Tool:**
     ```bash

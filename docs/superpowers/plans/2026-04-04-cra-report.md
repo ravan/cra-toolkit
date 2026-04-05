@@ -889,8 +889,8 @@ package report
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -990,8 +990,8 @@ package report
 import (
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 // AggregateExploitationSignals collects exploitation signals from KEV, EPSS, and manual
@@ -1205,7 +1205,7 @@ package report
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1258,7 +1258,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // BuildNotification creates VulnEntry values for the 72h notification stage.
@@ -1363,7 +1363,7 @@ package report
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1441,7 +1441,7 @@ Create `pkg/report/final_report.go`:
 ```go
 package report
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 const humanInputRequired = "[HUMAN INPUT REQUIRED]"
 
@@ -1983,15 +1983,15 @@ import (
 	"os"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 // Run executes the Art. 14 notification generation pipeline.
@@ -2203,7 +2203,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/report"
 )
 
 func newReportCmd() *urfave.Command {
@@ -2541,7 +2541,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/report"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -2801,7 +2801,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/report"
 )
 
 type reportLLMScores struct {

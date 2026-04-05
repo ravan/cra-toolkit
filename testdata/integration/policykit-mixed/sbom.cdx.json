@@ -19,7 +19,7 @@
         "component": {
             "bom-ref": "e38900e51db6a2c1",
             "type": "file",
-            "name": "suse-cra-toolkit",
+            "name": "cra-toolkit",
             "version": "1.0.0"
         }
     },
@@ -121,7 +121,7 @@
         {
             "bom-ref": "3fc5a8d3d86e9790",
             "type": "file",
-            "name": "/Users/ravan/suse/repo/github/ravan/suse-cra-toolkit/.claude/worktrees/feat+cra-vex/testdata/integration/go-reachable/source/go.mod",
+            "name": "/Users/ravan/suse/repo/github/ravan/cra-toolkit/.claude/worktrees/feat+cra-vex/testdata/integration/go-reachable/source/go.mod",
             "hashes": [
                 {
                     "alg": "SHA-1",

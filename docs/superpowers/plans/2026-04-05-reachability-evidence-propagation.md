@@ -57,7 +57,7 @@ package formats_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestCallPath_String(t *testing.T) {
@@ -159,7 +159,7 @@ func TestCallPath_EntryPoint_EmptyPanics(t *testing.T) {
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/ -run TestCallPath -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/ -run TestCallPath -v`
 Expected: FAIL — `CallPath` and `CallNode` types not defined in `formats` package
 
 - [ ] **Step 3: Implement CallPath types**
@@ -213,7 +213,7 @@ func (p CallPath) EntryPoint() CallNode {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/ -run TestCallPath -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/ -run TestCallPath -v`
 Expected: PASS — all 4 test functions pass
 
 - [ ] **Step 5: Commit**
@@ -280,7 +280,7 @@ func TestVEXResult_ReachabilityFields(t *testing.T) {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/ -run TestVEXResult_ReachabilityFields -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/ -run TestVEXResult_ReachabilityFields -v`
 Expected: FAIL — `AnalysisMethod`, `CallPaths`, `Symbols`, `MaxCallDepth`, `EntryFiles` fields don't exist
 
 - [ ] **Step 3: Add fields to VEXResult**
@@ -309,12 +309,12 @@ type VEXResult struct {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/ -run TestVEXResult_ReachabilityFields -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/ -run TestVEXResult_ReachabilityFields -v`
 Expected: PASS
 
 - [ ] **Step 5: Run full package tests**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/... -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/... -v`
 Expected: PASS — no regressions
 
 - [ ] **Step 6: Commit**
@@ -333,7 +333,7 @@ git commit -m "feat(formats): add reachability evidence fields to VEXResult"
 
 - [ ] **Step 1: Run existing reachability tests before modification**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/vex/... -v -count=1 2>&1 | tail -30`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/vex/... -v -count=1 2>&1 | tail -30`
 Expected: PASS — establishes baseline
 
 - [ ] **Step 2: Replace local types with formats aliases**
@@ -343,7 +343,7 @@ Replace the entire content of `pkg/vex/reachability/result.go` with:
 ```go
 package reachability
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Result holds the outcome of a reachability analysis.
 type Result struct {
@@ -363,7 +363,7 @@ type CallNode = formats.CallNode
 
 - [ ] **Step 3: Run all vex tests to verify no regressions**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/vex/... -v -count=1 2>&1 | tail -30`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/vex/... -v -count=1 2>&1 | tail -30`
 Expected: PASS — type aliases are fully transparent; all existing tests pass unchanged
 
 - [ ] **Step 4: Commit**
@@ -539,7 +539,7 @@ func TestReachabilityFilter_StructuredFields(t *testing.T) {
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/vex/ -run TestReachabilityFilter_StructuredFields -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/vex/ -run TestReachabilityFilter_StructuredFields -v`
 Expected: FAIL — `AnalysisMethod`, `CallPaths`, `Symbols`, `MaxCallDepth`, `EntryFiles` not populated
 
 - [ ] **Step 3: Implement filter changes**
@@ -555,8 +555,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // reachabilityFilter bridges reachability analyzers into the Filter interface.
@@ -685,7 +685,7 @@ func entryFiles(paths []formats.CallPath) []string {
 
 - [ ] **Step 4: Run all reachability filter tests**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/vex/ -run TestReachabilityFilter -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/vex/ -run TestReachabilityFilter -v`
 Expected: PASS — all existing and new tests pass
 
 - [ ] **Step 5: Commit**
@@ -818,7 +818,7 @@ func TestBuildInput_VEXReachabilityFields(t *testing.T) {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/policykit/ -run TestBuildInput_VEXReachabilityFields -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/policykit/ -run TestBuildInput_VEXReachabilityFields -v`
 Expected: FAIL — new fields not present in OPA input
 
 - [ ] **Step 3: Expand buildVEX and add helper**
@@ -870,7 +870,7 @@ func buildCallPathsInput(paths []formats.CallPath) [][]map[string]any {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/policykit/ -run TestBuildInput -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/policykit/ -run TestBuildInput -v`
 Expected: PASS — both existing and new tests pass
 
 - [ ] **Step 5: Commit**
@@ -944,7 +944,7 @@ func TestIntegration_ReachabilityPolicies(t *testing.T) {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/policykit/ -run TestIntegration_ReachabilityPolicies -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/policykit/ -run TestIntegration_ReachabilityPolicies -v`
 Expected: FAIL — CRA-REACH-1/2/3 rules don't exist yet
 
 - [ ] **Step 3: Create CRA-REACH-1 policy (confidence gate)**
@@ -1127,7 +1127,7 @@ result := r if {
 
 - [ ] **Step 6: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/policykit/ -run TestIntegration_ReachabilityPolicies -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/policykit/ -run TestIntegration_ReachabilityPolicies -v`
 Expected: PASS — all reachability rules present and passing
 
 - [ ] **Step 7: Update integration test fixtures for new rule count**
@@ -1135,7 +1135,7 @@ Expected: PASS — all reachability rules present and passing
 The 3 new Rego policies increase total results from 15 to 18. Update all `expected.json` files:
 
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 for f in testdata/integration/policykit-*/expected.json; do
   sed -i '' 's/"total_results": 15/"total_results": 18/' "$f"
 done
@@ -1143,7 +1143,7 @@ done
 
 - [ ] **Step 8: Run full policykit tests to check for regressions**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/policykit/ -v -count=1`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/policykit/ -v -count=1`
 Expected: PASS — existing integration tests still pass with updated count; new rules PASS vacuously when no reachability statements exist
 
 - [ ] **Step 9: Commit**
@@ -1257,7 +1257,7 @@ Note: you'll need to add `"encoding/json"` to the imports in notes_test.go.
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/csaf/ -run TestBuildVulnNotes_Reachability -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/csaf/ -run TestBuildVulnNotes_Reachability -v`
 Expected: FAIL — reachability notes not generated
 
 - [ ] **Step 3: Implement reachability notes**
@@ -1272,7 +1272,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func buildDocumentNotes(findings []formats.Finding) []note {
@@ -1349,7 +1349,7 @@ func buildReachabilityNotes(vexResult *formats.VEXResult) []note {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/csaf/ -run TestBuildVulnNotes -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/csaf/ -run TestBuildVulnNotes -v`
 Expected: PASS — all existing and new tests pass
 
 - [ ] **Step 5: Commit**
@@ -1380,7 +1380,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestReachabilityDetail_WithPaths(t *testing.T) {
@@ -1462,7 +1462,7 @@ func TestReachabilityDetail_NotReachability(t *testing.T) {
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/report/ -run TestReachabilityDetail -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/report/ -run TestReachabilityDetail -v`
 Expected: FAIL — `ReachabilityDetail` not defined
 
 - [ ] **Step 3: Implement ReachabilityDetail**
@@ -1476,7 +1476,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // ReachabilityDetail renders a human-readable reachability evidence block
@@ -1525,7 +1525,7 @@ func ReachabilityDetail(v formats.VEXResult) string {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/report/ -run TestReachabilityDetail -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/report/ -run TestReachabilityDetail -v`
 Expected: PASS
 
 - [ ] **Step 5: Wire ReachabilityDetail into notification and render**
@@ -1563,7 +1563,7 @@ In `pkg/report/render.go`, add after line 68 (after the `CorrectiveActions` bloc
 
 - [ ] **Step 6: Run full report tests**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/report/ -v -count=1`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/report/ -v -count=1`
 Expected: PASS — no regressions
 
 - [ ] **Step 7: Commit**
@@ -1672,7 +1672,7 @@ func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/openvex/ -run TestWriter_ReachabilityStructuredImpact -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/openvex/ -run TestWriter_ReachabilityStructuredImpact -v`
 Expected: FAIL — impact_statement is plain text, not JSON
 
 - [ ] **Step 3: Implement structured impact statement**
@@ -1749,7 +1749,7 @@ func buildReachabilityImpact(r formats.VEXResult) string {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/formats/openvex/ -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/formats/openvex/ -v`
 Expected: PASS — all existing and new tests pass
 
 - [ ] **Step 5: Commit**
@@ -1777,7 +1777,7 @@ package evidence
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestBuildVEXEvidence(t *testing.T) {
@@ -1879,7 +1879,7 @@ func TestBuildVulnHandlingStats_ReachabilityBased(t *testing.T) {
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/evidence/ -run "TestBuildVEXEvidence|TestBuildVulnHandlingStats" -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/evidence/ -run "TestBuildVEXEvidence|TestBuildVulnHandlingStats" -v`
 Expected: FAIL — functions not defined
 
 - [ ] **Step 3: Add VEXEvidence types to types.go**
@@ -1988,12 +1988,12 @@ func buildVulnHandlingStats(results []formats.VEXResult) VulnHandlingStats { //n
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go test ./pkg/evidence/ -run "TestBuildVEXEvidence|TestBuildVulnHandlingStats" -v`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go test ./pkg/evidence/ -run "TestBuildVEXEvidence|TestBuildVulnHandlingStats" -v`
 Expected: PASS
 
 - [ ] **Step 6: Run full quality gate**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && task quality`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && task quality`
 Expected: PASS
 
 - [ ] **Step 7: Commit**
@@ -2009,14 +2009,14 @@ git commit -m "feat(evidence): add VEXEvidence types and builder for evidence bu
 
 - [ ] **Step 1: Run full project quality gate**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && task quality`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && task quality`
 Expected: PASS — all linting, formatting, and tests pass
 
 - [ ] **Step 2: Run just the new/modified tests to confirm coverage**
 
 Run:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && \
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && \
 go test ./pkg/formats/ -run TestCallPath -v && \
 go test ./pkg/formats/ -run TestVEXResult -v && \
 go test ./pkg/vex/ -run TestReachabilityFilter -v && \
@@ -2030,5 +2030,5 @@ Expected: ALL PASS
 
 - [ ] **Step 3: Verify dependency graph has no cycles**
 
-Run: `cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go build ./...`
+Run: `cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go build ./...`
 Expected: Clean build, no import cycles

@@ -349,7 +349,7 @@ result := r if {
 ### Fetching
 
 - Default: HTTP GET from `https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json`
-- Cache: Written to `$XDG_CACHE_HOME/suse-cra-toolkit/kev.json` (or `~/.cache/...`)
+- Cache: Written to `$XDG_CACHE_HOME/cra-toolkit/kev.json` (or `~/.cache/...`)
 - Cache TTL: 24 hours — re-fetched if stale
 - Override: `--kev` flag provides a local file, skips fetch entirely
 - Offline: If fetch fails and no cache exists and no `--kev`, policy CRA-AI-2.1 produces SKIP with error reason

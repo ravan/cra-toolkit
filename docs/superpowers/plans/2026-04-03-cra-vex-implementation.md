@@ -104,7 +104,7 @@ testdata/
 - [ ] **Step 1: Add all required dependencies**
 
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 go get github.com/CycloneDX/cyclonedx-go@latest
 go get github.com/spdx/tools-golang@latest
 go get github.com/openvex/go-vex@latest
@@ -603,7 +603,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 )
 
 func TestParse_RealCycloneDXSBOM(t *testing.T) {
@@ -664,7 +664,7 @@ import (
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	packageurl "github.com/package-url/packageurl-go"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Parser implements formats.SBOMParser for CycloneDX JSON documents.
@@ -775,7 +775,7 @@ import (
 	"os"
 	"testing"
 
-	spdxparser "github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
+	spdxparser "github.com/ravan/cra-toolkit/pkg/formats/spdx"
 )
 
 func TestParse_RealSPDXSBOM(t *testing.T) {
@@ -831,7 +831,7 @@ import (
 	spdxjson "github.com/spdx/tools-golang/json"
 	"github.com/spdx/tools-golang/spdx/v2/common"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Parser implements formats.SBOMParser for SPDX JSON documents.
@@ -908,7 +908,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
 )
 
 func TestParse_RealGrypeOutput(t *testing.T) {
@@ -962,7 +962,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // grypeOutput represents the top-level Grype JSON output.
@@ -1066,7 +1066,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 )
 
 func TestParse_RealTrivyOutput(t *testing.T) {
@@ -1115,7 +1115,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 type trivyOutput struct {
@@ -1215,7 +1215,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
 )
 
 func TestParse_RealSARIFOutput(t *testing.T) {
@@ -1266,7 +1266,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 var cvePattern = regexp.MustCompile(`CVE-\d{4}-\d{4,}`)
@@ -1398,8 +1398,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	openvexfmt "github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	openvexfmt "github.com/ravan/cra-toolkit/pkg/formats/openvex"
 )
 
 func TestParse_RealOpenVEXDocument(t *testing.T) {
@@ -1489,7 +1489,7 @@ import (
 
 	"github.com/openvex/go-vex/pkg/vex"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Parser implements formats.VEXParser for OpenVEX documents.
@@ -1588,8 +1588,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
 )
 
 func TestParse_RealCSAFAdvisory(t *testing.T) {
@@ -1674,7 +1674,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // CSAF 2.0 document structure (VEX-relevant subset)
@@ -1953,7 +1953,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestDetectFormat_CycloneDX(t *testing.T) {
@@ -2198,7 +2198,7 @@ git commit -m "feat(formats): add auto-detection for SBOM, scan, and VEX formats
 ```go
 package vex
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Result holds the VEX determination for a single finding.
 // This is an alias for formats.VEXResult within the vex package.
@@ -2209,7 +2209,7 @@ type Result = formats.VEXResult
 ```go
 package vex
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Filter evaluates a vulnerability finding against SBOM components
 // and optionally determines its VEX status.
@@ -2253,8 +2253,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 // testFilter is a filter that resolves specific CVEs for testing.
@@ -2351,8 +2351,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestUpstreamFilter_MatchesVendorStatement(t *testing.T) {
@@ -2421,7 +2421,7 @@ package vex
 import (
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // UpstreamFilter checks if an upstream vendor has published a VEX statement
@@ -2490,8 +2490,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestPresenceFilter_ComponentNotInSBOM(t *testing.T) {
@@ -2552,7 +2552,7 @@ import (
 
 	packageurl "github.com/package-url/packageurl-go"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // PresenceFilter checks whether the affected component exists in the SBOM.
@@ -2638,8 +2638,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestVersionFilter_InstalledVersionOutsideRange(t *testing.T) {
@@ -2723,7 +2723,7 @@ import (
 	packageurl "github.com/package-url/packageurl-go"
 	"golang.org/x/mod/semver"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // VersionFilter checks whether the installed version is outside the affected
@@ -2831,8 +2831,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestPlatformFilter_WrongPlatform(t *testing.T) {
@@ -2908,7 +2908,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // PlatformFilter checks whether the CVE's affected platforms match
@@ -2996,8 +2996,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestPatchFilter_VersionAtOrAboveFix(t *testing.T) {
@@ -3060,7 +3060,7 @@ import (
 	packageurl "github.com/package-url/packageurl-go"
 	"golang.org/x/mod/semver"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // PatchFilter checks whether the installed version is at or above the fix version.
@@ -3148,7 +3148,7 @@ package reachability
 import (
 	"context"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Analyzer determines whether a vulnerable symbol is reachable from application code.
@@ -3166,7 +3166,7 @@ type Analyzer interface {
 ```go
 package reachability
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Result holds the outcome of a reachability analysis.
 type Result struct {
@@ -3186,7 +3186,7 @@ package reachability_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 func TestDetectLanguages_GoModule(t *testing.T) {
@@ -3309,8 +3309,8 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/golang"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/golang"
 )
 
 func TestAnalyze_ReachableVulnerability(t *testing.T) {
@@ -3393,8 +3393,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // govulncheckMessage represents a single JSON message from govulncheck -json output.
@@ -3553,8 +3553,8 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/rust"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
 )
 
 func TestAnalyze_ReachableVulnerability(t *testing.T) {
@@ -3631,8 +3631,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // Analyzer implements reachability.Analyzer for Rust using cargo-scan.
@@ -3725,8 +3725,8 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/generic"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/generic"
 )
 
 func TestAnalyze_PythonReachable(t *testing.T) {
@@ -3841,8 +3841,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // Analyzer implements reachability.Analyzer using ripgrep for symbol search.
@@ -4013,9 +4013,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // mockAnalyzer is only used here to test the filter bridge logic,
@@ -4102,8 +4102,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // ReachabilityFilter bridges reachability analyzers into the filter chain.
@@ -4194,7 +4194,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestRun_GoReachableFixture(t *testing.T) {
@@ -4302,18 +4302,18 @@ import (
 	"io"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
-	spdxparser "github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/generic"
-	golanganalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/golang"
-	rustanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/rust"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
+	spdxparser "github.com/ravan/cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/generic"
+	golanganalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/golang"
+	rustanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
 )
 
 // Options configures a VEX determination run.
@@ -4536,7 +4536,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/internal/cli"
 )
 
 func TestVexCmd_MissingSBOM(t *testing.T) {
@@ -4592,7 +4592,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func newVexCmd() *urfave.Command {
@@ -4686,7 +4686,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 type expectedFixture struct {

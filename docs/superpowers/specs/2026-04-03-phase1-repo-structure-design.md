@@ -16,7 +16,7 @@ The SUSE CRA Toolkit is a set of five composable CLI tools filling verified gaps
 | Binary strategy | Single binary with subcommands | One install, one version, composable via pipes |
 | CLI framework | urfave/cli v3 | User preference |
 | Go version | 1.24 (latest stable) | Latest language features |
-| Module path | `github.com/ravan/suse-cra-toolkit` | Current repo, rename later |
+| Module path | `github.com/ravan/cra-toolkit` | Current repo, rename later |
 | OPA integration | Embedded (Go library) | Zero external deps, single binary |
 | Format libraries | Existing OSS (cyclonedx-go, tools-golang, go-vex, etc.) | "Existing OSS does the heavy lifting" |
 | Build system | Taskfile (task.dev) | User preference over Makefile |
@@ -25,7 +25,7 @@ The SUSE CRA Toolkit is a set of five composable CLI tools filling verified gaps
 ## 2. Repository Structure
 
 ```
-github.com/ravan/suse-cra-toolkit/
+github.com/ravan/cra-toolkit/
 ├── cmd/
 │   └── cra/                        # Single binary entrypoint
 │       └── main.go

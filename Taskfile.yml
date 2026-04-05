@@ -3,7 +3,7 @@ version: "3"
 vars:
   BINARY: cra
   BUILD_DIR: bin
-  MODULE: github.com/ravan/suse-cra-toolkit
+  MODULE: github.com/ravan/cra-toolkit
   VERSION:
     sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
   COMMIT:

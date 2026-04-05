@@ -153,7 +153,7 @@ testdata/integration/
 - [ ] **Step 1: Add go-tree-sitter and grammar dependencies**
 
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 go get github.com/tree-sitter/go-tree-sitter@latest
 go get github.com/tree-sitter/tree-sitter-python/bindings/go@latest
 go get github.com/tree-sitter/tree-sitter-javascript/bindings/go@latest
@@ -197,7 +197,7 @@ func main() {
 	fmt.Println("OK:", tree.RootNode().Kind())
 }
 EOF
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit && go run /tmp/ts_smoke_test.go
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit && go run /tmp/ts_smoke_test.go
 ```
 
 Expected: `OK: module`
@@ -227,7 +227,7 @@ package reachability_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 func TestCallPath_String(t *testing.T) {
@@ -287,7 +287,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Result holds the outcome of a reachability analysis.
@@ -360,7 +360,7 @@ package treesitter_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestSymbolID(t *testing.T) {
@@ -572,7 +572,7 @@ package treesitter_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestGraph_AddSymbol(t *testing.T) {
@@ -764,7 +764,7 @@ package treesitter_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // buildLinearGraph creates: entry -> middle -> target
@@ -932,8 +932,8 @@ Create `pkg/vex/reachability/treesitter/reachability.go`:
 package treesitter
 
 import (
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // ReachabilityConfig controls the BFS pathfinding behavior.
@@ -1111,7 +1111,7 @@ package treesitter_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestScope_DefineAndLookup(t *testing.T) {
@@ -1457,8 +1457,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
 )
 
 func TestParseFile_Python(t *testing.T) {
@@ -1671,9 +1671,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 func parseSource(t *testing.T, source string) (*tree_sitter.Tree, []byte) {
@@ -1912,8 +1912,8 @@ package python_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 func TestFindEntryPoints_MainBlock(t *testing.T) {
@@ -2051,8 +2051,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/python"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 )
 
 func TestAnalyzer_Language(t *testing.T) {
@@ -2181,11 +2181,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	grammarpython "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	grammarpython "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 // Analyzer uses tree-sitter to perform AST-based reachability analysis for Python.
@@ -2609,8 +2609,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/python"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 )
 
 type reachabilityScores struct {
@@ -3347,12 +3347,12 @@ func TestBuildAnalyzers_TreesitterFallback(t *testing.T) {
 ```go
 import (
 	// ... existing imports ...
-	pythonanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/python"
-	jsanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/javascript"
-	javaanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/java"
-	csharpanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/csharp"
-	phpanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/php"
-	rubyanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/ruby"
+	pythonanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
+	jsanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/javascript"
+	javaanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/java"
+	csharpanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/csharp"
+	phpanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/php"
+	rubyanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 )
 
 func buildAnalyzers(sourceDir string) map[string]reachability.Analyzer {

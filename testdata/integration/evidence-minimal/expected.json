@@ -10,7 +10,7 @@
     "validation_failed": 0,
     "validation_warnings": 0,
     "failed_checks": [],
-    "product_name": "suse-cra-toolkit",
+    "product_name": "cra-toolkit",
     "product_version": "1.0.0",
     "has_signature": false,
     "sbom_component_count": 3,

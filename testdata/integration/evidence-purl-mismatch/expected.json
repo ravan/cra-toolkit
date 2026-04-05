@@ -10,7 +10,7 @@
     "validation_failed": 1,
     "validation_warnings": 1,
     "failed_checks": ["CV-SBOM-VEX-PURL"],
-    "product_name": "suse-cra-toolkit",
+    "product_name": "cra-toolkit",
     "product_version": "1.0.0",
     "has_signature": false,
     "sbom_component_count": 3,

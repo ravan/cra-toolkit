@@ -14,7 +14,7 @@
 
 | File | Responsibility |
 |------|---------------|
-| `go.mod` | Module definition: `github.com/ravan/suse-cra-toolkit` |
+| `go.mod` | Module definition: `github.com/ravan/cra-toolkit` |
 | `cmd/cra/main.go` | Binary entrypoint — creates root command, runs it |
 | `internal/cli/root.go` | Root command definition with global flags (`--format`, `--output`, `--quiet`, `--verbose`) |
 | `internal/cli/version.go` | `cra version` subcommand |
@@ -51,11 +51,11 @@
 
 Run:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
-go mod init github.com/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
+go mod init github.com/ravan/cra-toolkit
 ```
 
-Expected: `go.mod` created with `module github.com/ravan/suse-cra-toolkit` and `go 1.24`.
+Expected: `go.mod` created with `module github.com/ravan/cra-toolkit` and `go 1.24`.
 
 - [ ] **Step 2: Write .gitignore**
 
@@ -252,7 +252,7 @@ git commit -m "chore: add domain package stubs (vex, policykit, report, evidence
 
 Run:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 go get github.com/urfave/cli/v3@latest
 ```
 
@@ -365,7 +365,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/internal/cli"
 )
 
 var version = "dev"
@@ -420,7 +420,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func newVexCmd() *urfave.Command {
@@ -451,7 +451,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func newVexCmd() *urfave.Command {
@@ -475,7 +475,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 func newPolicykitCmd() *urfave.Command {
@@ -499,7 +499,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/report"
 )
 
 func newReportCmd() *urfave.Command {
@@ -523,7 +523,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 )
 
 func newEvidenceCmd() *urfave.Command {
@@ -547,7 +547,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/csaf"
+	"github.com/ravan/cra-toolkit/pkg/csaf"
 )
 
 func newCsafCmd() *urfave.Command {
@@ -607,7 +607,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/internal/cli"
 )
 
 func TestNew_ReturnsCommand(t *testing.T) {
@@ -714,7 +714,7 @@ git commit -m "test: add CLI root command and subcommand registration tests"
 
 Run:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 mkdir -p policies templates testdata
 touch policies/.gitkeep templates/.gitkeep testdata/.gitkeep
 ```
@@ -813,7 +813,7 @@ version: "3"
 vars:
   BINARY: cra
   BUILD_DIR: bin
-  MODULE: github.com/ravan/suse-cra-toolkit
+  MODULE: github.com/ravan/cra-toolkit
   VERSION:
     sh: git describe --tags --always --dirty 2>/dev/null || echo "dev"
   COMMIT:
@@ -894,7 +894,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/internal/cli"
 )
 
 var (

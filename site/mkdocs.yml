@@ -2,7 +2,7 @@ site_name: SUSE CRA Compliance Toolkit
 site_description: >
   Open-source toolkit for EU Cyber Resilience Act compliance.
   Reference guide for the CRA and tools to automate compliance.
-repo_url: https://github.com/ravan/suse-cra-toolkit
+repo_url: https://github.com/ravan/cra-toolkit
 
 theme:
   name: material

@@ -350,7 +350,7 @@ Create `testdata/integration/evidence-minimal/product-config.yaml`:
 
 ```yaml
 product:
-  name: "suse-cra-toolkit"
+  name: "cra-toolkit"
   version: "1.0.0"
   manufacturer: "SUSE"
   member_state: "DE"
@@ -377,7 +377,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -389,7 +389,7 @@ func TestLoadEvidenceConfig(t *testing.T) {
 	cfg, err := evidence.LoadEvidenceConfig(path)
 	require.NoError(t, err)
 
-	assert.Equal(t, "suse-cra-toolkit", cfg.Product.Name)
+	assert.Equal(t, "cra-toolkit", cfg.Product.Name)
 	assert.Equal(t, "1.0.0", cfg.Product.Version)
 	assert.Equal(t, "SUSE", cfg.Product.Manufacturer)
 	assert.Equal(t, "DE", cfg.Product.MemberState)
@@ -409,7 +409,7 @@ func TestBuildProductIdentity(t *testing.T) {
 	require.NoError(t, err)
 
 	pid := evidence.BuildProductIdentity(cfg)
-	assert.Equal(t, "suse-cra-toolkit", pid.Name)
+	assert.Equal(t, "cra-toolkit", pid.Name)
 	assert.Equal(t, "1.0.0", pid.Version)
 	assert.Equal(t, "SUSE", pid.Manufacturer)
 	assert.Equal(t, "CLI toolkit for CRA compliance automation", pid.IntendedPurpose)
@@ -463,14 +463,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
 	"gopkg.in/yaml.v3"
 )
 
@@ -783,7 +783,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -843,7 +843,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // ValidateArtifacts checks that each toolkit-generated artifact has a valid,
@@ -962,7 +962,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1297,7 +1297,7 @@ package evidence_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -1591,7 +1591,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -1658,9 +1658,9 @@ package evidence
 import (
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/spdx"
 )
 
 // ExtractSBOMStats parses a real SBOM and extracts component statistics.
@@ -1831,7 +1831,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -2614,7 +2614,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 )
 
 func newEvidenceCmd() *urfave.Command {
@@ -2713,7 +2713,7 @@ Create `testdata/integration/evidence-minimal/expected.json`:
     "validation_failed": 0,
     "validation_warnings": 0,
     "failed_checks": [],
-    "product_name": "suse-cra-toolkit",
+    "product_name": "cra-toolkit",
     "product_version": "1.0.0",
     "has_signature": false,
     "sbom_component_count": 2,
@@ -2738,7 +2738,7 @@ Create `testdata/integration/evidence-full-bundle/product-config.yaml`:
 
 ```yaml
 product:
-  name: "suse-cra-toolkit"
+  name: "cra-toolkit"
   version: "1.0.0"
   manufacturer: "SUSE"
   member_state: "DE"
@@ -2798,7 +2798,7 @@ Production and Monitoring Process Documentation
 
 Generate a policy report by running:
 ```bash
-cd /Users/ravan/suse/repo/github/ravan/suse-cra-toolkit
+cd /Users/ravan/suse/repo/github/ravan/cra-toolkit
 task build
 ./bin/cra policykit --sbom testdata/integration/policykit-all-pass/sbom.cdx.json --scan testdata/integration/policykit-all-pass/grype.json --vex testdata/integration/policykit-all-pass/vex-results.json --provenance testdata/integration/policykit-all-pass/provenance.json --signature testdata/integration/policykit-all-pass/signature.json --product-config testdata/integration/policykit-all-pass/product-config.yaml --kev testdata/integration/policykit-all-pass/kev.json --format json > testdata/integration/evidence-full-bundle/policy-report.json
 ```
@@ -2818,7 +2818,7 @@ Create `testdata/integration/evidence-full-bundle/expected.json`:
     "validation_failed": 0,
     "validation_warnings": 1,
     "failed_checks": [],
-    "product_name": "suse-cra-toolkit",
+    "product_name": "cra-toolkit",
     "product_version": "1.0.0",
     "has_signature": false,
     "sbom_component_count": 2,
@@ -2845,7 +2845,7 @@ Create `testdata/integration/evidence-purl-mismatch/expected.json`:
     "validation_failed": 1,
     "validation_warnings": 0,
     "failed_checks": ["CV-SBOM-VEX-PURL"],
-    "product_name": "suse-cra-toolkit",
+    "product_name": "cra-toolkit",
     "product_version": "1.0.0",
     "has_signature": false,
     "sbom_component_count": 2,
@@ -2876,7 +2876,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -3078,7 +3078,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 )
 
 type evidenceLLMScores struct {
