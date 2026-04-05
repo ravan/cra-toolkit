@@ -158,6 +158,156 @@ func TestReachabilityFilter_AnalyzerError(t *testing.T) {
 	}
 }
 
+func TestReachabilityFilter_StructuredFields(t *testing.T) {
+	t.Run("tree-sitter analyzer populates all fields", func(t *testing.T) {
+		analyzer := &stubAnalyzer{
+			lang: "python",
+			result: reachability.Result{
+				Reachable:  true,
+				Confidence: formats.ConfidenceHigh,
+				Evidence:   "vulnerable symbol is called",
+				Symbols:    []string{"yaml.load", "yaml.unsafe_load"},
+				Paths: []reachability.CallPath{
+					{
+						Nodes: []reachability.CallNode{
+							{Symbol: "app.main", File: "src/app.py", Line: 10},
+							{Symbol: "app.process", File: "src/app.py", Line: 25},
+							{Symbol: "yaml.load", File: "vendor/yaml/__init__.py", Line: 100},
+						},
+					},
+					{
+						Nodes: []reachability.CallNode{
+							{Symbol: "cli.run", File: "src/cli.py", Line: 5},
+							{Symbol: "yaml.unsafe_load", File: "vendor/yaml/__init__.py", Line: 200},
+						},
+					},
+				},
+			},
+		}
+
+		f := vex.NewReachabilityFilter("/tmp/source", map[string]reachability.Analyzer{
+			"python": analyzer,
+		})
+
+		finding := formats.Finding{
+			CVE:          "CVE-2020-1747",
+			AffectedPURL: "pkg:pypi/pyyaml@5.3",
+			AffectedName: "PyYAML",
+			Language:     "python",
+		}
+
+		result, resolved := f.Evaluate(&finding, nil)
+		if !resolved {
+			t.Fatal("expected filter to resolve")
+		}
+
+		if len(result.CallPaths) != 2 {
+			t.Fatalf("CallPaths count = %d, want 2", len(result.CallPaths))
+		}
+		if result.CallPaths[0].Depth() != 3 {
+			t.Errorf("CallPaths[0].Depth() = %d, want 3", result.CallPaths[0].Depth())
+		}
+		if len(result.Symbols) != 2 {
+			t.Errorf("Symbols count = %d, want 2", len(result.Symbols))
+		}
+		if result.MaxCallDepth != 3 {
+			t.Errorf("MaxCallDepth = %d, want 3", result.MaxCallDepth)
+		}
+		if len(result.EntryFiles) != 2 {
+			t.Errorf("EntryFiles count = %d, want 2", len(result.EntryFiles))
+		}
+		// Entry files should be deduplicated and contain both entry points.
+		entrySet := map[string]bool{}
+		for _, ef := range result.EntryFiles {
+			entrySet[ef] = true
+		}
+		if !entrySet["src/app.py"] || !entrySet["src/cli.py"] {
+			t.Errorf("EntryFiles = %v, want src/app.py and src/cli.py", result.EntryFiles)
+		}
+		if result.AnalysisMethod != "tree_sitter" {
+			t.Errorf("AnalysisMethod = %q, want tree_sitter", result.AnalysisMethod)
+		}
+	})
+
+	t.Run("generic analyzer has pattern_match method and nil paths", func(t *testing.T) {
+		analyzer := &stubAnalyzer{
+			lang: "generic",
+			result: reachability.Result{
+				Reachable:  true,
+				Confidence: formats.ConfidenceMedium,
+				Evidence:   "import found via grep",
+				Symbols:    []string{"yaml.load"},
+				Paths:      nil,
+			},
+		}
+
+		f := vex.NewReachabilityFilter("/tmp/source", map[string]reachability.Analyzer{
+			"generic": analyzer,
+		})
+
+		finding := formats.Finding{
+			CVE:          "CVE-2020-1747",
+			AffectedPURL: "pkg:pypi/pyyaml@5.3",
+			Language:     "unknown-lang",
+		}
+
+		result, resolved := f.Evaluate(&finding, nil)
+		if !resolved {
+			t.Fatal("expected filter to resolve")
+		}
+
+		if result.AnalysisMethod != "pattern_match" {
+			t.Errorf("AnalysisMethod = %q, want pattern_match", result.AnalysisMethod)
+		}
+		if result.CallPaths != nil {
+			t.Errorf("CallPaths = %v, want nil for generic analyzer", result.CallPaths)
+		}
+		if result.MaxCallDepth != 0 {
+			t.Errorf("MaxCallDepth = %d, want 0", result.MaxCallDepth)
+		}
+		if len(result.Symbols) != 1 || result.Symbols[0] != "yaml.load" {
+			t.Errorf("Symbols = %v, want [yaml.load]", result.Symbols)
+		}
+	})
+
+	t.Run("not-reachable still gets structured fields", func(t *testing.T) {
+		analyzer := &stubAnalyzer{
+			lang: "go",
+			result: reachability.Result{
+				Reachable:  false,
+				Confidence: formats.ConfidenceHigh,
+				Evidence:   "vulnerable function not called",
+				Symbols:    []string{"text.Parse"},
+			},
+		}
+
+		f := vex.NewReachabilityFilter("/tmp/source", map[string]reachability.Analyzer{
+			"go": analyzer,
+		})
+
+		finding := formats.Finding{
+			CVE:          "CVE-2022-32149",
+			AffectedPURL: "pkg:golang/golang.org/x/text@v0.3.7",
+			Language:     "go",
+		}
+
+		result, resolved := f.Evaluate(&finding, nil)
+		if !resolved {
+			t.Fatal("expected filter to resolve")
+		}
+
+		if result.AnalysisMethod != "govulncheck" {
+			t.Errorf("AnalysisMethod = %q, want govulncheck", result.AnalysisMethod)
+		}
+		if len(result.Symbols) != 1 || result.Symbols[0] != "text.Parse" {
+			t.Errorf("Symbols = %v, want [text.Parse]", result.Symbols)
+		}
+		if result.CallPaths != nil {
+			t.Errorf("CallPaths should be nil for not-reachable, got %v", result.CallPaths)
+		}
+	})
+}
+
 func TestReachabilityFilter_CallPathEvidence(t *testing.T) {
 	t.Run("paths present", func(t *testing.T) {
 		analyzer := &stubAnalyzer{

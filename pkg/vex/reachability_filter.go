@@ -48,6 +48,8 @@ func (f *reachabilityFilter) Evaluate(finding *formats.Finding, components []for
 		return Result{}, false
 	}
 
+	method := analyzerMethod(analyzer)
+
 	if result.Reachable {
 		evidence := result.Evidence
 		// Append structured path info if available.
@@ -59,22 +61,74 @@ func (f *reachabilityFilter) Evaluate(finding *formats.Finding, components []for
 			evidence = fmt.Sprintf("%s\nCall paths:\n  %s", evidence, strings.Join(pathStrs, "\n  "))
 		}
 		return Result{
-			CVE:           finding.CVE,
-			ComponentPURL: finding.AffectedPURL,
-			Status:        formats.StatusAffected,
-			Confidence:    result.Confidence,
-			ResolvedBy:    "reachability_analysis",
-			Evidence:      evidence,
+			CVE:            finding.CVE,
+			ComponentPURL:  finding.AffectedPURL,
+			Status:         formats.StatusAffected,
+			Confidence:     result.Confidence,
+			ResolvedBy:     "reachability_analysis",
+			Evidence:       evidence,
+			AnalysisMethod: method,
+			CallPaths:      result.Paths,
+			Symbols:        result.Symbols,
+			MaxCallDepth:   maxDepth(result.Paths),
+			EntryFiles:     entryFiles(result.Paths),
 		}, true
 	}
 
 	return Result{
-		CVE:           finding.CVE,
-		ComponentPURL: finding.AffectedPURL,
-		Status:        formats.StatusNotAffected,
-		Justification: formats.JustificationVulnerableCodeNotInExecutePath,
-		Confidence:    result.Confidence,
-		ResolvedBy:    "reachability_analysis",
-		Evidence:      fmt.Sprintf("Reachability analysis: %s", result.Evidence),
+		CVE:            finding.CVE,
+		ComponentPURL:  finding.AffectedPURL,
+		Status:         formats.StatusNotAffected,
+		Justification:  formats.JustificationVulnerableCodeNotInExecutePath,
+		Confidence:     result.Confidence,
+		ResolvedBy:     "reachability_analysis",
+		Evidence:       fmt.Sprintf("Reachability analysis: %s", result.Evidence),
+		AnalysisMethod: method,
+		CallPaths:      result.Paths,
+		Symbols:        result.Symbols,
+		MaxCallDepth:   maxDepth(result.Paths),
+		EntryFiles:     entryFiles(result.Paths),
 	}, true
+}
+
+// analyzerMethod returns the analysis method string based on the analyzer's language.
+func analyzerMethod(a reachability.Analyzer) string {
+	switch a.Language() {
+	case "go":
+		return "govulncheck"
+	case "generic":
+		return "pattern_match"
+	default:
+		return "tree_sitter"
+	}
+}
+
+// maxDepth returns the maximum depth across all call paths.
+func maxDepth(paths []formats.CallPath) int {
+	max := 0
+	for _, p := range paths {
+		if d := p.Depth(); d > max {
+			max = d
+		}
+	}
+	return max
+}
+
+// entryFiles returns deduplicated entry-point files from call paths.
+func entryFiles(paths []formats.CallPath) []string {
+	if len(paths) == 0 {
+		return nil
+	}
+	seen := make(map[string]bool)
+	var files []string
+	for _, p := range paths {
+		if len(p.Nodes) > 0 {
+			f := p.Nodes[0].File
+			if f != "" && !seen[f] {
+				seen[f] = true
+				files = append(files, f)
+			}
+		}
+	}
+	return files
 }
