@@ -115,8 +115,8 @@ func TestReachabilityFilter_Resolution(t *testing.T) {
 			if tt.checkJustif && result.Justification != tt.expectedJustif {
 				t.Errorf("expected justification %v, got %v", tt.expectedJustif, result.Justification)
 			}
-			if result.ResolvedBy != "reachability" {
-				t.Errorf("expected ResolvedBy='reachability', got %q", result.ResolvedBy)
+			if result.ResolvedBy != "reachability_analysis" {
+				t.Errorf("expected ResolvedBy='reachability_analysis', got %q", result.ResolvedBy)
 			}
 		})
 	}
