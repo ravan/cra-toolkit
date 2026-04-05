@@ -47,12 +47,15 @@ func isEntryPointDecorator(dec string) bool {
 }
 
 // FindEntryPoints returns SymbolIDs of functions/methods that are entry points.
+//
 // An entry point is identified by:
 //  1. A recognized decorator (Flask route, FastAPI route, Celery task, Click command)
 //  2. A function named "main" (common Python convention)
 //
 // The extractor's decorator map (populated during ExtractSymbols) is used for
 // decorator-based detection.
+//
+//nolint:gocognit,gocyclo // entry point detection checks multiple decorator patterns and name conventions
 func (e *Extractor) FindEntryPoints(symbols []*treesitter.Symbol, _ string) []treesitter.SymbolID {
 	var eps []treesitter.SymbolID
 

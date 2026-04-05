@@ -10,7 +10,7 @@ import (
 	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
-func parseSource(t *testing.T, source string) (*tree_sitter.Tree, []byte) {
+func parseSource(t *testing.T, source string) (*tree_sitter.Tree, []byte) { //nolint:gocritic // two return values are self-documenting in context
 	t.Helper()
 	parser := tree_sitter.NewParser()
 	defer parser.Close()
@@ -25,6 +25,7 @@ func parseSource(t *testing.T, source string) (*tree_sitter.Tree, []byte) {
 	return tree, src
 }
 
+//nolint:gocognit,gocyclo // test validates multiple symbol kinds with individual assertions
 func TestExtractSymbols_Functions(t *testing.T) {
 	source := `def hello():
     pass
@@ -87,6 +88,7 @@ class Handler:
 	}
 }
 
+//nolint:gocognit,gocyclo // test validates multiple import forms with individual assertions
 func TestResolveImports_Python(t *testing.T) {
 	source := `import yaml
 import os.path

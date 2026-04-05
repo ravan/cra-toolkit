@@ -78,7 +78,7 @@ type Edge struct {
 type EdgeKind int
 
 const (
-	EdgeDirect   EdgeKind = iota
+	EdgeDirect EdgeKind = iota
 	EdgeDispatch
 	EdgeImport
 )
