@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 450" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#0C322C"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="450" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">Article 14 — Three-Stage Notification Timeline</text>
+  <text x="550" y="46" font-size="11" text-anchor="middle" fill="#2E7D32">Each stage accumulates additional inputs and produces richer outputs</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- Timeline arrows -->
+  <!-- ══════════════════════════════════════════════ -->
+  <line x1="60" y1="90" x2="1050" y2="90" stroke="#0C322C" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Duration labels on timeline -->
+  <text x="230" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="#0C322C">24 hours</text>
+  <line x1="60" y1="85" x2="60" y2="95" stroke="#0C322C" stroke-width="2"/>
+
+  <text x="555" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="#0C322C">72 hours</text>
+  <line x1="395" y1="85" x2="395" y2="95" stroke="#0C322C" stroke-width="2"/>
+
+  <text x="875" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="#0C322C">14 days</text>
+  <line x1="720" y1="85" x2="720" y2="95" stroke="#0C322C" stroke-width="2"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STAGE 1: 24h Early Warning -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="30" y="105" width="330" height="155" rx="10" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="30" y="105" width="330" height="30" rx="10" fill="#30BA78"/>
+  <rect x="30" y="120" width="330" height="15" fill="#30BA78"/>
+  <text x="195" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="white">24h Early Warning</text>
+  <text x="195" y="141" text-anchor="middle" font-size="10" fill="#2E7D32">--stage early-warning</text>
+
+  <!-- Inputs -->
+  <text x="50" y="163" font-size="10" font-weight="600" fill="#0C322C">Inputs</text>
+  <rect x="50" y="170" width="90" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="95" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">SBOM</text>
+  <rect x="148" y="170" width="90" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="193" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">Scan results</text>
+  <rect x="246" y="170" width="100" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="296" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">Product config</text>
+
+  <!-- Outputs -->
+  <text x="50" y="208" font-size="10" font-weight="600" fill="#0C322C">Outputs</text>
+  <rect x="50" y="214" width="80" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="90" y="228" text-anchor="middle" font-size="9" fill="#0C322C">CVE list</text>
+  <rect x="138" y="214" width="80" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="178" y="228" text-anchor="middle" font-size="9" fill="#0C322C">Product ID</text>
+  <rect x="226" y="214" width="120" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="286" y="228" text-anchor="middle" font-size="9" fill="#0C322C">Member State</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- Arrow 1->2 -->
+  <!-- ══════════════════════════════════════════════ -->
+  <line x1="360" y1="182" x2="385" y2="182" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STAGE 2: 72h Notification -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="390" y="105" width="310" height="220" rx="10" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="390" y="105" width="310" height="30" rx="10" fill="#2E7D32"/>
+  <rect x="390" y="120" width="310" height="15" fill="#2E7D32"/>
+  <text x="545" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="white">72h Notification</text>
+  <text x="545" y="141" text-anchor="middle" font-size="10" fill="#C8E6C9">--stage notification</text>
+
+  <!-- Additional Inputs -->
+  <text x="410" y="163" font-size="10" font-weight="600" fill="#0C322C">Additional Inputs</text>
+  <rect x="410" y="170" width="60" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="440" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">VEX</text>
+  <rect x="478" y="170" width="60" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="508" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">KEV</text>
+  <rect x="546" y="170" width="60" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="576" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">EPSS</text>
+
+  <!-- Additional Outputs -->
+  <text x="410" y="208" font-size="10" font-weight="600" fill="#0C322C">Additional Outputs</text>
+  <rect x="410" y="214" width="100" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="460" y="228" text-anchor="middle" font-size="9" fill="#0C322C">Exploit nature</text>
+  <rect x="518" y="214" width="70" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="553" y="228" text-anchor="middle" font-size="9" fill="#0C322C">Severity</text>
+  <rect x="596" y="214" width="90" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="641" y="228" text-anchor="middle" font-size="9" fill="#0C322C">Corrective</text>
+
+  <rect x="410" y="242" width="120" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="470" y="256" text-anchor="middle" font-size="9" fill="#0C322C">Sensitivity level</text>
+  <rect x="538" y="242" width="130" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="603" y="256" text-anchor="middle" font-size="9" fill="#0C322C">Reachability evidence</text>
+
+  <!-- Accumulated from stage 1 note -->
+  <text x="410" y="285" font-size="9" font-style="italic" fill="#666">+ all 24h early warning outputs</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- Arrow 2->3 -->
+  <!-- ══════════════════════════════════════════════ -->
+  <line x1="700" y1="182" x2="725" y2="182" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STAGE 3: 14-day Final Report -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="730" y="105" width="340" height="325" rx="10" fill="#81C784" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="730" y="105" width="340" height="30" rx="10" fill="#0C322C"/>
+  <rect x="730" y="120" width="340" height="15" fill="#0C322C"/>
+  <text x="900" y="124" text-anchor="middle" font-size="13" font-weight="700" fill="white">14-day Final Report</text>
+  <text x="900" y="141" text-anchor="middle" font-size="10" fill="#81C784">--stage final-report</text>
+
+  <!-- Additional Inputs -->
+  <text x="750" y="163" font-size="10" font-weight="600" fill="#0C322C">Additional Inputs</text>
+  <rect x="750" y="170" width="110" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="805" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">Human-input YAML</text>
+  <rect x="868" y="170" width="100" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="918" y="184" text-anchor="middle" font-size="9" fill="#2E7D32">CSAF advisory ref</text>
+  <rect x="750" y="196" width="140" height="20" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="820" y="210" text-anchor="middle" font-size="9" fill="#2E7D32">Corrective-measure-date</text>
+
+  <!-- Additional Outputs -->
+  <text x="750" y="237" font-size="10" font-weight="600" fill="#0C322C">Additional Outputs</text>
+  <rect x="750" y="243" width="90" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="795" y="257" text-anchor="middle" font-size="9" fill="#0C322C">Root cause</text>
+  <rect x="848" y="243" width="120" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="908" y="257" text-anchor="middle" font-size="9" fill="#0C322C">Malicious actor info</text>
+
+  <rect x="750" y="271" width="130" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="815" y="285" text-anchor="middle" font-size="9" fill="#0C322C">Security update details</text>
+  <rect x="888" y="271" width="160" height="20" rx="4" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="968" y="285" text-anchor="middle" font-size="9" fill="#0C322C">User notification requirements</text>
+
+  <!-- Accumulated from previous stages -->
+  <text x="750" y="315" font-size="9" font-style="italic" fill="#666">+ all 72h notification outputs</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- Legend -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="30" y="420" width="14" height="14" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="50" y="431" font-size="10" fill="#0C322C">24h stage</text>
+  <rect x="120" y="420" width="14" height="14" rx="3" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1"/>
+  <text x="140" y="431" font-size="10" fill="#0C322C">72h stage</text>
+  <rect x="210" y="420" width="14" height="14" rx="3" fill="#81C784" stroke="#2E7D32" stroke-width="1"/>
+  <text x="230" y="431" font-size="10" fill="#0C322C">14-day stage</text>
+
+  <rect x="330" y="420" width="14" height="14" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="350" y="431" font-size="10" fill="#0C322C">Input artifact</text>
+  <rect x="440" y="420" width="14" height="14" rx="3" fill="#FAFFFE" stroke="#0C322C" stroke-width="0.8"/>
+  <text x="460" y="431" font-size="10" fill="#0C322C">Output field</text>
+</svg>
