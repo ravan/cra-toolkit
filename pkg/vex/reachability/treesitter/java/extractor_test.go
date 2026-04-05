@@ -245,7 +245,7 @@ public class App {
 		}
 	}
 	if !foundLogManagerCall {
-		t.Log("note: LogManager.getLogger call may be in field initializer (not in method body)")
+		t.Error("expected LogManager.getLogger call edge — field initializer calls should be extracted")
 	}
 
 	// At minimum, check that edges have proper From fields set

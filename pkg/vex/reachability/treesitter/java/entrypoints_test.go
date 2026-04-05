@@ -242,3 +242,112 @@ public class ItemController {
 		t.Errorf("expected at least 2 entry points (@PutMapping, @DeleteMapping), got %d: %v", len(eps), eps)
 	}
 }
+
+// TestFindEntryPoints_MainOnlyPublicStatic verifies that only public static main is an entry point.
+// A class with no public static main() must produce no main-based entry points.
+// The positive case (public static main IS detected) is covered by TestFindEntryPoints_MainMethod.
+func TestFindEntryPoints_MainOnlyPublicStatic(t *testing.T) {
+	// Source with only non-qualifying "main" methods: private and instance-only.
+	// Neither should be classified as an entry point.
+	source := `package com.example;
+
+public class App {
+    private void main() {
+        // private helper — NOT an entry point
+    }
+
+    public void main(int x) {
+        // public but NOT static — NOT an entry point
+    }
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := javaextractor.New()
+	symbols, err := ext.ExtractSymbols("App.java", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols: %v", err)
+	}
+
+	eps := ext.FindEntryPoints(symbols, "/project")
+
+	// Neither private nor non-static main should be an entry point
+	for _, ep := range eps {
+		if string(ep) == "com.example.App.main" {
+			t.Errorf("'com.example.App.main' (private/non-static overloads) must not be an entry point, got: %v", eps)
+			break
+		}
+	}
+
+	if len(eps) != 0 {
+		t.Errorf("expected 0 entry points for non-qualifying main overloads, got %d: %v", len(eps), eps)
+	}
+}
+
+// TestFindEntryPoints_JAXRS verifies that JAX-RS @GET and @POST annotated methods are entry points.
+func TestFindEntryPoints_JAXRS(t *testing.T) {
+	source := `package com.example;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+@Path("/api")
+public class ApiResource {
+    @GET
+    @Path("/users")
+    public List<User> getUsers() {
+        return userService.findAll();
+    }
+
+    @POST
+    @Path("/users")
+    public Response createUser(User user) {
+        return Response.ok(userService.create(user)).build();
+    }
+
+    private void internalHelper() {
+        // not an entry point
+    }
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := javaextractor.New()
+	symbols, err := ext.ExtractSymbols("ApiResource.java", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols: %v", err)
+	}
+
+	eps := ext.FindEntryPoints(symbols, "/project")
+
+	if len(eps) < 2 {
+		t.Errorf("expected at least 2 JAX-RS entry points (@GET, @POST), got %d: %v", len(eps), eps)
+	}
+
+	var foundGet, foundPost bool
+	for _, ep := range eps {
+		switch string(ep) {
+		case "com.example.ApiResource.getUsers":
+			foundGet = true
+		case "com.example.ApiResource.createUser":
+			foundPost = true
+		}
+	}
+
+	if !foundGet {
+		t.Errorf("expected 'getUsers' (@GET) to be an entry point, entry points: %v", eps)
+	}
+	if !foundPost {
+		t.Errorf("expected 'createUser' (@POST) to be an entry point, entry points: %v", eps)
+	}
+
+	// internalHelper must NOT be an entry point
+	for _, ep := range eps {
+		if string(ep) == "com.example.ApiResource.internalHelper" {
+			t.Error("'internalHelper' must not be an entry point")
+		}
+	}
+}

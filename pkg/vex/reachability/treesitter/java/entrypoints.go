@@ -59,10 +59,11 @@ func isEntryPointAnnotation(ann string) bool {
 	return false
 }
 
-// isMainMethod returns true if the symbol looks like a Java main entry point method.
-// Java main: method named "main" (convention; static void main(String[] args))
-func isMainMethod(sym *treesitter.Symbol) bool {
-	return sym.Name == "main"
+// isMainMethod returns true if the symbol is a proper Java application entry point.
+// Requires: method named "main" AND declared with both "public" and "static" modifiers.
+// This prevents false positives from private or instance-only "main" helper methods.
+func (e *Extractor) isMainMethod(sym *treesitter.Symbol) bool {
+	return sym.Name == "main" && e.publicStaticMethods[sym.ID]
 }
 
 // FindEntryPoints returns SymbolIDs of methods that are application entry points.
@@ -89,7 +90,7 @@ func (e *Extractor) FindEntryPoints(symbols []*treesitter.Symbol, _ string) []tr
 		}
 
 		// 1. main method
-		if isMainMethod(sym) {
+		if e.isMainMethod(sym) {
 			eps = append(eps, sym.ID)
 			continue
 		}

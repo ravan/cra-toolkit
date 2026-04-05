@@ -22,6 +22,10 @@ type Extractor struct {
 	// annotations maps SymbolID → annotation strings found on the definition.
 	annotations map[treesitter.SymbolID][]string
 
+	// publicStaticMethods is the set of SymbolIDs for methods declared with both
+	// "public" and "static" modifiers. Used to enforce the Java main entry point contract.
+	publicStaticMethods map[treesitter.SymbolID]bool
+
 	// cha maps interface/abstract-class simple name → slice of concrete implementor class names.
 	// Both keys and values are simple (unqualified) class names.
 	// E.g. "Handler" → ["LogHandler", "FileHandler"]
@@ -49,11 +53,12 @@ type paramKey struct {
 // New creates a new Java Extractor.
 func New() *Extractor {
 	return &Extractor{
-		annotations:     make(map[treesitter.SymbolID][]string),
-		cha:             make(map[string][]string),
-		methodToClasses: make(map[string][]string),
-		paramTypes:      make(map[paramKey]string),
-		classPackage:    make(map[string]string),
+		annotations:         make(map[treesitter.SymbolID][]string),
+		publicStaticMethods: make(map[treesitter.SymbolID]bool),
+		cha:                 make(map[string][]string),
+		methodToClasses:     make(map[string][]string),
+		paramTypes:          make(map[paramKey]string),
+		classPackage:        make(map[string]string),
 	}
 }
 
@@ -107,6 +112,7 @@ func packageFromAST(root *tree_sitter.Node, src []byte) string {
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
 	// Reset per-call state
 	e.annotations = make(map[treesitter.SymbolID][]string)
+	e.publicStaticMethods = make(map[treesitter.SymbolID]bool)
 	e.cha = make(map[string][]string)
 	e.methodToClasses = make(map[string][]string)
 	e.paramTypes = make(map[paramKey]string)
@@ -116,7 +122,7 @@ func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tr
 	pkg := packageFromAST(root, src)
 
 	var symbols []*treesitter.Symbol
-	walkSymbols(root, src, file, pkg, "", &symbols, e.annotations, e.cha, e.methodToClasses, e.paramTypes, e.classPackage)
+	walkSymbols(root, src, file, pkg, "", &symbols, e.annotations, e.publicStaticMethods, e.cha, e.methodToClasses, e.paramTypes, e.classPackage)
 	return symbols, nil
 }
 
@@ -129,6 +135,7 @@ func walkSymbols(
 	file, pkg, currentClass string,
 	symbols *[]*treesitter.Symbol,
 	annotations map[treesitter.SymbolID][]string,
+	publicStaticMethods map[treesitter.SymbolID]bool,
 	cha map[string][]string,
 	methodToClasses map[string][]string,
 	paramTypes map[paramKey]string,
@@ -142,19 +149,19 @@ func walkSymbols(
 
 	switch kind {
 	case "class_declaration", "interface_declaration", "enum_declaration":
-		extractClassNode(node, src, file, pkg, currentClass, symbols, annotations, cha, methodToClasses, paramTypes, classPackage)
+		extractClassNode(node, src, file, pkg, currentClass, symbols, annotations, publicStaticMethods, cha, methodToClasses, paramTypes, classPackage)
 		return
 
 	case "method_declaration", "constructor_declaration":
 		// Top-level methods (rare in Java but handle gracefully)
-		extractMethodNode(node, src, file, pkg, currentClass, symbols, annotations, methodToClasses, paramTypes)
+		extractMethodNode(node, src, file, pkg, currentClass, symbols, annotations, publicStaticMethods, methodToClasses, paramTypes)
 		return
 	}
 
 	// Recurse into children for all other node types
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
-		walkSymbols(child, src, file, pkg, currentClass, symbols, annotations, cha, methodToClasses, paramTypes, classPackage)
+		walkSymbols(child, src, file, pkg, currentClass, symbols, annotations, publicStaticMethods, cha, methodToClasses, paramTypes, classPackage)
 	}
 }
 
@@ -167,6 +174,7 @@ func extractClassNode(
 	file, pkg, outerClass string,
 	symbols *[]*treesitter.Symbol,
 	annotations map[treesitter.SymbolID][]string,
+	publicStaticMethods map[treesitter.SymbolID]bool,
 	cha map[string][]string,
 	methodToClasses map[string][]string,
 	paramTypes map[paramKey]string,
@@ -233,10 +241,10 @@ func extractClassNode(
 		childKind := child.Kind()
 		switch childKind {
 		case "method_declaration", "constructor_declaration":
-			extractMethodNode(child, src, file, pkg, className, symbols, annotations, methodToClasses, paramTypes)
+			extractMethodNode(child, src, file, pkg, className, symbols, annotations, publicStaticMethods, methodToClasses, paramTypes)
 		case "class_declaration", "interface_declaration", "enum_declaration":
 			// Inner class
-			extractClassNode(child, src, file, pkg, qualifiedClass(outerClass, className), symbols, annotations, cha, methodToClasses, paramTypes, classPackage)
+			extractClassNode(child, src, file, pkg, qualifiedClass(outerClass, className), symbols, annotations, publicStaticMethods, cha, methodToClasses, paramTypes, classPackage)
 		}
 	}
 }
@@ -248,6 +256,7 @@ func extractMethodNode(
 	file, pkg, className string,
 	symbols *[]*treesitter.Symbol,
 	annotations map[treesitter.SymbolID][]string,
+	publicStaticMethods map[treesitter.SymbolID]bool,
 	methodToClasses map[string][]string,
 	paramTypes map[paramKey]string,
 ) {
@@ -266,6 +275,12 @@ func extractMethodNode(
 	collectAnnotations(node, src, &anns)
 	if len(anns) > 0 {
 		annotations[id] = anns
+	}
+
+	// Track whether this method has both "public" and "static" modifiers.
+	// Required for the Java main entry point contract: public static void main(String[] args).
+	if hasPublicStaticModifiers(node, src) {
+		publicStaticMethods[id] = true
 	}
 
 	sym := &treesitter.Symbol{
@@ -320,6 +335,32 @@ func collectParamTypes(
 			paramTypes[key] = typeName
 		}
 	}
+}
+
+// hasPublicStaticModifiers returns true if the node's modifiers child contains
+// both "public" and "static" keywords. Used to enforce the Java main entry point contract.
+func hasPublicStaticModifiers(node *tree_sitter.Node, src []byte) bool {
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil || child.Kind() != "modifiers" {
+			continue
+		}
+		var hasPublic, hasStatic bool
+		for j := uint(0); j < child.ChildCount(); j++ {
+			grandchild := child.Child(j)
+			if grandchild == nil {
+				continue
+			}
+			switch nodeText(grandchild, src) {
+			case "public":
+				hasPublic = true
+			case "static":
+				hasStatic = true
+			}
+		}
+		return hasPublic && hasStatic
+	}
+	return false
 }
 
 // collectAnnotations scans an AST node's children for annotation/marker_annotation nodes.
@@ -571,18 +612,6 @@ func collectCalls(
 		return
 	}
 
-	ctx := &callContext{
-		file:            file,
-		pkg:             pkg,
-		currentClass:    currentClass,
-		currentMethod:   currentMethod,
-		cha:             cha,
-		methodToClasses: methodToClasses,
-		paramTypes:      paramTypes,
-		classPackage:    classPackage,
-		edges:           edges,
-	}
-
 	kind := node.Kind()
 
 	switch kind {
@@ -614,6 +643,17 @@ func collectCalls(
 		return
 
 	case "method_invocation":
+		ctx := &callContext{
+			file:            file,
+			pkg:             pkg,
+			currentClass:    currentClass,
+			currentMethod:   currentMethod,
+			cha:             cha,
+			methodToClasses: methodToClasses,
+			paramTypes:      paramTypes,
+			classPackage:    classPackage,
+			edges:           edges,
+		}
 		processMethodInvocation(node, src, ctx)
 		// Recurse into arguments for nested calls
 		argsNode := node.ChildByFieldName("arguments")
@@ -626,6 +666,17 @@ func collectCalls(
 		return
 
 	case "object_creation_expression":
+		ctx := &callContext{
+			file:            file,
+			pkg:             pkg,
+			currentClass:    currentClass,
+			currentMethod:   currentMethod,
+			cha:             cha,
+			methodToClasses: methodToClasses,
+			paramTypes:      paramTypes,
+			classPackage:    classPackage,
+			edges:           edges,
+		}
 		processObjectCreation(node, src, ctx)
 		argsNode := node.ChildByFieldName("arguments")
 		if argsNode != nil {
