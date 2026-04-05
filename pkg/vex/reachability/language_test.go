@@ -80,7 +80,7 @@ func TestDetectLanguages_AllSupported(t *testing.T) {
 		"Gemfile":          "ruby",
 	}
 	for file := range markers {
-		os.WriteFile(filepath.Join(dir, file), []byte(""), 0o644) //nolint:errcheck // test helper
+		os.WriteFile(filepath.Join(dir, file), []byte(""), 0o644) //nolint:errcheck,gosec // test helper
 	}
 
 	langs := reachability.DetectLanguages(dir)
@@ -91,7 +91,7 @@ func TestDetectLanguages_AllSupported(t *testing.T) {
 
 func TestDetectLanguages_CSharp(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "TestApp.csproj"), []byte(""), 0o644) //nolint:errcheck // test helper
+	os.WriteFile(filepath.Join(dir, "TestApp.csproj"), []byte(""), 0o644) //nolint:errcheck,gosec // test helper
 
 	langs := reachability.DetectLanguages(dir)
 	found := false

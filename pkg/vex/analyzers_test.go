@@ -8,7 +8,7 @@ import (
 
 func TestBuildAnalyzers_TreesitterFallback(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "requirements.txt"), []byte("PyYAML==5.3"), 0o644) //nolint:errcheck // test helper
+	os.WriteFile(filepath.Join(dir, "requirements.txt"), []byte("PyYAML==5.3"), 0o644) //nolint:errcheck,gosec // test helper
 
 	analyzers := buildAnalyzers(dir)
 
@@ -35,7 +35,7 @@ func TestBuildAnalyzers_AllLanguages(t *testing.T) {
 		"App.csproj",
 	}
 	for _, m := range markers {
-		os.WriteFile(filepath.Join(dir, m), []byte(""), 0o644) //nolint:errcheck // test helper
+		os.WriteFile(filepath.Join(dir, m), []byte(""), 0o644) //nolint:errcheck,gosec // test helper
 	}
 
 	analyzers := buildAnalyzers(dir)

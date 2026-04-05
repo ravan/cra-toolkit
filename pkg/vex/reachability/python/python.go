@@ -76,7 +76,7 @@ type fileInfo struct {
 // whether any of the vulnerable symbols from the finding are reachable from an
 // entry point.
 //
-//nolint:gocognit,gocyclo // pipeline has multiple orchestration phases; extracting further would reduce readability
+//nolint:gocognit,gocyclo,maintidx // pipeline has multiple orchestration phases; extracting further would reduce readability
 func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
 	// Collect all Python files via WalkDir (filepath.Glob("**/*.py") doesn't work in Go)
 	var files []string
