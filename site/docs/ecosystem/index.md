@@ -40,7 +40,7 @@ The bottom layer contains the data formats and standards that define interoperab
 - **[CycloneDX](standards.md#cyclonedx)** and **[SPDX](standards.md#spdx)** — SBOM formats accepted as input across all toolkit tools.
 - **[SLSA](standards.md#slsa)** — supply chain provenance attestation format evaluated by `cra policykit`.
 - **[SARIF](standards.md#sarif)** — static analysis results format accepted as scan input.
-- **[OPA / Rego](standards.md#opa--rego)** — policy language powering the PolicyKit evaluation engine.
+- **[OPA / Rego](standards.md#opa-rego)** — policy language powering the PolicyKit evaluation engine.
 
 All formats are JSON-based and auto-detected by the toolkit — no format flags needed.
 

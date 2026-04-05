@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#0C322C"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="400" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">CSAF Advisory Generation</text>
+  <text x="550" y="46" text-anchor="middle" font-size="11" fill="#2E7D32">Inputs are assembled into a CSAF 2.0 security advisory document</text>
+
+  <!-- ── Inputs (left column) ── -->
+  <text x="75" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">Inputs</text>
+
+  <!-- SBOM -->
+  <rect x="15" y="95" width="120" height="50" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="75" y="117" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">SBOM</text>
+  <text x="75" y="133" text-anchor="middle" font-size="9" fill="#2E7D32">CycloneDX / SPDX</text>
+
+  <!-- Scan Results -->
+  <rect x="15" y="160" width="120" height="50" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="75" y="182" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">Scan Results</text>
+  <text x="75" y="198" text-anchor="middle" font-size="9" fill="#2E7D32">Grype / Trivy / SARIF</text>
+
+  <!-- VEX (optional) -->
+  <rect x="15" y="225" width="120" height="50" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="75" y="247" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">VEX</text>
+  <text x="75" y="263" text-anchor="middle" font-size="9" fill="#2E7D32">OpenVEX / CSAF (opt.)</text>
+
+  <!-- Arrows from inputs to assembly box -->
+  <line x1="135" y1="120" x2="180" y2="175" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="135" y1="185" x2="180" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="135" y1="250" x2="180" y2="195" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Assembly box ── -->
+  <rect x="190" y="70" width="130" height="260" rx="10" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+  <text x="255" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="white">cra csaf</text>
+  <text x="255" y="118" text-anchor="middle" font-size="10" fill="#E8F5E9">Document</text>
+  <text x="255" y="133" text-anchor="middle" font-size="10" fill="#E8F5E9">Assembly</text>
+
+  <!-- Assembly steps inside the box -->
+  <rect x="202" y="148" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="163" text-anchor="middle" font-size="9" fill="white">Parse inputs</text>
+  <rect x="202" y="178" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="193" text-anchor="middle" font-size="9" fill="white">Correlate CVEs</text>
+  <rect x="202" y="208" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="223" text-anchor="middle" font-size="9" fill="white">Build product tree</text>
+  <rect x="202" y="238" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="253" text-anchor="middle" font-size="9" fill="white">Enrich scores</text>
+  <rect x="202" y="268" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="283" text-anchor="middle" font-size="9" fill="white">Map remediations</text>
+  <rect x="202" y="298" width="106" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="255" y="313" text-anchor="middle" font-size="9" fill="white">Emit CSAF 2.0</text>
+
+  <!-- Arrow from assembly to document sections -->
+  <line x1="320" y1="200" x2="370" y2="200" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── CSAF Document Sections (horizontal) ── -->
+  <text x="700" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">CSAF 2.0 Document Sections</text>
+
+  <!-- Document metadata -->
+  <rect x="380" y="100" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="450" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="white">Document</text>
+  <text x="450" y="138" text-anchor="middle" font-size="9" fill="#30BA78">Category, publisher,</text>
+  <text x="450" y="149" text-anchor="middle" font-size="9" fill="#30BA78">tracking, distribution</text>
+
+  <!-- Product tree -->
+  <rect x="535" y="100" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="605" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="white">Product Tree</text>
+  <text x="605" y="138" text-anchor="middle" font-size="9" fill="#30BA78">Component hierarchy,</text>
+  <text x="605" y="149" text-anchor="middle" font-size="9" fill="#30BA78">PURL references</text>
+
+  <!-- Vulnerabilities -->
+  <rect x="690" y="100" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="760" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="white">Vulnerabilities</text>
+  <text x="760" y="138" text-anchor="middle" font-size="9" fill="#30BA78">CVE data, VEX status,</text>
+  <text x="760" y="149" text-anchor="middle" font-size="9" fill="#30BA78">exploitability</text>
+
+  <!-- Scores -->
+  <rect x="845" y="100" width="120" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="905" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="white">Scores</text>
+  <text x="905" y="138" text-anchor="middle" font-size="9" fill="#30BA78">CVSS vectors</text>
+  <text x="905" y="149" text-anchor="middle" font-size="9" fill="#30BA78">from scan data</text>
+
+  <!-- Remediations -->
+  <rect x="380" y="180" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="450" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="white">Remediations</text>
+  <text x="450" y="218" text-anchor="middle" font-size="9" fill="#30BA78">Fix versions,</text>
+  <text x="450" y="229" text-anchor="middle" font-size="9" fill="#30BA78">workarounds</text>
+
+  <!-- Threats -->
+  <rect x="535" y="180" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="605" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="white">Threats</text>
+  <text x="605" y="218" text-anchor="middle" font-size="9" fill="#30BA78">Impact type</text>
+  <text x="605" y="229" text-anchor="middle" font-size="9" fill="#30BA78">classification</text>
+
+  <!-- Notes -->
+  <rect x="690" y="180" width="140" height="55" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="760" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="white">Notes</text>
+  <text x="760" y="218" text-anchor="middle" font-size="9" fill="#30BA78">Assessment summaries,</text>
+  <text x="760" y="229" text-anchor="middle" font-size="9" fill="#30BA78">reachability info</text>
+
+  <!-- Connecting lines between sections -->
+  <line x1="520" y1="127" x2="535" y2="127" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="675" y1="127" x2="690" y2="127" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="830" y1="127" x2="845" y2="127" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="520" y1="207" x2="535" y2="207" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="675" y1="207" x2="690" y2="207" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- ── Output arrow to CSAF 2.0 document ── -->
+  <line x1="700" y1="250" x2="700" y2="290" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- CSAF 2.0 Output -->
+  <rect x="570" y="300" width="260" height="60" rx="10" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+  <text x="700" y="326" text-anchor="middle" font-size="14" font-weight="700" fill="white">CSAF 2.0 Advisory</text>
+  <text x="700" y="346" text-anchor="middle" font-size="10" fill="#E8F5E9">Machine-readable security advisory (JSON)</text>
+
+  <!-- ── Legend ── -->
+  <rect x="15" y="365" width="14" height="14" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="35" y="376" font-size="10" fill="#0C322C">Input artifact</text>
+  <rect x="140" y="365" width="14" height="14" rx="3" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="160" y="376" font-size="10" fill="#0C322C">Processing</text>
+  <rect x="250" y="365" width="14" height="14" rx="3" fill="#0C322C" stroke="#0C322C" stroke-width="1"/>
+  <text x="270" y="376" font-size="10" fill="#0C322C">Document section</text>
+  <line x1="390" y1="372" x2="420" y2="372" stroke="#2E7D32" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="428" y="376" font-size="10" fill="#0C322C">Section flow</text>
+</svg>
