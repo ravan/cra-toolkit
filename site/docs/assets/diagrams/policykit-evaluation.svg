@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#0C322C"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="400" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">PolicyKit Evaluation Pipeline</text>
+  <text x="550" y="46" text-anchor="middle" font-size="11" fill="#2E7D32">5-stage OPA-based compliance evaluation</text>
+
+  <!-- ── Input files (parallelogram) entering Stage 1 ── -->
+  <polygon points="30,105 160,105 175,145 15,145" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="95" y="120" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">SBOM</text>
+  <text x="95" y="132" text-anchor="middle" font-size="8" fill="#2E7D32">CycloneDX / SPDX</text>
+
+  <polygon points="30,155 160,155 175,175 15,175" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="95" y="169" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">VEX Document</text>
+
+  <polygon points="30,185 160,185 175,205 15,205" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="95" y="199" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">Scan Results</text>
+
+  <polygon points="30,215 160,215 175,235 15,235" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="95" y="229" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">Provenance / Sigs</text>
+
+  <polygon points="30,245 160,245 175,265 15,265" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="95" y="259" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">Product Config</text>
+
+  <!-- Arrow: Inputs -> Stage 1 -->
+  <line x1="175" y1="185" x2="195" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Stage 1: Parse Artifacts ── -->
+  <rect x="205" y="130" width="140" height="110" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="275" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="white">1</text>
+  <text x="275" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="white">Parse</text>
+  <text x="275" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="white">Artifacts</text>
+  <text x="275" y="208" text-anchor="middle" font-size="9" fill="#E8F5E9">Auto-detect formats</text>
+  <text x="275" y="222" text-anchor="middle" font-size="9" fill="#E8F5E9">Build structured input</text>
+
+  <!-- Arrow: Stage 1 -> Stage 2 -->
+  <line x1="345" y1="185" x2="375" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── KEV catalog input (parallelogram) entering Stage 2 ── -->
+  <polygon points="395,85 520,85 535,105 380,105" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="457" y="99" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">CISA KEV Catalog</text>
+
+  <!-- Arrow: KEV -> Stage 2 -->
+  <line x1="457" y1="105" x2="457" y2="127" stroke="#0C322C" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- ── Stage 2: Fetch KEV ── -->
+  <rect x="385" y="130" width="140" height="110" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="455" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="white">2</text>
+  <text x="455" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="white">Fetch KEV</text>
+  <text x="455" y="195" text-anchor="middle" font-size="9" fill="#E8F5E9">Auto-download CISA</text>
+  <text x="455" y="209" text-anchor="middle" font-size="9" fill="#E8F5E9">KEV or load local</text>
+  <text x="455" y="223" text-anchor="middle" font-size="9" fill="#E8F5E9">catalog copy</text>
+
+  <!-- Arrow: Stage 2 -> Stage 3 -->
+  <line x1="525" y1="185" x2="555" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Policy files input (parallelogram) entering Stage 3 ── -->
+  <polygon points="575,85 700,85 715,105 560,105" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.2"/>
+  <text x="637" y="99" text-anchor="middle" font-size="9" font-weight="600" fill="#0C322C">Rego Policies</text>
+
+  <!-- Arrow: Policies -> Stage 3 -->
+  <line x1="637" y1="105" x2="637" y2="127" stroke="#0C322C" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- ── Stage 3: Load Policies ── -->
+  <rect x="565" y="130" width="140" height="110" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="635" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="white">3</text>
+  <text x="635" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="white">Load Policies</text>
+  <text x="635" y="195" text-anchor="middle" font-size="9" fill="#E8F5E9">Embedded Rego</text>
+  <text x="635" y="209" text-anchor="middle" font-size="9" fill="#E8F5E9">defaults + optional</text>
+  <text x="635" y="223" text-anchor="middle" font-size="9" fill="#E8F5E9">custom policy dir</text>
+
+  <!-- Arrow: Stage 3 -> Stage 4 -->
+  <line x1="705" y1="185" x2="735" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Stage 4: OPA Evaluation ── -->
+  <rect x="745" y="130" width="140" height="110" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="815" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#30BA78">4</text>
+  <text x="815" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="white">OPA</text>
+  <text x="815" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="white">Evaluation</text>
+  <text x="815" y="208" text-anchor="middle" font-size="9" fill="#30BA78">Run all policies</text>
+  <text x="815" y="222" text-anchor="middle" font-size="9" fill="#30BA78">against input</text>
+
+  <!-- Arrow: Stage 4 -> Stage 5 -->
+  <line x1="885" y1="185" x2="915" y2="185" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Stage 5: Generate Report ── -->
+  <rect x="925" y="130" width="140" height="110" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="995" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="white">5</text>
+  <text x="995" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="white">Generate</text>
+  <text x="995" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="white">Report</text>
+  <text x="995" y="208" text-anchor="middle" font-size="9" fill="#E8F5E9">PASS / FAIL / SKIP</text>
+  <text x="995" y="222" text-anchor="middle" font-size="9" fill="#E8F5E9">per policy</text>
+
+  <!-- ── Output report (parallelogram) from Stage 5 ── -->
+  <!-- Arrow: Stage 5 -> Output -->
+  <line x1="995" y1="240" x2="995" y2="268" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <polygon points="935,275 1065,275 1080,310 920,310" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="1000" y="290" text-anchor="middle" font-size="10" font-weight="600" fill="#0C322C">Policy Report</text>
+  <text x="1000" y="303" text-anchor="middle" font-size="9" fill="#2E7D32">JSON / Markdown</text>
+
+  <!-- ── Legend ── -->
+  <rect x="30" y="340" width="14" height="14" rx="3" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="50" y="351" font-size="10" fill="#0C322C">Pipeline stage</text>
+
+  <rect x="155" y="340" width="14" height="14" rx="3" fill="#0C322C" stroke="#0C322C" stroke-width="1"/>
+  <text x="175" y="351" font-size="10" fill="#0C322C">OPA engine</text>
+
+  <polygon points="275,340 330,340 337,354 268,354" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="303" y="351" font-size="10" fill="#0C322C">Input / Output</text>
+
+  <line x1="380" y1="347" x2="420" y2="347" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="428" y="351" font-size="10" fill="#0C322C">Data flow</text>
+</svg>
