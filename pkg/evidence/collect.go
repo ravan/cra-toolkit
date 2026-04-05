@@ -282,3 +282,56 @@ func openDetected(path string) (formats.Format, *os.File, error) { //nolint:unus
 }
 
 var jsonUnmarshal = json.Unmarshal //nolint:unused // used in tasks 3-6
+
+// buildVEXEvidence converts VEXResults to serializable evidence entries.
+func buildVEXEvidence(results []formats.VEXResult) []VEXEvidence {
+	evidence := make([]VEXEvidence, len(results))
+	for i := range results {
+		r := &results[i]
+		var paths []CallPathEntry
+		for pi := range r.CallPaths {
+			p := &r.CallPaths[pi]
+			nodes := make([]CallNodeEntry, len(p.Nodes))
+			for j := range p.Nodes {
+				nodes[j] = CallNodeEntry{
+					Symbol: p.Nodes[j].Symbol,
+					File:   p.Nodes[j].File,
+					Line:   p.Nodes[j].Line,
+				}
+			}
+			paths = append(paths, CallPathEntry{
+				Nodes: nodes,
+				Depth: p.Depth(),
+			})
+		}
+		evidence[i] = VEXEvidence{
+			CVE:           r.CVE,
+			ComponentPURL: r.ComponentPURL,
+			Status:        string(r.Status),
+			Justification: string(r.Justification),
+			Confidence:    r.Confidence.String(),
+			ResolvedBy:    r.ResolvedBy,
+			Evidence:      r.Evidence,
+			Symbols:       r.Symbols,
+			CallPaths:     paths,
+			MaxCallDepth:  r.MaxCallDepth,
+			EntryFiles:    r.EntryFiles,
+		}
+	}
+	return evidence
+}
+
+// buildVulnHandlingStats computes handling statistics from VEX results.
+func buildVulnHandlingStats(results []formats.VEXResult) VulnHandlingStats {
+	stats := VulnHandlingStats{
+		TotalAssessed:      len(results),
+		StatusDistribution: make(map[string]int),
+	}
+	for i := range results {
+		stats.StatusDistribution[string(results[i].Status)]++
+		if results[i].ResolvedBy == "reachability_analysis" {
+			stats.ReachabilityBased++
+		}
+	}
+	return stats
+}

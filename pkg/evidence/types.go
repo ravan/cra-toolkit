@@ -142,6 +142,35 @@ type SBOMStats struct {
 type VulnHandlingStats struct {
 	TotalAssessed      int            `json:"total_assessed"`
 	StatusDistribution map[string]int `json:"status_distribution"`
+	ReachabilityBased  int            `json:"reachability_based"`
+}
+
+// VEXEvidence holds complete per-vulnerability evidence for the bundle.
+type VEXEvidence struct {
+	CVE           string          `json:"cve"`
+	ComponentPURL string          `json:"component_purl"`
+	Status        string          `json:"status"`
+	Justification string          `json:"justification"`
+	Confidence    string          `json:"confidence"`
+	ResolvedBy    string          `json:"resolved_by"`
+	Evidence      string          `json:"evidence"`
+	Symbols       []string        `json:"symbols"`
+	CallPaths     []CallPathEntry `json:"call_paths"`
+	MaxCallDepth  int             `json:"max_call_depth"`
+	EntryFiles    []string        `json:"entry_files"`
+}
+
+// CallPathEntry is a serializable call path for the evidence bundle.
+type CallPathEntry struct {
+	Nodes []CallNodeEntry `json:"nodes"`
+	Depth int             `json:"depth"`
+}
+
+// CallNodeEntry is a serializable call node for the evidence bundle.
+type CallNodeEntry struct {
+	Symbol string `json:"symbol"`
+	File   string `json:"file"`
+	Line   int    `json:"line"`
 }
 
 // PolicyStats holds statistics extracted from a real policy report.

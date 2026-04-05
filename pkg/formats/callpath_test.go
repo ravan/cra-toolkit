@@ -104,12 +104,12 @@ func TestCallPath_EntryPoint_EmptyPanics(t *testing.T) {
 
 func TestVEXResult_ReachabilityFields(t *testing.T) {
 	r := formats.VEXResult{
-		CVE:           "CVE-2024-1234",
-		ComponentPURL: "pkg:maven/com.example/lib@1.0",
-		Status:        formats.StatusAffected,
-		Confidence:    formats.ConfidenceHigh,
-		ResolvedBy:    "reachability_analysis",
-		Evidence:      "symbol is called",
+		CVE:            "CVE-2024-1234",
+		ComponentPURL:  "pkg:maven/com.example/lib@1.0",
+		Status:         formats.StatusAffected,
+		Confidence:     formats.ConfidenceHigh,
+		ResolvedBy:     "reachability_analysis",
+		Evidence:       "symbol is called",
 		AnalysisMethod: "tree_sitter",
 		CallPaths: []formats.CallPath{
 			{
