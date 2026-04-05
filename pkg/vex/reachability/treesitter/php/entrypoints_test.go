@@ -103,8 +103,60 @@ class ProductController
 	}
 }
 
-// TestFindEntryPoints_IndexPHP verifies that index.php itself is an entry point.
-func TestFindEntryPoints_IndexPHP(t *testing.T) {
+// TestFindEntryPoints_LaravelRoute verifies that a public method in a *Controller class is detected
+// as an entry point even when it is referenced as a Laravel route callback.
+// Full route callback resolution is not implemented; detection relies on the Controller heuristic.
+//
+//nolint:dupl // similar structure intentional — tests Laravel detection vs generic controller detection
+func TestFindEntryPoints_LaravelRoute(t *testing.T) {
+	source := `<?php
+namespace App\Http\Controllers;
+
+class ProductController
+{
+    public function index(): string
+    {
+        return "products";
+    }
+
+    public function show(int $id): string
+    {
+        return "product";
+    }
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := phpextractor.New()
+	symbols, err := ext.ExtractSymbols("ProductController.php", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	// Laravel routes reference controller methods (e.g. Route::get('/products', [ProductController::class, 'index'])).
+	// The Controller heuristic detects public methods in *Controller classes as entry points.
+	eps := ext.FindEntryPoints(symbols, "/project")
+	if len(eps) < 2 {
+		t.Errorf("expected at least 2 entry points (public controller methods), got %d: %v", len(eps), eps)
+	}
+
+	epSet := make(map[treesitter.SymbolID]bool, len(eps))
+	for _, ep := range eps {
+		epSet[ep] = true
+	}
+
+	for _, name := range []string{"index", "show"} {
+		id := treesitter.SymbolID(`App\Http\Controllers\ProductController::` + name)
+		if !epSet[id] {
+			t.Errorf("expected Laravel route handler method %q to be detected as entry point via Controller heuristic", name)
+		}
+	}
+}
+
+// TestFindEntryPoints_IndexPHP_NoPanic verifies that FindEntryPoints does not panic for index.php
+// files that contain no function/method definitions (only top-level statements).
+func TestFindEntryPoints_IndexPHP_NoPanic(t *testing.T) {
 	source := `<?php
 require_once 'vendor/autoload.php';
 
@@ -120,13 +172,15 @@ $app->run();
 		t.Fatalf("ExtractSymbols failed: %v", err)
 	}
 
-	// index.php is itself an entry point — all top-level calls are entry points
-	// This means any function defined at top level should be considered
+	// index.php with no function definitions produces no symbols.
+	// FindEntryPoints must not panic and must return a non-nil (possibly empty) slice.
 	eps := ext.FindEntryPoints(symbols, "/project")
-	// At minimum, the index.php file should mark any found symbols as entry points
-	// or the file path itself indicates it's an entry point context.
-	// We use the "index.php" convention: no matter what, IsIndexPHP detection should fire.
-	// Since there are no function symbols in this code, eps may be empty, but file is recognized.
-	_ = eps
-	// Just verify it doesn't panic — the file-level detection is in the analyzer
+	if eps == nil {
+		// dedup always returns a non-nil slice; if symbols is empty the result should be empty
+		t.Error("expected non-nil entry points slice, got nil")
+	}
+	// No symbols were defined, so no entry points should be detected.
+	if len(eps) != 0 {
+		t.Errorf("expected 0 entry points for index.php with no function defs, got %d: %v", len(eps), eps)
+	}
 }

@@ -105,10 +105,50 @@ func walkProgram(
 		if child == nil {
 			continue
 		}
-		if child.Kind() == "class_declaration" {
+		switch child.Kind() {
+		case "class_declaration":
 			extractClassNode(child, src, file, ns, symbols, attributes, publicMethods, classOf)
+		case "function_definition":
+			extractTopLevelFunction(child, src, file, ns, symbols)
 		}
 	}
+}
+
+// extractTopLevelFunction processes a top-level function_definition node.
+// PHP global functions are extracted as SymbolFunction kind symbols.
+// The symbol ID is "namespace\functionName" if a namespace is present, or just "functionName".
+func extractTopLevelFunction(
+	node *tree_sitter.Node,
+	src []byte,
+	file, ns string,
+	symbols *[]*treesitter.Symbol,
+) {
+	nameNode := node.ChildByFieldName("name")
+	if nameNode == nil {
+		return
+	}
+	funcName := nodeText(nameNode, src)
+
+	var qualifiedName string
+	if ns != "" {
+		qualifiedName = ns + `\` + funcName
+	} else {
+		qualifiedName = funcName
+	}
+	id := treesitter.SymbolID(qualifiedName)
+
+	sym := &treesitter.Symbol{
+		ID:            id,
+		Name:          funcName,
+		QualifiedName: qualifiedName,
+		Language:      "php",
+		File:          file,
+		Package:       ns,
+		StartLine:     rowToLine(node.StartPosition().Row),
+		EndLine:       rowToLine(node.EndPosition().Row),
+		Kind:          treesitter.SymbolFunction,
+	}
+	*symbols = append(*symbols, sym)
 }
 
 // extractClassNode processes a class_declaration node.
@@ -441,6 +481,18 @@ func collectCalls(
 		}
 		return
 
+	case "function_definition":
+		nameNode := node.ChildByFieldName("name")
+		if nameNode == nil {
+			return
+		}
+		funcName := nodeText(nameNode, src)
+		body := node.ChildByFieldName("body")
+		if body != nil {
+			collectCalls(body, src, file, ns, "", funcName, edges)
+		}
+		return
+
 	case "method_declaration":
 		nameNode := node.ChildByFieldName("name")
 		if nameNode == nil {
@@ -663,6 +715,13 @@ func (ctx *callState) buildFrom() treesitter.SymbolID {
 	}
 	if ctx.currentClass != "" {
 		return treesitter.SymbolID(qualifyClass(ctx.ns, ctx.currentClass))
+	}
+	// Top-level function context: currentClass is empty, currentMethod holds the function name.
+	if ctx.currentMethod != "" {
+		if ctx.ns != "" {
+			return treesitter.SymbolID(ctx.ns + `\` + ctx.currentMethod)
+		}
+		return treesitter.SymbolID(ctx.currentMethod)
 	}
 	if ctx.ns != "" {
 		return treesitter.SymbolID(ctx.ns)

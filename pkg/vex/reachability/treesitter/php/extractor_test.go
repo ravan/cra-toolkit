@@ -1,6 +1,7 @@
 package php_test
 
 import (
+	"strings"
 	"testing"
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
@@ -328,6 +329,176 @@ Route::get('/users', [UserController::class, 'index']);
 		t.Error("expected to find edge to 'Route::get'")
 		for _, e := range edges {
 			t.Logf("  edge: %s -> %s", e.From, e.To)
+		}
+	}
+}
+
+// TestExtractSymbols_TopLevelFunction verifies that top-level (global) PHP functions are extracted
+// as SymbolFunction kind symbols.
+//
+//nolint:gocognit,gocyclo // test validates multiple symbol kinds with individual assertions
+func TestExtractSymbols_TopLevelFunction(t *testing.T) {
+	source := `<?php
+function sendRequest(string $url): string {
+    $client = new \GuzzleHttp\Client();
+    return $client->get($url)->getBody();
+}
+
+function helperFunc(): void {
+    echo "helper";
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := phpextractor.New()
+	symbols, err := ext.ExtractSymbols("helpers.php", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	if len(symbols) != 2 {
+		t.Errorf("expected exactly 2 symbols (2 top-level functions), got %d", len(symbols))
+		for _, s := range symbols {
+			t.Logf("  %s (%s) at line %d", s.QualifiedName, s.Kind, s.StartLine)
+		}
+	}
+
+	var foundSend, foundHelper bool
+	for _, s := range symbols {
+		switch s.Name {
+		case "sendRequest":
+			foundSend = true
+			if s.Kind != treesitter.SymbolFunction {
+				t.Errorf("expected sendRequest to be SymbolFunction, got %s", s.Kind)
+			}
+			if s.QualifiedName != "sendRequest" {
+				t.Errorf("expected qualified name 'sendRequest', got %q", s.QualifiedName)
+			}
+		case "helperFunc":
+			foundHelper = true
+			if s.Kind != treesitter.SymbolFunction {
+				t.Errorf("expected helperFunc to be SymbolFunction, got %s", s.Kind)
+			}
+		}
+	}
+
+	if !foundSend {
+		t.Error("expected to find top-level function 'sendRequest'")
+	}
+	if !foundHelper {
+		t.Error("expected to find top-level function 'helperFunc'")
+	}
+}
+
+// TestExtractSymbols_TopLevelFunction_WithNamespace verifies that top-level functions in a
+// namespaced file use the namespace as qualifier.
+//
+//nolint:gocognit // test validates qualified names, package, and kind in one function
+func TestExtractSymbols_TopLevelFunction_WithNamespace(t *testing.T) {
+	source := `<?php
+namespace App\Helpers;
+
+function formatDate(string $date): string {
+    return date('Y-m-d', strtotime($date));
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := phpextractor.New()
+	symbols, err := ext.ExtractSymbols("helpers.php", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	var found bool
+	for _, s := range symbols {
+		if s.Name != "formatDate" {
+			continue
+		}
+		found = true
+		if s.Kind != treesitter.SymbolFunction {
+			t.Errorf("expected SymbolFunction, got %s", s.Kind)
+		}
+		expected := `App\Helpers\formatDate`
+		if s.QualifiedName != expected {
+			t.Errorf("expected qualified name %q, got %q", expected, s.QualifiedName)
+		}
+		if s.Package != `App\Helpers` {
+			t.Errorf("expected package 'App\\Helpers', got %q", s.Package)
+		}
+	}
+	if !found {
+		t.Error("expected to find top-level function 'formatDate'")
+	}
+}
+
+// TestExtractCalls_TopLevelFunction verifies that call edges from within a top-level function
+// are extracted with the function as the caller.
+//
+//nolint:gocognit,gocyclo // test validates edge origins, object creation, and confidence with individual assertions
+func TestExtractCalls_TopLevelFunction(t *testing.T) {
+	source := `<?php
+function sendRequest(string $url): string {
+    $client = new \GuzzleHttp\Client();
+    return $client->get($url)->getBody();
+}
+`
+	tree, src := parseSource(t, source)
+	defer tree.Close()
+
+	ext := phpextractor.New()
+	if _, err := ext.ExtractSymbols("helpers.php", src, tree); err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	scope := treesitter.NewScope(nil)
+	edges, err := ext.ExtractCalls("helpers.php", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	if len(edges) == 0 {
+		t.Fatal("expected at least one call edge from top-level function, got none")
+	}
+
+	// All edges should originate from "sendRequest" (the top-level function)
+	var foundFromFunc bool
+	var foundObjectCreation bool
+	for _, e := range edges {
+		t.Logf("  edge: %s -> %s (conf=%.1f)", e.From, e.To, e.Confidence)
+		if string(e.From) == "sendRequest" {
+			foundFromFunc = true
+		}
+		if string(e.To) == `\GuzzleHttp\Client.<init>` || string(e.To) == `GuzzleHttp\Client.<init>` || string(e.To) == `\GuzzleHttp\Client` {
+			foundObjectCreation = true
+		}
+	}
+
+	if !foundFromFunc {
+		t.Error("expected edges from 'sendRequest' (top-level function), none found")
+		for _, e := range edges {
+			t.Logf("  from=%s to=%s", e.From, e.To)
+		}
+	}
+	if !foundObjectCreation {
+		// Also accept "\\GuzzleHttp\\Client.<init>" format
+		for _, e := range edges {
+			if strings.Contains(string(e.To), "Client") {
+				foundObjectCreation = true
+				break
+			}
+		}
+		if !foundObjectCreation {
+			t.Error("expected to find 'new \\GuzzleHttp\\Client()' as an edge (object creation)")
+		}
+	}
+
+	// All edges must have positive confidence
+	for _, e := range edges {
+		if e.Confidence <= 0 {
+			t.Errorf("edge has non-positive confidence: %+v", e)
 		}
 	}
 }

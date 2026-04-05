@@ -40,7 +40,8 @@ func isIndexFile(file string) bool {
 //  1. Symfony #[Route] — controller actions decorated with route attributes
 //  2. Public methods in classes ending with "Controller" or "Action"
 //  3. index.php — all functions/methods in the file are entry points
-//  4. Laravel Route::get/post/etc. — detected via scoped calls at file level (handled by mapHandlers)
+//  4. Laravel routes: handler callbacks are resolved via the *Controller public method heuristic
+//     (see strategy 2). Named callbacks must be public methods in Controller classes to be detected.
 //
 //nolint:gocognit,gocyclo // entry point detection checks multiple strategies
 func (e *Extractor) FindEntryPoints(symbols []*treesitter.Symbol, _ string) []treesitter.SymbolID {
