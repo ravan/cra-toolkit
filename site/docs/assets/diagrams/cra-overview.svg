@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6">
+      <circle cx="5" cy="5" r="4" fill="#30BA78"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="820" fill="#FAFFFE" rx="4"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TITLE                                          -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="600" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#0C322C">EU Cyber Resilience Act — Regulation (EU) 2024/2847</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TIMELINE                                       -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="600" y="68" text-anchor="middle" font-size="13" font-weight="600" fill="#2E7D32">Key Enforcement Dates</text>
+
+  <!-- Timeline bar -->
+  <line x1="80" y1="100" x2="1120" y2="100" stroke="#0C322C" stroke-width="2"/>
+
+  <!-- Date 1: 23 Oct 2024 -->
+  <circle cx="160" cy="100" r="6" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="160" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">23 Oct 2024</text>
+  <text x="160" y="120" text-anchor="middle" font-size="10" fill="#2E7D32">Regulation</text>
+  <text x="160" y="132" text-anchor="middle" font-size="10" fill="#2E7D32">adopted</text>
+
+  <!-- Date 2: 11 Jun 2026 -->
+  <circle cx="470" cy="100" r="6" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="470" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">11 Jun 2026</text>
+  <text x="470" y="120" text-anchor="middle" font-size="10" fill="#2E7D32">Conformity assessment</text>
+  <text x="470" y="132" text-anchor="middle" font-size="10" fill="#2E7D32">body rules (Ch. IV)</text>
+
+  <!-- Date 3: 11 Sep 2026 -->
+  <circle cx="720" cy="100" r="6" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="720" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">11 Sep 2026</text>
+  <text x="720" y="120" text-anchor="middle" font-size="10" fill="#2E7D32">Art. 14 reporting</text>
+  <text x="720" y="132" text-anchor="middle" font-size="10" fill="#2E7D32">obligations apply</text>
+
+  <!-- Date 4: 11 Dec 2027 -->
+  <circle cx="1040" cy="100" r="6" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="1040" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">11 Dec 2027</text>
+  <text x="1040" y="120" text-anchor="middle" font-size="10" fill="#2E7D32">Full application</text>
+  <text x="1040" y="132" text-anchor="middle" font-size="10" fill="#2E7D32">of all provisions</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STRUCTURE — Articles (left)                    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="310" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="#0C322C">Key Articles</text>
+
+  <!-- Art. 13 -->
+  <rect x="40" y="190" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="190" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="190" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 13</text>
+  <text x="140" y="210" font-size="11" font-weight="600" fill="#0C322C">Obligations of manufacturers</text>
+  <text x="140" y="224" font-size="10" fill="#2E7D32">Design, develop, and produce products meeting Annex I cybersecurity requirements</text>
+
+  <!-- Art. 14 -->
+  <rect x="40" y="240" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="240" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="240" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 14</text>
+  <text x="140" y="260" font-size="11" font-weight="600" fill="#0C322C">Reporting obligations</text>
+  <text x="140" y="274" font-size="10" fill="#2E7D32">Notify ENISA and national CSIRTs of actively exploited vulnerabilities and severe incidents</text>
+
+  <!-- Art. 19 -->
+  <rect x="40" y="290" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="290" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="290" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="316" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 19</text>
+  <text x="140" y="310" font-size="11" font-weight="600" fill="#0C322C">Obligations of importers</text>
+  <text x="140" y="324" font-size="10" fill="#2E7D32">Verify manufacturer compliance, CE marking, and documentation before EU market placement</text>
+
+  <!-- Art. 20 -->
+  <rect x="40" y="340" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="340" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="340" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="366" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 20</text>
+  <text x="140" y="360" font-size="11" font-weight="600" fill="#0C322C">Obligations of distributors</text>
+  <text x="140" y="374" font-size="10" fill="#2E7D32">Verify CE marking and that manufacturer/importer have met their obligations</text>
+
+  <!-- Art. 24 -->
+  <rect x="40" y="390" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="390" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="390" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="416" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 24</text>
+  <text x="140" y="410" font-size="11" font-weight="600" fill="#0C322C">Obligations of open-source software stewards</text>
+  <text x="140" y="424" font-size="10" fill="#2E7D32">Cybersecurity policy, vulnerability reporting facilitation, authority cooperation</text>
+
+  <!-- Art. 31 -->
+  <rect x="40" y="440" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="440" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="440" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="466" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 31</text>
+  <text x="140" y="460" font-size="11" font-weight="600" fill="#0C322C">Technical documentation</text>
+  <text x="140" y="474" font-size="10" fill="#2E7D32">Manufacturers must draw up technical documentation before placing product on market</text>
+
+  <!-- Art. 32 -->
+  <rect x="40" y="490" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="40" y="490" width="80" height="42" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <rect x="112" y="490" width="8" height="42" fill="#30BA78"/>
+  <text x="80" y="516" text-anchor="middle" font-size="12" font-weight="700" fill="white">Art. 32</text>
+  <text x="140" y="510" font-size="11" font-weight="600" fill="#0C322C">Conformity assessment procedures</text>
+  <text x="140" y="524" font-size="10" fill="#2E7D32">Assessment procedures manufacturers must apply before placing products on the market</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- STRUCTURE — Annexes (right)                    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="890" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="#0C322C">Annexes</text>
+
+  <!-- Annex I -->
+  <rect x="620" y="190" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="190" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="190" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="216" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex I</text>
+  <text x="720" y="210" font-size="11" font-weight="600" fill="#0C322C">Essential cybersecurity requirements</text>
+  <text x="720" y="224" font-size="10" fill="#2E7D32">Security properties and vulnerability handling requirements for products</text>
+
+  <!-- Annex II -->
+  <rect x="620" y="240" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="240" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="240" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="266" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex II</text>
+  <text x="720" y="260" font-size="11" font-weight="600" fill="#0C322C">Information and instructions to the user</text>
+  <text x="720" y="274" font-size="10" fill="#2E7D32">Required user-facing documentation, including SBOM and support period</text>
+
+  <!-- Annex III -->
+  <rect x="620" y="290" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="290" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="290" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="316" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex III</text>
+  <text x="720" y="310" font-size="11" font-weight="600" fill="#0C322C">Important products with digital elements (Class I / Class II)</text>
+  <text x="720" y="324" font-size="10" fill="#2E7D32">Higher-risk products requiring third-party or harmonised standard assessment</text>
+
+  <!-- Annex IV -->
+  <rect x="620" y="340" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="340" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="340" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="366" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex IV</text>
+  <text x="720" y="360" font-size="11" font-weight="600" fill="#0C322C">Critical products with digital elements</text>
+  <text x="720" y="374" font-size="10" fill="#2E7D32">Products requiring European cybersecurity certification</text>
+
+  <!-- Annex V -->
+  <rect x="620" y="390" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="390" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="390" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="416" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex V</text>
+  <text x="720" y="410" font-size="11" font-weight="600" fill="#0C322C">EU declaration of conformity</text>
+  <text x="720" y="424" font-size="10" fill="#2E7D32">Required content for the manufacturer's declaration of conformity</text>
+
+  <!-- Annex VII -->
+  <rect x="620" y="440" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="440" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="440" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="466" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex VII</text>
+  <text x="720" y="460" font-size="11" font-weight="600" fill="#0C322C">Technical documentation content</text>
+  <text x="720" y="474" font-size="10" fill="#2E7D32">Detailed list of elements required in the technical documentation</text>
+
+  <!-- Annex VIII -->
+  <rect x="620" y="490" width="540" height="42" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <rect x="620" y="490" width="90" height="42" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <rect x="702" y="490" width="8" height="42" fill="#2E7D32"/>
+  <text x="665" y="516" text-anchor="middle" font-size="11" font-weight="700" fill="white">Annex VIII</text>
+  <text x="720" y="510" font-size="11" font-weight="600" fill="#0C322C">Conformity assessment procedures</text>
+  <text x="720" y="524" font-size="10" fill="#2E7D32">Module A (internal control), Module B+C, and Module H assessment procedures</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PRODUCT CATEGORIES                             -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="600" y="575" text-anchor="middle" font-size="14" font-weight="700" fill="#0C322C">Product Categories</text>
+
+  <!-- Default -->
+  <rect x="40" y="590" width="260" height="70" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="40" y="590" width="260" height="24" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="40" y="606" width="260" height="8" fill="#30BA78"/>
+  <text x="170" y="607" text-anchor="middle" font-size="12" font-weight="700" fill="white">Default</text>
+  <text x="50" y="632" font-size="10" fill="#0C322C">Internal control (Module A)</text>
+  <text x="50" y="646" font-size="10" fill="#2E7D32">Self-assessment per Annex VIII Part I</text>
+
+  <!-- Important Class I -->
+  <rect x="320" y="590" width="260" height="70" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="320" y="590" width="260" height="24" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="320" y="606" width="260" height="8" fill="#2E7D32"/>
+  <text x="450" y="607" text-anchor="middle" font-size="12" font-weight="700" fill="white">Important — Class I</text>
+  <text x="330" y="632" font-size="10" fill="#0C322C">Harmonised standard or third-party assessment</text>
+  <text x="330" y="646" font-size="10" fill="#2E7D32">Annex III Part I — e.g., VPNs, SIEM, OS, routers</text>
+
+  <!-- Important Class II -->
+  <rect x="600" y="590" width="260" height="70" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="600" y="590" width="260" height="24" rx="8" fill="#2E7D32" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="600" y="606" width="260" height="8" fill="#2E7D32"/>
+  <text x="730" y="607" text-anchor="middle" font-size="12" font-weight="700" fill="white">Important — Class II</text>
+  <text x="610" y="632" font-size="10" fill="#0C322C">Mandatory third-party assessment</text>
+  <text x="610" y="646" font-size="10" fill="#2E7D32">Annex III Part II — e.g., hypervisors, firewalls</text>
+
+  <!-- Critical -->
+  <rect x="880" y="590" width="280" height="70" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="880" y="590" width="280" height="24" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="880" y="606" width="280" height="8" fill="#0C322C"/>
+  <text x="1020" y="607" text-anchor="middle" font-size="12" font-weight="700" fill="white">Critical</text>
+  <text x="890" y="632" font-size="10" fill="#0C322C">European cybersecurity certification</text>
+  <text x="890" y="646" font-size="10" fill="#2E7D32">Annex IV — e.g., hardware security boxes, smartcards</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PENALTIES                                      -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="600" y="705" text-anchor="middle" font-size="14" font-weight="700" fill="#0C322C">Penalties for Non-Compliance</text>
+
+  <rect x="140" y="720" width="400" height="55" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="340" y="742" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">Up to EUR 15 million or 2.5% of turnover</text>
+  <text x="340" y="760" text-anchor="middle" font-size="10" fill="#BF360C">Essential cybersecurity requirements (Annex I)</text>
+
+  <rect x="660" y="720" width="400" height="55" rx="8" fill="#FFF8E1" stroke="#F57F17" stroke-width="1.5"/>
+  <text x="860" y="742" text-anchor="middle" font-size="12" font-weight="700" fill="#F57F17">Up to EUR 10 million or 2% of turnover</text>
+  <text x="860" y="760" text-anchor="middle" font-size="10" fill="#F57F17">Other obligations under the Regulation</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- LEGEND                                         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="40" y="795" width="14" height="14" rx="3" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="60" y="807" font-size="10" fill="#0C322C">Articles</text>
+  <rect x="130" y="795" width="14" height="14" rx="3" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <text x="150" y="807" font-size="10" fill="#0C322C">Annexes</text>
+</svg>
