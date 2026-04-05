@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package treesitter provides the shared tree-sitter analysis core for
 // building interprocedural call graphs and performing reachability analysis
 // across multiple programming languages.

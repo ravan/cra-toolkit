@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package rust implements a reachability analyzer for Rust using cargo-scan.
 package rust
 

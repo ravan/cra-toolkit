@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package policykit implements CRA Annex I policy evaluation using embedded OPA/Rego policies.
 // It evaluates SBOM, VEX, and provenance artifacts against machine-checkable CRA rules.
 package policykit

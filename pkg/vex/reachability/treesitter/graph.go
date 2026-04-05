@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 package treesitter
 
 // Graph represents a directed call graph of symbols in a project.

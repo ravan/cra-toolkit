@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package java provides the tree-sitter Java grammar.
 package java
 

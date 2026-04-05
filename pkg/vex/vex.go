@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package vex implements VEX status determination using deterministic filters.
 // It takes an SBOM and vulnerability scan results and auto-determines VEX status
 // for each CVE using component presence, version range, platform, patch checks,

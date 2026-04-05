@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package evidence bundles compliance outputs (SBOM, VEX, provenance, scans, policy reports)
 // into a signed, versioned CRA evidence package for Annex VII technical documentation.
 package evidence

@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package python implements tree-sitter AST extraction for Python source files.
 // It extracts symbols (functions, methods, classes), imports, and call edges.
 package python

@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package grammars is a blank-import anchor that prevents go mod tidy from
 // stripping tree-sitter grammar dependencies that are loaded dynamically at
 // runtime via unsafe CGo bindings.

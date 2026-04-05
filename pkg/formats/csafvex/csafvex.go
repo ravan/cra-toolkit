@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package csafvex implements parsing and writing of CSAF VEX profile documents.
 package csafvex
 

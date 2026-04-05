@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright 2026 Ravan Naidoo
+# SPDX-License-Identifier: GPL-3.0-only
 #
 # Regenerate all scan data from source fixtures.
 # Prerequisites: syft, grype, trivy, govulncheck

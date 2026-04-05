@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package csaf converts vulnerability scanner output and VEX assessments
 // into CSAF 2.0 advisories for downstream user notification per CRA Art. 14(8).
 package csaf

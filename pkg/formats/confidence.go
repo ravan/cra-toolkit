@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 package formats
 
 // Confidence represents the confidence level of a VEX determination.

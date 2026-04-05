@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package openvex implements parsing and writing of OpenVEX documents.
 package openvex
 

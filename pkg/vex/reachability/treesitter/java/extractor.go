@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package java implements tree-sitter AST extraction for Java source files.
 // It extracts symbols (classes, methods, constructors), imports, and call edges.
 // Class Hierarchy Analysis (CHA) is performed to resolve interface dispatch.

@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 package policykit
 
 // HumanReviewItems returns the static list of CRA requirements that need human review.

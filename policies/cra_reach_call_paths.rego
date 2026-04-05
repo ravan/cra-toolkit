@@ -1,3 +1,5 @@
+# Copyright 2026 Ravan Naidoo
+# SPDX-License-Identifier: GPL-3.0-only
 package cra.reach_call_paths
 
 import rego.v1

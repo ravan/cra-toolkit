@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package generic implements a reachability analyzer using ripgrep for
 // language-aware symbol searching.
 package generic

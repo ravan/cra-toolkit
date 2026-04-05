@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package report generates CRA Article 14 vulnerability notification documents.
 // It supports the three-stage pipeline: 24h early warning, 72h notification, 14-day final report.
 package report

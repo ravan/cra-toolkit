@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package ruby implements tree-sitter AST extraction for Ruby source files.
 // It extracts symbols (classes, modules, methods), imports (require/require_relative),
 // and call edges (method calls, scope resolution calls, metaprogramming dispatch).

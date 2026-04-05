@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package javascript provides the tree-sitter JavaScript grammar.
 package javascript
 

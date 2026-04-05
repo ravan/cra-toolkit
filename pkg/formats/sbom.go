@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package formats provides shared types for SBOM, VEX, CSAF, and SARIF documents.
 package formats
 

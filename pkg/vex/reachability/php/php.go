@@ -1,3 +1,6 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package php implements a tree-sitter-based reachability analyzer for PHP.
 package php
 
