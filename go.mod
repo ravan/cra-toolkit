@@ -1,4 +1,4 @@
-module github.com/ravan/suse-cra-toolkit
+module github.com/ravan/cra-toolkit
 
 go 1.26.1
 
