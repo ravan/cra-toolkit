@@ -39,9 +39,12 @@ docs/*.pdf
 __pycache__/
 *.pyc
 
-# MkDocs build output
-site/site/
-site/.venv/
+# MkDocs — ignore everything in site/ except source files
+site/*
+!site/docs/
+!site/mkdocs.yml
+!site/pyproject.toml
+!site/uv.lock
 
 # Git worktrees
 .worktrees/
