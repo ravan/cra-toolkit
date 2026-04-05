@@ -2,6 +2,8 @@
 
 This page provides a central cross-reference linking CRA requirements to toolkit tools, CLI commands, and output artifacts. Use it to find which tool addresses which obligation.
 
+![CRA Requirement-to-Artifact Compliance Flow](../assets/diagrams/compliance-mapping-flow.svg)
+
 ---
 
 ## Primary Compliance Matrix

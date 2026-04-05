@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#30BA78"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="520" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">CRA Requirement-to-Artifact Compliance Flow</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- LEFT COLUMN: CRA Requirements          -->
+  <!-- ═══════════════════════════════════════ -->
+  <text x="140" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#0C322C">CRA Requirements</text>
+
+  <!-- Vulnerability Assessment group -->
+  <rect x="20" y="85" width="240" height="120" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="20" y="85" width="240" height="28" rx="10" fill="#2E7D32"/>
+  <rect x="20" y="103" width="240" height="10" fill="#2E7D32"/>
+  <text x="140" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="white">Vulnerability Assessment</text>
+  <text x="35" y="132" font-size="10" fill="#0C322C">Annex I, Part I — No known exploitable</text>
+  <text x="35" y="145" font-size="10" fill="#0C322C">vulnerabilities at time of release</text>
+  <text x="35" y="165" font-size="10" fill="#0C322C">Annex I, Part II — Vulnerability handling,</text>
+  <text x="35" y="178" font-size="10" fill="#0C322C">SBOM, coordinated disclosure</text>
+  <text x="35" y="198" font-size="10" fill="#0C322C">Art. 13 — Build provenance and signatures</text>
+
+  <!-- Notification group -->
+  <rect x="20" y="225" width="240" height="110" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="20" y="225" width="240" height="28" rx="10" fill="#2E7D32"/>
+  <rect x="20" y="243" width="240" height="10" fill="#2E7D32"/>
+  <text x="140" y="244" text-anchor="middle" font-size="11" font-weight="700" fill="white">Notification</text>
+  <text x="35" y="272" font-size="10" fill="#0C322C">Art. 14(2)(a) — 24h early warning</text>
+  <text x="35" y="285" font-size="10" fill="#0C322C">Art. 14(2)(b) — 72h vulnerability notification</text>
+  <text x="35" y="298" font-size="10" fill="#0C322C">Art. 14(2)(c) — 14-day final report</text>
+  <text x="35" y="318" font-size="10" fill="#0C322C">Art. 14(8) — Machine-readable user advisory</text>
+
+  <!-- Documentation group -->
+  <rect x="20" y="355" width="240" height="110" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="20" y="355" width="240" height="28" rx="10" fill="#2E7D32"/>
+  <rect x="20" y="373" width="240" height="10" fill="#2E7D32"/>
+  <text x="140" y="374" text-anchor="middle" font-size="11" font-weight="700" fill="white">Documentation</text>
+  <text x="35" y="402" font-size="10" fill="#0C322C">Annex VII — Technical documentation</text>
+  <text x="35" y="415" font-size="10" fill="#0C322C">Annex V — EU declaration of conformity</text>
+  <text x="35" y="435" font-size="10" fill="#0C322C">Art. 13(2) — Risk assessment</text>
+  <text x="35" y="448" font-size="10" fill="#0C322C">Annex I, Part II — Support period</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- CENTER COLUMN: Toolkit Tools           -->
+  <!-- ═══════════════════════════════════════ -->
+  <text x="480" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#0C322C">Toolkit Tools</text>
+
+  <!-- VEX -->
+  <rect x="400" y="90" width="160" height="44" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="480" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra vex</text>
+  <text x="480" y="125" text-anchor="middle" font-size="9" fill="white">VEX Determination</text>
+
+  <!-- PolicyKit -->
+  <rect x="400" y="150" width="160" height="44" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="480" y="170" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra policykit</text>
+  <text x="480" y="185" text-anchor="middle" font-size="9" fill="white">Policy Evaluation</text>
+
+  <!-- Report -->
+  <rect x="400" y="250" width="160" height="44" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="480" y="270" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra report</text>
+  <text x="480" y="285" text-anchor="middle" font-size="9" fill="white">Art. 14 Notifications</text>
+
+  <!-- CSAF -->
+  <rect x="400" y="320" width="160" height="44" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="480" y="340" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra csaf</text>
+  <text x="480" y="355" text-anchor="middle" font-size="9" fill="white">Advisory Generation</text>
+
+  <!-- Evidence -->
+  <rect x="400" y="400" width="160" height="44" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="480" y="420" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra evidence</text>
+  <text x="480" y="435" text-anchor="middle" font-size="9" fill="white">Evidence Bundling</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- RIGHT COLUMN: Output Artifacts         -->
+  <!-- ═══════════════════════════════════════ -->
+  <text x="890" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#0C322C">Output Artifacts</text>
+
+  <!-- OpenVEX -->
+  <rect x="770" y="90" width="240" height="40" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="890" y="108" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">OpenVEX Document</text>
+  <text x="890" y="122" text-anchor="middle" font-size="9" fill="#2E7D32">application/vex+json</text>
+
+  <!-- Policy Report -->
+  <rect x="770" y="150" width="240" height="40" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="890" y="168" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">Policy Compliance Report</text>
+  <text x="890" y="182" text-anchor="middle" font-size="9" fill="#2E7D32">OPA/Rego evaluation results</text>
+
+  <!-- Art. 14 Reports -->
+  <rect x="770" y="245" width="240" height="50" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="890" y="265" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">Article 14 Reports</text>
+  <text x="890" y="280" text-anchor="middle" font-size="9" fill="#2E7D32">Early warning, notification, final report</text>
+
+  <!-- CSAF Advisory -->
+  <rect x="770" y="315" width="240" height="50" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="890" y="335" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">CSAF 2.0 Advisory</text>
+  <text x="890" y="350" text-anchor="middle" font-size="9" fill="#2E7D32">Machine-readable security advisory</text>
+
+  <!-- Evidence Bundle -->
+  <rect x="770" y="395" width="240" height="50" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="890" y="415" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">Signed Evidence Bundle</text>
+  <text x="890" y="430" text-anchor="middle" font-size="9" fill="#2E7D32">SBOM, VEX, reports, attestations</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ARROWS: Requirements → Tools           -->
+  <!-- ═══════════════════════════════════════ -->
+  <!-- Vuln Assessment → VEX -->
+  <line x1="260" y1="112" x2="395" y2="112" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Vuln Assessment → PolicyKit -->
+  <line x1="260" y1="155" x2="395" y2="172" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Notification → Report -->
+  <line x1="260" y1="272" x2="395" y2="272" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Notification → CSAF -->
+  <line x1="260" y1="310" x2="395" y2="342" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Documentation → Evidence -->
+  <line x1="260" y1="415" x2="395" y2="422" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Documentation → PolicyKit -->
+  <line x1="260" y1="380" x2="395" y2="185" stroke="#30BA78" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ARROWS: Tools → Artifacts              -->
+  <!-- ═══════════════════════════════════════ -->
+  <!-- VEX → OpenVEX -->
+  <line x1="560" y1="112" x2="765" y2="110" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- PolicyKit → Policy Report -->
+  <line x1="560" y1="172" x2="765" y2="170" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Report → Art. 14 Reports -->
+  <line x1="560" y1="272" x2="765" y2="270" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- CSAF → CSAF Advisory -->
+  <line x1="560" y1="342" x2="765" y2="340" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Evidence → Evidence Bundle -->
+  <line x1="560" y1="422" x2="765" y2="420" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- LEGEND                                  -->
+  <!-- ═══════════════════════════════════════ -->
+  <line x1="30" y1="495" x2="70" y2="495" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="78" y="499" font-size="10" fill="#0C322C">Primary flow</text>
+  <line x1="180" y1="495" x2="220" y2="495" stroke="#30BA78" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow)"/>
+  <text x="228" y="499" font-size="10" fill="#0C322C">Cross-cutting policy check</text>
+</svg>

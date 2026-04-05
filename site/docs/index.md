@@ -21,6 +21,10 @@ The CRA imposes concrete, auditable obligations on software manufacturers:
 !!! warning "Not optional"
     These are legal requirements, not best practices. Every product with digital elements — from container images to firmware — must comply.
 
+The CRA introduces obligations across the entire product lifecycle:
+
+![EU Cyber Resilience Act Overview](assets/diagrams/cra-overview.svg)
+
 ---
 
 ## How this toolkit helps
