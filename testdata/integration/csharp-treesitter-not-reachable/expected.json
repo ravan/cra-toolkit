@@ -1,0 +1,6 @@
+{
+  "reachable": false,
+  "confidence": "high",
+  "cve": "CVE-2024-21907",
+  "package": "pkg:nuget/Newtonsoft.Json@13.0.1"
+}
