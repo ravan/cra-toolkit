@@ -39,8 +39,9 @@ docs/*.pdf
 __pycache__/
 *.pyc
 
-# MkDocs
-site/
+# MkDocs build output
+site/site/
+site/.venv/
 
 # Git worktrees
 .worktrees/

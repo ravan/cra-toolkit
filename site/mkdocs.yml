@@ -1,6 +1,9 @@
 site_name: SUSE CRA Compliance Toolkit
-site_description: Open-source toolkit for Cyber Resilience Act (CRA) compliance.
+site_description: >
+  Open-source toolkit for EU Cyber Resilience Act compliance.
+  Reference guide for the CRA and tools to automate compliance.
 repo_url: https://github.com/ravan/suse-cra-toolkit
+
 theme:
   name: material
   palette:
@@ -22,28 +25,36 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - navigation.indexes
+    - navigation.path
     - search.suggest
     - search.highlight
     - content.code.copy
+    - content.tabs.link
 
 nav:
-  - Overview: index.md
-  - Getting Started: getting-started.md
+  - Home: index.md
+  - CRA Reference:
+    - Overview: cra/overview.md
+    - "Article 14 \u2014 Vulnerability Notification": cra/article-14.md
+    - "Annex I \u2014 Essential Requirements": cra/annex-i.md
+    - "Annex VII \u2014 Technical Documentation": cra/annex-vii.md
+    - Compliance Mapping: cra/compliance-mapping.md
   - Tools:
+    - Overview: tools/overview.md
     - VEX: tools/vex.md
     - PolicyKit: tools/policykit.md
     - Report: tools/report.md
     - Evidence: tools/evidence.md
     - CSAF: tools/csaf.md
-  - Design & Strategy:
-    - Strategy: strategy.md
-    - Specifications:
-        - Repository Structure: superpowers/specs/2026-04-03-phase1-repo-structure-design.md
-        - VEX Design: superpowers/specs/2026-04-03-cra-vex-design.md
-  - Development:
-    - Implementation Plans:
-        - "Phase 1: Project Harness": superpowers/plans/2026-04-03-phase1-project-harness.md
-        - VEX Implementation: superpowers/plans/2026-04-03-cra-vex-implementation.md
+  - Ecosystem:
+    - ecosystem/index.md
+    - "Standards & Formats": ecosystem/standards.md
+    - Vulnerability Scanners: ecosystem/scanners.md
+    - Infrastructure: ecosystem/infrastructure.md
+  - Guides:
+    - "End-to-End Workflow": guides/workflow.md
+    - "CI/CD Integration": guides/ci-cd.md
 
 markdown_extensions:
   - admonition
@@ -54,3 +65,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
