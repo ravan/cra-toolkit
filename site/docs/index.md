@@ -1,4 +1,4 @@
-# SUSE CRA Compliance Toolkit
+# CRA Compliance Toolkit
 
 **You ship software in the EU. The Cyber Resilience Act changes everything.**
 
@@ -29,7 +29,7 @@ The CRA introduces obligations across the entire product lifecycle:
 
 ## How this toolkit helps
 
-The SUSE CRA Compliance Toolkit automates the technical obligations of the CRA through five composable CLI tools:
+The CRA Compliance Toolkit automates the technical obligations of the CRA through five composable CLI tools:
 
 | Tool | What it does | CRA Mapping |
 |------|-------------|-------------|
