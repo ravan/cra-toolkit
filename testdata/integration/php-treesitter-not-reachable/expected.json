@@ -1,0 +1,6 @@
+{
+  "reachable": false,
+  "confidence": "high",
+  "cve": "CVE-2022-29248",
+  "package": "pkg:composer/guzzlehttp/guzzle@7.4.3"
+}

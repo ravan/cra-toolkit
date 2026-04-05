@@ -1,0 +1,83 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2022-29248",
+        "severity": "High",
+        "cvss": [
+          {
+            "version": "3.1",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "metrics": {
+              "baseScore": 9.1,
+              "exploitabilityScore": 3.9,
+              "impactScore": 5.2
+            },
+            "vendorMetadata": {}
+          }
+        ],
+        "fix": {
+          "versions": ["7.4.4"],
+          "state": "fixed"
+        },
+        "advisories": []
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "php-matcher",
+          "searchedBy": {
+            "language": "php",
+            "namespace": "github:language:php",
+            "package": {
+              "name": "guzzlehttp/guzzle",
+              "version": "7.4.3"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 7.4.4 (unknown)",
+            "vulnerabilityID": "CVE-2022-29248"
+          }
+        }
+      ],
+      "artifact": {
+        "id": "guzzlehttp-guzzle-743",
+        "name": "guzzlehttp/guzzle",
+        "version": "7.4.3",
+        "type": "php-composer",
+        "locations": [
+          {
+            "path": "/source/composer.json"
+          }
+        ],
+        "language": "php",
+        "licenses": ["MIT"],
+        "cpes": ["cpe:2.3:a:guzzlephp:guzzle:7.4.3:*:*:*:*:*:*:*"],
+        "purl": "pkg:composer/guzzlehttp/guzzle@7.4.3",
+        "upstreams": []
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "userInput": "/source",
+      "imageID": "",
+      "manifestDigest": "",
+      "mediaType": "",
+      "tags": [],
+      "imageSize": 0,
+      "layers": [],
+      "manifest": null,
+      "config": null,
+      "repoDigests": [],
+      "actualDigest": ""
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.79.4"
+  }
+}
