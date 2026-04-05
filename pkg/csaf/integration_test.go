@@ -15,15 +15,17 @@ const fixtureBase = "../../testdata/integration"
 type expectedCSAF struct {
 	Description string `json:"description"`
 	Assertions  struct {
-		DocumentCategory   string   `json:"document_category"`
-		CSAFVersion        string   `json:"csaf_version"`
-		VulnerabilityCount int      `json:"vulnerability_count"`
-		CVEs               []string `json:"cves"`
-		HasProductTree     bool     `json:"has_product_tree"`
-		HasScores          bool     `json:"has_scores"`
-		HasRemediations    bool     `json:"has_remediations"`
-		HasThreats         bool     `json:"has_threats"`
-		HasNotes           bool     `json:"has_notes"`
+		DocumentCategory      string   `json:"document_category"`
+		CSAFVersion           string   `json:"csaf_version"`
+		VulnerabilityCount    int      `json:"vulnerability_count"`
+		CVEs                  []string `json:"cves"`
+		HasProductTree        bool     `json:"has_product_tree"`
+		HasScores             bool     `json:"has_scores"`
+		HasRemediations       bool     `json:"has_remediations"`
+		HasThreats            bool     `json:"has_threats"`
+		HasNotes              bool     `json:"has_notes"`
+		HasDocumentReferences bool     `json:"has_document_references,omitempty"`
+		HasVulnReferences     bool     `json:"has_vuln_references,omitempty"`
 	} `json:"assertions"`
 }
 
@@ -34,6 +36,7 @@ type csafDoc struct {
 		Notes       []struct {
 			Category string `json:"category"`
 		} `json:"notes"`
+		References []json.RawMessage `json:"references"`
 	} `json:"document"`
 	ProductTree struct {
 		Branches []json.RawMessage `json:"branches"`
@@ -41,6 +44,7 @@ type csafDoc struct {
 	Vulnerabilities []struct {
 		CVE          string            `json:"cve"`
 		Scores       []json.RawMessage `json:"scores"`
+		References   []json.RawMessage `json:"references"`
 		Remediations []json.RawMessage `json:"remediations"`
 		Threats      []json.RawMessage `json:"threats"`
 		Notes        []json.RawMessage `json:"notes"`
@@ -114,8 +118,8 @@ func runCSAFIntegration(t *testing.T, scenario string) { //nolint:gocognit,gocyc
 
 	if len(expected.Assertions.CVEs) > 0 {
 		cveSet := make(map[string]bool)
-		for _, v := range doc.Vulnerabilities {
-			cveSet[v.CVE] = true
+		for i := range doc.Vulnerabilities {
+			cveSet[doc.Vulnerabilities[i].CVE] = true
 		}
 		for _, expectedCVE := range expected.Assertions.CVEs {
 			if !cveSet[expectedCVE] {
@@ -132,7 +136,8 @@ func runCSAFIntegration(t *testing.T, scenario string) { //nolint:gocognit,gocyc
 
 	// Check document-level presence of scores, remediations, threats, notes.
 	var hasAnyScores, hasAnyRemediations, hasAnyThreats, hasAnyNotes bool
-	for _, v := range doc.Vulnerabilities {
+	for i := range doc.Vulnerabilities {
+		v := &doc.Vulnerabilities[i]
 		if len(v.Scores) > 0 {
 			hasAnyScores = true
 		}
@@ -157,6 +162,23 @@ func runCSAFIntegration(t *testing.T, scenario string) { //nolint:gocognit,gocyc
 	}
 	if expected.Assertions.HasNotes && !hasAnyNotes {
 		t.Error("expected at least one vulnerability with notes")
+	}
+
+	if expected.Assertions.HasDocumentReferences && len(doc.Document.References) == 0 {
+		t.Error("expected non-empty document references")
+	}
+
+	if expected.Assertions.HasVulnReferences {
+		hasAnyVulnRefs := false
+		for i := range doc.Vulnerabilities {
+			if len(doc.Vulnerabilities[i].References) > 0 {
+				hasAnyVulnRefs = true
+				break
+			}
+		}
+		if !hasAnyVulnRefs {
+			t.Error("expected at least one vulnerability with references")
+		}
 	}
 
 	t.Logf("%s: %d vulnerabilities, all assertions passed", scenario, len(doc.Vulnerabilities))

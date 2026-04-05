@@ -76,6 +76,7 @@ func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // CSAF
 		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = *vr
 	}
 	for i := range vulns {
+		vulns[i].References = buildVulnReferences(vulns[i].CVE)
 		for j := range findings {
 			f := &findings[j]
 			if f.CVE == vulns[i].CVE {
@@ -122,6 +123,7 @@ func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // CSAF
 				},
 			},
 			Notes:             buildDocumentNotes(findings),
+			References:        buildDocumentReferences(findings),
 			AggregateSeverity: computeAggregateSeverity(findings),
 		},
 		ProductTree:     tree,

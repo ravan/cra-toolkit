@@ -9,20 +9,68 @@ import (
 )
 
 func buildDocumentNotes(findings []formats.Finding) []note {
-	var cves []string
-	seen := make(map[string]bool)
+	// Collect unique component names and per-CVE details.
+	type cveDetail struct {
+		cve         string
+		description string
+		fixVersion  string
+	}
+	seenCVE := make(map[string]bool)
+	seenComp := make(map[string]bool)
+	var components []string
+	var details []cveDetail
 	for i := range findings {
 		f := &findings[i]
-		if !seen[f.CVE] {
-			seen[f.CVE] = true
-			cves = append(cves, f.CVE)
+		if !seenCVE[f.CVE] {
+			seenCVE[f.CVE] = true
+			details = append(details, cveDetail{
+				cve:         f.CVE,
+				description: f.Description,
+				fixVersion:  f.FixVersion,
+			})
+		}
+		if f.AffectedName != "" && !seenComp[f.AffectedName] {
+			seenComp[f.AffectedName] = true
+			components = append(components, f.AffectedName)
 		}
 	}
-	return []note{{
-		Category: "summary",
-		Title:    "Advisory Summary",
-		Text:     fmt.Sprintf("Security advisory addressing %d vulnerability(ies): %s.", len(cves), strings.Join(cves, ", ")),
-	}}
+
+	// 1. Summary note — mirrors SUSE "Title of the patch" pattern.
+	summaryText := fmt.Sprintf("Security update for %s", strings.Join(components, ", "))
+	if len(components) == 0 {
+		summaryText = fmt.Sprintf("Security advisory addressing %d vulnerability(ies)", len(details))
+	}
+
+	// 2. Description note — per-CVE detail block.
+	var descBuilder strings.Builder
+	descBuilder.WriteString("This advisory addresses the following vulnerabilities:\n")
+	for _, d := range details {
+		descBuilder.WriteString(fmt.Sprintf("\n- %s", d.cve))
+		if d.description != "" {
+			descBuilder.WriteString(fmt.Sprintf(": %s", d.description))
+		}
+		if d.fixVersion != "" {
+			descBuilder.WriteString(fmt.Sprintf(" Fixed in version %s.", d.fixVersion))
+		}
+	}
+
+	return []note{
+		{
+			Category: "summary",
+			Title:    "Advisory Summary",
+			Text:     summaryText,
+		},
+		{
+			Category: "description",
+			Title:    "Description",
+			Text:     descBuilder.String(),
+		},
+		{
+			Category: "legal_disclaimer",
+			Title:    "Terms of use",
+			Text:     "CSAF 2.0 data is provided under the Creative Commons License 4.0 with Attribution (CC-BY-4.0).",
+		},
+	}
 }
 
 func buildVulnNotes(finding *formats.Finding, vexResult *formats.VEXResult) []note {

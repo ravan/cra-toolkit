@@ -10,24 +10,81 @@ import (
 
 func TestBuildDocumentNotes_SummarizesAllCVEs(t *testing.T) {
 	findings := []formats.Finding{
-		{CVE: "CVE-2022-32149"},
-		{CVE: "CVE-2023-45283"},
+		{CVE: "CVE-2022-32149", AffectedName: "golang.org/x/text", Description: "DoS via crafted Accept-Language header"},
+		{CVE: "CVE-2023-45283", AffectedName: "golang.org/x/text", Description: "Path traversal on Windows"},
 	}
 
 	got := buildDocumentNotes(findings)
 
-	if len(got) != 1 {
-		t.Fatalf("expected 1 note, got %d", len(got))
+	if len(got) < 3 {
+		t.Fatalf("expected at least 3 notes (summary, description, legal_disclaimer), got %d", len(got))
 	}
-	n := got[0]
-	if n.Category != "summary" {
-		t.Errorf("expected category summary, got %s", n.Category)
+
+	// Find notes by category.
+	notesByCategory := make(map[string]note)
+	for _, n := range got {
+		notesByCategory[n.Category] = n
 	}
-	if !strings.Contains(n.Text, "CVE-2022-32149") {
-		t.Errorf("expected text to contain CVE-2022-32149, got %s", n.Text)
+
+	// Summary note references component names.
+	summary, ok := notesByCategory["summary"]
+	if !ok {
+		t.Fatal("missing summary note")
 	}
-	if !strings.Contains(n.Text, "CVE-2023-45283") {
-		t.Errorf("expected text to contain CVE-2023-45283, got %s", n.Text)
+	if !strings.Contains(summary.Text, "golang.org/x/text") {
+		t.Errorf("summary should reference component name, got %s", summary.Text)
+	}
+
+	// Description note lists CVEs.
+	desc, ok := notesByCategory["description"]
+	if !ok {
+		t.Fatal("missing description note")
+	}
+	if !strings.Contains(desc.Text, "CVE-2022-32149") {
+		t.Errorf("description should contain CVE-2022-32149, got %s", desc.Text)
+	}
+	if !strings.Contains(desc.Text, "CVE-2023-45283") {
+		t.Errorf("description should contain CVE-2023-45283, got %s", desc.Text)
+	}
+
+	// Legal disclaimer note.
+	legal, ok := notesByCategory["legal_disclaimer"]
+	if !ok {
+		t.Fatal("missing legal_disclaimer note")
+	}
+	if !strings.Contains(legal.Text, "CC-BY-4.0") {
+		t.Errorf("legal_disclaimer should mention CC-BY-4.0, got %s", legal.Text)
+	}
+}
+
+func TestBuildDocumentNotes_DescriptionIncludesFindingDetails(t *testing.T) {
+	findings := []formats.Finding{
+		{
+			CVE:          "CVE-2022-32149",
+			AffectedName: "golang.org/x/text",
+			Description:  "DoS via crafted Accept-Language header",
+			FixVersion:   "0.3.8",
+		},
+	}
+
+	got := buildDocumentNotes(findings)
+
+	var desc *note
+	for i := range got {
+		if got[i].Category == "description" {
+			desc = &got[i]
+			break
+		}
+	}
+	if desc == nil {
+		t.Fatal("missing description note")
+		return //nolint:govet // unreachable, satisfies staticcheck SA5011
+	}
+	if !strings.Contains(desc.Text, "DoS via crafted Accept-Language header") {
+		t.Errorf("description should include finding description, got %s", desc.Text)
+	}
+	if !strings.Contains(desc.Text, "0.3.8") {
+		t.Errorf("description should include fix version, got %s", desc.Text)
 	}
 }
 

@@ -9,6 +9,8 @@
     "has_scores": true,
     "has_remediations": true,
     "has_threats": true,
-    "has_notes": true
+    "has_notes": true,
+    "has_document_references": true,
+    "has_vuln_references": true
   }
 }

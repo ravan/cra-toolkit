@@ -97,6 +97,7 @@ type piHash struct {
 type vulnerability struct {
 	CVE           string        `json:"cve"`
 	Notes         []note        `json:"notes,omitempty"`
+	References    []reference   `json:"references,omitempty"`
 	Scores        []score       `json:"scores,omitempty"`
 	ProductStatus productStatus `json:"product_status"`
 	Remediations  []remediation `json:"remediations,omitempty"`
