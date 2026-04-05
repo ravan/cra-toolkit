@@ -48,8 +48,12 @@ func BuildNotification(vulns []ExploitedVuln, mfr *Manufacturer, components []fo
 			}
 		}
 
-		if vr, ok := vexByCV[v.CVE]; ok && vr.Evidence != "" {
-			e.MitigatingMeasures = []string{vr.Evidence}
+		if vr, ok := vexByCV[v.CVE]; ok {
+			if detail := ReachabilityDetail(vr); detail != "" {
+				e.MitigatingMeasures = []string{detail}
+			} else if vr.Evidence != "" {
+				e.MitigatingMeasures = []string{vr.Evidence}
+			}
 		}
 
 		entries = append(entries, e)
