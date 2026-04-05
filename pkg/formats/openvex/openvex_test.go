@@ -143,6 +143,89 @@ func TestWriter_RoundTrip(t *testing.T) {
 	}
 }
 
+func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
+	results := []formats.VEXResult{
+		{
+			CVE:            "CVE-2020-1747",
+			ComponentPURL:  "pkg:pypi/pyyaml@5.3",
+			Status:         formats.StatusAffected,
+			Confidence:     formats.ConfidenceHigh,
+			ResolvedBy:     "reachability_analysis",
+			AnalysisMethod: "tree_sitter",
+			Evidence:       "yaml.load is called",
+			Symbols:        []string{"yaml.load"},
+			MaxCallDepth:   2,
+			EntryFiles:     []string{"src/app.py"},
+			CallPaths: []formats.CallPath{
+				{
+					Nodes: []formats.CallNode{
+						{Symbol: "app.main", File: "src/app.py", Line: 10},
+						{Symbol: "yaml.load", File: "yaml/__init__.py", Line: 100},
+					},
+				},
+			},
+		},
+		{
+			CVE:           "CVE-2023-9999",
+			ComponentPURL: "pkg:golang/example.com/lib@v1.0.0",
+			Status:        formats.StatusNotAffected,
+			Justification: formats.JustificationVulnerableCodeNotPresent,
+			ResolvedBy:    "version",
+			Evidence:      "version not in affected range",
+		},
+	}
+
+	var buf bytes.Buffer
+	w := openvex.Writer{}
+	if err := w.Write(&buf, results); err != nil {
+		t.Fatalf("Write: %v", err)
+	}
+
+	// Parse the output JSON.
+	var doc map[string]any
+	if err := json.Unmarshal(buf.Bytes(), &doc); err != nil {
+		t.Fatalf("output is not valid JSON: %v", err)
+	}
+
+	stmts, ok := doc["statements"].([]any)
+	if !ok || len(stmts) != 2 {
+		t.Fatalf("expected 2 statements, got %v", doc["statements"])
+	}
+
+	// First statement (reachability) should have JSON impact_statement.
+	s1 := stmts[0].(map[string]any)
+	impact1 := s1["impact_statement"].(string)
+	var parsed map[string]any
+	if err := json.Unmarshal([]byte(impact1), &parsed); err != nil {
+		t.Fatalf("reachability impact_statement is not valid JSON: %v\nGot: %s", err, impact1)
+	}
+	if parsed["analysis_method"] != "tree_sitter" {
+		t.Errorf("analysis_method = %v, want tree_sitter", parsed["analysis_method"])
+	}
+	if parsed["confidence"] != "high" {
+		t.Errorf("confidence = %v, want high", parsed["confidence"])
+	}
+	if parsed["summary"] != "yaml.load is called" {
+		t.Errorf("summary = %v, want 'yaml.load is called'", parsed["summary"])
+	}
+	callPaths, ok := parsed["call_paths"].([]any)
+	if !ok || len(callPaths) != 1 {
+		t.Fatalf("call_paths count = %v, want 1", parsed["call_paths"])
+	}
+
+	// Second statement (non-reachability) should have plain-text impact_statement.
+	s2 := stmts[1].(map[string]any)
+	impact2 := s2["impact_statement"].(string)
+	if impact2 != "version not in affected range" {
+		t.Errorf("non-reachability impact_statement = %q, want plain text", impact2)
+	}
+	// Verify it's NOT JSON.
+	var dummy map[string]any
+	if err := json.Unmarshal([]byte(impact2), &dummy); err == nil {
+		t.Error("non-reachability impact_statement should not be JSON")
+	}
+}
+
 func TestWriter_OutputHasOpenVEXContext(t *testing.T) {
 	results := []formats.VEXResult{
 		{

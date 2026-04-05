@@ -92,9 +92,13 @@ func (w Writer) Write(out io.Writer, results []formats.VEXResult) error {
 			Products: []product{
 				{ID: r.ComponentPURL},
 			},
-			Status:          statusToOpenVEX(r.Status),
-			Justification:   justificationToOpenVEX(r.Justification),
-			ImpactStatement: r.Evidence,
+			Status:        statusToOpenVEX(r.Status),
+			Justification: justificationToOpenVEX(r.Justification),
+		}
+		if r.ResolvedBy == "reachability_analysis" {
+			s.ImpactStatement = buildReachabilityImpact(r)
+		} else {
+			s.ImpactStatement = r.Evidence
 		}
 		stmts = append(stmts, s)
 	}
@@ -157,4 +161,33 @@ func statusToOpenVEX(s formats.VEXStatus) string {
 // justificationToOpenVEX converts an internal Justification to an OpenVEX justification string.
 func justificationToOpenVEX(j formats.Justification) string {
 	return string(j)
+}
+
+// buildReachabilityImpact encodes reachability evidence as a JSON string for use as an OpenVEX impact_statement.
+func buildReachabilityImpact(r formats.VEXResult) string {
+	callPaths := make([][]map[string]any, len(r.CallPaths))
+	for i, p := range r.CallPaths {
+		nodes := make([]map[string]any, len(p.Nodes))
+		for j, n := range p.Nodes {
+			nodes[j] = map[string]any{
+				"symbol": n.Symbol,
+				"file":   n.File,
+				"line":   n.Line,
+			}
+		}
+		callPaths[i] = nodes
+	}
+
+	impact := map[string]any{
+		"summary":         r.Evidence,
+		"analysis_method": r.AnalysisMethod,
+		"confidence":      r.Confidence.String(),
+		"symbols":         r.Symbols,
+		"max_call_depth":  r.MaxCallDepth,
+		"entry_files":     r.EntryFiles,
+		"call_paths":      callPaths,
+	}
+
+	b, _ := json.MarshalIndent(impact, "", "  ")
+	return string(b)
 }
