@@ -22,11 +22,12 @@ type match struct {
 }
 
 type vulnerability struct {
-	ID          string `json:"id"`
-	Severity    string `json:"severity"`
-	Description string `json:"description"`
-	Fix         fix    `json:"fix"`
-	CVSS        []cvss `json:"cvss"`
+	ID                  string   `json:"id"`
+	Severity            string   `json:"severity"`
+	Description         string   `json:"description"`
+	Fix                 fix      `json:"fix"`
+	CVSS                []cvss   `json:"cvss"`
+	VulnerableFunctions []string `json:"vulnerableFunctions,omitempty"` // optional: known vulnerable function names
 }
 
 type fix struct {
@@ -85,6 +86,7 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 			Description:  m.Vulnerability.Description,
 			DataSource:   "grype",
 			Language:     m.Artifact.Language,
+			Symbols:      m.Vulnerability.VulnerableFunctions,
 		})
 	}
 	return findings, nil

@@ -1,0 +1,87 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2024-21907",
+        "severity": "High",
+        "cvss": [
+          {
+            "version": "3.1",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "metrics": {
+              "baseScore": 9.8,
+              "exploitabilityScore": 3.9,
+              "impactScore": 5.9
+            },
+            "vendorMetadata": {}
+          }
+        ],
+        "fix": {
+          "versions": [
+            "13.0.2"
+          ],
+          "state": "fixed"
+        },
+        "advisories": [],
+        "vulnerableFunctions": [
+          "JsonConvert.DeserializeObject"
+        ]
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "dotnet-matcher",
+          "searchedBy": {
+            "language": "dotnet",
+            "namespace": "github:language:dotnet",
+            "package": {
+              "name": "Newtonsoft.Json",
+              "version": "13.0.1"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 13.0.2 (unknown)",
+            "vulnerabilityID": "CVE-2024-21907"
+          }
+        }
+      ],
+      "artifact": {
+        "id": "newtonsoft-json-13.0.1",
+        "name": "Newtonsoft.Json",
+        "version": "13.0.1",
+        "type": "dotnet",
+        "locations": [
+          {
+            "path": "/source/TestApp.csproj"
+          }
+        ],
+        "language": "dotnet",
+        "licenses": [
+          "MIT"
+        ],
+        "cpes": [
+          "cpe:2.3:a:newtonsoft:json.net:13.0.1:*:*:*:*:*:*:*"
+        ],
+        "purl": "pkg:nuget/Newtonsoft.Json@13.0.1",
+        "upstreams": [],
+        "metadata": {
+          "Symbols": [
+            "JsonConvert.DeserializeObject"
+          ]
+        }
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "path": "source"
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.74.0"
+  }
+}

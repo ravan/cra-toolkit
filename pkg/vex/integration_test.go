@@ -17,11 +17,9 @@ const fixtureBase = "../../testdata/integration"
 type expectedJSON struct {
 	Description string `json:"description"`
 	Findings    []struct {
-		CVE                string `json:"cve"`
-		ComponentPURL      string `json:"component_purl"`
-		ExpectedStatus     string `json:"expected_status"`
-		ExpectedConfidence string `json:"expected_confidence"`
-		ExpectedResolvedBy string `json:"expected_resolved_by"`
+		CVE            string `json:"cve"`
+		ComponentPURL  string `json:"component_purl"`
+		ExpectedStatus string `json:"expected_status"`
 	} `json:"findings"`
 }
 
@@ -38,8 +36,9 @@ type openvexStatement struct {
 	Products []struct {
 		ID string `json:"@id"`
 	} `json:"products"`
-	Status        string `json:"status"`
-	Justification string `json:"justification,omitempty"`
+	Status          string `json:"status"`
+	Justification   string `json:"justification,omitempty"`
+	ImpactStatement string `json:"impact_statement,omitempty"`
 }
 
 func TestIntegration_GoFixtures(t *testing.T) {
@@ -101,6 +100,46 @@ func TestIntegration_PythonFixtures(t *testing.T) {
 	}
 }
 
+func TestIntegration_TreesitterFixtures(t *testing.T) {
+	// Each entry specifies a fixture directory and the scan file used by that fixture.
+	// Python fixtures use trivy.json; all other language fixtures use grype.json.
+	tests := []struct {
+		name     string
+		dir      string
+		scanFile string
+	}{
+		{"python-treesitter-reachable", "python-treesitter-reachable", "trivy.json"},
+		{"python-treesitter-not-reachable", "python-treesitter-not-reachable", "trivy.json"},
+		{"javascript-treesitter-reachable", "javascript-treesitter-reachable", "grype.json"},
+		{"javascript-treesitter-not-reachable", "javascript-treesitter-not-reachable", "grype.json"},
+		{"java-treesitter-reachable", "java-treesitter-reachable", "grype.json"},
+		{"java-treesitter-not-reachable", "java-treesitter-not-reachable", "grype.json"},
+		{"csharp-treesitter-reachable", "csharp-treesitter-reachable", "grype.json"},
+		{"csharp-treesitter-not-reachable", "csharp-treesitter-not-reachable", "grype.json"},
+		{"php-treesitter-reachable", "php-treesitter-reachable", "grype.json"},
+		{"php-treesitter-not-reachable", "php-treesitter-not-reachable", "grype.json"},
+		{"ruby-treesitter-reachable", "ruby-treesitter-reachable", "grype.json"},
+		{"ruby-treesitter-not-reachable", "ruby-treesitter-not-reachable", "grype.json"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			dir := filepath.Join(fixtureBase, tt.dir)
+			expected := loadExpected(t, dir)
+
+			opts := &vex.Options{
+				SBOMPath:     filepath.Join(dir, "sbom.cdx.json"),
+				ScanPaths:    []string{filepath.Join(dir, tt.scanFile)},
+				SourceDir:    filepath.Join(dir, "source"),
+				OutputFormat: "openvex",
+			}
+
+			doc := runPipeline(t, opts)
+			verifyExpectations(t, doc, expected, tt.name)
+		})
+	}
+}
+
 func TestIntegration_UpstreamVEX(t *testing.T) {
 	dir := filepath.Join(fixtureBase, "upstream-vex")
 	expected := loadExpected(t, dir)
@@ -116,13 +155,17 @@ func TestIntegration_UpstreamVEX(t *testing.T) {
 	verifyExpectations(t, doc, expected, "upstream-vex")
 }
 
-// verifyExpectations checks that each expected finding's CVE has the right status.
+// verifyExpectations checks that each expected finding's CVE has the right status
+// and that the impact_statement (evidence string) is non-empty.
 func verifyExpectations(t *testing.T, doc openvexDoc, expected expectedJSON, label string) {
 	t.Helper()
 	for _, ef := range expected.Findings {
 		stmt := findStatement(t, doc, ef.CVE)
 		if stmt.Status != ef.ExpectedStatus {
 			t.Errorf("CVE %s: expected status %q, got %q", ef.CVE, ef.ExpectedStatus, stmt.Status)
+		}
+		if stmt.ImpactStatement == "" {
+			t.Errorf("CVE %s: impact_statement is empty; expected non-empty evidence string", ef.CVE)
 		}
 	}
 	t.Logf("%s: %d findings processed, all matched expected status", label, len(expected.Findings))

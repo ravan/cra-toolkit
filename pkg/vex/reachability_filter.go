@@ -3,6 +3,7 @@ package vex
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/ravan/suse-cra-toolkit/pkg/formats"
@@ -48,13 +49,22 @@ func (f *reachabilityFilter) Evaluate(finding *formats.Finding, components []for
 	}
 
 	if result.Reachable {
+		evidence := result.Evidence
+		// Append structured path info if available.
+		if len(result.Paths) > 0 {
+			var pathStrs []string
+			for _, p := range result.Paths {
+				pathStrs = append(pathStrs, p.String())
+			}
+			evidence = fmt.Sprintf("%s\nCall paths:\n  %s", evidence, strings.Join(pathStrs, "\n  "))
+		}
 		return Result{
 			CVE:           finding.CVE,
 			ComponentPURL: finding.AffectedPURL,
 			Status:        formats.StatusAffected,
 			Confidence:    result.Confidence,
-			ResolvedBy:    "reachability",
-			Evidence:      result.Evidence,
+			ResolvedBy:    "reachability_analysis",
+			Evidence:      evidence,
 		}, true
 	}
 
@@ -64,7 +74,7 @@ func (f *reachabilityFilter) Evaluate(finding *formats.Finding, components []for
 		Status:        formats.StatusNotAffected,
 		Justification: formats.JustificationVulnerableCodeNotInExecutePath,
 		Confidence:    result.Confidence,
-		ResolvedBy:    "reachability",
+		ResolvedBy:    "reachability_analysis",
 		Evidence:      fmt.Sprintf("Reachability analysis: %s", result.Evidence),
 	}, true
 }

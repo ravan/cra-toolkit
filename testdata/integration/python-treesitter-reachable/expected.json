@@ -1,0 +1,21 @@
+{
+  "description": "Python script that imports PyYAML and calls yaml.load() — the vulnerable function for CVE-2020-14343 and CVE-2020-1747. Tree-sitter call-graph analysis confirms the vulnerable symbol is reachable from main.",
+  "findings": [
+    {
+      "cve": "CVE-2020-14343",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "yaml.load() is called in handler.py which is imported by main.py. Tree-sitter confirms the vulnerable function is reachable."
+    },
+    {
+      "cve": "CVE-2020-1747",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "yaml.load() is called in handler.py which is imported by main.py. Tree-sitter confirms the vulnerable function is reachable."
+    }
+  ]
+}
