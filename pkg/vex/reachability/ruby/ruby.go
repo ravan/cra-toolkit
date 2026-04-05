@@ -245,7 +245,7 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		return reachability.Result{
 			Reachable:  false,
 			Confidence: formats.ConfidenceHigh,
-			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to {%s}%s%s", strings.Join(finding.Symbols, ","), parseErrSuffix, methodMissingSuffix),
+			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to {%s}%s%s", strings.Join(symbols, ","), parseErrSuffix, methodMissingSuffix),
 		}, nil
 	}
 

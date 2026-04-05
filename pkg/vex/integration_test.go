@@ -17,11 +17,9 @@ const fixtureBase = "../../testdata/integration"
 type expectedJSON struct {
 	Description string `json:"description"`
 	Findings    []struct {
-		CVE                string `json:"cve"`
-		ComponentPURL      string `json:"component_purl"`
-		ExpectedStatus     string `json:"expected_status"`
-		ExpectedConfidence string `json:"expected_confidence"`
-		ExpectedResolvedBy string `json:"expected_resolved_by"`
+		CVE            string `json:"cve"`
+		ComponentPURL  string `json:"component_purl"`
+		ExpectedStatus string `json:"expected_status"`
 	} `json:"findings"`
 }
 
@@ -38,8 +36,9 @@ type openvexStatement struct {
 	Products []struct {
 		ID string `json:"@id"`
 	} `json:"products"`
-	Status        string `json:"status"`
-	Justification string `json:"justification,omitempty"`
+	Status          string `json:"status"`
+	Justification   string `json:"justification,omitempty"`
+	ImpactStatement string `json:"impact_statement,omitempty"`
 }
 
 func TestIntegration_GoFixtures(t *testing.T) {
@@ -156,13 +155,17 @@ func TestIntegration_UpstreamVEX(t *testing.T) {
 	verifyExpectations(t, doc, expected, "upstream-vex")
 }
 
-// verifyExpectations checks that each expected finding's CVE has the right status.
+// verifyExpectations checks that each expected finding's CVE has the right status
+// and that the impact_statement (evidence string) is non-empty.
 func verifyExpectations(t *testing.T, doc openvexDoc, expected expectedJSON, label string) {
 	t.Helper()
 	for _, ef := range expected.Findings {
 		stmt := findStatement(t, doc, ef.CVE)
 		if stmt.Status != ef.ExpectedStatus {
 			t.Errorf("CVE %s: expected status %q, got %q", ef.CVE, ef.ExpectedStatus, stmt.Status)
+		}
+		if stmt.ImpactStatement == "" {
+			t.Errorf("CVE %s: impact_statement is empty; expected non-empty evidence string", ef.CVE)
 		}
 	}
 	t.Logf("%s: %d findings processed, all matched expected status", label, len(expected.Findings))
