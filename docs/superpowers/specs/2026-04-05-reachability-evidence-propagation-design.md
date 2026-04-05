@@ -18,14 +18,15 @@ Today this data is serialized into a plain-text `Evidence` string inside the rea
 
 Propagate structured call-chain evidence through the full pipeline so that:
 
-1. **PolicyKit** can write OPA policies that enforce real reachability quality gates (confidence, depth, symbol, entry point)
+1. **PolicyKit** can write OPA policies that enforce real reachability quality gates (confidence, depth, symbol, entry point, analysis method) — for all filter types, not just reachability
 2. **CSAF** advisory output carries structured call-path notes in CSAF-compliant form
 3. **Art. 14 Report** renders a human-readable, auditor-facing evidence section per vulnerability
 4. **Evidence bundle** captures complete per-vulnerability reasoning in a signed `vex_evidence.json` artifact
+5. **OpenVEX** output carries structured reachability data in the `impact_statement` field for downstream supply-chain consumers
 
 ## Approach
 
-Promote `CallPath` / `CallNode` to `pkg/formats/`, add first-class fields to `formats.VEXResult`, and update all four consumers to use the structured data.
+Promote `CallPath` / `CallNode` to `pkg/formats/`, add first-class fields to `formats.VEXResult`, and update all five consumers to use the structured data: PolicyKit, CSAF, Report, Evidence bundle, and OpenVEX output.
 
 ## Data Model
 
@@ -63,10 +64,11 @@ type VEXResult struct {
     Evidence      string // human-readable; still populated
 
     // Reachability evidence — populated when ResolvedBy == "reachability_analysis"
-    CallPaths    []CallPath // structured call chains; nil if not from reachability
-    Symbols      []string   // vulnerable symbols confirmed reachable
-    MaxCallDepth int        // max(path.Depth()) across all paths; 0 if none
-    EntryFiles   []string   // deduplicated entry-point files (Nodes[0].File)
+    AnalysisMethod string     // "tree_sitter", "govulncheck", "pattern_match"; empty for non-reachability
+    CallPaths      []CallPath // structured call chains; nil if not from reachability or pattern_match
+    Symbols        []string   // vulnerable symbols confirmed reachable
+    MaxCallDepth   int        // max(path.Depth()) across all paths; 0 if none
+    EntryFiles     []string   // deduplicated entry-point files (Nodes[0].File)
 }
 ```
 
@@ -77,32 +79,70 @@ type VEXResult struct {
 `reachability_filter.go` populates the new fields when building `VEXResult`:
 
 ```go
-vexResult.CallPaths    = result.Paths
-vexResult.Symbols      = result.Symbols
-vexResult.MaxCallDepth = maxDepth(result.Paths)
-vexResult.EntryFiles   = entryFiles(result.Paths)
+vexResult.AnalysisMethod = analyzerMethod(analyzer) // "tree_sitter", "govulncheck", or "pattern_match"
+vexResult.CallPaths      = result.Paths
+vexResult.Symbols        = result.Symbols
+vexResult.MaxCallDepth   = maxDepth(result.Paths)
+vexResult.EntryFiles     = entryFiles(result.Paths)
 ```
 
+`analyzerMethod` returns the method based on analyzer type: Go analyzer → `"govulncheck"`, generic analyzer → `"pattern_match"`, all tree-sitter analyzers → `"tree_sitter"`.
+
 The existing `Evidence` string continues to be populated.
+
+### Generic analyzer nil-path semantics
+
+The generic fallback analyzer (`generic/generic.go`) uses ripgrep pattern matching, not call-graph construction. It produces `Paths: nil`, `MaxCallDepth: 0`, and `EntryFiles: nil` — only `Symbols` and `Confidence: Medium` are populated.
+
+**This is semantically distinct from "not reachable."** A nil `CallPaths` with `Reachable == true` means "import and symbol usage detected but no call graph was constructed." Consumers must not interpret `len(CallPaths) == 0` as evidence of non-reachability. The correct check for reachability evidence is `ResolvedBy == "reachability_analysis"` combined with `Status`, not the presence of call paths.
+
+The `AnalysisMethod` field on `VEXResult` (defined above) lets consumers distinguish full call-graph analysis from pattern-match heuristics. Policies can gate on analysis quality:
+
+```rego
+# not_affected via pattern_match alone is insufficient
+deny[msg] {
+    s := input.vex.statements[_]
+    s.status == "not_affected"
+    s.resolved_by == "reachability_analysis"
+    s.analysis_method == "pattern_match"
+    msg := sprintf("CVE %v: pattern-match reachability alone cannot justify not_affected", [s.cve])
+}
+```
 
 ## PolicyKit
 
 ### OPA input (`pkg/policykit/input.go`)
 
-`buildVEX` expands the VEX statement map:
+`buildVEX` expands the VEX statement map. **All fields are exposed for every VEX result**, not just reachability ones — this enables policies that reason about resolution method, confidence, and evidence quality across the entire filter chain (e.g., "all not_affected claims must have a resolver, not just default"):
 
 ```go
 stmt := map[string]any{
+    // existing fields
     "cve":            v.CVE,
     "purl":           v.ComponentPURL,
     "status":         string(v.Status),
     "justification":  string(v.Justification),
-    "confidence":     string(v.Confidence),
-    "resolved_by":    v.ResolvedBy,
-    "max_call_depth": v.MaxCallDepth,
-    "entry_files":    v.EntryFiles,
-    "symbols":        v.Symbols,
-    "call_paths":     buildCallPathsInput(v.CallPaths), // [][]map{"symbol","file","line"}
+    // newly exposed for ALL results
+    "confidence":      string(v.Confidence),
+    "resolved_by":     v.ResolvedBy,
+    "analysis_method": v.AnalysisMethod,
+    // reachability-specific (nil/zero for non-reachability results)
+    "max_call_depth":  v.MaxCallDepth,
+    "entry_files":     v.EntryFiles,
+    "symbols":         v.Symbols,
+    "call_paths":      buildCallPathsInput(v.CallPaths), // [][]map{"symbol","file","line"}
+}
+```
+
+This also enables cross-cutting policy rules like:
+
+```rego
+# Every VEX statement must have a real resolver, not just the default fallback
+deny[msg] {
+    s := input.vex.statements[_]
+    s.resolved_by == "default"
+    s.status == "not_affected"
+    msg := sprintf("CVE %v: not_affected status assigned by default filter — requires explicit resolution", [s.cve])
 }
 ```
 
@@ -203,6 +243,44 @@ Reachability Evidence:
 
 `pkg/report/llm_judge_test.go` adds assertions that rendered call paths are accurate, readable, and sufficient for an auditor to verify the claim without re-running the tool.
 
+## OpenVEX Output
+
+### Problem
+
+The OpenVEX writer (`pkg/formats/openvex/openvex.go`) currently drops `Confidence`, `ResolvedBy`, and all reachability data. The `impact_statement` field receives only the human-readable `Evidence` string. Downstream supply-chain consumers importing this VEX document get no structured reachability data and no way to assess the quality of the determination.
+
+### Changes (`pkg/formats/openvex/openvex.go`)
+
+OpenVEX v0.2.0 does not define extension fields, but `impact_statement` is a free-form string. For reachability-resolved results, the writer produces a **structured JSON impact statement** that is both human-readable (when pretty-printed) and machine-parseable:
+
+```go
+if v.ResolvedBy == "reachability_analysis" {
+    impact := map[string]any{
+        "summary":         v.Evidence,
+        "analysis_method": v.AnalysisMethod,
+        "confidence":      string(v.Confidence),
+        "symbols":         v.Symbols,
+        "max_call_depth":  v.MaxCallDepth,
+        "entry_files":     v.EntryFiles,
+        "call_paths":      buildCallPathsJSON(v.CallPaths),
+    }
+    stmt.ImpactStatement = mustMarshalIndent(impact)
+} else {
+    stmt.ImpactStatement = v.Evidence // existing behavior
+}
+```
+
+Non-reachability results continue to use the plain-text `Evidence` string unchanged.
+
+For all statements, `status` and `justification` are mapped as before. OpenVEX does not have a confidence field — the structured impact statement carries it for consumers that parse the JSON.
+
+### LLM judge
+
+`pkg/formats/openvex/llm_judge_test.go` adds assertions that:
+- Reachability-resolved statements produce valid JSON in `impact_statement`
+- The JSON contains all expected fields (symbols, call_paths, confidence, analysis_method)
+- Non-reachability statements produce plain-text impact statements (no regression)
+
 ## Evidence Bundle
 
 ### New bundle artifact: `vex_evidence.json`
@@ -242,7 +320,8 @@ type CallNodeEntry struct {
 
 - `parseVEXData` returns `[]formats.VEXResult` (not a private `vexInfo` struct)
 - New `buildVEXEvidence(results []formats.VEXResult) []VEXEvidence` maps to the bundle type
-- Bundle writer emits `vex_evidence.json` as a new artifact, signed using the same mechanism as existing bundle artifacts
+- Bundle writer emits `vex_evidence.json` as a new artifact in the `annex-vii/` directory
+- **Signing**: The evidence bundle uses a manifest-based signing model (`sign.go`). `ComputeManifest()` walks the entire bundle directory and hashes all files into `manifest.sha256`. The manifest is then signed with cosign (keyless or key-based). Because `vex_evidence.json` is a regular file in the bundle directory, it is **automatically included** in the manifest hash and covered by the single signature — no signing code changes are needed. The `Assemble()` function gains a new `artifactInput` entry for `vex_evidence.json` so it is copied into the correct `annex-vii/` subdirectory
 
 ### LLM judge
 
@@ -258,25 +337,31 @@ All changes follow TDD:
 ### Integration test coverage
 
 - **formats**: unit tests for `CallPath.String()`, `Depth()`, `EntryPoint()`; table-driven tests for `VEXResult` field population
-- **vex/reachability filter**: existing tests extended to assert `CallPaths`, `Symbols`, `MaxCallDepth`, `EntryFiles` in output
-- **policykit**: integration tests using real Rego evaluation asserting confidence gate and call path presence rules fire correctly
+- **vex/reachability filter**: existing tests extended to assert `CallPaths`, `Symbols`, `MaxCallDepth`, `EntryFiles`, `AnalysisMethod` in output; separate cases for tree-sitter vs generic analyzer to verify nil-path semantics
+- **policykit**: integration tests using real Rego evaluation asserting:
+  - Confidence gate and call path presence rules fire correctly
+  - `resolved_by` and `confidence` available for all filter types (not just reachability)
+  - `analysis_method` gate: pattern-match-only not_affected is denied
+  - Default-resolver not_affected is denied
 - **csaf**: integration tests asserting note count, JSON body validity, summary note content
+- **openvex**: integration tests asserting structured JSON impact statement for reachability results; plain-text impact statement preserved for non-reachability results; JSON body contains all expected fields
 - **report**: integration tests asserting evidence block rendered for reachability results; absent for non-reachability results
-- **evidence**: integration tests asserting `vex_evidence.json` present in bundle, correct shape, signed
+- **evidence**: integration tests asserting `vex_evidence.json` present in bundle, correct shape, included in manifest hash
 
 ## Dependency Graph (unchanged)
 
 ```
-pkg/formats           (no deps on other internal packages)
+pkg/formats              (no deps on other internal packages)
     ↑
-pkg/vex/reachability  (imports formats)
+pkg/formats/openvex      (imports formats)
+pkg/vex/reachability     (imports formats)
     ↑
-pkg/vex               (imports reachability, formats)
+pkg/vex                  (imports reachability, formats)
     ↑
-pkg/csaf              (imports formats)
-pkg/policykit         (imports formats)
-pkg/report            (imports formats)
-pkg/evidence          (imports formats)
+pkg/csaf                 (imports formats)
+pkg/policykit            (imports formats)
+pkg/report               (imports formats)
+pkg/evidence             (imports formats)
 ```
 
 No circular dependencies introduced.
