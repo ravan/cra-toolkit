@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#0C322C"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="500" fill="#FAFFFE" rx="4"/>
+
+  <!-- ── Input: SBOM + Source Code (parallelogram) ── -->
+  <polygon points="40,140 230,140 250,200 20,200" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="135" y="165" text-anchor="middle" font-size="13" font-weight="600" fill="#0C322C">SBOM + Source Code</text>
+  <text x="135" y="183" text-anchor="middle" font-size="11" fill="#2E7D32">(CycloneDX / SPDX)</text>
+
+  <!-- Arrow: Input -> Scanners -->
+  <line x1="250" y1="170" x2="300" y2="170" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Vulnerability Scanners ── -->
+  <rect x="310" y="140" width="180" height="60" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="400" y="167" text-anchor="middle" font-size="13" font-weight="600" fill="#0C322C">Vulnerability</text>
+  <text x="400" y="183" text-anchor="middle" font-size="13" font-weight="600" fill="#0C322C">Scanners</text>
+
+  <!-- Arrow: Scanners -> cra vex -->
+  <line x1="490" y1="170" x2="545" y2="170" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── cra vex ── -->
+  <rect x="555" y="140" width="160" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="635" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="white">cra vex</text>
+
+  <!-- Arrow: cra vex -> cra policykit -->
+  <line x1="715" y1="170" x2="775" y2="170" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── cra policykit ── -->
+  <rect x="785" y="140" width="180" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="875" y="175" text-anchor="middle" font-size="14" font-weight="700" fill="white">cra policykit</text>
+  <!-- Badge: Annex I -->
+  <rect x="924" y="136" width="52" height="18" rx="9" fill="#2E7D32"/>
+  <text x="950" y="148" text-anchor="middle" font-size="9" font-weight="600" fill="white">Annex I</text>
+
+  <!-- Arrow: cra vex -> cra csaf (down) -->
+  <line x1="635" y1="200" x2="635" y2="275" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow: cra policykit -> Policy Report (down) -->
+  <line x1="875" y1="200" x2="875" y2="275" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── cra csaf ── -->
+  <rect x="555" y="285" width="160" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="635" y="320" text-anchor="middle" font-size="14" font-weight="700" fill="white">cra csaf</text>
+  <!-- Badge: Art. 14(8) -->
+  <rect x="670" y="281" width="62" height="18" rx="9" fill="#2E7D32"/>
+  <text x="701" y="293" text-anchor="middle" font-size="9" font-weight="600" fill="white">Art. 14(8)</text>
+
+  <!-- ── Policy Report (output parallelogram) ── -->
+  <polygon points="805,285 985,285 965,345 825,345" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="895" y="312" text-anchor="middle" font-size="13" font-weight="600" fill="#0C322C">Policy Report</text>
+  <text x="895" y="328" text-anchor="middle" font-size="11" fill="#2E7D32">(Annex I results)</text>
+
+  <!-- Arrow: cra csaf -> cra report (down) -->
+  <line x1="635" y1="345" x2="635" y2="395" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Arrow: Policy Report -> cra evidence (down) -->
+  <line x1="895" y1="345" x2="895" y2="395" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── cra report ── -->
+  <rect x="555" y="405" width="160" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="635" y="440" text-anchor="middle" font-size="14" font-weight="700" fill="white">cra report</text>
+  <!-- Badge: Art. 14 -->
+  <rect x="670" y="401" width="52" height="18" rx="9" fill="#2E7D32"/>
+  <text x="696" y="413" text-anchor="middle" font-size="9" font-weight="600" fill="white">Art. 14</text>
+
+  <!-- Arrow: cra report -> cra evidence -->
+  <line x1="715" y1="435" x2="795" y2="435" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── cra evidence ── -->
+  <rect x="805" y="405" width="180" height="60" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="895" y="440" text-anchor="middle" font-size="14" font-weight="700" fill="white">cra evidence</text>
+  <!-- Badge: Annex VII -->
+  <rect x="940" y="401" width="60" height="18" rx="9" fill="#2E7D32"/>
+  <text x="970" y="413" text-anchor="middle" font-size="9" font-weight="600" fill="white">Annex VII</text>
+
+  <!-- ── Output: Evidence Bundle (parallelogram) ── -->
+  <polygon points="1020,415 1180,415 1160,455 1040,455" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <text x="1100" y="432" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">Evidence</text>
+  <text x="1100" y="446" text-anchor="middle" font-size="12" font-weight="600" fill="#0C322C">Bundle</text>
+
+  <!-- Arrow: cra evidence -> Evidence Bundle -->
+  <line x1="985" y1="435" x2="1030" y2="435" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── Legend ── -->
+  <rect x="20" y="420" width="14" height="14" rx="3" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="40" y="432" font-size="11" fill="#0C322C">CRA Toolkit command</text>
+  <polygon points="20,450 82,450 88,464 14,464" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="104" y="460" font-size="11" fill="#0C322C">Input / Output</text>
+</svg>
