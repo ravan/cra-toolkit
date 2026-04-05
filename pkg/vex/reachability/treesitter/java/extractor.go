@@ -505,6 +505,68 @@ func appendUnique(slice []string, value string) []string {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CHA Snapshot / Restore
+// ─────────────────────────────────────────────────────────────────────────────
+
+// CHASnapshot captures the cross-file CHA state for restoration.
+// After Phase 1 processes all files, the extractor holds the union of all
+// interface→implementor mappings. SnapshotCHA preserves this union so it can
+// be merged back after per-file ExtractSymbols calls reset the extractor state.
+type CHASnapshot struct {
+	cha          map[string][]string
+	paramTypes   map[paramKey]string
+	classPackage map[string]string
+}
+
+// SnapshotCHA captures the current CHA state so it can be restored after
+// per-file ExtractSymbols calls reset the extractor's state.
+// Call this once after processing all files in Phase 1.
+func (e *Extractor) SnapshotCHA() *CHASnapshot {
+	snap := &CHASnapshot{
+		cha:          make(map[string][]string, len(e.cha)),
+		paramTypes:   make(map[paramKey]string, len(e.paramTypes)),
+		classPackage: make(map[string]string, len(e.classPackage)),
+	}
+	for k, v := range e.cha {
+		dst := make([]string, len(v))
+		copy(dst, v)
+		snap.cha[k] = dst
+	}
+	for k, v := range e.paramTypes {
+		snap.paramTypes[k] = v
+	}
+	for k, v := range e.classPackage {
+		snap.classPackage[k] = v
+	}
+	return snap
+}
+
+// RestoreCHA merges a snapshot's CHA data into the current extractor state.
+// Called before ExtractCalls to ensure cross-file interface dispatch is resolved.
+// Entries from the snapshot are merged (not overwritten) so the per-file data
+// extracted by ExtractSymbols is preserved alongside the cross-file CHA.
+func (e *Extractor) RestoreCHA(snap *CHASnapshot) {
+	if snap == nil {
+		return
+	}
+	for k, v := range snap.cha {
+		for _, impl := range v {
+			e.cha[k] = appendUnique(e.cha[k], impl)
+		}
+	}
+	for k, v := range snap.paramTypes {
+		if _, exists := e.paramTypes[k]; !exists {
+			e.paramTypes[k] = v
+		}
+	}
+	for k, v := range snap.classPackage {
+		if _, exists := e.classPackage[k]; !exists {
+			e.classPackage[k] = v
+		}
+	}
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // ResolveImports
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -127,6 +127,12 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		})
 	}
 
+	// Snapshot the accumulated CHA state before Phase 3 resets it per-file.
+	// After processing all files above, the extractor holds the union of all
+	// interface→implementor mappings across the entire codebase. We capture
+	// this now so it can be merged back in Phase 3 before each ExtractCalls.
+	chaSnapshot := ext.SnapshotCHA()
+
 	// Phase 2: Build the call graph
 	graph := treesitter.NewGraph()
 
@@ -138,15 +144,17 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	}
 
 	// Phase 3: Extract calls and add edges.
-	// Note: The Java extractor uses its internal CHA/paramTypes state built during
-	// ExtractSymbols. Since the extractor resets state on each ExtractSymbols call,
-	// each fileInfo's extractor state corresponds to that file's symbols/CHA.
-	// We must re-extract symbols to restore extractor state before calling ExtractCalls.
+	// The Java extractor resets its CHA/paramTypes state on each ExtractSymbols call,
+	// so we must re-run ExtractSymbols to restore per-file symbols, then immediately
+	// merge back the full cross-file CHA snapshot so that interface dispatch across
+	// files is resolved correctly before ExtractCalls runs.
 	for _, fi := range fileInfos {
-		// Re-run ExtractSymbols to restore the extractor's CHA/paramTypes state for this file
+		// Restore per-file symbols (resets extractor state for this file)
 		if _, err := ext.ExtractSymbols(fi.pr.File, fi.pr.Source, fi.pr.Tree); err != nil {
 			continue
 		}
+		// Merge back the full cross-file CHA so interface dispatch sees all implementors
+		ext.RestoreCHA(chaSnapshot)
 
 		edges, err := ext.ExtractCalls(fi.pr.File, fi.pr.Source, fi.pr.Tree, fi.scope)
 		if err != nil {

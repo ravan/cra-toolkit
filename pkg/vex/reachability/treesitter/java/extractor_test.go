@@ -364,6 +364,90 @@ public class DataProcessor implements Processor {
 	}
 }
 
+// TestCHA_CrossFile verifies that SnapshotCHA / RestoreCHA allow ExtractCalls to
+// produce EdgeDispatch edges when an interface is defined in one file and its
+// implementor is defined in another file.
+//
+// Scenario:
+//   - "file_a.java" declares interface Handler
+//   - "file_b.java" declares LogHandler implements Handler
+//   - "file_b.java" also has App.run(Handler handler) which calls handler.handle(...)
+//
+// After ExtractSymbols on both files and SnapshotCHA, RestoreCHA must make the
+// cross-file interface→implementor mapping visible during ExtractCalls on file_b.
+//
+//nolint:gocognit,gocyclo // test validates cross-file CHA state across two parse trees
+func TestCHA_CrossFile(t *testing.T) {
+	sourceA := `package com.example;
+
+public interface Handler {
+    void handle(String input);
+}
+`
+	sourceB := `package com.example;
+
+public class LogHandler implements Handler {
+    public void handle(String input) {
+        System.out.println(input);
+    }
+}
+
+public class App {
+    public void run(Handler handler) {
+        handler.handle("test");
+    }
+}
+`
+	treeA, srcA := parseSource(t, sourceA)
+	defer treeA.Close()
+
+	treeB, srcB := parseSource(t, sourceB)
+	defer treeB.Close()
+
+	ext := javaextractor.New()
+
+	// Phase 1: extract symbols from both files (mirrors the analyzer pipeline)
+	if _, err := ext.ExtractSymbols("file_a.java", srcA, treeA); err != nil {
+		t.Fatalf("ExtractSymbols file_a.java: %v", err)
+	}
+	if _, err := ext.ExtractSymbols("file_b.java", srcB, treeB); err != nil {
+		t.Fatalf("ExtractSymbols file_b.java: %v", err)
+	}
+
+	// Snapshot the accumulated cross-file CHA state
+	snap := ext.SnapshotCHA()
+
+	// Phase 3 simulation: re-extract file_b symbols (resets extractor state),
+	// then restore the cross-file CHA snapshot before extracting calls.
+	if _, err := ext.ExtractSymbols("file_b.java", srcB, treeB); err != nil {
+		t.Fatalf("re-ExtractSymbols file_b.java: %v", err)
+	}
+	ext.RestoreCHA(snap)
+
+	scope := treesitter.NewScope(nil)
+	edges, err := ext.ExtractCalls("file_b.java", srcB, treeB, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls file_b.java: %v", err)
+	}
+
+	// CHA should emit EdgeDispatch from App.run → LogHandler.handle
+	// because Handler (file_a) → LogHandler (file_b) is in the merged snapshot.
+	var foundDispatch bool
+	for _, e := range edges {
+		if e.Kind == treesitter.EdgeDispatch && e.Confidence == 0.5 {
+			foundDispatch = true
+			t.Logf("cross-file dispatch edge: %s -> %s (conf=%.1f)", e.From, e.To, e.Confidence)
+		}
+	}
+
+	if !foundDispatch {
+		t.Error("expected cross-file CHA to produce at least one EdgeDispatch with confidence 0.5")
+		for _, e := range edges {
+			t.Logf("  edge: %s -> %s (%s, conf=%.1f)", e.From, e.To, e.Kind, e.Confidence)
+		}
+	}
+}
+
 // TestExtractSymbols_InnerClass verifies that inner (nested) classes and their methods
 // are extracted with qualified names.
 //
