@@ -193,10 +193,25 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	allSymbols := graph.AllSymbols()
 	entryPoints := ext.FindEntryPoints(allSymbols, sourceDir)
 
-	// Also treat __main__ module-level code as an entry point by adding a virtual
-	// entry node for each file that has top-level calls.
+	// Include __main__ blocks and module-level nodes already marked as entry points
+	// by addTopLevelCallEdges (e.g., plain scripts with top-level executable code).
 	mainEntries := findMainModuleEntries(graph)
 	entryPoints = append(entryPoints, mainEntries...)
+
+	// Also include any module nodes already marked as entry points from Phase 3.
+	// This covers simple scripts like `import yaml; yaml.load(...)` at module level.
+	for _, ep := range graph.EntryPoints() {
+		found := false
+		for _, existing := range entryPoints {
+			if existing == ep {
+				found = true
+				break
+			}
+		}
+		if !found {
+			entryPoints = append(entryPoints, ep)
+		}
+	}
 
 	if len(entryPoints) == 0 {
 		// Fall back: treat all top-level module symbols as entry points
@@ -216,10 +231,16 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	}
 
 	// Phase 5: Build target symbol IDs from the finding
-	// For PyYAML with symbols=["load"], target is "yaml.load"
-	targets := buildTargetIDs(importName, finding.Symbols)
+	// For PyYAML with symbols=["load"], target is "yaml.load".
+	// When no specific symbols are provided, collect all known calls to the package.
+	symbols := finding.Symbols
+	if len(symbols) == 0 {
+		symbols = collectImportSymbolNames(graph, importName)
+	}
 
-	// Also add the targets as virtual nodes in the graph so BFS can find them
+	targets := buildTargetIDs(importName, symbols)
+
+	// Also add the targets as virtual nodes in the graph so BFS can find them.
 	for _, targetID := range targets {
 		if graph.GetSymbol(targetID) == nil {
 			graph.AddSymbol(&treesitter.Symbol{
@@ -278,6 +299,34 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 func moduleNameFromFile(file string) string {
 	base := filepath.Base(file)
 	return strings.TrimSuffix(base, filepath.Ext(base))
+}
+
+// collectImportSymbolNames scans the call graph for edges targeting the given
+// importName prefix (e.g. "yaml") and returns the distinct method names found
+// (e.g. ["load", "dump"]). This is used when the finding doesn't specify
+// individual symbols so we can detect any usage of the package.
+func collectImportSymbolNames(graph *treesitter.Graph, importName string) []string {
+	prefix := importName + "."
+	seen := make(map[string]struct{})
+	for _, sym := range graph.AllSymbols() {
+		for _, edge := range graph.ForwardEdges(sym.ID) {
+			toStr := string(edge.To)
+			if strings.HasPrefix(toStr, prefix) {
+				method := strings.TrimPrefix(toStr, prefix)
+				if method != "" && !strings.Contains(method, ".") {
+					seen[method] = struct{}{}
+				}
+			}
+		}
+	}
+	if len(seen) == 0 {
+		return nil
+	}
+	result := make([]string, 0, len(seen))
+	for m := range seen {
+		result = append(result, m)
+	}
+	return result
 }
 
 // buildTargetIDs creates SymbolIDs for the vulnerable symbols.
@@ -353,7 +402,9 @@ func addCrossFileEdges(
 }
 
 // addTopLevelCallEdges finds calls at the module level (outside any function)
-// and adds edges from a virtual module entry node to the callees.
+// and adds edges from a virtual module entry node to the callees. The module
+// node is marked as an entry point so that BFS can traverse edges originating
+// from top-level executable code (e.g. `yaml.load(...)` at module level).
 func addTopLevelCallEdges(
 	pr treesitter.ParseResult,
 	scope *treesitter.Scope,
@@ -363,7 +414,8 @@ func addTopLevelCallEdges(
 	root := pr.Tree.RootNode()
 	moduleID := treesitter.SymbolID(mod)
 
-	// Ensure the module node exists in the graph
+	// Ensure the module node exists in the graph and mark it as an entry point
+	// so BFS will start from it. Python executes module-level code on import/run.
 	if graph.GetSymbol(moduleID) == nil {
 		graph.AddSymbol(&treesitter.Symbol{
 			ID:            moduleID,
@@ -372,8 +424,13 @@ func addTopLevelCallEdges(
 			Language:      "python",
 			File:          pr.File,
 			Kind:          treesitter.SymbolModule,
-			IsEntryPoint:  false,
+			IsEntryPoint:  true,
 		})
+	} else {
+		// Mark existing module node as entry point.
+		if sym := graph.GetSymbol(moduleID); sym != nil {
+			sym.IsEntryPoint = true
+		}
 	}
 
 	collectTopLevelCalls(root, pr.Source, pr.File, mod, scope, graph, moduleID)

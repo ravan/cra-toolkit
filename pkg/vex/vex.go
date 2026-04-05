@@ -18,8 +18,14 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
 	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	csharpanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/csharp"
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/generic"
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/golang"
+	javaanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/java"
+	jsanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/javascript"
+	phpanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/php"
+	pythonanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/python"
+	rubyanalyzer "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/ruby"
 	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/rust"
 )
 
@@ -201,6 +207,18 @@ func buildAnalyzers(sourceDir string) map[string]reachability.Analyzer {
 			analyzers["go"] = golang.New()
 		case "rust":
 			analyzers["rust"] = rust.New()
+		case "python":
+			analyzers["python"] = pythonanalyzer.New()
+		case "javascript":
+			analyzers["javascript"] = jsanalyzer.New()
+		case "java":
+			analyzers["java"] = javaanalyzer.New()
+		case "csharp":
+			analyzers["csharp"] = csharpanalyzer.New()
+		case "php":
+			analyzers["php"] = phpanalyzer.New()
+		case "ruby":
+			analyzers["ruby"] = rubyanalyzer.New()
 		}
 	}
 
