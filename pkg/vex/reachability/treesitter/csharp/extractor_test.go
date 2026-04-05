@@ -56,8 +56,8 @@ public class Greeter
 		t.Fatalf("ExtractSymbols failed: %v", err)
 	}
 
-	if len(symbols) < 3 {
-		t.Errorf("expected at least 3 symbols (class + 2 methods), got %d", len(symbols))
+	if len(symbols) != 3 {
+		t.Errorf("expected exactly 3 symbols (class + 2 methods), got %d", len(symbols))
 		for _, s := range symbols {
 			t.Logf("  %s (%s) at line %d", s.QualifiedName, s.Kind, s.StartLine)
 		}
@@ -136,6 +136,8 @@ public class Service
 }
 
 // TestExtractSymbols_FileScopedNamespace verifies that file-scoped namespaces (C# 10+) are parsed.
+//
+//nolint:gocognit // test validates exact symbol count plus qualified name and package assertions
 func TestExtractSymbols_FileScopedNamespace(t *testing.T) {
 	source := `namespace MyApp.Controllers;
 
@@ -151,6 +153,13 @@ public class HomeController
 	symbols, err := ext.ExtractSymbols("HomeController.cs", src, tree)
 	if err != nil {
 		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	if len(symbols) != 2 {
+		t.Errorf("expected exactly 2 symbols (class + 1 method), got %d", len(symbols))
+		for _, s := range symbols {
+			t.Logf("  %s (%s) at line %d", s.QualifiedName, s.Kind, s.StartLine)
+		}
 	}
 
 	var foundClass bool

@@ -135,16 +135,14 @@ func walkTopLevel(
 		case "file_scoped_namespace_declaration":
 			// File-scoped namespace already captured in ns; classes at root level below
 
-		case "class_declaration":
-			extractClassNode(child, src, file, ns, "", symbols, attributes, staticMethods)
-
 		case "global_statement":
 			// Minimal API / top-level statements: look for app.MapGet etc.
 			collectMapHandlers(child, src, mapHandlers)
 		}
 	}
 
-	// For file-scoped namespaces: classes appear at root level after the namespace declaration
+	// This second pass catches class_declaration nodes that appear directly at compilation_unit
+	// level, which occurs with file-scoped namespaces (C# 10+) or classes with no namespace.
 	for i := uint(0); i < root.ChildCount(); i++ {
 		child := root.Child(i)
 		if child == nil {

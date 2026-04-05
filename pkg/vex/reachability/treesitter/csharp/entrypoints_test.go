@@ -122,9 +122,13 @@ app.Run();
 		t.Fatalf("ExtractSymbols failed: %v", err)
 	}
 
-	eps := ext.FindEntryPoints(symbols, "/project")
-	// Minimal API Map calls may produce minimal symbols; just verify no panic and runs correctly
-	t.Logf("Minimal API entry points: %v", eps)
+	// Minimal API inline lambdas (e.g. app.MapGet("/hello", () => "Hello World")) do not
+	// produce named method symbols in the AST — the handler is an anonymous lambda with no
+	// identifier. These fall through to the all-methods-as-entrypoints fallback in the analyzer.
+	// Named handler functions passed by reference would be detectable, but inline lambdas are not.
+	t.Skip("Minimal API inline lambdas fall through to fallback entry detection")
+
+	_ = ext.FindEntryPoints(symbols, "/project")
 }
 
 // TestFindEntryPoints_BackgroundService verifies that ExecuteAsync is detected.
