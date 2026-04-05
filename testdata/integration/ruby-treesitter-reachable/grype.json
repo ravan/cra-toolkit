@@ -1,0 +1,83 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2022-24836",
+        "severity": "High",
+        "cvss": [
+          {
+            "version": "3.1",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "metrics": {
+              "baseScore": 7.5,
+              "exploitabilityScore": 3.9,
+              "impactScore": 3.6
+            },
+            "vendorMetadata": {}
+          }
+        ],
+        "fix": {
+          "versions": ["1.13.4"],
+          "state": "fixed"
+        },
+        "advisories": []
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "ruby-gem-matcher",
+          "searchedBy": {
+            "language": "ruby",
+            "namespace": "github:language:ruby",
+            "package": {
+              "name": "nokogiri",
+              "version": "1.13.3"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 1.13.4 (unknown)",
+            "vulnerabilityID": "CVE-2022-24836"
+          }
+        }
+      ],
+      "artifact": {
+        "id": "nokogiri-1133",
+        "name": "nokogiri",
+        "version": "1.13.3",
+        "type": "gem",
+        "locations": [
+          {
+            "path": "/source/Gemfile"
+          }
+        ],
+        "language": "ruby",
+        "licenses": ["MIT"],
+        "cpes": ["cpe:2.3:a:nokogiri:nokogiri:1.13.3:*:*:*:*:ruby:*:*"],
+        "purl": "pkg:gem/nokogiri@1.13.3",
+        "upstreams": []
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "userInput": "/source",
+      "imageID": "",
+      "manifestDigest": "",
+      "mediaType": "",
+      "tags": [],
+      "imageSize": 0,
+      "layers": [],
+      "manifest": null,
+      "config": null,
+      "repoDigests": [],
+      "actualDigest": ""
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.79.4"
+  }
+}
