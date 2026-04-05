@@ -1,0 +1,6 @@
+{
+  "reachable": false,
+  "confidence": "high",
+  "cve": "CVE-2021-44228",
+  "package": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"
+}
