@@ -36,9 +36,9 @@ func New() *Extractor {
 	}
 }
 
-// moduleFromFile derives a module name from a JS/TS file path.
+// ModuleFromFile derives a module name from a JS/TS file path.
 // "handler.js" → "handler", "routes/api.ts" → "api"
-func moduleFromFile(file string) string {
+func ModuleFromFile(file string) string {
 	base := filepath.Base(file)
 	ext := filepath.Ext(base)
 	name := strings.TrimSuffix(base, ext)
@@ -108,7 +108,7 @@ func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tr
 	e.routeHandlers = make(map[string]bool)
 
 	root := tree.RootNode()
-	mod := moduleFromFile(file)
+	mod := ModuleFromFile(file)
 	var symbols []*treesitter.Symbol
 	walkSymbols(root, src, file, mod, "", &symbols, e.decorators, e.exported, e.routeHandlers)
 	return symbols, nil
@@ -894,7 +894,7 @@ func collectRequireImport(node *tree_sitter.Node, src []byte, file string, impor
 // Typed vars are collected per-function from parameter annotations; file-level declarations are not tracked.
 func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree, scope *treesitter.Scope) ([]treesitter.Edge, error) {
 	root := tree.RootNode()
-	mod := moduleFromFile(file)
+	mod := ModuleFromFile(file)
 	var edges []treesitter.Edge
 	// Typed vars are collected per-function from parameter annotations; file-level declarations are not tracked.
 	typedVars := make(map[string]bool)

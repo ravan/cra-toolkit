@@ -26,23 +26,16 @@ func New() *Analyzer { return &Analyzer{} }
 func (a *Analyzer) Language() string { return "javascript" }
 
 // npmImportName maps npm package names to their JavaScript import names.
-// Only non-obvious mappings are listed; the default is the package name itself.
+// Only entries where the npm package name differs from its import name are listed;
+// the fallback returns the package name as-is.
 var npmImportName = map[string]string{
-	"lodash":        "lodash",
-	"lodash-es":     "lodash-es",
-	"express":       "express",
-	"react":         "react",
-	"vue":           "vue",
-	"next":          "next",
-	"@types/lodash": "lodash",
-	"@types/node":   "node",
-	"axios":         "axios",
-	"moment":        "moment",
-	"dayjs":         "dayjs",
-	"underscore":    "underscore",
-	"ramda":         "ramda",
-	"rxjs":          "rxjs",
-	"zod":           "zod",
+	// @types/* packages: strip the scope, import the underlying module name
+	"@types/lodash":  "lodash",
+	"@types/node":    "node",
+	"@types/react":   "react",
+	"@types/express": "express",
+	// scoped packages where the import name differs
+	"lodash-es": "lodash",
 }
 
 // jsExtensions contains file extensions for JavaScript files that use the JS grammar.
@@ -171,7 +164,7 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 			scope.DefineImport(alias, imp.Module, imp.Symbols)
 		}
 
-		mod := moduleNameFromFile(pr.File)
+		mod := jsextractor.ModuleFromFile(pr.File)
 		moduleSymbols[mod] = symbols
 
 		fileInfos = append(fileInfos, fileInfo{
@@ -195,15 +188,16 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	// Phase 3: Extract calls and add edges, with cross-file resolution.
 	// Pass fi.scope (which holds DefineImport entries for CJS require/ESM import aliases)
 	// to ExtractCalls so that resolveAliasInCallee can rewrite "_.template" → "lodash.template".
-	// augScope is only needed for Python-style "from module import symbol" cross-file resolution
-	// which JS doesn't use in the same way.
 	for _, fi := range fileInfos {
-		augScope := buildAugmentedScope(fi.imports, moduleSymbols, fi.scope)
-
 		edges, err := ext.ExtractCalls(fi.pr.File, fi.pr.Source, fi.pr.Tree, fi.scope)
 		if err != nil {
 			continue
 		}
+
+		// Build augmented scope for cross-file resolution AFTER extracting calls.
+		// Note: ExtractCalls uses fi.scope directly (not augScope) so that the
+		// CJS/ESM alias bindings in fi.scope are available to resolveAliasInCallee.
+		augScope := buildAugmentedScope(fi.imports, moduleSymbols, fi.scope)
 
 		for _, e := range edges {
 			resolved := resolveEdgeTo(e.To, augScope)
@@ -220,7 +214,7 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	// In JS apps, top-level code runs at module load time (e.g., app.post registrations).
 	// We create virtual module entry nodes for each file and add them as entry points.
 	for _, fi := range fileInfos {
-		modName := moduleNameFromFile(fi.pr.File)
+		modName := jsextractor.ModuleFromFile(fi.pr.File)
 		modID := treesitter.SymbolID(modName)
 		if graph.GetSymbol(modID) == nil {
 			graph.AddSymbol(&treesitter.Symbol{
@@ -309,16 +303,6 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		Symbols:    reachedSymbols,
 		Paths:      allPaths,
 	}, nil
-}
-
-// moduleNameFromFile derives a module name from a JS/TS file path.
-// "handler.js" → "handler", "routes/api.ts" → "api"
-func moduleNameFromFile(file string) string {
-	base := filepath.Base(file)
-	ext := filepath.Ext(base)
-	name := strings.TrimSuffix(base, ext)
-	name = strings.ReplaceAll(name, "+", "_")
-	return name
 }
 
 // buildTargetIDs creates SymbolIDs for the vulnerable symbols.
