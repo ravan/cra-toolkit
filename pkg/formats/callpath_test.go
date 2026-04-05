@@ -8,9 +8,9 @@ import (
 
 func TestCallPath_String(t *testing.T) {
 	tests := []struct {
-		name  string
-		path  formats.CallPath
-		want  string
+		name string
+		path formats.CallPath
+		want string
 	}{
 		{
 			name: "two nodes with file and line",
@@ -33,9 +33,9 @@ func TestCallPath_String(t *testing.T) {
 			want: "main.handler (cmd/main.go:42) -> external.Func",
 		},
 		{
-			name:  "empty path",
-			path:  formats.CallPath{},
-			want:  "",
+			name: "empty path",
+			path: formats.CallPath{},
+			want: "",
 		},
 		{
 			name: "single node",
@@ -100,4 +100,46 @@ func TestCallPath_EntryPoint_EmptyPanics(t *testing.T) {
 	}()
 	p := formats.CallPath{}
 	p.EntryPoint()
+}
+
+func TestVEXResult_ReachabilityFields(t *testing.T) {
+	r := formats.VEXResult{
+		CVE:           "CVE-2024-1234",
+		ComponentPURL: "pkg:maven/com.example/lib@1.0",
+		Status:        formats.StatusAffected,
+		Confidence:    formats.ConfidenceHigh,
+		ResolvedBy:    "reachability_analysis",
+		Evidence:      "symbol is called",
+		AnalysisMethod: "tree_sitter",
+		CallPaths: []formats.CallPath{
+			{
+				Nodes: []formats.CallNode{
+					{Symbol: "App.main", File: "src/App.java", Line: 10},
+					{Symbol: "Lib.vuln", File: "lib/Lib.java", Line: 20},
+				},
+			},
+		},
+		Symbols:      []string{"Lib.vuln"},
+		MaxCallDepth: 2,
+		EntryFiles:   []string{"src/App.java"},
+	}
+
+	if r.AnalysisMethod != "tree_sitter" {
+		t.Errorf("AnalysisMethod = %q, want tree_sitter", r.AnalysisMethod)
+	}
+	if len(r.CallPaths) != 1 {
+		t.Fatalf("CallPaths count = %d, want 1", len(r.CallPaths))
+	}
+	if r.CallPaths[0].Depth() != 2 {
+		t.Errorf("CallPaths[0].Depth() = %d, want 2", r.CallPaths[0].Depth())
+	}
+	if len(r.Symbols) != 1 || r.Symbols[0] != "Lib.vuln" {
+		t.Errorf("Symbols = %v, want [Lib.vuln]", r.Symbols)
+	}
+	if r.MaxCallDepth != 2 {
+		t.Errorf("MaxCallDepth = %d, want 2", r.MaxCallDepth)
+	}
+	if len(r.EntryFiles) != 1 || r.EntryFiles[0] != "src/App.java" {
+		t.Errorf("EntryFiles = %v, want [src/App.java]", r.EntryFiles)
+	}
 }

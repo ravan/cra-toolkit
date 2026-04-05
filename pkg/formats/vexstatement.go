@@ -50,4 +50,11 @@ type VEXResult struct {
 	Confidence    Confidence    // confidence level of the determination
 	ResolvedBy    string        // name of the filter that resolved this finding
 	Evidence      string        // human-readable evidence chain
+
+	// Reachability evidence — populated when ResolvedBy == "reachability_analysis"
+	AnalysisMethod string     // "tree_sitter", "govulncheck", "pattern_match"; empty for non-reachability
+	CallPaths      []CallPath // structured call chains; nil if not from reachability or pattern_match
+	Symbols        []string   // vulnerable symbols confirmed reachable
+	MaxCallDepth   int        // max(path.Depth()) across all paths; 0 if none
+	EntryFiles     []string   // deduplicated entry-point files (Nodes[0].File)
 }
