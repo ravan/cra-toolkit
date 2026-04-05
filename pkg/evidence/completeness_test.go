@@ -6,7 +6,7 @@ package evidence_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 )
 

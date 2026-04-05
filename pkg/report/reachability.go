@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // renderNode renders a single call graph node for display.

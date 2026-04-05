@@ -3,7 +3,7 @@
 
 package vex
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Filter is a single step in the VEX determination pipeline.
 type Filter interface {

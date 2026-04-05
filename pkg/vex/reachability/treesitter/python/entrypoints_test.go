@@ -6,8 +6,8 @@ package python_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 func TestFindEntryPoints_MainBlock(t *testing.T) {

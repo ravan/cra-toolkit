@@ -3,7 +3,7 @@
 
 package csaf
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // mapVulnerabilities correlates scanner findings with VEX results and returns
 // CSAF vulnerability entries grouped by CVE in finding order.

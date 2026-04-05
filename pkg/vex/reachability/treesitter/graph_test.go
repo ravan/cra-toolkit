@@ -6,7 +6,7 @@ package treesitter_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestGraph_AddSymbol(t *testing.T) {

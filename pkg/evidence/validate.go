@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // ValidateArtifacts resolves artifacts from opts and checks that each

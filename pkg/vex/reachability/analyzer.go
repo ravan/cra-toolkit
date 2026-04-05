@@ -6,7 +6,7 @@ package reachability
 import (
 	"context"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Analyzer performs reachability analysis for a specific language ecosystem.

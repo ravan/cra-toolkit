@@ -7,8 +7,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/rust"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
 )
 
 func TestAnalyzer_Language(t *testing.T) {

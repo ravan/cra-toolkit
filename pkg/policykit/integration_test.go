@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

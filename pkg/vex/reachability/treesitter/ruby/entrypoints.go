@@ -9,7 +9,7 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // RegisterRoutes parses a routes.rb AST and registers controller#action pairs.

@@ -13,8 +13,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // Analyzer uses govulncheck to determine reachability in Go projects.

@@ -11,11 +11,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	csharpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/csharp"
-	csharpgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/csharp"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	csharpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/csharp"
+	csharpgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/csharp"
 )
 
 // Analyzer performs C# reachability analysis using tree-sitter AST parsing.

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestReachabilityDetail_WithPaths(t *testing.T) {

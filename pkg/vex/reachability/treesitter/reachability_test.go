@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func buildLinearGraph() *treesitter.Graph {

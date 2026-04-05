@@ -6,8 +6,8 @@ package ruby_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	rubyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/ruby"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	rubyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/ruby"
 )
 
 // TestFindEntryPoints_RailsController verifies that controller methods routed in routes.rb

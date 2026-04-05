@@ -14,7 +14,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // ParsedArtifacts holds all artifacts parsed from CLI inputs.

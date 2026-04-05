@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // httpMethods is an alias for routeRegistrationMethods used for route-handler name heuristics.

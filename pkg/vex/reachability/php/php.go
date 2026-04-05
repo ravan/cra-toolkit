@@ -13,11 +13,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	phpgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/php"
-	phpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/php"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	phpgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/php"
+	phpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/php"
 )
 
 // Analyzer performs PHP reachability analysis using tree-sitter AST parsing.

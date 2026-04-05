@@ -6,8 +6,8 @@ package report
 import (
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
 // AggregateExploitationSignals collects exploitation signals from KEV, EPSS, and manual

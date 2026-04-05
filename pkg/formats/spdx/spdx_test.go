@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	spdxparser "github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
+	spdxparser "github.com/ravan/cra-toolkit/pkg/formats/spdx"
 )
 
 func TestParse_RealSPDXSBOM(t *testing.T) {

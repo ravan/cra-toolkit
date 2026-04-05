@@ -10,7 +10,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Parser parses CSAF VEX profile JSON documents.

@@ -8,9 +8,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	javagrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/java"
-	javaextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/java"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	javagrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/java"
+	javaextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/java"
 )
 
 // parseSource parses Java source bytes and returns the tree and the source slice.

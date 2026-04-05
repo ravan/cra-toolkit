@@ -6,8 +6,8 @@ package java_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	javaextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/java"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	javaextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/java"
 )
 
 // TestFindEntryPoints_MainMethod verifies that public static void main is an entry point.

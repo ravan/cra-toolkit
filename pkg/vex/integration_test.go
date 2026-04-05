@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 const fixtureBase = "../../testdata/integration"

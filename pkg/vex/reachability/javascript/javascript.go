@@ -11,12 +11,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	jsgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
-	tsgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/typescript"
-	jsextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/javascript"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	jsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
+	tsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/typescript"
+	jsextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/javascript"
 )
 
 // Analyzer performs JavaScript/TypeScript reachability analysis using tree-sitter AST parsing.

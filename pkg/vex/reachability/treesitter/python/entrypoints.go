@@ -6,7 +6,7 @@ package python
 import (
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // entryPointDecorators is the set of decorator prefixes that mark entry points.

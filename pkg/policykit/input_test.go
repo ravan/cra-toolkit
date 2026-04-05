@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestBuildInput_FullArtifacts(t *testing.T) { //nolint:gocognit,gocyclo // test validation requires many assertion checks

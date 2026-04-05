@@ -6,7 +6,7 @@ package csharp
 import (
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // httpEntryPointAttributes are ASP.NET Core attributes that mark controller actions as entry points.

@@ -6,8 +6,8 @@ package csharp_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	csharpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/csharp"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	csharpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/csharp"
 )
 
 // TestFindEntryPoints_StaticMain verifies that static void Main is detected as an entry point.

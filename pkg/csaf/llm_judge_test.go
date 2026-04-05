@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/csaf"
+	"github.com/ravan/cra-toolkit/pkg/csaf"
 )
 
 const referenceBase = "../../testdata/csaf-references"

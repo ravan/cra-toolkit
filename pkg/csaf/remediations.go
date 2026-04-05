@@ -6,7 +6,7 @@ package csaf
 import (
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func addRemediations(vulns []vulnerability, findings []formats.Finding) []vulnerability {

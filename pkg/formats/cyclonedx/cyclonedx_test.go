@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 )
 
 func TestParse_RealCycloneDXSBOM(t *testing.T) {

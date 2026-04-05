@@ -9,9 +9,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	phpgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/php"
-	phpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/php"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	phpgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/php"
+	phpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/php"
 )
 
 // parseSource parses PHP source bytes and returns the tree and the source slice.

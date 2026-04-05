@@ -13,11 +13,11 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	grammarpython "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	grammarpython "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 // Analyzer performs Python reachability analysis using tree-sitter AST parsing.

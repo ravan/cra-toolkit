@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // Analyzer uses cargo-scan to determine reachability in Rust projects.

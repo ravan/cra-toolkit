@@ -6,7 +6,7 @@ package java
 import (
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 // entryPointAnnotations are all annotations that mark a method as an entry point.

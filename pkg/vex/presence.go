@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	packageurl "github.com/package-url/packageurl-go"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // presenceFilter resolves findings when the affected component is not present in the SBOM.

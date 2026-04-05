@@ -6,7 +6,7 @@ package evidence
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func vexResultFixtures() []formats.VEXResult {

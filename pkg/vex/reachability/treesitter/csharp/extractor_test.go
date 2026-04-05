@@ -8,9 +8,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	csharpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/csharp"
-	csharpgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/csharp"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	csharpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/csharp"
+	csharpgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/csharp"
 )
 
 // parseSource parses C# source bytes and returns the tree and the source slice.

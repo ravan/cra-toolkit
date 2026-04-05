@@ -11,11 +11,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	rubygrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/ruby"
-	rubyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/ruby"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	rubygrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/ruby"
+	rubyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/ruby"
 )
 
 // Compile-time interface conformance check.

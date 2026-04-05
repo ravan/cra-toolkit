@@ -8,9 +8,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
-	pyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 func parseSource(t *testing.T, source string) (*tree_sitter.Tree, []byte) { //nolint:gocritic // two return values are self-documenting in context

@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/report"
 )
 
 type reportLLMScores struct {

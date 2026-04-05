@@ -10,7 +10,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 func testdataDir(t *testing.T) string {

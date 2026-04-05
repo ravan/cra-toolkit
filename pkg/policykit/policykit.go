@@ -16,15 +16,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/csafvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/cyclonedx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/grype"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/spdx"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
-	"github.com/ravan/suse-cra-toolkit/policies"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/csafvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
+	"github.com/ravan/cra-toolkit/pkg/formats/grype"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/spdx"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/policies"
 )
 
 // Options configures a CRA policy evaluation run.

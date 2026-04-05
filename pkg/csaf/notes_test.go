@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestBuildDocumentNotes_SummarizesAllCVEs(t *testing.T) {

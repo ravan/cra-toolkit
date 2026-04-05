@@ -8,9 +8,9 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	rubygrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/ruby"
-	rubyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/ruby"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	rubygrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/ruby"
+	rubyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/ruby"
 )
 
 // parseRuby parses Ruby source and returns the tree and source bytes.

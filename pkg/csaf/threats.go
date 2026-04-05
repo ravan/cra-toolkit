@@ -6,7 +6,7 @@ package csaf
 import (
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func addThreats(vulns []vulnerability, findings []formats.Finding) []vulnerability {

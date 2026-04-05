@@ -6,7 +6,7 @@ package csaf
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestBuildProductTree_SingleComponent(t *testing.T) { //nolint:gocognit,gocyclo // test validates hierarchical tree structure

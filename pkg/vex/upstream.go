@@ -6,7 +6,7 @@ package vex
 import (
 	"fmt"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // upstreamFilter resolves findings using vendor-supplied VEX statements.

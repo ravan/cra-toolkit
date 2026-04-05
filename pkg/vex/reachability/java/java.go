@@ -11,11 +11,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	javagrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/java"
-	javaextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/java"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	javagrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/java"
+	javaextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/java"
 )
 
 // Analyzer performs Java reachability analysis using tree-sitter AST parsing.

@@ -3,7 +3,7 @@
 
 package reachability
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Result holds the outcome of a reachability analysis.
 type Result struct {

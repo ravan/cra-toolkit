@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/openvex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats/openvex"
 )
 
 const testdataDir = "../../../testdata/integration/upstream-vex/"

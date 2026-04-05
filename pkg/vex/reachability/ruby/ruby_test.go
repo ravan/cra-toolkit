@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/ruby"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 )
 
 func writeFile(t *testing.T, path string, content []byte) {

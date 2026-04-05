@@ -6,7 +6,7 @@ package reachability_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 func TestCallPath_String(t *testing.T) {

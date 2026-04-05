@@ -3,7 +3,7 @@
 
 package report
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 const humanInputRequired = "[HUMAN INPUT REQUIRED]"
 

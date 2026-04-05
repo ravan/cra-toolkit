@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

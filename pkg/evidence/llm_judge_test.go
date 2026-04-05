@@ -15,7 +15,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/evidence"
 )
 
 type evidenceLLMScores struct {

@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/trivy"
+	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 )
 
 func TestParser_Parse(t *testing.T) {

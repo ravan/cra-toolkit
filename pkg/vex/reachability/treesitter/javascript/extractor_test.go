@@ -8,10 +8,10 @@ import (
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	jsgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
-	tsgrammar "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/typescript"
-	jsextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/javascript"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	jsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
+	tsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/typescript"
+	jsextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/javascript"
 )
 
 // parseJS parses JavaScript source with the JS grammar.

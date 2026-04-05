@@ -6,7 +6,7 @@ package csaf
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 func TestAddRemediations_VendorFix(t *testing.T) {

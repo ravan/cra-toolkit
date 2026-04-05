@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
 )
 
 func TestParseFile_Python(t *testing.T) {

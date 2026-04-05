@@ -4,8 +4,8 @@
 package treesitter
 
 import (
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // ReachabilityConfig controls the BFS pathfinding behavior.

@@ -9,7 +9,7 @@ import (
 
 	urfave "github.com/urfave/cli/v3"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/csaf"
+	"github.com/ravan/cra-toolkit/pkg/csaf"
 )
 
 func newCsafCmd() *urfave.Command {

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ravan/suse-cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/internal/cli"
 )
 
 var (

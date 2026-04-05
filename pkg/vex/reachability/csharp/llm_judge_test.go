@@ -19,8 +19,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/csharp"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/csharp"
 )
 
 type reachabilityScores struct {

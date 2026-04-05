@@ -6,8 +6,8 @@ package vex_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 // stubFilter is a test double for Filter.

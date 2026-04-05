@@ -8,7 +8,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // Parser parses Grype JSON scan output.

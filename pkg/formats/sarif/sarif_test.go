@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats/sarif"
+	"github.com/ravan/cra-toolkit/pkg/formats/sarif"
 )
 
 const testDataPath = "../../../testdata/integration/go-reachable/osv-scanner.sarif.json"

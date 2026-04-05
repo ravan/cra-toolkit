@@ -8,7 +8,7 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 var cvePattern = regexp.MustCompile(`CVE-\d{4}-\d{4,}`)

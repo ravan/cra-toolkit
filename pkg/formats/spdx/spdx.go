@@ -9,7 +9,7 @@ import (
 	packageurl "github.com/package-url/packageurl-go"
 	spdxjson "github.com/spdx/tools-golang/json"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 type Parser struct{}

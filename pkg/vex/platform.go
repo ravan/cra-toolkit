@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	packageurl "github.com/package-url/packageurl-go"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 )
 
 // platformFilter resolves findings when the CVE's affected platforms do not include

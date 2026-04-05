@@ -6,8 +6,8 @@ package php_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	phpextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/php"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	phpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/php"
 )
 
 // TestFindEntryPoints_SymfonyRoute verifies that #[Route] attributes are detected as entry points.

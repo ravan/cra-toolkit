@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
 func TestRun_GoReachable_ProducesOpenVEXOutput(t *testing.T) {

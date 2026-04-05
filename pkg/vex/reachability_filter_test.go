@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex"
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
 // stubAnalyzer is a test double that returns a preconfigured result.

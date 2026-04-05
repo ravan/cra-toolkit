@@ -3,7 +3,7 @@
 
 package csaf
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 func buildProductTree(components []formats.Component, publisherName string) productTree {
 	productBranches := make([]branch, 0, len(components))

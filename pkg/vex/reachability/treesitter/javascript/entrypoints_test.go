@@ -6,8 +6,8 @@ package javascript_test
 import (
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter"
-	jsextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/javascript"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	jsextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/javascript"
 )
 
 func TestFindEntryPoints_Express(t *testing.T) {

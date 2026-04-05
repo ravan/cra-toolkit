@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ravan/suse-cra-toolkit/pkg/csaf"
+	"github.com/ravan/cra-toolkit/pkg/csaf"
 )
 
 const fixtureBase = "../../testdata/integration"

@@ -3,7 +3,7 @@
 
 package csaf
 
-import "github.com/ravan/suse-cra-toolkit/pkg/formats"
+import "github.com/ravan/cra-toolkit/pkg/formats"
 
 func enrichScores(vulns []vulnerability, findings []formats.Finding) []vulnerability {
 	findingLookup := make(map[string]*formats.Finding, len(findings))

@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	packageurl "github.com/package-url/packageurl-go"
-	"github.com/ravan/suse-cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"golang.org/x/mod/semver"
 )
 
