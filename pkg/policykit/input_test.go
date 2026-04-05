@@ -276,3 +276,110 @@ func TestLoadProductConfig_JSON(t *testing.T) {
 		t.Errorf("SupportYears = %d, want 3", pc.SupportYears)
 	}
 }
+
+func TestBuildInput_VEXReachabilityFields(t *testing.T) {
+	arts := &ParsedArtifacts{
+		Components: []formats.Component{
+			{Name: "PyYAML", Version: "5.3", PURL: "pkg:pypi/pyyaml@5.3", Type: "python"},
+		},
+		Findings: []formats.Finding{
+			{
+				CVE:          "CVE-2020-1747",
+				AffectedPURL: "pkg:pypi/pyyaml@5.3",
+				AffectedName: "PyYAML",
+				Severity:     "critical",
+				CVSS:         9.8,
+			},
+		},
+		VEXResults: []formats.VEXResult{
+			{
+				CVE:            "CVE-2020-1747",
+				ComponentPURL:  "pkg:pypi/pyyaml@5.3",
+				Status:         formats.StatusAffected,
+				Confidence:     formats.ConfidenceHigh,
+				ResolvedBy:     "reachability_analysis",
+				Evidence:       "yaml.load is called",
+				AnalysisMethod: "tree_sitter",
+				Symbols:        []string{"yaml.load"},
+				MaxCallDepth:   3,
+				EntryFiles:     []string{"src/app.py"},
+				CallPaths: []formats.CallPath{
+					{
+						Nodes: []formats.CallNode{
+							{Symbol: "app.main", File: "src/app.py", Line: 10},
+							{Symbol: "app.process", File: "src/app.py", Line: 25},
+							{Symbol: "yaml.load", File: "yaml/__init__.py", Line: 100},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	input := BuildInput(arts)
+
+	vexSection, ok := input["vex"].(map[string]any)
+	if !ok {
+		t.Fatal("expected vex key to be map[string]any")
+	}
+	stmts, ok := vexSection["statements"].([]map[string]any)
+	if !ok {
+		t.Fatal("expected vex.statements to be []map[string]any")
+	}
+	if len(stmts) != 1 {
+		t.Fatalf("expected 1 statement, got %d", len(stmts))
+	}
+
+	s := stmts[0]
+
+	// Verify all new fields are present.
+	if s["confidence"] != "high" {
+		t.Errorf("confidence = %v, want high", s["confidence"])
+	}
+	if s["resolved_by"] != "reachability_analysis" {
+		t.Errorf("resolved_by = %v, want reachability_analysis", s["resolved_by"])
+	}
+	if s["analysis_method"] != "tree_sitter" {
+		t.Errorf("analysis_method = %v, want tree_sitter", s["analysis_method"])
+	}
+	if s["max_call_depth"] != 3 {
+		t.Errorf("max_call_depth = %v, want 3", s["max_call_depth"])
+	}
+
+	symbols, ok := s["symbols"].([]string)
+	if !ok {
+		t.Fatal("expected symbols to be []string")
+	}
+	if len(symbols) != 1 || symbols[0] != "yaml.load" {
+		t.Errorf("symbols = %v, want [yaml.load]", symbols)
+	}
+
+	entryFiles, ok := s["entry_files"].([]string)
+	if !ok {
+		t.Fatal("expected entry_files to be []string")
+	}
+	if len(entryFiles) != 1 || entryFiles[0] != "src/app.py" {
+		t.Errorf("entry_files = %v, want [src/app.py]", entryFiles)
+	}
+
+	callPaths, ok := s["call_paths"].([][]map[string]any)
+	if !ok {
+		t.Fatal("expected call_paths to be [][]map[string]any")
+	}
+	if len(callPaths) != 1 {
+		t.Fatalf("call_paths count = %d, want 1", len(callPaths))
+	}
+	if len(callPaths[0]) != 3 {
+		t.Fatalf("call_paths[0] node count = %d, want 3", len(callPaths[0]))
+	}
+	node := callPaths[0][0]
+	if node["symbol"] != "app.main" {
+		t.Errorf("call_paths[0][0].symbol = %v, want app.main", node["symbol"])
+	}
+	if node["file"] != "src/app.py" {
+		t.Errorf("call_paths[0][0].file = %v, want src/app.py", node["file"])
+	}
+	if node["line"] != 10 {
+		t.Errorf("call_paths[0][0].line = %v, want 10", node["line"])
+	}
+}

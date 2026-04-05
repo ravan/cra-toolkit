@@ -171,15 +171,41 @@ func buildVEX(a *ParsedArtifacts) map[string]any {
 	statements := make([]map[string]any, 0, len(a.VEXResults))
 	for _, v := range a.VEXResults {
 		statements = append(statements, map[string]any{
-			"cve":           v.CVE,
-			"purl":          v.ComponentPURL,
-			"status":        string(v.Status),
-			"justification": string(v.Justification),
+			"cve":             v.CVE,
+			"purl":            v.ComponentPURL,
+			"status":          string(v.Status),
+			"justification":   string(v.Justification),
+			"confidence":      v.Confidence.String(),
+			"resolved_by":     v.ResolvedBy,
+			"analysis_method": v.AnalysisMethod,
+			"max_call_depth":  v.MaxCallDepth,
+			"entry_files":     v.EntryFiles,
+			"symbols":         v.Symbols,
+			"call_paths":      buildCallPathsInput(v.CallPaths),
 		})
 	}
 	return map[string]any{
 		"statements": statements,
 	}
+}
+
+func buildCallPathsInput(paths []formats.CallPath) [][]map[string]any {
+	if paths == nil {
+		return nil
+	}
+	result := make([][]map[string]any, len(paths))
+	for i, p := range paths {
+		nodes := make([]map[string]any, len(p.Nodes))
+		for j, n := range p.Nodes {
+			nodes[j] = map[string]any{
+				"symbol": n.Symbol,
+				"file":   n.File,
+				"line":   n.Line,
+			}
+		}
+		result[i] = nodes
+	}
+	return result
 }
 
 func buildKEV(a *ParsedArtifacts) map[string]any {
