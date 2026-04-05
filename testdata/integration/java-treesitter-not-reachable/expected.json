@@ -1,6 +1,13 @@
 {
-  "reachable": false,
-  "confidence": "high",
-  "cve": "CVE-2021-44228",
-  "package": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"
+  "description": "Java Spring Boot app that uses System.out.println() instead of logger.info() — not the vulnerable log4j logging path targeted by CVE-2021-44228. Tree-sitter call-graph analysis determines the vulnerable symbol is not reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2021-44228",
+      "component_purl": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "System.out.println() is used instead of logger.info(). The vulnerable log4j JNDI lookup code path is not reachable from the application."
+    }
+  ]
 }

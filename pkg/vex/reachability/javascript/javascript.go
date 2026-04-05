@@ -247,9 +247,14 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		}
 	}
 
-	// Phase 5: Build target symbol IDs from the finding
-	// For lodash with symbols=["template"], target is "lodash.template"
-	targets := buildTargetIDs(importName, finding.Symbols)
+	// Phase 5: Build target symbol IDs from the finding.
+	// For lodash with symbols=["template"], target is "lodash.template".
+	// When no specific symbols are provided, collect all calls to the package from the graph.
+	symbols := finding.Symbols
+	if len(symbols) == 0 {
+		symbols = collectImportSymbolNames(graph, importName)
+	}
+	targets := buildTargetIDs(importName, symbols)
 
 	// Add targets as virtual nodes in the graph so BFS can find them
 	for _, targetID := range targets {
@@ -333,6 +338,34 @@ func buildAugmentedScope(
 		}
 	}
 	return augScope
+}
+
+// collectImportSymbolNames scans the call graph for edges targeting the given
+// importName prefix (e.g. "lodash") and returns the distinct method names found
+// (e.g. ["template", "map"]). This is used when the finding doesn't specify
+// individual symbols so we can detect any usage of the package.
+func collectImportSymbolNames(graph *treesitter.Graph, importName string) []string {
+	prefix := importName + "."
+	seen := make(map[string]struct{})
+	for _, sym := range graph.AllSymbols() {
+		for _, edge := range graph.ForwardEdges(sym.ID) {
+			toStr := string(edge.To)
+			if strings.HasPrefix(toStr, prefix) {
+				method := strings.TrimPrefix(toStr, prefix)
+				if method != "" && !strings.Contains(method, ".") {
+					seen[method] = struct{}{}
+				}
+			}
+		}
+	}
+	if len(seen) == 0 {
+		return nil
+	}
+	result := make([]string, 0, len(seen))
+	for m := range seen {
+		result = append(result, m)
+	}
+	return result
 }
 
 // resolveEdgeTo resolves a call's target symbol ID using scope.

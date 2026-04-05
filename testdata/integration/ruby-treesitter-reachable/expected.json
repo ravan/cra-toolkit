@@ -1,6 +1,13 @@
 {
-  "reachable": true,
-  "confidence": "high",
-  "cve": "CVE-2022-24836",
-  "package": "pkg:gem/nokogiri@1.13.3"
+  "description": "Ruby app that uses Nokogiri to parse HTML — the vulnerable code path for CVE-2022-24836. Tree-sitter call-graph analysis confirms the vulnerable symbol is reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2022-24836",
+      "component_purl": "pkg:gem/nokogiri@1.13.3",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Nokogiri HTML parsing is called in the application code. Tree-sitter confirms the vulnerable Nokogiri function is reachable from the entry point."
+    }
+  ]
 }

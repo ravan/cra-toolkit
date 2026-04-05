@@ -101,6 +101,46 @@ func TestIntegration_PythonFixtures(t *testing.T) {
 	}
 }
 
+func TestIntegration_TreesitterFixtures(t *testing.T) {
+	// Each entry specifies a fixture directory and the scan file used by that fixture.
+	// Python fixtures use trivy.json; all other language fixtures use grype.json.
+	tests := []struct {
+		name     string
+		dir      string
+		scanFile string
+	}{
+		{"python-treesitter-reachable", "python-treesitter-reachable", "trivy.json"},
+		{"python-treesitter-not-reachable", "python-treesitter-not-reachable", "trivy.json"},
+		{"javascript-treesitter-reachable", "javascript-treesitter-reachable", "grype.json"},
+		{"javascript-treesitter-not-reachable", "javascript-treesitter-not-reachable", "grype.json"},
+		{"java-treesitter-reachable", "java-treesitter-reachable", "grype.json"},
+		{"java-treesitter-not-reachable", "java-treesitter-not-reachable", "grype.json"},
+		{"csharp-treesitter-reachable", "csharp-treesitter-reachable", "grype.json"},
+		{"csharp-treesitter-not-reachable", "csharp-treesitter-not-reachable", "grype.json"},
+		{"php-treesitter-reachable", "php-treesitter-reachable", "grype.json"},
+		{"php-treesitter-not-reachable", "php-treesitter-not-reachable", "grype.json"},
+		{"ruby-treesitter-reachable", "ruby-treesitter-reachable", "grype.json"},
+		{"ruby-treesitter-not-reachable", "ruby-treesitter-not-reachable", "grype.json"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			dir := filepath.Join(fixtureBase, tt.dir)
+			expected := loadExpected(t, dir)
+
+			opts := &vex.Options{
+				SBOMPath:     filepath.Join(dir, "sbom.cdx.json"),
+				ScanPaths:    []string{filepath.Join(dir, tt.scanFile)},
+				SourceDir:    filepath.Join(dir, "source"),
+				OutputFormat: "openvex",
+			}
+
+			doc := runPipeline(t, opts)
+			verifyExpectations(t, doc, expected, tt.name)
+		})
+	}
+}
+
 func TestIntegration_UpstreamVEX(t *testing.T) {
 	dir := filepath.Join(fixtureBase, "upstream-vex")
 	expected := loadExpected(t, dir)

@@ -1,6 +1,13 @@
 {
-  "reachable": true,
-  "confidence": "high",
-  "cve": "CVE-2022-29248",
-  "package": "pkg:composer/guzzlehttp/guzzle@7.4.3"
+  "description": "PHP app that uses Guzzle HTTP client to make requests — the vulnerable code path for CVE-2022-29248. Tree-sitter call-graph analysis confirms the vulnerable symbol is reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2022-29248",
+      "component_purl": "pkg:composer/guzzlehttp/guzzle@7.4.3",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Guzzle HTTP client is used to make requests in the application code. Tree-sitter confirms the vulnerable Guzzle function is reachable from the entry point."
+    }
+  ]
 }

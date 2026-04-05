@@ -17,10 +17,15 @@
           }
         ],
         "fix": {
-          "versions": ["13.0.2"],
+          "versions": [
+            "13.0.2"
+          ],
           "state": "fixed"
         },
-        "advisories": []
+        "advisories": [],
+        "vulnerableFunctions": [
+          "JsonConvert.DeserializeObject"
+        ]
       },
       "relatedVulnerabilities": [],
       "matchDetails": [
@@ -52,12 +57,18 @@
           }
         ],
         "language": "dotnet",
-        "licenses": ["MIT"],
-        "cpes": ["cpe:2.3:a:newtonsoft:json.net:13.0.1:*:*:*:*:*:*:*"],
+        "licenses": [
+          "MIT"
+        ],
+        "cpes": [
+          "cpe:2.3:a:newtonsoft:json.net:13.0.1:*:*:*:*:*:*:*"
+        ],
         "purl": "pkg:nuget/Newtonsoft.Json@13.0.1",
         "upstreams": [],
         "metadata": {
-          "Symbols": ["JsonConvert.DeserializeObject"]
+          "Symbols": [
+            "JsonConvert.DeserializeObject"
+          ]
         }
       }
     }

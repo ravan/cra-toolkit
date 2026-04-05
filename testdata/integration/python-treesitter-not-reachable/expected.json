@@ -1,6 +1,21 @@
 {
-  "reachable": false,
-  "confidence": "high",
-  "cve": "CVE-2020-1747",
-  "package": "pkg:pypi/PyYAML@5.3"
+  "description": "Python script that uses yaml.safe_load() only — not the vulnerable yaml.load() function targeted by CVE-2020-14343 and CVE-2020-1747. Tree-sitter call-graph analysis determines the vulnerable symbol is not reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2020-14343",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Only yaml.safe_load() is called — not the vulnerable yaml.load(). The vulnerable code path is not reachable."
+    },
+    {
+      "cve": "CVE-2020-1747",
+      "component_purl": "pkg:pypi/PyYAML@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Only yaml.safe_load() is called — not the vulnerable yaml.load(). The vulnerable code path is not reachable."
+    }
+  ]
 }

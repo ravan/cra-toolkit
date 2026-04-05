@@ -17,10 +17,15 @@
           }
         ],
         "fix": {
-          "versions": ["7.4.4"],
+          "versions": [
+            "7.4.4"
+          ],
           "state": "fixed"
         },
-        "advisories": []
+        "advisories": [],
+        "vulnerableFunctions": [
+          "GuzzleHttp\\Client::get"
+        ]
       },
       "relatedVulnerabilities": [],
       "matchDetails": [
@@ -52,8 +57,12 @@
           }
         ],
         "language": "php",
-        "licenses": ["MIT"],
-        "cpes": ["cpe:2.3:a:guzzlephp:guzzle:7.4.3:*:*:*:*:*:*:*"],
+        "licenses": [
+          "MIT"
+        ],
+        "cpes": [
+          "cpe:2.3:a:guzzlephp:guzzle:7.4.3:*:*:*:*:*:*:*"
+        ],
         "purl": "pkg:composer/guzzlehttp/guzzle@7.4.3",
         "upstreams": []
       }

@@ -1,6 +1,13 @@
 {
-  "reachable": true,
-  "confidence": "high",
-  "cve": "CVE-2024-21907",
-  "package": "pkg:nuget/Newtonsoft.Json@13.0.1"
+  "description": "C# app that calls JsonConvert.DeserializeObject() from Newtonsoft.Json — the vulnerable function for CVE-2024-21907. Tree-sitter call-graph analysis confirms the vulnerable symbol is reachable.",
+  "findings": [
+    {
+      "cve": "CVE-2024-21907",
+      "component_purl": "pkg:nuget/Newtonsoft.Json@13.0.1",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "JsonConvert.DeserializeObject() is called in the application code. Tree-sitter confirms the vulnerable Newtonsoft.Json function is reachable from the entry point."
+    }
+  ]
 }

@@ -1,6 +1,13 @@
 {
-  "reachable": true,
-  "confidence": "high",
-  "cve": "CVE-2021-23337",
-  "package": "pkg:npm/lodash@4.17.20"
+  "description": "Node.js app that calls _.template() from lodash — the vulnerable function for CVE-2021-23337 (prototype pollution via template). Tree-sitter call-graph analysis confirms the vulnerable symbol is reachable from the express route handler.",
+  "findings": [
+    {
+      "cve": "CVE-2021-23337",
+      "component_purl": "pkg:npm/lodash@4.17.20",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "_.template() is called in the /render route handler in app.js. Tree-sitter confirms the vulnerable lodash function is reachable from the application entry point."
+    }
+  ]
 }

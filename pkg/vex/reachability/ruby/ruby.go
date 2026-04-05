@@ -188,7 +188,14 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 	}
 
 	// Phase 5: Build target symbol IDs from the finding.
-	targets := buildTargetIDs(finding.AffectedName, finding.Symbols)
+	// When no specific symbols are provided, collect all calls to the gem's module from the graph.
+	symbols := finding.Symbols
+	if len(symbols) == 0 {
+		if moduleName, ok := gemModuleMap[finding.AffectedName]; ok {
+			symbols = collectGemCallsFromGraph(graph, moduleName)
+		}
+	}
+	targets := buildTargetIDs(finding.AffectedName, symbols)
 
 	// Add targets as virtual nodes in the graph so BFS can find them
 	for _, targetID := range targets {
@@ -295,6 +302,32 @@ func buildTargetIDs(artifactName string, symbols []string) []treesitter.SymbolID
 	}
 
 	return dedup(ids)
+}
+
+// collectGemCallsFromGraph scans the call graph for edges targeting the given
+// module name prefix (e.g. "Nokogiri") and returns the distinct qualified symbols found
+// (e.g. ["Nokogiri::HTML", "Nokogiri::XML"]). This is used when the finding doesn't specify
+// individual symbols so we can detect any usage of the gem's module.
+func collectGemCallsFromGraph(graph *treesitter.Graph, moduleName string) []string {
+	prefixColon := moduleName + "::"
+	prefixDot := moduleName + "."
+	seen := make(map[string]struct{})
+	for _, sym := range graph.AllSymbols() {
+		for _, edge := range graph.ForwardEdges(sym.ID) {
+			toStr := string(edge.To)
+			if strings.HasPrefix(toStr, prefixColon) || strings.HasPrefix(toStr, prefixDot) {
+				seen[toStr] = struct{}{}
+			}
+		}
+	}
+	if len(seen) == 0 {
+		return nil
+	}
+	result := make([]string, 0, len(seen))
+	for m := range seen {
+		result = append(result, m)
+	}
+	return result
 }
 
 // dedup removes duplicate SymbolIDs while preserving order.

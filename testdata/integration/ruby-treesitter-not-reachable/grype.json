@@ -17,10 +17,15 @@
           }
         ],
         "fix": {
-          "versions": ["1.13.4"],
+          "versions": [
+            "1.13.4"
+          ],
           "state": "fixed"
         },
-        "advisories": []
+        "advisories": [],
+        "vulnerableFunctions": [
+          "Nokogiri::HTML"
+        ]
       },
       "relatedVulnerabilities": [],
       "matchDetails": [
@@ -52,8 +57,12 @@
           }
         ],
         "language": "ruby",
-        "licenses": ["MIT"],
-        "cpes": ["cpe:2.3:a:nokogiri:nokogiri:1.13.3:*:*:*:*:ruby:*:*"],
+        "licenses": [
+          "MIT"
+        ],
+        "cpes": [
+          "cpe:2.3:a:nokogiri:nokogiri:1.13.3:*:*:*:*:ruby:*:*"
+        ],
         "purl": "pkg:gem/nokogiri@1.13.3",
         "upstreams": []
       }
