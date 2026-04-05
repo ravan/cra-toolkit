@@ -1,8 +1,8 @@
 {
   "description": "VEX has no statement for CVE-2022-32149 (CVSS 7.5 HIGH) — CRA-AI-2.2 FAIL",
   "assertions": {
-    "total_results": 15,
-    "passed": 6,
+    "total_results": 18,
+    "passed": 9,
     "failed": 1,
     "skipped": 0,
     "human": 8,

@@ -118,6 +118,44 @@ func runPolicykitIntegration(t *testing.T, scenario string) { //nolint:gocyclo /
 		report.Summary.Skipped, report.Summary.Human)
 }
 
+func TestIntegration_ReachabilityPolicies(t *testing.T) {
+	dir := filepath.Join(fixtureBase, "policykit-all-pass")
+
+	opts := &policykit.Options{
+		SBOMPath:     filepath.Join(dir, "sbom.cdx.json"),
+		ScanPaths:    []string{filepath.Join(dir, "grype.json")},
+		VEXPath:      filepath.Join(dir, "vex-results.json"),
+		KEVPath:      filepath.Join(dir, "kev.json"),
+		OutputFormat: "json",
+	}
+	if _, err := os.Stat(filepath.Join(dir, "product-config.yaml")); err == nil {
+		opts.ProductConfig = filepath.Join(dir, "product-config.yaml")
+	}
+
+	var buf bytes.Buffer
+	err := policykit.Run(opts, &buf)
+	require.NoError(t, err)
+
+	var report struct {
+		Results []struct {
+			RuleID string `json:"rule_id"`
+			Status string `json:"status"`
+		} `json:"results"`
+	}
+	require.NoError(t, json.Unmarshal(buf.Bytes(), &report))
+
+	reachRules := map[string]bool{}
+	for _, r := range report.Results {
+		if r.RuleID == "CRA-REACH-1" || r.RuleID == "CRA-REACH-2" || r.RuleID == "CRA-REACH-3" {
+			reachRules[r.RuleID] = true
+			assert.Equal(t, "PASS", r.Status, "rule %s should PASS when no reachability statements", r.RuleID)
+		}
+	}
+	assert.True(t, reachRules["CRA-REACH-1"], "CRA-REACH-1 rule should be present in results")
+	assert.True(t, reachRules["CRA-REACH-2"], "CRA-REACH-2 rule should be present in results")
+	assert.True(t, reachRules["CRA-REACH-3"], "CRA-REACH-3 rule should be present in results")
+}
+
 func loadExpectedPolicykit(t *testing.T, dir string) expectedPolicykit {
 	t.Helper()
 	data, err := os.ReadFile(filepath.Join(dir, "expected.json")) //nolint:gosec // test fixture path constructed from constant base + scenario name

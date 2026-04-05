@@ -1,8 +1,8 @@
 {
   "description": "Optional artifacts missing — provenance, signatures, product config SKIP",
   "assertions": {
-    "total_results": 15,
-    "passed": 3,
+    "total_results": 18,
+    "passed": 6,
     "failed": 0,
     "skipped": 4,
     "human": 8,

@@ -1,8 +1,8 @@
 {
   "description": "KEV contains CVE-2022-32149 which is in scan results — CRA-AI-2.1 FAIL",
   "assertions": {
-    "total_results": 15,
-    "passed": 6,
+    "total_results": 18,
+    "passed": 9,
     "failed": 1,
     "skipped": 0,
     "human": 8,

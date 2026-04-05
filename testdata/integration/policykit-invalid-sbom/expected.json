@@ -1,8 +1,8 @@
 {
   "description": "Invalid SBOM — missing metadata and components",
   "assertions": {
-    "total_results": 15,
-    "passed": 2,
+    "total_results": 18,
+    "passed": 5,
     "failed": 1,
     "skipped": 4,
     "human": 8,

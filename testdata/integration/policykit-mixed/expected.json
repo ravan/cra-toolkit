@@ -1,8 +1,8 @@
 {
   "description": "Mixed scenario — KEV hit, VEX gap, valid provenance, no signatures, short support period",
   "assertions": {
-    "total_results": 15,
-    "passed": 3,
+    "total_results": 18,
+    "passed": 6,
     "failed": 3,
     "skipped": 1,
     "human": 8,
