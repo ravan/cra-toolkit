@@ -66,6 +66,46 @@ func TestDetectLanguages_Multiple(t *testing.T) {
 	}
 }
 
+func TestDetectLanguages_AllSupported(t *testing.T) {
+	dir := t.TempDir()
+
+	// Create markers for all supported languages
+	markers := map[string]string{
+		"go.mod":           "go",
+		"Cargo.toml":       "rust",
+		"package.json":     "javascript",
+		"requirements.txt": "python",
+		"pom.xml":          "java",
+		"composer.json":    "php",
+		"Gemfile":          "ruby",
+	}
+	for file := range markers {
+		os.WriteFile(filepath.Join(dir, file), []byte(""), 0o644) //nolint:errcheck // test helper
+	}
+
+	langs := reachability.DetectLanguages(dir)
+	if len(langs) < 7 {
+		t.Errorf("expected at least 7 languages, got %d: %v", len(langs), langs)
+	}
+}
+
+func TestDetectLanguages_CSharp(t *testing.T) {
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "TestApp.csproj"), []byte(""), 0o644) //nolint:errcheck // test helper
+
+	langs := reachability.DetectLanguages(dir)
+	found := false
+	for _, l := range langs {
+		if l == "csharp" {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Errorf("expected csharp to be detected, got %v", langs)
+	}
+}
+
 func createFile(t *testing.T, dir, name string) (*os.File, error) {
 	t.Helper()
 	return os.Create(filepath.Join(dir, name)) //nolint:gosec // test helper with controlled paths
