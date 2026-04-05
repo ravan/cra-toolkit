@@ -3,6 +3,7 @@ package vex_test
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 
 	"github.com/ravan/suse-cra-toolkit/pkg/formats"
@@ -155,4 +156,77 @@ func TestReachabilityFilter_AnalyzerError(t *testing.T) {
 	if resolved {
 		t.Error("expected filter to NOT resolve when analyzer returns error")
 	}
+}
+
+func TestReachabilityFilter_CallPathEvidence(t *testing.T) {
+	t.Run("paths present", func(t *testing.T) {
+		analyzer := &stubAnalyzer{
+			lang: "go",
+			result: reachability.Result{
+				Reachable:  true,
+				Confidence: formats.ConfidenceHigh,
+				Evidence:   "vulnerable symbol is called",
+				Paths: []reachability.CallPath{
+					{
+						Nodes: []reachability.CallNode{
+							{Symbol: "main.handler", File: "cmd/main.go", Line: 42},
+							{Symbol: "vuln.Parse", File: "vendor/vuln/parse.go", Line: 10},
+						},
+					},
+				},
+			},
+		}
+
+		f := vex.NewReachabilityFilter("/tmp/source", map[string]reachability.Analyzer{
+			"go": analyzer,
+		})
+
+		finding := formats.Finding{
+			CVE:          "CVE-2022-32149",
+			AffectedPURL: "pkg:golang/golang.org/x/text@v0.3.7",
+			Language:     "go",
+		}
+
+		result, resolved := f.Evaluate(&finding, nil)
+		if !resolved {
+			t.Fatal("expected filter to resolve")
+		}
+		if !strings.Contains(result.Evidence, "Call paths:") {
+			t.Errorf("expected evidence to contain 'Call paths:', got: %q", result.Evidence)
+		}
+		wantPath := "main.handler (cmd/main.go:42) -> vuln.Parse (vendor/vuln/parse.go:10)"
+		if !strings.Contains(result.Evidence, wantPath) {
+			t.Errorf("expected evidence to contain path %q, got: %q", wantPath, result.Evidence)
+		}
+	})
+
+	t.Run("paths empty", func(t *testing.T) {
+		analyzer := &stubAnalyzer{
+			lang: "go",
+			result: reachability.Result{
+				Reachable:  true,
+				Confidence: formats.ConfidenceMedium,
+				Evidence:   "symbol found via grep",
+				Paths:      nil,
+			},
+		}
+
+		f := vex.NewReachabilityFilter("/tmp/source", map[string]reachability.Analyzer{
+			"go": analyzer,
+		})
+
+		finding := formats.Finding{
+			CVE:          "CVE-2022-32149",
+			AffectedPURL: "pkg:golang/golang.org/x/text@v0.3.7",
+			Language:     "go",
+		}
+
+		result, resolved := f.Evaluate(&finding, nil)
+		if !resolved {
+			t.Fatal("expected filter to resolve")
+		}
+		if strings.Contains(result.Evidence, "Call paths:") {
+			t.Errorf("expected no 'Call paths:' line when Paths is empty, got: %q", result.Evidence)
+		}
+	})
 }
