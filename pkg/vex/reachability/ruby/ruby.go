@@ -15,6 +15,11 @@ import (
 	rubyextractor "github.com/ravan/suse-cra-toolkit/pkg/vex/reachability/treesitter/ruby"
 )
 
+// Compile-time interface conformance check.
+// If the Analyzer methods diverge from the reachability.Analyzer interface,
+// this line will produce a compile error pointing directly at the mismatch.
+var _ reachability.Analyzer = (*Analyzer)(nil)
+
 // Analyzer performs Ruby reachability analysis using tree-sitter AST parsing.
 type Analyzer struct{}
 
@@ -210,6 +215,20 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		}
 	}
 
+	// Check for method_missing definitions — log as unresolved evidence note.
+	methodMissingSuffix := ""
+	for _, fi := range fileInfos {
+		for _, sym := range fi.symbols {
+			if sym.Name == "method_missing" {
+				methodMissingSuffix = "; note: method_missing detected in source; dynamic dispatch may be unresolved"
+				break
+			}
+		}
+		if methodMissingSuffix != "" {
+			break
+		}
+	}
+
 	parseErrSuffix := ""
 	if parseErrCount > 0 {
 		parseErrSuffix = fmt.Sprintf(" (%d file(s) skipped due to parse errors)", parseErrCount)
@@ -219,15 +238,16 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 		return reachability.Result{
 			Reachable:  false,
 			Confidence: formats.ConfidenceHigh,
-			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to {%s}%s", strings.Join(finding.Symbols, ","), parseErrSuffix),
+			Evidence:   fmt.Sprintf("tree-sitter analysis found no call path to {%s}%s%s", strings.Join(finding.Symbols, ","), parseErrSuffix, methodMissingSuffix),
 		}, nil
 	}
 
-	evidence := fmt.Sprintf("tree-sitter call graph: %s is reachable via %d path(s): %s%s",
+	evidence := fmt.Sprintf("tree-sitter call graph: %s is reachable via %d path(s): %s%s%s",
 		strings.Join(reachedSymbols, ", "),
 		len(allPaths),
 		allPaths[0].String(),
 		parseErrSuffix,
+		methodMissingSuffix,
 	)
 
 	return reachability.Result{

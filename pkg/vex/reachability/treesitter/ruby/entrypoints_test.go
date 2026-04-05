@@ -139,7 +139,13 @@ func TestFindEntryPoints_BinScript(t *testing.T) {
 #!/usr/bin/env ruby
 require_relative '../lib/app'
 
-App.run(ARGV)
+class CLI
+  def run(argv)
+    App.run(argv)
+  end
+end
+
+CLI.new.run(ARGV)
 `
 	tree, src := parseRuby(t, source)
 	defer tree.Close()
@@ -150,10 +156,21 @@ App.run(ARGV)
 		t.Fatalf("ExtractSymbols failed: %v", err)
 	}
 
+	// The source must contain at least one method symbol
+	var methodCount int
+	for _, sym := range symbols {
+		if sym.Kind == treesitter.SymbolMethod {
+			methodCount++
+		}
+	}
+	if methodCount < 1 {
+		t.Errorf("expected at least one method symbol in bin script, got %d", methodCount)
+	}
+
 	eps := ext.FindEntryPoints(symbols, "")
 
-	// Bin scripts: all top-level calls are entry points. We verify none of the
-	// FindEntryPoints call crashes, and symbols are not nil.
-	_ = eps
-	_ = symbols
+	// All symbols from bin/ files should be entry points
+	if len(eps) < 1 {
+		t.Errorf("expected at least 1 entry point from bin/ file, got %d; symbols: %v", len(eps), symbols)
+	}
 }

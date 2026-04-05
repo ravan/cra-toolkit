@@ -27,12 +27,6 @@ type routeAction struct {
 type Extractor struct {
 	// routes holds parsed controller#action pairs from routes.rb
 	routes []routeAction
-
-	// rakeTaskIDs tracks Rake task entry point IDs extracted during ExtractSymbols
-	rakeTaskIDs []treesitter.SymbolID
-
-	// sinatraRouteIDs tracks Sinatra route entry point IDs
-	sinatraRouteIDs []treesitter.SymbolID
 }
 
 // New creates a new Ruby Extractor.
@@ -60,13 +54,9 @@ func rowToLine(row uint) int {
 // ExtractSymbols walks the AST to find all class/module/method definitions,
 // Rake tasks, and Sinatra route blocks.
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
-	// Reset per-call state
-	e.rakeTaskIDs = nil
-	e.sinatraRouteIDs = nil
-
 	root := tree.RootNode()
 	var symbols []*treesitter.Symbol
-	walkProgram(root, src, file, &symbols, e)
+	walkProgram(root, src, file, &symbols)
 	return symbols, nil
 }
 
@@ -78,7 +68,6 @@ func walkProgram(
 	src []byte,
 	file string,
 	symbols *[]*treesitter.Symbol,
-	e *Extractor,
 ) {
 	if root == nil {
 		return
@@ -94,7 +83,7 @@ func walkProgram(
 		case "module":
 			extractModuleNode(child, src, file, symbols)
 		case "call":
-			extractTopLevelCall(child, src, file, symbols, e)
+			extractTopLevelCall(child, src, file, symbols)
 		}
 	}
 }
@@ -289,7 +278,6 @@ func extractTopLevelCall(
 	src []byte,
 	file string,
 	symbols *[]*treesitter.Symbol,
-	e *Extractor,
 ) {
 	// The first child of a call node is the method identifier
 	if node.ChildCount() == 0 {
@@ -303,10 +291,10 @@ func extractTopLevelCall(
 
 	switch methodName {
 	case "task":
-		extractRakeTask(node, src, file, symbols, e)
+		extractRakeTask(node, src, file, symbols)
 	case "get", "post", "put", "delete", "patch", "options", "head":
 		// Could be Sinatra route or Rails route helper
-		extractSinatraRoute(node, src, file, methodName, symbols, e)
+		extractSinatraRoute(node, src, file, methodName, symbols)
 	}
 }
 
@@ -316,7 +304,6 @@ func extractRakeTask(
 	src []byte,
 	file string,
 	symbols *[]*treesitter.Symbol,
-	e *Extractor,
 ) {
 	// Find the argument_list to get the task name
 	argList := node.ChildByFieldName("arguments")
@@ -355,7 +342,6 @@ func extractRakeTask(
 		Kind:          treesitter.SymbolFunction,
 	}
 	*symbols = append(*symbols, sym)
-	e.rakeTaskIDs = append(e.rakeTaskIDs, id)
 }
 
 // extractSinatraRoute processes a `get '/path' do...end` call node.
@@ -366,7 +352,6 @@ func extractSinatraRoute(
 	src []byte,
 	file, method string,
 	symbols *[]*treesitter.Symbol,
-	e *Extractor,
 ) {
 	// Only treat as Sinatra route if it has a do_block (not a Rails route's to: hash arg)
 	hasBlock := false
@@ -414,7 +399,6 @@ func extractSinatraRoute(
 		Kind:          treesitter.SymbolFunction,
 	}
 	*symbols = append(*symbols, sym)
-	e.sinatraRouteIDs = append(e.sinatraRouteIDs, id)
 }
 
 // extractStringContent returns the text inside a string node.
@@ -561,7 +545,7 @@ func collectCalls(
 		}
 		return
 
-	case "call":
+	case "call", "command_call":
 		processCall(node, src, file, currentClass, currentMethod, edges)
 		// Recurse into arguments for nested calls
 		args := node.ChildByFieldName("arguments")

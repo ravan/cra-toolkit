@@ -339,3 +339,41 @@ end
 		t.Error("expected call edge to render")
 	}
 }
+
+// TestExtractCalls_CommandCall verifies that command-style calls without parentheses
+// (e.g. render json: {...}, raise ArgumentError, "msg") are captured as call edges.
+func TestExtractCalls_CommandCall(t *testing.T) {
+	source := `
+class ApplicationController
+  def show
+    render json: { status: 'ok' }
+    raise ArgumentError, "invalid input"
+  end
+end
+`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	edges, err := ext.ExtractCalls("application_controller.rb", src, tree, nil)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundRender bool
+	for _, e := range edges {
+		if e.To == "render" {
+			foundRender = true
+			if e.From != "ApplicationController::show" {
+				t.Errorf("expected From='ApplicationController::show', got %q", e.From)
+			}
+		}
+	}
+
+	if !foundRender {
+		t.Error("expected call edge to render (command_call without parentheses)")
+		for _, e := range edges {
+			t.Logf("  edge: %s -> %s", e.From, e.To)
+		}
+	}
+}
