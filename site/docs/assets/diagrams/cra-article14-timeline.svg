@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#0C322C"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#30BA78"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="400" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">Article 14 — Vulnerability Notification Timeline</text>
+  <text x="550" y="48" text-anchor="middle" font-size="11" fill="#2E7D32">Regulation (EU) 2024/2847 — Applies from 11 September 2026</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TIMELINE BAR                                    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <line x1="60" y1="90" x2="1040" y2="90" stroke="#0C322C" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Timeline dots -->
+  <circle cx="170" cy="90" r="7" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+  <circle cx="530" cy="90" r="7" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+  <circle cx="890" cy="90" r="7" fill="#30BA78" stroke="#0C322C" stroke-width="2"/>
+
+  <!-- Duration labels on the timeline -->
+  <text x="350" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">24 hours</text>
+  <text x="710" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">72 hours</text>
+  <text x="965" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#0C322C">14 days*</text>
+  <text x="965" y="70" text-anchor="middle" font-size="8" fill="#2E7D32">*after corrective measure</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- BOX 1: 24h Early Warning                        -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="40" y="110" width="260" height="140" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="40" y="110" width="260" height="30" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="40" y="132" width="260" height="8" fill="#E8F5E9"/>
+  <line x1="40" y1="140" x2="300" y2="140" stroke="#0C322C" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="170" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#0C322C">24h Early Warning</text>
+  <text x="170" y="104" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">Art. 14(2)(a)</text>
+
+  <text x="55" y="160" font-size="10" font-weight="600" fill="#0C322C">Awareness of active exploitation</text>
+  <text x="55" y="178" font-size="9" fill="#2E7D32">Details include:</text>
+  <text x="60" y="194" font-size="9" fill="#0C322C">- Member States affected</text>
+  <text x="60" y="208" font-size="9" fill="#0C322C">- Product identification</text>
+  <text x="60" y="222" font-size="9" fill="#0C322C">- General nature of the exploit</text>
+  <text x="60" y="236" font-size="9" fill="#0C322C">- Notified to CSIRT + ENISA</text>
+
+  <!-- Arrow from box 1 to box 2 -->
+  <line x1="305" y1="180" x2="395" y2="180" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- BOX 2: 72h Notification                         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="400" y="110" width="260" height="140" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="400" y="110" width="260" height="30" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="400" y="132" width="260" height="8" fill="#30BA78"/>
+  <line x1="400" y1="140" x2="660" y2="140" stroke="white" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="530" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="white">72h Notification</text>
+  <text x="530" y="104" text-anchor="middle" font-size="9" font-weight="600" fill="white">Art. 14(2)(b)</text>
+
+  <text x="415" y="160" font-size="10" font-weight="600" fill="white">Vulnerability details</text>
+  <text x="415" y="178" font-size="9" fill="#E8F5E9">Details include:</text>
+  <text x="420" y="194" font-size="9" fill="white">- Product information</text>
+  <text x="420" y="208" font-size="9" fill="white">- Nature of exploit</text>
+  <text x="420" y="222" font-size="9" fill="white">- Corrective/mitigating measures</text>
+  <text x="420" y="236" font-size="9" fill="white">- Sensitivity assessment</text>
+
+  <!-- Arrow from box 2 to box 3 -->
+  <line x1="665" y1="180" x2="755" y2="180" stroke="#0C322C" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- BOX 3: 14-day Final Report                      -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="760" y="110" width="260" height="140" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="760" y="110" width="260" height="30" rx="8" fill="#0C322C" stroke="#0C322C" stroke-width="1.5"/>
+  <rect x="760" y="132" width="260" height="8" fill="#0C322C"/>
+  <line x1="760" y1="140" x2="1020" y2="140" stroke="#30BA78" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <text x="890" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="white">14-day Final Report</text>
+  <text x="890" y="104" text-anchor="middle" font-size="9" font-weight="600" fill="#30BA78">Art. 14(2)(c)</text>
+
+  <text x="775" y="160" font-size="10" font-weight="600" fill="white">After corrective measure available</text>
+  <text x="775" y="178" font-size="9" fill="#30BA78">Must include at least:</text>
+  <text x="780" y="194" font-size="9" fill="white">- Vulnerability description + severity</text>
+  <text x="780" y="208" font-size="9" fill="white">- Impact assessment</text>
+  <text x="780" y="222" font-size="9" fill="white">- Malicious actor information</text>
+  <text x="780" y="236" font-size="9" fill="white">- Security update details</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- USER NOTIFICATION — Art. 14(8)                  -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="130" y="290" width="90" height="28" rx="6" fill="#2E7D32" stroke="#0C322C" stroke-width="1"/>
+  <text x="175" y="309" text-anchor="middle" font-size="10" font-weight="700" fill="white">Art. 14(8)</text>
+
+  <!-- Arrow from badge to user notification box -->
+  <line x1="225" y1="304" x2="325" y2="304" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <rect x="330" y="275" width="430" height="58" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="545" y="296" text-anchor="middle" font-size="12" font-weight="700" fill="#0C322C">User Notification</text>
+  <text x="545" y="312" text-anchor="middle" font-size="10" fill="#0C322C">Inform impacted users of vulnerability or severe incident</text>
+  <text x="545" y="326" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Where appropriate, in structured machine-readable format</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- REPORTING PLATFORM                              -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="790" y="280" width="230" height="48" rx="8" fill="white" stroke="#0C322C" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="905" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#0C322C">Art. 16 — Single Reporting Platform</text>
+  <text x="905" y="316" text-anchor="middle" font-size="9" fill="#2E7D32">Established and maintained by ENISA</text>
+
+  <!-- Footer -->
+  <text x="550" y="370" text-anchor="middle" font-size="9" fill="#666">All notifications submitted simultaneously to CSIRT designated as coordinator and to ENISA via the single reporting platform (Art. 14(1))</text>
+  <text x="550" y="386" text-anchor="middle" font-size="9" fill="#666">CSIRT may request intermediate reports on relevant status updates (Art. 14(6))</text>
+</svg>
