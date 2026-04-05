@@ -1,6 +1,7 @@
 package csaf
 
 import (
+	"encoding/json"
 	"strings"
 	"testing"
 
@@ -93,6 +94,92 @@ func TestBuildVulnNotes_LowConfidence_NoEvidenceNote(t *testing.T) {
 	for _, n := range got {
 		if n.Category == "details" {
 			t.Errorf("expected no details note for low confidence, but found one: %v", n)
+		}
+	}
+}
+
+func TestBuildVulnNotes_ReachabilityPaths(t *testing.T) {
+	finding := formats.Finding{
+		CVE: "CVE-2020-1747",
+	}
+	vexResult := formats.VEXResult{
+		CVE:            "CVE-2020-1747",
+		Confidence:     formats.ConfidenceHigh,
+		ResolvedBy:     "reachability_analysis",
+		AnalysisMethod: "tree_sitter",
+		Evidence:       "yaml.load is called",
+		Symbols:        []string{"yaml.load"},
+		MaxCallDepth:   2,
+		EntryFiles:     []string{"src/app.py"},
+		CallPaths: []formats.CallPath{
+			{
+				Nodes: []formats.CallNode{
+					{Symbol: "app.main", File: "src/app.py", Line: 10},
+					{Symbol: "yaml.load", File: "yaml/__init__.py", Line: 100},
+				},
+			},
+		},
+	}
+
+	notes := buildVulnNotes(&finding, &vexResult)
+
+	// Should have: existing evidence note + 1 call path note + 1 summary note = 3
+	if len(notes) < 3 {
+		t.Fatalf("expected at least 3 notes, got %d: %v", len(notes), notes)
+	}
+
+	// Find call path note
+	var callPathNote *note
+	var summaryNote *note
+	for i := range notes {
+		if notes[i].Title == "Reachability Call Path 1" {
+			callPathNote = &notes[i]
+		}
+		if notes[i].Title == "Reachability Analysis Summary" {
+			summaryNote = &notes[i]
+		}
+	}
+
+	if callPathNote == nil {
+		t.Fatal("expected a 'Reachability Call Path 1' note")
+	}
+	if callPathNote.Category != "details" {
+		t.Errorf("call path note category = %q, want details", callPathNote.Category)
+	}
+	// Verify JSON body is valid
+	var parsed map[string]any
+	if err := json.Unmarshal([]byte(callPathNote.Text), &parsed); err != nil {
+		t.Fatalf("call path note text is not valid JSON: %v\nText: %s", err, callPathNote.Text)
+	}
+	if _, ok := parsed["call_path"]; !ok {
+		t.Error("call path JSON missing 'call_path' key")
+	}
+
+	if summaryNote == nil {
+		t.Fatal("expected a 'Reachability Analysis Summary' note")
+	}
+	if !strings.Contains(summaryNote.Text, "confidence=high") {
+		t.Errorf("summary note missing confidence, got: %s", summaryNote.Text)
+	}
+	if !strings.Contains(summaryNote.Text, "yaml.load") {
+		t.Errorf("summary note missing symbol, got: %s", summaryNote.Text)
+	}
+}
+
+func TestBuildVulnNotes_NoReachabilityNotes_ForNonReachability(t *testing.T) {
+	finding := formats.Finding{CVE: "CVE-2022-32149"}
+	vexResult := formats.VEXResult{
+		CVE:        "CVE-2022-32149",
+		Confidence: formats.ConfidenceHigh,
+		ResolvedBy: "version",
+		Evidence:   "version not in affected range",
+	}
+
+	notes := buildVulnNotes(&finding, &vexResult)
+
+	for _, n := range notes {
+		if strings.Contains(n.Title, "Reachability") {
+			t.Errorf("non-reachability result should not produce reachability notes, got: %v", n)
 		}
 	}
 }

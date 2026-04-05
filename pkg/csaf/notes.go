@@ -1,6 +1,7 @@
 package csaf
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -32,5 +33,48 @@ func buildVulnNotes(finding *formats.Finding, vexResult *formats.VEXResult) []no
 	if vexResult.Confidence >= formats.ConfidenceHigh && vexResult.Evidence != "" {
 		notes = append(notes, note{Category: "details", Title: "VEX Assessment", Text: vexResult.Evidence})
 	}
+	if vexResult.ResolvedBy == "reachability_analysis" {
+		notes = append(notes, buildReachabilityNotes(vexResult)...)
+	}
+	return notes
+}
+
+func buildReachabilityNotes(vexResult *formats.VEXResult) []note {
+	var notes []note
+
+	// One note per call path with JSON body.
+	for i, p := range vexResult.CallPaths {
+		pathNodes := make([]map[string]any, len(p.Nodes))
+		for j, n := range p.Nodes {
+			pathNodes[j] = map[string]any{
+				"symbol": n.Symbol,
+				"file":   n.File,
+				"line":   n.Line,
+			}
+		}
+		body := map[string]any{
+			"call_path":  pathNodes,
+			"depth":      p.Depth(),
+			"confidence": vexResult.Confidence.String(),
+		}
+		jsonBytes, _ := json.Marshal(body)
+		notes = append(notes, note{
+			Category: "details",
+			Title:    fmt.Sprintf("Reachability Call Path %d", i+1),
+			Text:     string(jsonBytes),
+		})
+	}
+
+	// Summary note.
+	symbols := strings.Join(vexResult.Symbols, ",")
+	entryFiles := strings.Join(vexResult.EntryFiles, ",")
+	summary := fmt.Sprintf("confidence=%s symbols=%s max_depth=%d entry_files=%s",
+		vexResult.Confidence.String(), symbols, vexResult.MaxCallDepth, entryFiles)
+	notes = append(notes, note{
+		Category: "details",
+		Title:    "Reachability Analysis Summary",
+		Text:     summary,
+	})
+
 	return notes
 }
