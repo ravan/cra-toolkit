@@ -19,7 +19,7 @@ func TestLoadEvidenceConfig(t *testing.T) {
 	cfg, err := evidence.LoadEvidenceConfig(path)
 	require.NoError(t, err)
 
-	assert.Equal(t, "suse-cra-toolkit", cfg.Product.Name)
+	assert.Equal(t, "cra-toolkit", cfg.Product.Name)
 	assert.Equal(t, "1.0.0", cfg.Product.Version)
 	assert.Equal(t, "SUSE", cfg.Product.Manufacturer)
 	assert.Equal(t, "DE", cfg.Product.MemberState)
@@ -39,7 +39,7 @@ func TestBuildProductIdentity(t *testing.T) {
 	require.NoError(t, err)
 
 	pid := evidence.BuildProductIdentity(cfg)
-	assert.Equal(t, "suse-cra-toolkit", pid.Name)
+	assert.Equal(t, "cra-toolkit", pid.Name)
 	assert.Equal(t, "1.0.0", pid.Version)
 	assert.Equal(t, "SUSE", pid.Manufacturer)
 	assert.Equal(t, "CLI toolkit for CRA compliance automation", pid.IntendedPurpose)

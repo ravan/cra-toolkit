@@ -16,7 +16,7 @@ import (
 
 const (
 	kevURL      = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-	kevCacheDir = "suse-cra-toolkit"
+	kevCacheDir = "cra-toolkit"
 	kevFile     = "kev.json"
 	kevMaxAge   = 24 * time.Hour
 )
@@ -79,7 +79,7 @@ func ParseKEV(r io.Reader) (*KEVCatalog, error) {
 
 // LoadKEV loads a KEV catalog from a local file, XDG cache, or the network.
 // If localPath is non-empty it is used directly. Otherwise the function checks
-// $XDG_CACHE_HOME/suse-cra-toolkit/kev.json (falling back to ~/.cache/...)
+// $XDG_CACHE_HOME/cra-toolkit/kev.json (falling back to ~/.cache/...)
 // and fetches from CISA if the cached copy is missing or older than 24 hours.
 func LoadKEV(localPath string) (*KEVCatalog, error) {
 	if localPath != "" {
