@@ -71,8 +71,9 @@ func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // CSAF
 
 	// Add per-vulnerability notes.
 	vexLookup := make(map[string]formats.VEXResult, len(vexResults))
-	for _, vr := range vexResults {
-		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = vr
+	for i := range vexResults {
+		vr := &vexResults[i]
+		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = *vr
 	}
 	for i := range vulns {
 		for j := range findings {

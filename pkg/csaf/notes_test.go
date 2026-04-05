@@ -98,10 +98,8 @@ func TestBuildVulnNotes_LowConfidence_NoEvidenceNote(t *testing.T) {
 	}
 }
 
-func TestBuildVulnNotes_ReachabilityPaths(t *testing.T) {
-	finding := formats.Finding{
-		CVE: "CVE-2020-1747",
-	}
+func reachabilityVEXResult() (formats.Finding, formats.VEXResult) {
+	finding := formats.Finding{CVE: "CVE-2020-1747"}
 	vexResult := formats.VEXResult{
 		CVE:            "CVE-2020-1747",
 		Confidence:     formats.ConfidenceHigh,
@@ -120,33 +118,31 @@ func TestBuildVulnNotes_ReachabilityPaths(t *testing.T) {
 			},
 		},
 	}
+	return finding, vexResult
+}
 
+func TestBuildVulnNotes_ReachabilityPaths_CallPathNote(t *testing.T) {
+	finding, vexResult := reachabilityVEXResult()
 	notes := buildVulnNotes(&finding, &vexResult)
 
-	// Should have: existing evidence note + 1 call path note + 1 summary note = 3
 	if len(notes) < 3 {
 		t.Fatalf("expected at least 3 notes, got %d: %v", len(notes), notes)
 	}
 
-	// Find call path note
 	var callPathNote *note
-	var summaryNote *note
 	for i := range notes {
 		if notes[i].Title == "Reachability Call Path 1" {
 			callPathNote = &notes[i]
-		}
-		if notes[i].Title == "Reachability Analysis Summary" {
-			summaryNote = &notes[i]
 		}
 	}
 
 	if callPathNote == nil {
 		t.Fatal("expected a 'Reachability Call Path 1' note")
+		return //nolint:govet // unreachable, satisfies staticcheck SA5011
 	}
 	if callPathNote.Category != "details" {
 		t.Errorf("call path note category = %q, want details", callPathNote.Category)
 	}
-	// Verify JSON body is valid
 	var parsed map[string]any
 	if err := json.Unmarshal([]byte(callPathNote.Text), &parsed); err != nil {
 		t.Fatalf("call path note text is not valid JSON: %v\nText: %s", err, callPathNote.Text)
@@ -154,9 +150,26 @@ func TestBuildVulnNotes_ReachabilityPaths(t *testing.T) {
 	if _, ok := parsed["call_path"]; !ok {
 		t.Error("call path JSON missing 'call_path' key")
 	}
+}
+
+func TestBuildVulnNotes_ReachabilityPaths_SummaryNote(t *testing.T) {
+	finding, vexResult := reachabilityVEXResult()
+	notes := buildVulnNotes(&finding, &vexResult)
+
+	if len(notes) < 3 {
+		t.Fatalf("expected at least 3 notes, got %d: %v", len(notes), notes)
+	}
+
+	var summaryNote *note
+	for i := range notes {
+		if notes[i].Title == "Reachability Analysis Summary" {
+			summaryNote = &notes[i]
+		}
+	}
 
 	if summaryNote == nil {
 		t.Fatal("expected a 'Reachability Analysis Summary' note")
+		return //nolint:govet // unreachable, satisfies staticcheck SA5011
 	}
 	if !strings.Contains(summaryNote.Text, "confidence=high") {
 		t.Errorf("summary note missing confidence, got: %s", summaryNote.Text)

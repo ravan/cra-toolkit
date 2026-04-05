@@ -13,8 +13,9 @@ import (
 func BuildNotification(vulns []ExploitedVuln, mfr *Manufacturer, components []formats.Component, vexResults []formats.VEXResult) []VulnEntry {
 	// Build VEX lookup for mitigating measures.
 	vexByCV := make(map[string]formats.VEXResult, len(vexResults))
-	for _, vr := range vexResults {
-		vexByCV[vr.CVE] = vr
+	for i := range vexResults {
+		vr := &vexResults[i]
+		vexByCV[vr.CVE] = *vr
 	}
 
 	impact := &Impact{
@@ -49,7 +50,7 @@ func BuildNotification(vulns []ExploitedVuln, mfr *Manufacturer, components []fo
 		}
 
 		if vr, ok := vexByCV[v.CVE]; ok {
-			if detail := ReachabilityDetail(vr); detail != "" {
+			if detail := ReachabilityDetail(&vr); detail != "" {
 				e.MitigatingMeasures = []string{detail}
 			} else if vr.Evidence != "" {
 				e.MitigatingMeasures = []string{vr.Evidence}

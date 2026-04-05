@@ -86,7 +86,8 @@ func (p Parser) Parse(r io.Reader) ([]formats.VEXStatement, error) {
 // Write serializes VEX results to OpenVEX JSON format.
 func (w Writer) Write(out io.Writer, results []formats.VEXResult) error {
 	stmts := make([]statement, 0, len(results))
-	for _, r := range results {
+	for i := range results {
+		r := &results[i]
 		s := statement{
 			Vulnerability: vulnerability{Name: r.CVE},
 			Products: []product{
@@ -164,7 +165,7 @@ func justificationToOpenVEX(j formats.Justification) string {
 }
 
 // buildReachabilityImpact encodes reachability evidence as a JSON string for use as an OpenVEX impact_statement.
-func buildReachabilityImpact(r formats.VEXResult) string {
+func buildReachabilityImpact(r *formats.VEXResult) string {
 	callPaths := make([][]map[string]any, len(r.CallPaths))
 	for i, p := range r.CallPaths {
 		nodes := make([]map[string]any, len(p.Nodes))

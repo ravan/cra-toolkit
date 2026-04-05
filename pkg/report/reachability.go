@@ -7,9 +7,22 @@ import (
 	"github.com/ravan/suse-cra-toolkit/pkg/formats"
 )
 
+// renderNode renders a single call graph node for display.
+func renderNode(j int, n formats.CallNode) string {
+	loc := "<dependency>:0"
+	if n.File != "" {
+		loc = fmt.Sprintf("%s:%d", n.File, n.Line)
+	}
+	if j == 0 {
+		return fmt.Sprintf("      %s  [%s]\n", n.Symbol, loc)
+	}
+	indent := strings.Repeat("  ", j)
+	return fmt.Sprintf("      %s→ %s  [%s]\n", indent, n.Symbol, loc)
+}
+
 // ReachabilityDetail renders a human-readable reachability evidence block
 // for an auditor. Returns empty string for non-reachability results.
-func ReachabilityDetail(v formats.VEXResult) string {
+func ReachabilityDetail(v *formats.VEXResult) string {
 	if v.ResolvedBy != "reachability_analysis" {
 		return ""
 	}
@@ -34,16 +47,7 @@ func ReachabilityDetail(v formats.VEXResult) string {
 	for i, p := range v.CallPaths {
 		b.WriteString(fmt.Sprintf("    Path %d (depth %d):\n", i+1, p.Depth()))
 		for j, n := range p.Nodes {
-			loc := "<dependency>:0"
-			if n.File != "" {
-				loc = fmt.Sprintf("%s:%d", n.File, n.Line)
-			}
-			if j == 0 {
-				b.WriteString(fmt.Sprintf("      %s  [%s]\n", n.Symbol, loc))
-			} else {
-				indent := strings.Repeat("  ", j)
-				b.WriteString(fmt.Sprintf("      %s→ %s  [%s]\n", indent, n.Symbol, loc))
-			}
+			b.WriteString(renderNode(j, n))
 		}
 	}
 

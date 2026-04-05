@@ -72,7 +72,7 @@ func bfs(g *Graph, start, target SymbolID, maxDepth, maxPaths int) []reachabilit
 }
 
 // processEdges handles all outgoing edges from current, updating the BFS queue and results.
-func processEdges(g *Graph, current bfsNode, target SymbolID, visited map[SymbolID]bool, queue []bfsNode, results []reachability.CallPath, maxPaths int) ([]bfsNode, []reachability.CallPath) {
+func processEdges(g *Graph, current bfsNode, target SymbolID, visited map[SymbolID]bool, queue []bfsNode, results []reachability.CallPath, maxPaths int) (updatedQueue []bfsNode, updatedResults []reachability.CallPath) { //nolint:gocritic // named returns clarify BFS update semantics
 	for _, edge := range g.ForwardEdges(current.id) {
 		if edge.To == target {
 			fullPath := make([]SymbolID, len(current.path)+1)

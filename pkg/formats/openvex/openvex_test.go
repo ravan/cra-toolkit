@@ -143,8 +143,8 @@ func TestWriter_RoundTrip(t *testing.T) {
 	}
 }
 
-func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
-	results := []formats.VEXResult{
+func reachabilityTestResults() []formats.VEXResult {
+	return []formats.VEXResult{
 		{
 			CVE:            "CVE-2020-1747",
 			ComponentPURL:  "pkg:pypi/pyyaml@5.3",
@@ -174,30 +174,13 @@ func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
 			Evidence:      "version not in affected range",
 		},
 	}
+}
 
-	var buf bytes.Buffer
-	w := openvex.Writer{}
-	if err := w.Write(&buf, results); err != nil {
-		t.Fatalf("Write: %v", err)
-	}
-
-	// Parse the output JSON.
-	var doc map[string]any
-	if err := json.Unmarshal(buf.Bytes(), &doc); err != nil {
-		t.Fatalf("output is not valid JSON: %v", err)
-	}
-
-	stmts, ok := doc["statements"].([]any)
-	if !ok || len(stmts) != 2 {
-		t.Fatalf("expected 2 statements, got %v", doc["statements"])
-	}
-
-	// First statement (reachability) should have JSON impact_statement.
-	s1 := stmts[0].(map[string]any)
-	impact1 := s1["impact_statement"].(string)
+func assertReachabilityImpact(t *testing.T, impact string) {
+	t.Helper()
 	var parsed map[string]any
-	if err := json.Unmarshal([]byte(impact1), &parsed); err != nil {
-		t.Fatalf("reachability impact_statement is not valid JSON: %v\nGot: %s", err, impact1)
+	if err := json.Unmarshal([]byte(impact), &parsed); err != nil {
+		t.Fatalf("reachability impact_statement is not valid JSON: %v\nGot: %s", err, impact)
 	}
 	if parsed["analysis_method"] != "tree_sitter" {
 		t.Errorf("analysis_method = %v, want tree_sitter", parsed["analysis_method"])
@@ -212,18 +195,43 @@ func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
 	if !ok || len(callPaths) != 1 {
 		t.Fatalf("call_paths count = %v, want 1", parsed["call_paths"])
 	}
+}
 
-	// Second statement (non-reachability) should have plain-text impact_statement.
-	s2 := stmts[1].(map[string]any)
-	impact2 := s2["impact_statement"].(string)
-	if impact2 != "version not in affected range" {
-		t.Errorf("non-reachability impact_statement = %q, want plain text", impact2)
+func assertNonReachabilityImpact(t *testing.T, impact string) {
+	t.Helper()
+	if impact != "version not in affected range" {
+		t.Errorf("non-reachability impact_statement = %q, want plain text", impact)
 	}
-	// Verify it's NOT JSON.
 	var dummy map[string]any
-	if err := json.Unmarshal([]byte(impact2), &dummy); err == nil {
+	if err := json.Unmarshal([]byte(impact), &dummy); err == nil {
 		t.Error("non-reachability impact_statement should not be JSON")
 	}
+}
+
+func TestWriter_ReachabilityStructuredImpact(t *testing.T) {
+	results := reachabilityTestResults()
+
+	var buf bytes.Buffer
+	w := openvex.Writer{}
+	if err := w.Write(&buf, results); err != nil {
+		t.Fatalf("Write: %v", err)
+	}
+
+	var doc map[string]any
+	if err := json.Unmarshal(buf.Bytes(), &doc); err != nil {
+		t.Fatalf("output is not valid JSON: %v", err)
+	}
+
+	stmts, ok := doc["statements"].([]any)
+	if !ok || len(stmts) != 2 {
+		t.Fatalf("expected 2 statements, got %v", doc["statements"])
+	}
+
+	s1 := stmts[0].(map[string]any)
+	assertReachabilityImpact(t, s1["impact_statement"].(string))
+
+	s2 := stmts[1].(map[string]any)
+	assertNonReachabilityImpact(t, s2["impact_statement"].(string))
 }
 
 func TestWriter_OutputHasOpenVEXContext(t *testing.T) {

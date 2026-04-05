@@ -7,8 +7,9 @@ import "github.com/ravan/suse-cra-toolkit/pkg/formats"
 func mapVulnerabilities(findings []formats.Finding, vexResults []formats.VEXResult) []vulnerability { //nolint:gocyclo // VEX status mapping requires branching
 	// Build lookup: "CVE|PURL" -> VEXResult
 	vexLookup := make(map[string]formats.VEXResult, len(vexResults))
-	for _, vr := range vexResults {
-		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = vr
+	for i := range vexResults {
+		vr := &vexResults[i]
+		vexLookup[vr.CVE+"|"+vr.ComponentPURL] = *vr
 	}
 
 	// Group findings by CVE, preserving order

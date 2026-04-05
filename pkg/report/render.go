@@ -67,7 +67,7 @@ func RenderMarkdown(n *Notification) string { //nolint:gocognit,gocyclo // markd
 			b.WriteString(fmt.Sprintf("- **Corrective Actions:** %s\n", strings.Join(v.CorrectiveActions, "; ")))
 		}
 		if len(v.MitigatingMeasures) > 0 {
-			b.WriteString(fmt.Sprintf("- **Mitigating Measures:**\n"))
+			b.WriteString("- **Mitigating Measures:**\n")
 			for _, m := range v.MitigatingMeasures {
 				b.WriteString(fmt.Sprintf("  ```\n%s  ```\n", m))
 			}

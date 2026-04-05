@@ -105,13 +105,13 @@ func analyzerMethod(a reachability.Analyzer) string {
 
 // maxDepth returns the maximum depth across all call paths.
 func maxDepth(paths []formats.CallPath) int {
-	max := 0
+	maxD := 0
 	for _, p := range paths {
-		if d := p.Depth(); d > max {
-			max = d
+		if d := p.Depth(); d > maxD {
+			maxD = d
 		}
 	}
-	return max
+	return maxD
 }
 
 // entryFiles returns deduplicated entry-point files from call paths.

@@ -169,7 +169,8 @@ func buildScan(a *ParsedArtifacts) map[string]any {
 
 func buildVEX(a *ParsedArtifacts) map[string]any {
 	statements := make([]map[string]any, 0, len(a.VEXResults))
-	for _, v := range a.VEXResults {
+	for i := range a.VEXResults {
+		v := &a.VEXResults[i]
 		statements = append(statements, map[string]any{
 			"cve":             v.CVE,
 			"purl":            v.ComponentPURL,

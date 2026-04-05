@@ -25,7 +25,7 @@ func TestReachabilityDetail_WithPaths(t *testing.T) {
 		MaxCallDepth: 3,
 	}
 
-	got := ReachabilityDetail(v)
+	got := ReachabilityDetail(&v)
 
 	if !strings.Contains(got, "Symbols: yaml.load") {
 		t.Errorf("expected 'Symbols: yaml.load', got:\n%s", got)
@@ -57,7 +57,7 @@ func TestReachabilityDetail_NoPaths(t *testing.T) {
 		Symbols:        []string{"yaml.load"},
 	}
 
-	got := ReachabilityDetail(v)
+	got := ReachabilityDetail(&v)
 
 	if !strings.Contains(got, "No call path found") {
 		t.Errorf("expected 'No call path found', got:\n%s", got)
@@ -76,7 +76,7 @@ func TestReachabilityDetail_NotReachability(t *testing.T) {
 		Evidence:   "version not in affected range",
 	}
 
-	got := ReachabilityDetail(v)
+	got := ReachabilityDetail(&v)
 
 	if got != "" {
 		t.Errorf("expected empty string for non-reachability result, got: %q", got)

@@ -180,7 +180,8 @@ func (w Writer) Write(out io.Writer, results []formats.VEXResult) error {
 	branches := make([]branch, 0, len(results))
 	vulnMap := map[string]*vulnerability{}
 
-	for _, r := range results {
+	for i := range results {
+		r := &results[i]
 		productID := purlToProductID(r.ComponentPURL)
 
 		// Add product tree branch
@@ -225,10 +226,11 @@ func (w Writer) Write(out io.Writer, results []formats.VEXResult) error {
 	// Collect vulnerabilities in deterministic order
 	vulns := make([]vulnerability, 0, len(vulnMap))
 	seen := map[string]bool{}
-	for _, r := range results {
-		if !seen[r.CVE] {
-			seen[r.CVE] = true
-			vulns = append(vulns, *vulnMap[r.CVE])
+	for i := range results {
+		cve := results[i].CVE
+		if !seen[cve] {
+			seen[cve] = true
+			vulns = append(vulns, *vulnMap[cve])
 		}
 	}
 

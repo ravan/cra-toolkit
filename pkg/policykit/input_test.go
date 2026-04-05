@@ -277,8 +277,8 @@ func TestLoadProductConfig_JSON(t *testing.T) {
 	}
 }
 
-func TestBuildInput_VEXReachabilityFields(t *testing.T) {
-	arts := &ParsedArtifacts{
+func reachabilityVEXArts() *ParsedArtifacts {
+	return &ParsedArtifacts{
 		Components: []formats.Component{
 			{Name: "PyYAML", Version: "5.3", PURL: "pkg:pypi/pyyaml@5.3", Type: "python"},
 		},
@@ -315,9 +315,11 @@ func TestBuildInput_VEXReachabilityFields(t *testing.T) {
 			},
 		},
 	}
+}
 
+func getVEXStatement(t *testing.T, arts *ParsedArtifacts) map[string]any {
+	t.Helper()
 	input := BuildInput(arts)
-
 	vexSection, ok := input["vex"].(map[string]any)
 	if !ok {
 		t.Fatal("expected vex key to be map[string]any")
@@ -329,10 +331,12 @@ func TestBuildInput_VEXReachabilityFields(t *testing.T) {
 	if len(stmts) != 1 {
 		t.Fatalf("expected 1 statement, got %d", len(stmts))
 	}
+	return stmts[0]
+}
 
-	s := stmts[0]
+func TestBuildInput_VEXReachabilityFields_ScalarFields(t *testing.T) {
+	s := getVEXStatement(t, reachabilityVEXArts())
 
-	// Verify all new fields are present.
 	if s["confidence"] != "high" {
 		t.Errorf("confidence = %v, want high", s["confidence"])
 	}
@@ -345,6 +349,10 @@ func TestBuildInput_VEXReachabilityFields(t *testing.T) {
 	if s["max_call_depth"] != 3 {
 		t.Errorf("max_call_depth = %v, want 3", s["max_call_depth"])
 	}
+}
+
+func TestBuildInput_VEXReachabilityFields_SliceFields(t *testing.T) {
+	s := getVEXStatement(t, reachabilityVEXArts())
 
 	symbols, ok := s["symbols"].([]string)
 	if !ok {
@@ -361,6 +369,10 @@ func TestBuildInput_VEXReachabilityFields(t *testing.T) {
 	if len(entryFiles) != 1 || entryFiles[0] != "src/app.py" {
 		t.Errorf("entry_files = %v, want [src/app.py]", entryFiles)
 	}
+}
+
+func TestBuildInput_VEXReachabilityFields_CallPaths(t *testing.T) {
+	s := getVEXStatement(t, reachabilityVEXArts())
 
 	callPaths, ok := s["call_paths"].([][]map[string]any)
 	if !ok {

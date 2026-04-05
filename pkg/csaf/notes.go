@@ -40,7 +40,8 @@ func buildVulnNotes(finding *formats.Finding, vexResult *formats.VEXResult) []no
 }
 
 func buildReachabilityNotes(vexResult *formats.VEXResult) []note {
-	var notes []note
+	// Pre-allocate: one note per call path plus one summary note.
+	notes := make([]note, 0, len(vexResult.CallPaths)+1)
 
 	// One note per call path with JSON body.
 	for i, p := range vexResult.CallPaths {
