@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" font-family="Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#30BA78"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00897B"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="600" fill="#FAFFFE" rx="4"/>
+
+  <!-- Title -->
+  <text x="550" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#0C322C">Annex I Requirements — Toolkit Mapping</text>
+
+  <!-- Column headers -->
+  <text x="155" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#2E7D32">CRA Requirement</text>
+  <text x="550" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#2E7D32">Toolkit Tool</text>
+  <text x="940" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#2E7D32">Output Artifact</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- LEFT COLUMN — CRA Requirements         -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Part I, 2(a) — No known exploitable vulns -->
+  <rect x="20" y="80" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#30BA78" stroke-width="1.5"/>
+  <text x="30" y="99" font-size="9" font-weight="700" fill="#30BA78">Part I, 2(a)</text>
+  <text x="30" y="114" font-size="10" fill="#0C322C">No known exploitable vulnerabilities</text>
+
+  <!-- Part II, (1) — SBOM documentation -->
+  <rect x="20" y="140" width="270" height="44" rx="8" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="30" y="159" font-size="9" font-weight="700" fill="#00897B">Part II, (1)</text>
+  <text x="30" y="174" font-size="10" fill="#0C322C">SBOM documentation</text>
+
+  <!-- Part II, (2) — Vulnerability remediation -->
+  <rect x="20" y="200" width="270" height="44" rx="8" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="30" y="219" font-size="9" font-weight="700" fill="#00897B">Part II, (2)</text>
+  <text x="30" y="234" font-size="10" fill="#0C322C">Vulnerability remediation</text>
+
+  <!-- Part II, (5) — CVD policy -->
+  <rect x="20" y="260" width="270" height="44" rx="8" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="30" y="279" font-size="9" font-weight="700" fill="#00897B">Part II, (5)</text>
+  <text x="30" y="294" font-size="10" fill="#0C322C">Coordinated vulnerability disclosure</text>
+
+  <!-- Part II, (7) — Secure update distribution -->
+  <rect x="20" y="320" width="270" height="44" rx="8" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="30" y="339" font-size="9" font-weight="700" fill="#00897B">Part II, (7)</text>
+  <text x="30" y="354" font-size="10" fill="#0C322C">Secure update distribution</text>
+
+  <!-- Part II, (8) — Security advisory dissemination -->
+  <rect x="20" y="380" width="270" height="44" rx="8" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="30" y="399" font-size="9" font-weight="700" fill="#00897B">Part II, (8)</text>
+  <text x="30" y="414" font-size="10" fill="#0C322C">Security advisory dissemination</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- CENTER COLUMN — Toolkit Tools           -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- cra vex -->
+  <rect x="420" y="90" width="260" height="40" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="550" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra vex</text>
+
+  <!-- cra evidence -->
+  <rect x="420" y="180" width="260" height="40" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="550" y="205" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra evidence</text>
+
+  <!-- cra policykit -->
+  <rect x="420" y="270" width="260" height="40" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="550" y="295" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra policykit</text>
+
+  <!-- cra csaf -->
+  <rect x="420" y="360" width="260" height="40" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="550" y="385" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra csaf</text>
+
+  <!-- cra report -->
+  <rect x="420" y="440" width="260" height="40" rx="8" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="550" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="white">cra report</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- RIGHT COLUMN — Output Artifacts         -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- OpenVEX / CSAF VEX -->
+  <rect x="810" y="80" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">OpenVEX / CSAF VEX</text>
+  <text x="945" y="116" text-anchor="middle" font-size="9" fill="#2E7D32">Exploitability assessments</text>
+
+  <!-- SBOM in evidence bundle -->
+  <rect x="810" y="155" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="175" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">SBOM in evidence bundle</text>
+  <text x="945" y="191" text-anchor="middle" font-size="9" fill="#2E7D32">Component inventory</text>
+
+  <!-- Policy report -->
+  <rect x="810" y="240" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="260" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">Policy report</text>
+  <text x="945" y="276" text-anchor="middle" font-size="9" fill="#2E7D32">OPA evaluation results</text>
+
+  <!-- CVD policy in bundle -->
+  <rect x="810" y="315" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="335" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">CVD policy in bundle</text>
+  <text x="945" y="351" text-anchor="middle" font-size="9" fill="#2E7D32">Disclosure policy documentation</text>
+
+  <!-- CSAF 2.0 advisory -->
+  <rect x="810" y="390" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="410" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">CSAF 2.0 advisory</text>
+  <text x="945" y="426" text-anchor="middle" font-size="9" fill="#2E7D32">Machine-readable security advisory</text>
+
+  <!-- Art. 14 notification -->
+  <rect x="810" y="455" width="270" height="44" rx="8" fill="#E8F5E9" stroke="#0C322C" stroke-width="1"/>
+  <text x="945" y="475" text-anchor="middle" font-size="11" font-weight="600" fill="#0C322C">Art. 14 notification report</text>
+  <text x="945" y="491" text-anchor="middle" font-size="9" fill="#2E7D32">ENISA/CSIRT notification</text>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ARROWS: Requirements → Tools            -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Part I 2(a) → cra vex -->
+  <line x1="290" y1="102" x2="418" y2="108" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Part II (1) → cra evidence -->
+  <line x1="290" y1="165" x2="418" y2="198" stroke="#00897B" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+  <!-- Part II (1) → cra policykit -->
+  <line x1="290" y1="168" x2="418" y2="285" stroke="#00897B" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowTeal)"/>
+
+  <!-- Part II (2) → cra vex -->
+  <line x1="290" y1="215" x2="418" y2="115" stroke="#00897B" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowTeal)"/>
+  <!-- Part II (2) → cra policykit -->
+  <line x1="290" y1="225" x2="418" y2="290" stroke="#00897B" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+
+  <!-- Part II (5) → cra evidence -->
+  <line x1="290" y1="280" x2="418" y2="205" stroke="#00897B" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+
+  <!-- Part II (7) → cra policykit -->
+  <line x1="290" y1="342" x2="418" y2="293" stroke="#00897B" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+
+  <!-- Part II (8) → cra csaf -->
+  <line x1="290" y1="400" x2="418" y2="380" stroke="#00897B" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+  <!-- Part II (8) → cra report -->
+  <line x1="290" y1="405" x2="418" y2="458" stroke="#00897B" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowTeal)"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- ARROWS: Tools → Artifacts               -->
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- cra vex → OpenVEX -->
+  <line x1="680" y1="108" x2="808" y2="102" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- cra evidence → SBOM bundle -->
+  <line x1="680" y1="198" x2="808" y2="180" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <!-- cra evidence → CVD policy -->
+  <line x1="680" y1="205" x2="808" y2="335" stroke="#30BA78" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowGreen)"/>
+
+  <!-- cra policykit → Policy report -->
+  <line x1="680" y1="290" x2="808" y2="262" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- cra csaf → CSAF advisory -->
+  <line x1="680" y1="380" x2="808" y2="412" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- cra report → Art. 14 notification -->
+  <line x1="680" y1="460" x2="808" y2="477" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- LEGEND                                  -->
+  <!-- ═══════════════════════════════════════ -->
+  <rect x="20" y="520" width="1060" height="60" rx="8" fill="#F5F5F5" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="40" y="545" font-size="11" font-weight="600" fill="#0C322C">Legend:</text>
+  <rect x="100" y="535" width="14" height="14" rx="3" fill="#E8F5E9" stroke="#30BA78" stroke-width="1.5"/>
+  <text x="120" y="547" font-size="10" fill="#0C322C">Part I requirement</text>
+  <rect x="240" y="535" width="14" height="14" rx="3" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="260" y="547" font-size="10" fill="#0C322C">Part II requirement</text>
+  <line x1="380" y1="542" x2="420" y2="542" stroke="#30BA78" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <text x="428" y="547" font-size="10" fill="#0C322C">Primary mapping</text>
+  <line x1="545" y1="542" x2="585" y2="542" stroke="#00897B" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowTeal)"/>
+  <text x="593" y="547" font-size="10" fill="#0C322C">Secondary mapping</text>
+  <rect x="730" y="533" width="50" height="18" rx="6" fill="#30BA78" stroke="#0C322C" stroke-width="1"/>
+  <text x="755" y="546" text-anchor="middle" font-size="9" font-weight="700" fill="white">tool</text>
+  <text x="790" y="547" font-size="10" fill="#0C322C">Toolkit command</text>
+</svg>
