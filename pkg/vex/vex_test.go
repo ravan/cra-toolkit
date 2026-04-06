@@ -6,9 +6,11 @@ package vex_test
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"strings"
 	"testing"
 
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
@@ -129,4 +131,101 @@ func keysOf(m map[string]interface{}) []string {
 		keys = append(keys, k)
 	}
 	return keys
+}
+
+func TestRun_WithExtraFilter_ResolvesBeforeBuiltin(t *testing.T) {
+	opts := vex.Options{
+		SBOMPath:     "../../testdata/integration/go-reachable/sbom.cdx.json",
+		ScanPaths:    []string{"../../testdata/integration/go-reachable/grype.json"},
+		OutputFormat: "openvex",
+	}
+
+	var buf bytes.Buffer
+	err := vex.Run(&opts, &buf, vex.WithExtraFilters([]vex.Filter{
+		&alwaysNotAffectedFilter{},
+	}))
+	if err != nil {
+		t.Fatalf("Run() error: %v", err)
+	}
+
+	var doc openvexDoc
+	if err := json.Unmarshal(buf.Bytes(), &doc); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+
+	for i, stmt := range doc.Statements {
+		if stmt.Status != "not_affected" {
+			t.Errorf("statement[%d]: status=%s, want not_affected", i, stmt.Status)
+		}
+	}
+}
+
+type alwaysNotAffectedFilter struct{}
+
+func (f *alwaysNotAffectedFilter) Name() string { return "custom-always-not-affected" }
+func (f *alwaysNotAffectedFilter) Evaluate(finding *formats.Finding, _ []formats.Component) (vex.Result, bool) {
+	return vex.Result{
+		CVE:           finding.CVE,
+		ComponentPURL: finding.AffectedPURL,
+		Status:        formats.StatusNotAffected,
+		Justification: "custom_filter",
+		ResolvedBy:    "custom-always-not-affected",
+		Evidence:      "Resolved by custom extension filter",
+	}, true
+}
+
+func TestRun_WithExtraVEXWriter(t *testing.T) {
+	opts := vex.Options{
+		SBOMPath:     "../../testdata/integration/go-reachable/sbom.cdx.json",
+		ScanPaths:    []string{"../../testdata/integration/go-reachable/grype.json"},
+		OutputFormat: "custom-writer",
+	}
+
+	customWriter := &countingWriter{}
+
+	var buf bytes.Buffer
+	err := vex.Run(&opts, &buf, vex.WithExtraVEXWriters(map[string]formats.VEXWriter{
+		"custom-writer": customWriter,
+	}))
+	if err != nil {
+		t.Fatalf("Run() error: %v", err)
+	}
+
+	if customWriter.count == 0 {
+		t.Error("custom writer was not called")
+	}
+	if buf.Len() == 0 {
+		t.Error("expected non-empty output from custom writer")
+	}
+}
+
+type countingWriter struct{ count int }
+
+func (w *countingWriter) Write(out io.Writer, results []formats.VEXResult) error {
+	w.count = len(results)
+	return json.NewEncoder(out).Encode(map[string]int{"count": len(results)})
+}
+
+func TestRun_ZeroRunOptions_IdenticalToBaseline(t *testing.T) {
+	opts := vex.Options{
+		SBOMPath:     "../../testdata/integration/go-reachable/sbom.cdx.json",
+		ScanPaths:    []string{"../../testdata/integration/go-reachable/grype.json"},
+		OutputFormat: "openvex",
+	}
+
+	var buf1 bytes.Buffer
+	err := vex.Run(&opts, &buf1)
+	if err != nil {
+		t.Fatalf("Run() baseline error: %v", err)
+	}
+
+	var buf2 bytes.Buffer
+	err = vex.Run(&opts, &buf2)
+	if err != nil {
+		t.Fatalf("Run() second call error: %v", err)
+	}
+
+	if buf1.String() != buf2.String() {
+		t.Error("output differs between two identical calls with no RunOptions")
+	}
 }
