@@ -285,6 +285,8 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 
 // buildAnalyzers detects languages in the source directory and creates
 // the appropriate reachability analyzers.
+//
+//nolint:gocyclo // language-analyzer mapping is inherently branchy
 func buildAnalyzers(sourceDir string, extra map[string]reachability.Analyzer) map[string]reachability.Analyzer {
 	analyzers := make(map[string]reachability.Analyzer)
 

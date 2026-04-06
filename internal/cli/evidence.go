@@ -12,7 +12,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newEvidenceCmd(cfg RunConfig) *urfave.Command {
+func newEvidenceCmd(cfg *RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "evidence",
 		Usage: "Bundle compliance outputs into a signed CRA evidence package for Annex VII",

@@ -7,8 +7,8 @@ import "github.com/ravan/cra-toolkit/pkg/toolkit"
 
 // buildHooks converts RunConfig pre/post hooks into a toolkit.Hook slice
 // for a specific package.
-func buildHooks(cfg RunConfig, pkg string) []toolkit.Hook {
-	var hooks []toolkit.Hook
+func buildHooks(cfg *RunConfig, pkg string) []toolkit.Hook {
+	hooks := make([]toolkit.Hook, 0, len(cfg.PreHooks[pkg])+len(cfg.PostHooks[pkg]))
 	for _, fn := range cfg.PreHooks[pkg] {
 		hooks = append(hooks, toolkit.Hook{Phase: toolkit.Pre, Fn: fn})
 	}

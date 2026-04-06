@@ -31,13 +31,13 @@ type realworldExpectedJSON struct {
 		GroundTruthNotes string `json:"ground_truth_notes"`
 	} `json:"provenance"`
 	Findings []struct {
-		CVE                  string   `json:"cve"`
-		ComponentPURL        string   `json:"component_purl"`
-		ExpectedStatus       string   `json:"expected_status"`
-		ExpectedJustification string  `json:"expected_justification,omitempty"`
-		ExpectedResolvedBy   string   `json:"expected_resolved_by,omitempty"`
-		ExpectedCallDepthMin int      `json:"expected_call_depth_min,omitempty"`
-		ExpectedSymbols      []string `json:"expected_symbols,omitempty"`
+		CVE                   string   `json:"cve"`
+		ComponentPURL         string   `json:"component_purl"`
+		ExpectedStatus        string   `json:"expected_status"`
+		ExpectedJustification string   `json:"expected_justification,omitempty"`
+		ExpectedResolvedBy    string   `json:"expected_resolved_by,omitempty"`
+		ExpectedCallDepthMin  int      `json:"expected_call_depth_min,omitempty"`
+		ExpectedSymbols       []string `json:"expected_symbols,omitempty"`
 	} `json:"findings"`
 }
 

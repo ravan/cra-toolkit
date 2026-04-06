@@ -11,7 +11,7 @@ import (
 )
 
 // New creates the root CRA CLI command with all global flags and subcommands registered.
-func New(version string, cfg RunConfig) *urfave.Command {
+func New(version string, cfg *RunConfig) *urfave.Command {
 	cmd := &urfave.Command{
 		Name:    "cra",
 		Usage:   "SUSE CRA Compliance Toolkit",

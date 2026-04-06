@@ -13,7 +13,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newReportCmd(cfg RunConfig) *urfave.Command {
+func newReportCmd(cfg *RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "report",
 		Usage: "Generate CRA Article 14 vulnerability notification documents",

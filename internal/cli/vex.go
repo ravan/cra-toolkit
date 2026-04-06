@@ -14,7 +14,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/vex"
 )
 
-func newVexCmd(cfg RunConfig) *urfave.Command {
+func newVexCmd(cfg *RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "vex",
 		Usage: "Determine VEX status for vulnerabilities against an SBOM",
@@ -60,33 +60,37 @@ func newVexCmd(cfg RunConfig) *urfave.Command {
 			w, closer := OutputWriter(cmd)
 			defer closer() //nolint:errcheck // closer returns nil for stdout
 
-			// Build RunOptions from config.
-			var runOpts []vex.RunOption
-			if len(cfg.ExtraFilters) > 0 {
-				runOpts = append(runOpts, vex.WithExtraFilters(cfg.ExtraFilters))
-			}
-			if len(cfg.ExtraAnalyzers) > 0 {
-				runOpts = append(runOpts, vex.WithExtraAnalyzers(cfg.ExtraAnalyzers))
-			}
-			if len(cfg.ExtraScanParsers) > 0 {
-				runOpts = append(runOpts, vex.WithExtraScanParsers(cfg.ExtraScanParsers))
-			}
-			if len(cfg.ExtraSBOMParsers) > 0 {
-				runOpts = append(runOpts, vex.WithExtraSBOMParsers(cfg.ExtraSBOMParsers))
-			}
-			if len(cfg.ExtraVEXWriters) > 0 {
-				runOpts = append(runOpts, vex.WithExtraVEXWriters(cfg.ExtraVEXWriters))
-			}
-			if len(cfg.ExtraFormatProbes) > 0 {
-				runOpts = append(runOpts, vex.WithExtraFormatProbes(cfg.ExtraFormatProbes))
-			}
-
+			runOpts := buildVexRunOpts(cfg)
 			hooks := buildHooks(cfg, "vex")
 			return toolkit.ExecuteWithHooks(ctx, "vex", hooks, opts, func() error {
 				return vex.Run(opts, w, runOpts...)
 			})
 		},
 	}
+}
+
+// buildVexRunOpts converts RunConfig extension registrations into vex.RunOption values.
+func buildVexRunOpts(cfg *RunConfig) []vex.RunOption {
+	var opts []vex.RunOption
+	if len(cfg.ExtraFilters) > 0 {
+		opts = append(opts, vex.WithExtraFilters(cfg.ExtraFilters))
+	}
+	if len(cfg.ExtraAnalyzers) > 0 {
+		opts = append(opts, vex.WithExtraAnalyzers(cfg.ExtraAnalyzers))
+	}
+	if len(cfg.ExtraScanParsers) > 0 {
+		opts = append(opts, vex.WithExtraScanParsers(cfg.ExtraScanParsers))
+	}
+	if len(cfg.ExtraSBOMParsers) > 0 {
+		opts = append(opts, vex.WithExtraSBOMParsers(cfg.ExtraSBOMParsers))
+	}
+	if len(cfg.ExtraVEXWriters) > 0 {
+		opts = append(opts, vex.WithExtraVEXWriters(cfg.ExtraVEXWriters))
+	}
+	if len(cfg.ExtraFormatProbes) > 0 {
+		opts = append(opts, vex.WithExtraFormatProbes(cfg.ExtraFormatProbes))
+	}
+	return opts
 }
 
 func hasVEXWriter(format string, extra map[string]formats.VEXWriter) bool {

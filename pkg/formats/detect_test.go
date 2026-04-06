@@ -133,7 +133,7 @@ func TestDetectFormat_ExtraProbeDoesNotOverrideBuiltin(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
-	defer f.Close()
+	defer f.Close() //nolint:errcheck // test file
 
 	const FormatCustom formats.Format = 100
 	probe := formats.FormatProbe{
@@ -159,7 +159,7 @@ func TestDetectFormat_EmptyExtraProbes(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
-	defer f.Close()
+	defer f.Close() //nolint:errcheck // test file
 
 	got, err := formats.DetectFormat(f)
 	if err != nil {

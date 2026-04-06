@@ -13,7 +13,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newPolicykitCmd(cfg RunConfig) *urfave.Command {
+func newPolicykitCmd(cfg *RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "policykit",
 		Usage: "Evaluate CRA Annex I compliance policies against product artifacts",

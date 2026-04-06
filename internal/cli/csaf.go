@@ -13,7 +13,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newCsafCmd(cfg RunConfig) *urfave.Command {
+func newCsafCmd(cfg *RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "csaf",
 		Usage: "Generate CSAF 2.0 security advisories from scanner output and VEX assessments",

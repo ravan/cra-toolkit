@@ -93,6 +93,11 @@ tasks:
       - go test -race -count=1 -run TestIntegration ./pkg/vex/reachability/php/...
       - go test -race -count=1 -run TestIntegration ./pkg/vex/reachability/ruby/...
 
+  test:toolkit:
+    desc: Run toolkit facade tests
+    cmds:
+      - go test -race -count=1 -v ./pkg/toolkit/...
+
   test:reachability:llmjudge:
     desc: Run reachability LLM quality judge tests (requires gemini CLI)
     cmds:

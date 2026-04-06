@@ -36,7 +36,7 @@ type RunConfig struct {
 
 // CLIRunner is the function signature for creating and running the CLI.
 // This indirection avoids a circular import between pkg/toolkit and internal/cli.
-type CLIRunner func(version string, cfg RunConfig, ctx context.Context, args []string) error
+type CLIRunner func(version string, cfg *RunConfig, ctx context.Context, args []string) error
 
 // App is the public facade for the CRA toolkit.
 // Phase 2 extension modules create an App, register their extensions,
@@ -114,8 +114,8 @@ func (a *App) RegisterHook(pkg string, h Hook) error {
 }
 
 // BuildConfig returns a RunConfig populated with all registered extensions.
-func (a *App) BuildConfig() RunConfig {
-	return RunConfig{
+func (a *App) BuildConfig() *RunConfig {
+	return &RunConfig{
 		ExtraFilters:      a.filters,
 		ExtraAnalyzers:    a.analyzers,
 		ExtraCommands:     a.commands,

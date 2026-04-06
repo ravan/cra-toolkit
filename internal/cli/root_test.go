@@ -13,14 +13,14 @@ import (
 )
 
 func TestNew_ReturnsCommand(t *testing.T) {
-	cmd := cli.New("1.0.0-test", cli.RunConfig{})
+	cmd := cli.New("1.0.0-test", &cli.RunConfig{})
 	if cmd == nil || cmd.Name != "cra" {
 		t.Errorf("expected non-nil command with name 'cra', got %v", cmd)
 	}
 }
 
 func TestNew_RegistersAllSubcommands(t *testing.T) {
-	cmd := cli.New("1.0.0-test", cli.RunConfig{})
+	cmd := cli.New("1.0.0-test", &cli.RunConfig{})
 
 	expected := []string{"version", "vex", "policykit", "report", "evidence", "csaf"}
 	registered := make(map[string]bool)
@@ -36,7 +36,7 @@ func TestNew_RegistersAllSubcommands(t *testing.T) {
 }
 
 func TestVersionCmd_JSON(t *testing.T) {
-	cmd := cli.New("1.2.3", cli.RunConfig{})
+	cmd := cli.New("1.2.3", &cli.RunConfig{})
 	var buf bytes.Buffer
 	cmd.Writer = &buf
 
@@ -52,7 +52,7 @@ func TestVersionCmd_JSON(t *testing.T) {
 }
 
 func TestVersionCmd_Text(t *testing.T) {
-	cmd := cli.New("1.2.3", cli.RunConfig{})
+	cmd := cli.New("1.2.3", &cli.RunConfig{})
 	var buf bytes.Buffer
 	cmd.Writer = &buf
 
@@ -68,7 +68,7 @@ func TestVersionCmd_Text(t *testing.T) {
 }
 
 func TestEvidenceCmd_RequiredFlagsEnforced(t *testing.T) {
-	cmd := cli.New("test", cli.RunConfig{})
+	cmd := cli.New("test", &cli.RunConfig{})
 	err := cmd.Run(context.Background(), []string{"cra", "evidence"})
 	if err == nil {
 		t.Fatal("expected error when required flags are missing, got nil")
@@ -80,7 +80,7 @@ func TestEvidenceCmd_RequiredFlagsEnforced(t *testing.T) {
 }
 
 func TestReportCmd_RequiredFlagsEnforced(t *testing.T) {
-	cmd := cli.New("test", cli.RunConfig{})
+	cmd := cli.New("test", &cli.RunConfig{})
 	err := cmd.Run(context.Background(), []string{"cra", "report"})
 	if err == nil {
 		t.Fatal("expected error when required flags are missing, got nil")

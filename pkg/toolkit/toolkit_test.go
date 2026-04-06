@@ -228,7 +228,7 @@ func TestRunCLI_ExtraCommand(t *testing.T) {
 
 // cliRunner is a test helper that creates the real CLI and runs it,
 // without pkg/toolkit importing internal/cli directly.
-func cliRunner(version string, cfg toolkit.RunConfig, ctx context.Context, args []string) error {
+func cliRunner(version string, cfg *toolkit.RunConfig, ctx context.Context, args []string) error {
 	root := &urfave.Command{
 		Name:    "cra",
 		Version: version,
