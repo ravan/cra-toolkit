@@ -9,6 +9,22 @@ import (
 	"strings"
 )
 
+// languageAliases maps scanner-reported language names to the canonical names
+// used by the toolkit's analyzer registry.
+var languageAliases = map[string]string{
+	"dotnet": "csharp",
+}
+
+// NormalizeLanguage returns the canonical toolkit language name for a
+// scanner-reported language string. If no alias exists, the input is
+// returned unchanged.
+func NormalizeLanguage(lang string) string {
+	if canonical, ok := languageAliases[lang]; ok {
+		return canonical
+	}
+	return lang
+}
+
 // languageMarkers maps language names to the filenames that indicate their presence.
 // Values may be exact filenames or glob patterns (containing "*").
 var languageMarkers = map[string][]string{

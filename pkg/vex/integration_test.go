@@ -45,6 +45,10 @@ type openvexStatement struct {
 }
 
 func TestIntegration_GoFixtures(t *testing.T) {
+	if _, err := exec.LookPath("govulncheck"); err != nil {
+		t.Skip("govulncheck not available, skipping Go reachability integration test")
+	}
+
 	tests := []struct {
 		name string
 		dir  string

@@ -109,6 +109,29 @@ func TestDetectLanguages_CSharp(t *testing.T) {
 	}
 }
 
+func TestNormalizeLanguage(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"dotnet", "csharp"},
+		{"csharp", "csharp"},
+		{"go", "go"},
+		{"python", "python"},
+		{"javascript", "javascript"},
+		{"", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			got := reachability.NormalizeLanguage(tt.input)
+			if got != tt.want {
+				t.Errorf("NormalizeLanguage(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
+
 func createFile(t *testing.T, dir, name string) (*os.File, error) {
 	t.Helper()
 	return os.Create(filepath.Join(dir, name)) //nolint:gosec // test helper with controlled paths

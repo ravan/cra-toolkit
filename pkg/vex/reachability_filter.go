@@ -32,7 +32,8 @@ func NewReachabilityFilter(sourceDir string, analyzers map[string]reachability.A
 func (f *reachabilityFilter) Name() string { return "reachability" }
 
 func (f *reachabilityFilter) Evaluate(finding *formats.Finding, components []formats.Component) (Result, bool) {
-	analyzer, ok := f.analyzers[finding.Language]
+	lang := reachability.NormalizeLanguage(finding.Language)
+	analyzer, ok := f.analyzers[lang]
 	if !ok {
 		// Fall back to "generic" analyzer.
 		analyzer, ok = f.analyzers["generic"]
