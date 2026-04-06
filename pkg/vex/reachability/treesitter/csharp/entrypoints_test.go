@@ -106,32 +106,11 @@ public class DataController : ControllerBase
 
 // TestFindEntryPoints_MinimalAPI verifies that app.MapGet/MapPost etc. are detected.
 func TestFindEntryPoints_MinimalAPI(t *testing.T) {
-	source := `var app = WebApplication.Create(args);
-
-app.MapGet("/hello", () => "Hello World");
-app.MapPost("/data", (string payload) => payload);
-app.MapPut("/data/{id}", (int id, string data) => data);
-app.MapDelete("/data/{id}", (int id) => Results.NoContent());
-app.MapPatch("/data/{id}", (int id, string data) => data);
-
-app.Run();
-`
-	tree, src := parseSource(t, source)
-	defer tree.Close()
-
-	ext := csharpextractor.New()
-	symbols, err := ext.ExtractSymbols("Program.cs", src, tree)
-	if err != nil {
-		t.Fatalf("ExtractSymbols failed: %v", err)
-	}
-
 	// Minimal API inline lambdas (e.g. app.MapGet("/hello", () => "Hello World")) do not
 	// produce named method symbols in the AST — the handler is an anonymous lambda with no
 	// identifier. These fall through to the all-methods-as-entrypoints fallback in the analyzer.
 	// Named handler functions passed by reference would be detectable, but inline lambdas are not.
 	t.Skip("Minimal API inline lambdas fall through to fallback entry detection")
-
-	_ = ext.FindEntryPoints(symbols, "/project")
 }
 
 // TestFindEntryPoints_BackgroundService verifies that ExecuteAsync is detected.
