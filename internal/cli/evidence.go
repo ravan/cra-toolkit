@@ -9,9 +9,10 @@ import (
 	urfave "github.com/urfave/cli/v3"
 
 	"github.com/ravan/cra-toolkit/pkg/evidence"
+	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newEvidenceCmd() *urfave.Command {
+func newEvidenceCmd(cfg RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "evidence",
 		Usage: "Bundle compliance outputs into a signed CRA evidence package for Annex VII",
@@ -34,7 +35,7 @@ func newEvidenceCmd() *urfave.Command {
 			&urfave.BoolFlag{Name: "archive", Usage: "Also produce .tar.gz archive"},
 			&urfave.StringFlag{Name: "signing-key", Usage: "Cosign key path (keyless if omitted)"},
 		},
-		Action: func(_ context.Context, cmd *urfave.Command) error {
+		Action: func(ctx context.Context, cmd *urfave.Command) error {
 			opts := &evidence.Options{
 				SBOMPath:          cmd.String("sbom"),
 				VEXPath:           cmd.String("vex"),
@@ -58,7 +59,10 @@ func newEvidenceCmd() *urfave.Command {
 			w, closer := OutputWriter(cmd)
 			defer closer() //nolint:errcheck // CLI cleanup
 
-			return evidence.Run(opts, w)
+			hooks := buildHooks(cfg, "evidence")
+			return toolkit.ExecuteWithHooks(ctx, "evidence", hooks, opts, func() error {
+				return evidence.Run(opts, w)
+			})
 		},
 	}
 }

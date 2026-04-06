@@ -10,9 +10,10 @@ import (
 	urfave "github.com/urfave/cli/v3"
 
 	"github.com/ravan/cra-toolkit/pkg/report"
+	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newReportCmd() *urfave.Command {
+func newReportCmd(cfg RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "report",
 		Usage: "Generate CRA Article 14 vulnerability notification documents",
@@ -72,7 +73,7 @@ func newReportCmd() *urfave.Command {
 				Usage: "output format: json or markdown",
 			},
 		},
-		Action: func(_ context.Context, cmd *urfave.Command) error {
+		Action: func(ctx context.Context, cmd *urfave.Command) error {
 			stage, err := report.ParseStage(cmd.String("stage"))
 			if err != nil {
 				return err
@@ -101,7 +102,10 @@ func newReportCmd() *urfave.Command {
 			w, closer := OutputWriter(cmd)
 			defer closer() //nolint:errcheck // output writer close errors are non-actionable
 
-			return report.Run(opts, w)
+			hooks := buildHooks(cfg, "report")
+			return toolkit.ExecuteWithHooks(ctx, "report", hooks, opts, func() error {
+				return report.Run(opts, w)
+			})
 		},
 	}
 }

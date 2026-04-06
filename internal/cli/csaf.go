@@ -10,9 +10,10 @@ import (
 	urfave "github.com/urfave/cli/v3"
 
 	"github.com/ravan/cra-toolkit/pkg/csaf"
+	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newCsafCmd() *urfave.Command {
+func newCsafCmd(cfg RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "csaf",
 		Usage: "Generate CSAF 2.0 security advisories from scanner output and VEX assessments",
@@ -50,7 +51,7 @@ func newCsafCmd() *urfave.Command {
 				Usage: "advisory title (auto-generated if omitted)",
 			},
 		},
-		Action: func(_ context.Context, cmd *urfave.Command) error {
+		Action: func(ctx context.Context, cmd *urfave.Command) error {
 			opts := &csaf.Options{
 				SBOMPath:           cmd.String("sbom"),
 				ScanPaths:          cmd.StringSlice("scan"),
@@ -65,7 +66,10 @@ func newCsafCmd() *urfave.Command {
 			}
 			w, closer := OutputWriter(cmd)
 			defer closer() //nolint:errcheck // closer returns nil for stdout
-			return csaf.Run(opts, w)
+			hooks := buildHooks(cfg, "csaf")
+			return toolkit.ExecuteWithHooks(ctx, "csaf", hooks, opts, func() error {
+				return csaf.Run(opts, w)
+			})
 		},
 	}
 }

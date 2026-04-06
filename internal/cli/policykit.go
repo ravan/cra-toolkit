@@ -10,9 +10,10 @@ import (
 	urfave "github.com/urfave/cli/v3"
 
 	"github.com/ravan/cra-toolkit/pkg/policykit"
+	"github.com/ravan/cra-toolkit/pkg/toolkit"
 )
 
-func newPolicykitCmd() *urfave.Command {
+func newPolicykitCmd(cfg RunConfig) *urfave.Command {
 	return &urfave.Command{
 		Name:  "policykit",
 		Usage: "Evaluate CRA Annex I compliance policies against product artifacts",
@@ -58,7 +59,7 @@ func newPolicykitCmd() *urfave.Command {
 				Usage: "output format: json or markdown",
 			},
 		},
-		Action: func(_ context.Context, cmd *urfave.Command) error {
+		Action: func(ctx context.Context, cmd *urfave.Command) error {
 			outputFormat := cmd.String("format")
 			if outputFormat != "json" && outputFormat != "markdown" {
 				return fmt.Errorf("unsupported format %q: must be json or markdown", outputFormat)
@@ -79,7 +80,10 @@ func newPolicykitCmd() *urfave.Command {
 			w, closer := OutputWriter(cmd)
 			defer closer() //nolint:errcheck // output writer close errors are non-actionable at this point
 
-			return policykit.Run(opts, w)
+			hooks := buildHooks(cfg, "policykit")
+			return toolkit.ExecuteWithHooks(ctx, "policykit", hooks, opts, func() error {
+				return policykit.Run(opts, w)
+			})
 		},
 	}
 }

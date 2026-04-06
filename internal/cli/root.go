@@ -40,11 +40,11 @@ func New(version string, cfg RunConfig) *urfave.Command {
 		},
 		Commands: []*urfave.Command{
 			newVersionCmd(version),
-			newVexCmd(),
-			newPolicykitCmd(),
-			newReportCmd(),
-			newEvidenceCmd(),
-			newCsafCmd(),
+			newVexCmd(cfg),
+			newPolicykitCmd(cfg),
+			newReportCmd(cfg),
+			newEvidenceCmd(cfg),
+			newCsafCmd(cfg),
 		},
 	}
 
