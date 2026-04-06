@@ -48,3 +48,7 @@ site/*
 
 # Git worktrees
 .worktrees/
+
+# AI tool config
+.claire/
+.gemini/
