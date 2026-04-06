@@ -46,11 +46,18 @@ func (f Format) String() string {
 	}
 }
 
+// FormatProbe is a pluggable format detection rule.
+// External modules register probes to support custom formats.
+type FormatProbe struct {
+	Format Format
+	Detect func(doc map[string]json.RawMessage) bool
+}
+
 // DetectFormat reads JSON from r and detects which known format it belongs to.
 // It probes for discriminating keys in the JSON structure.
 //
 //nolint:gocognit,gocyclo // sequential format probing inherently has many branches
-func DetectFormat(r io.Reader) (Format, error) {
+func DetectFormat(r io.Reader, extraProbes ...FormatProbe) (Format, error) {
 	data, err := io.ReadAll(r)
 	if err != nil {
 		return FormatUnknown, fmt.Errorf("detect format: read: %w", err)
@@ -115,6 +122,13 @@ func DetectFormat(r io.Reader) (Format, error) {
 	// Trivy: has "Results" key (capital R is the standard Trivy output)
 	if _, ok := doc["Results"]; ok {
 		return FormatTrivy, nil
+	}
+
+	// Extension probes (checked after all built-in probes).
+	for _, probe := range extraProbes {
+		if probe.Detect(doc) {
+			return probe.Format, nil
+		}
 	}
 
 	return FormatUnknown, nil

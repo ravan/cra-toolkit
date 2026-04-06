@@ -4,6 +4,7 @@
 package formats_test
 
 import (
+	"encoding/json"
 	"os"
 	"testing"
 
@@ -101,4 +102,70 @@ func mustStringReader(s string) *os.File {
 		panic(err)
 	}
 	return f
+}
+
+func TestDetectFormat_ExtraProbeMatchesCustomFormat(t *testing.T) {
+	const customJSON = `{"custom_scanner": "v1", "results": []}`
+	r := mustStringReader(customJSON)
+
+	const FormatCustom formats.Format = 100
+
+	probe := formats.FormatProbe{
+		Format: FormatCustom,
+		Detect: func(doc map[string]json.RawMessage) bool {
+			_, ok := doc["custom_scanner"]
+			return ok
+		},
+	}
+
+	got, err := formats.DetectFormat(r, probe)
+	if err != nil {
+		t.Fatalf("DetectFormat: %v", err)
+	}
+	if got != FormatCustom {
+		t.Errorf("DetectFormat = %v, want %v", got, FormatCustom)
+	}
+}
+
+func TestDetectFormat_ExtraProbeDoesNotOverrideBuiltin(t *testing.T) {
+	const base = "../../testdata/integration/"
+	f, err := os.Open(base + "go-reachable/grype.json")
+	if err != nil {
+		t.Fatalf("open: %v", err)
+	}
+	defer f.Close()
+
+	const FormatCustom formats.Format = 100
+	probe := formats.FormatProbe{
+		Format: FormatCustom,
+		Detect: func(doc map[string]json.RawMessage) bool {
+			_, ok := doc["matches"]
+			return ok
+		},
+	}
+
+	got, err := formats.DetectFormat(f, probe)
+	if err != nil {
+		t.Fatalf("DetectFormat: %v", err)
+	}
+	if got != formats.FormatGrype {
+		t.Errorf("DetectFormat = %v, want FormatGrype", got)
+	}
+}
+
+func TestDetectFormat_EmptyExtraProbes(t *testing.T) {
+	const base = "../../testdata/integration/"
+	f, err := os.Open(base + "go-reachable/grype.json")
+	if err != nil {
+		t.Fatalf("open: %v", err)
+	}
+	defer f.Close()
+
+	got, err := formats.DetectFormat(f)
+	if err != nil {
+		t.Fatalf("DetectFormat: %v", err)
+	}
+	if got != formats.FormatGrype {
+		t.Errorf("DetectFormat = %v, want FormatGrype", got)
+	}
 }
