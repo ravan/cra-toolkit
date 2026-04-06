@@ -1,0 +1,24 @@
+{
+  "description": "Express app directly calling lodash _.template() with user-supplied input, triggering CVE-2021-23337 prototype pollution RCE via crafted template strings.",
+  "provenance": {
+    "source_project": "lodash/lodash",
+    "source_url": "https://github.com/lodash/lodash",
+    "commit": "4.17.20",
+    "cve": "CVE-2021-23337",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-23337",
+    "language": "javascript",
+    "pattern": "direct_call",
+    "ground_truth_notes": "app.js directly calls _.template(req.body.template) with untrusted user input from POST body"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2021-23337",
+      "aliases": ["GHSA-35jh-r3h4-6jhm"],
+      "component_purl": "pkg:npm/lodash@4.17.20",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "_.template() is called directly in the /render POST route handler with user-controlled req.body.template, making the prototype pollution RCE vulnerability exploitable."
+    }
+  ]
+}

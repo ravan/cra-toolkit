@@ -1,0 +1,24 @@
+{
+  "description": "Express app using a factory-created renderer callback that invokes lodash _.template() via dynamic dispatch, triggering CVE-2021-23337 prototype pollution RCE.",
+  "provenance": {
+    "source_project": "lodash/lodash",
+    "source_url": "https://github.com/lodash/lodash",
+    "commit": "4.17.20",
+    "cve": "CVE-2021-23337",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-23337",
+    "language": "javascript",
+    "pattern": "dispatch",
+    "ground_truth_notes": "app.js calls render() which is a closure from createRenderer() in renderer.js that calls _.template(tmpl)(data)"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2021-23337",
+      "aliases": ["GHSA-35jh-r3h4-6jhm"],
+      "component_purl": "pkg:npm/lodash@4.17.20",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "_.template() is called inside the closure returned by createRenderer() in renderer.js. The closure is invoked in the /render route with user-controlled input, making the vulnerability exploitable via callback dispatch."
+    }
+  ]
+}

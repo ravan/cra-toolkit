@@ -1,0 +1,24 @@
+{
+  "description": "Python application where yaml.load() is called transitively through a config module imported by main.py, triggering CVE-2020-1747.",
+  "provenance": {
+    "source_project": "yaml/pyyaml",
+    "source_url": "https://github.com/yaml/pyyaml",
+    "commit": "5.3",
+    "cve": "CVE-2020-1747",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-1747",
+    "language": "python",
+    "pattern": "transitive",
+    "ground_truth_notes": "main.py calls config.load_config() which internally calls yaml.load(f) without SafeLoader, making the vulnerability reachable transitively."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2020-1747",
+      "aliases": ["GHSA-6757-jp84-gxfx"],
+      "component_purl": "pkg:pypi/pyyaml@5.3",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "yaml.load() is called in config.py which is imported and invoked by main.py, making the vulnerable function reachable through a transitive call chain."
+    }
+  ]
+}

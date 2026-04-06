@@ -43,6 +43,11 @@ tasks:
     cmds:
       - go test -race -count=1 -run TestIntegration ./pkg/csaf/...
 
+  test:integration:realworld:
+    desc: Run real-world reachability integration tests (48 CVE fixtures)
+    cmds:
+      - go test -tags integration -race -count=1 -v -timeout 10m -run TestIntegration_RealWorldReachability ./pkg/vex/...
+
   test:llmjudge:
     desc: Run LLM quality judge tests (requires gemini CLI)
     cmds:

@@ -8,8 +8,12 @@ import (
 	"testing"
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
 )
+
+// Compile-time interface check.
+var _ reachability.Analyzer = (*rust.Analyzer)(nil)
 
 func TestAnalyzer_Language(t *testing.T) {
 	a := rust.New()
@@ -26,19 +30,25 @@ func TestAnalyze_ReachableFixture(t *testing.T) {
 		AffectedPURL: "pkg:cargo/hyper@0.14.10",
 		AffectedName: "hyper",
 		Language:     "rust",
+		Symbols:      []string{"http2_only", "serve_connection"},
 	}
 
 	result, err := a.Analyze(context.Background(), "../../../../testdata/integration/rust-reachable/source", finding)
 	if err != nil {
-		// cargo-scan may fail — that's acceptable, the analyzer should still return a result
-		t.Logf("Analyze returned error (expected if cargo-scan CLI not fully functional): %v", err)
-		return
+		t.Fatalf("Analyze returned error: %v", err)
 	}
 
-	// cargo-scan's CLI is not fully functional yet — verify we get a graceful result
-	t.Logf("Reachable=%v, Confidence=%v, Evidence=%s", result.Reachable, result.Confidence, result.Evidence)
+	if !result.Reachable {
+		t.Errorf("expected Reachable=true, got false; evidence: %s", result.Evidence)
+	}
+	if result.Confidence != formats.ConfidenceHigh {
+		t.Errorf("expected ConfidenceHigh, got %v", result.Confidence)
+	}
 	if result.Evidence == "" {
-		t.Error("expected non-empty evidence regardless of reachability determination")
+		t.Error("expected non-empty evidence")
+	}
+	if len(result.Paths) == 0 {
+		t.Error("expected non-empty Paths")
 	}
 }
 
@@ -50,16 +60,18 @@ func TestAnalyze_NotReachableFixture(t *testing.T) {
 		AffectedPURL: "pkg:cargo/hyper@0.14.10",
 		AffectedName: "hyper",
 		Language:     "rust",
+		Symbols:      []string{"http2_only", "serve_connection"},
 	}
 
 	result, err := a.Analyze(context.Background(), "../../../../testdata/integration/rust-not-reachable/source", finding)
 	if err != nil {
-		t.Logf("Analyze returned error (expected if cargo-scan CLI not fully functional): %v", err)
-		return
+		t.Fatalf("Analyze returned error: %v", err)
 	}
 
-	t.Logf("Reachable=%v, Confidence=%v, Evidence=%s", result.Reachable, result.Confidence, result.Evidence)
-	if result.Evidence == "" {
-		t.Error("expected non-empty evidence regardless of reachability determination")
+	if result.Reachable {
+		t.Errorf("expected Reachable=false, got true; evidence: %s", result.Evidence)
+	}
+	if result.Confidence != formats.ConfidenceHigh {
+		t.Errorf("expected ConfidenceHigh, got %v", result.Confidence)
 	}
 }

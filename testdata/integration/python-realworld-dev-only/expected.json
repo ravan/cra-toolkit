@@ -1,0 +1,24 @@
+{
+  "description": "Python application where yaml.load() only appears in a test file without an entry point. Production code uses yaml.safe_load(). CVE-2020-1747 is not exploitable in production.",
+  "provenance": {
+    "source_project": "yaml/pyyaml",
+    "source_url": "https://github.com/yaml/pyyaml",
+    "commit": "5.3",
+    "cve": "CVE-2020-1747",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-1747",
+    "language": "python",
+    "pattern": "dev_only",
+    "ground_truth_notes": "yaml.load() is only called in test_app.py which has no __main__ entry point. Production app.py uses yaml.safe_load() exclusively."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2020-1747",
+      "aliases": ["GHSA-6757-jp84-gxfx"],
+      "component_purl": "pkg:pypi/pyyaml@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "yaml.load() only exists in test_app.py which lacks a __main__ entry point. The production entry point in app.py only calls yaml.safe_load(), so the vulnerable function is unreachable from any entry point."
+    }
+  ]
+}

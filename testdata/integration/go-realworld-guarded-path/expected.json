@@ -1,0 +1,24 @@
+{
+  "description": "Go program where language.Parse() only exists in a file guarded by a build tag (//go:build integration). The production main.go never calls Parse(). CVE-2022-32149 should be not_affected since the vulnerable code path is excluded from normal builds.",
+  "provenance": {
+    "source_project": "golang/text",
+    "source_url": "https://github.com/golang/text",
+    "commit": "v0.3.7",
+    "cve": "CVE-2022-32149",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32149",
+    "language": "go",
+    "pattern": "guarded_path",
+    "ground_truth_notes": "language.Parse() only appears in parse_integration_test.go behind //go:build integration. Production main.go does not call any vulnerable function."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "language.Parse() is only present in a test file with //go:build integration constraint. The production binary never includes this code path."
+    }
+  ]
+}

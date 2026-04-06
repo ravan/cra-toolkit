@@ -25,14 +25,15 @@ type result struct {
 }
 
 type vulnerability struct {
-	VulnerabilityID  string               `json:"VulnerabilityID"`
-	PkgName          string               `json:"PkgName"`
-	PkgIdentifier    pkgIdentifier        `json:"PkgIdentifier"`
-	InstalledVersion string               `json:"InstalledVersion"`
-	FixedVersion     string               `json:"FixedVersion"`
-	Severity         string               `json:"Severity"`
-	Description      string               `json:"Description"`
-	CVSS             map[string]cvssEntry `json:"CVSS"`
+	VulnerabilityID     string               `json:"VulnerabilityID"`
+	PkgName             string               `json:"PkgName"`
+	PkgIdentifier       pkgIdentifier        `json:"PkgIdentifier"`
+	InstalledVersion    string               `json:"InstalledVersion"`
+	FixedVersion        string               `json:"FixedVersion"`
+	Severity            string               `json:"Severity"`
+	Description         string               `json:"Description"`
+	CVSS                map[string]cvssEntry `json:"CVSS"`
+	VulnerableFunctions []string             `json:"VulnerableFunctions,omitempty"`
 }
 
 type pkgIdentifier struct {
@@ -53,7 +54,8 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 	var findings []formats.Finding
 	for _, res := range report.Results {
 		purlType := mapType(res.Type)
-		for _, v := range res.Vulnerabilities {
+		for i := range res.Vulnerabilities {
+			v := &res.Vulnerabilities[i]
 			purl := v.PkgIdentifier.PURL
 			if purl == "" {
 				purl = buildPURL(purlType, v.PkgName, v.InstalledVersion)
@@ -69,6 +71,7 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 				Description:  v.Description,
 				DataSource:   "trivy",
 				Language:     languageForType(res.Type),
+				Symbols:      v.VulnerableFunctions,
 			})
 		}
 	}

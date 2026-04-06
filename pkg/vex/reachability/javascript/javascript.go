@@ -157,14 +157,17 @@ func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats
 			continue
 		}
 
-		// Build file scope from imports
+		// Build file scope from imports.
+		// Normalize relative module paths (./ ../) so that alias resolution
+		// produces qualified names consistent with ModuleFromFile.
 		scope := treesitter.NewScope(nil)
 		for _, imp := range imports {
 			alias := imp.Alias
+			normalizedMod := normalizeModulePath(imp.Module)
 			if alias == "" {
-				alias = imp.Module
+				alias = normalizedMod
 			}
-			scope.DefineImport(alias, imp.Module, imp.Symbols)
+			scope.DefineImport(alias, normalizedMod, imp.Symbols)
 		}
 
 		mod := jsextractor.ModuleFromFile(pr.File)
@@ -334,13 +337,31 @@ func buildAugmentedScope(
 		if len(imp.Symbols) == 0 {
 			continue
 		}
-		targetMod := imp.Module
+		targetMod := normalizeModulePath(imp.Module)
 		for _, sym := range imp.Symbols {
 			qualifiedName := targetMod + "." + sym
 			augScope.Define(sym, qualifiedName)
 		}
 	}
 	return augScope
+}
+
+// normalizeModulePath strips relative path prefixes (./ and ../) and file
+// extensions from a JS/TS import module path so it matches the module name
+// produced by ModuleFromFile. For example "./render" becomes "render" and
+// "../utils/helper.js" becomes "helper".
+func normalizeModulePath(mod string) string {
+	// Strip relative prefixes
+	mod = strings.TrimPrefix(mod, "./")
+	mod = strings.TrimPrefix(mod, "../")
+	// Use only the base name (last path segment) without extension
+	if idx := strings.LastIndex(mod, "/"); idx >= 0 {
+		mod = mod[idx+1:]
+	}
+	for _, ext := range []string{".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx"} {
+		mod = strings.TrimSuffix(mod, ext)
+	}
+	return mod
 }
 
 // collectImportSymbolNames scans the call graph for edges targeting the given

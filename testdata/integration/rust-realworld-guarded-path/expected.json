@@ -1,0 +1,24 @@
+{
+  "description": "Rust program where http2_only() and serve_connection() only exist in a file guarded by cfg(bench). The production main.rs never calls the vulnerable functions. CVE-2023-26964 should be not_affected since the vulnerable code path is excluded from normal builds.",
+  "provenance": {
+    "source_project": "hyperium/hyper",
+    "source_url": "https://github.com/hyperium/hyper",
+    "commit": "v0.14.10",
+    "cve": "CVE-2023-26964",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26964",
+    "language": "rust",
+    "pattern": "guarded_path",
+    "ground_truth_notes": "http2_only() and serve_connection() only appear in bench_http2.rs behind #[cfg(bench)]. Production main.rs does not call any vulnerable function."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2023-26964",
+      "aliases": ["GHSA-f8vr-r7q7-8c25", "RUSTSEC-2023-0034"],
+      "component_purl": "pkg:cargo/hyper@0.14.10",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "http2_only() and serve_connection() are only present in bench_http2.rs with #[cfg(bench)] constraint. The production binary never includes this code path."
+    }
+  ]
+}

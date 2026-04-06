@@ -1,0 +1,24 @@
+{
+  "description": "Rust web server using axum framework which transitively reaches hyper's vulnerable HTTP/2 serve_connection via axum::Server, triggering CVE-2023-26964.",
+  "provenance": {
+    "source_project": "hyperium/hyper",
+    "source_url": "https://github.com/hyperium/hyper",
+    "commit": "v0.14.10",
+    "cve": "CVE-2023-26964",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26964",
+    "language": "rust",
+    "pattern": "transitive",
+    "ground_truth_notes": "axum::Server::bind().serve() internally uses hyper's HTTP/2 serve_connection, reaching the vulnerable code path transitively through the framework."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2023-26964",
+      "aliases": ["GHSA-f8vr-r7q7-8c25", "RUSTSEC-2023-0034"],
+      "component_purl": "pkg:cargo/hyper@0.14.10",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "axum::Server internally delegates to hyper's HTTP/2 stack, transitively invoking serve_connection. The vulnerable code path is reached through the framework."
+    }
+  ]
+}

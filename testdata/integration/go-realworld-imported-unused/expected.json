@@ -1,0 +1,24 @@
+{
+  "description": "Go program importing golang.org/x/text v0.3.7 but only using cases.Title with language.English constant, never calling the vulnerable language.Parse() function. CVE-2022-32149 should be not_affected.",
+  "provenance": {
+    "source_project": "golang/text",
+    "source_url": "https://github.com/golang/text",
+    "commit": "v0.3.7",
+    "cve": "CVE-2022-32149",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32149",
+    "language": "go",
+    "pattern": "imported_unused",
+    "ground_truth_notes": "Only cases.Title(language.English) is called. language.Parse() is never invoked anywhere in source. The language package is imported but only for the English constant."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "The vulnerable function Parse() is never called. Only language.English (a constant) and cases.Title() are used, neither of which trigger the ReDoS vulnerability."
+    }
+  ]
+}

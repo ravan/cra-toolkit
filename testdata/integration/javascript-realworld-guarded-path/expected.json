@@ -1,0 +1,24 @@
+{
+  "description": "Express app using lodash _.merge() and _.get() but never calling the vulnerable _.template() function. CVE-2021-23337 should be not_affected.",
+  "provenance": {
+    "source_project": "lodash/lodash",
+    "source_url": "https://github.com/lodash/lodash",
+    "commit": "4.17.20",
+    "cve": "CVE-2021-23337",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-23337",
+    "language": "javascript",
+    "pattern": "guarded_path",
+    "ground_truth_notes": "lodash is imported and _.merge() and _.get() are called, but _.template() is never invoked. The code path never reaches the vulnerable function."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2021-23337",
+      "aliases": ["GHSA-35jh-r3h4-6jhm"],
+      "component_purl": "pkg:npm/lodash@4.17.20",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "The vulnerable function _.template() is never called. Only _.merge() for config merging and _.get() for property access are used, neither of which trigger the template injection vulnerability."
+    }
+  ]
+}

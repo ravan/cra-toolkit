@@ -1,0 +1,82 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2021-23337",
+        "severity": "High",
+        "cvss": [
+          {
+            "version": "3.1",
+            "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+            "metrics": {
+              "baseScore": 7.2,
+              "exploitabilityScore": 1.2,
+              "impactScore": 5.9
+            },
+            "vendorMetadata": {}
+          }
+        ],
+        "fix": {
+          "versions": [
+            "4.17.21"
+          ],
+          "state": "fixed"
+        },
+        "advisories": [],
+        "vulnerableFunctions": [
+          "template"
+        ]
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "javascript-matcher",
+          "searchedBy": {
+            "language": "javascript",
+            "namespace": "github:language:javascript",
+            "package": {
+              "name": "lodash",
+              "version": "4.17.20"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 4.17.21 (unknown)",
+            "vulnerabilityID": "CVE-2021-23337"
+          }
+        }
+      ],
+      "artifact": {
+        "id": "lodash-4.17.20",
+        "name": "lodash",
+        "version": "4.17.20",
+        "type": "npm",
+        "locations": [
+          {
+            "path": "/source/package.json"
+          }
+        ],
+        "language": "javascript",
+        "licenses": [
+          "MIT"
+        ],
+        "cpes": [
+          "cpe:2.3:a:lodash:lodash:4.17.20:*:*:*:*:node.js:*:*"
+        ],
+        "purl": "pkg:npm/lodash@4.17.20",
+        "upstreams": []
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "path": "source"
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.74.0"
+  }
+}

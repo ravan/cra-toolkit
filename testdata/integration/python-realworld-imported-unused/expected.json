@@ -1,0 +1,24 @@
+{
+  "description": "Python application that imports PyYAML but only uses yaml.safe_load(), never the vulnerable yaml.load() function. CVE-2020-1747 is not exploitable.",
+  "provenance": {
+    "source_project": "yaml/pyyaml",
+    "source_url": "https://github.com/yaml/pyyaml",
+    "commit": "5.3",
+    "cve": "CVE-2020-1747",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-1747",
+    "language": "python",
+    "pattern": "imported_unused",
+    "ground_truth_notes": "app.py imports yaml but only calls yaml.safe_load(), never yaml.load(). The vulnerable function is never invoked."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2020-1747",
+      "aliases": ["GHSA-6757-jp84-gxfx"],
+      "component_purl": "pkg:pypi/pyyaml@5.3",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "PyYAML is imported but only yaml.safe_load() is used. The vulnerable yaml.load() function is never called anywhere in the codebase."
+    }
+  ]
+}

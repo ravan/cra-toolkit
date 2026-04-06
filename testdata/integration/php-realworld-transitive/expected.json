@@ -1,0 +1,26 @@
+{
+  "description": "PHP script that transitively calls Utils::readLine() through a parseRequest helper function, triggering CVE-2022-24775.",
+  "provenance": {
+    "source_project": "guzzle/psr7",
+    "source_url": "https://github.com/guzzle/psr7",
+    "commit": "2.1.0",
+    "cve": "CVE-2022-24775",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24775",
+    "language": "php",
+    "pattern": "transitive",
+    "ground_truth_notes": "index.php calls parseRequest() in parser.php which internally calls Utils::readLine()"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-24775",
+      "aliases": [
+        "GHSA-q7rv-6hp3-vh96"
+      ],
+      "component_purl": "pkg:composer/guzzlehttp/psr7@2.1.0",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "parseRequest() calls Utils::readLine() transitively from the main script, making the vulnerability reachable through the helper function."
+    }
+  ]
+}

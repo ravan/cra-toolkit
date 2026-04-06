@@ -1,0 +1,24 @@
+{
+  "description": "Go CLI tool that directly calls language.Parse() from golang.org/x/text v0.3.7, triggering CVE-2022-32149 ReDoS vulnerability via crafted language tags.",
+  "provenance": {
+    "source_project": "golang/text",
+    "source_url": "https://github.com/golang/text",
+    "commit": "v0.3.7",
+    "cve": "CVE-2022-32149",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32149",
+    "language": "go",
+    "pattern": "direct_call",
+    "ground_truth_notes": "main.go directly calls language.Parse() with user-supplied input from os.Args[1]"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-32149",
+      "aliases": ["GHSA-69ch-w2m2-3vjp", "GO-2022-1059"],
+      "component_purl": "pkg:golang/golang.org/x/text@v0.3.7",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "language.Parse() is called directly in main() with untrusted user input from os.Args, making the ReDoS vulnerability exploitable."
+    }
+  ]
+}

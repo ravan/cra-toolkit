@@ -1,0 +1,24 @@
+{
+  "description": "Go HTTP server using http.ListenAndServeTLS which enables HTTP/2, transitively reaching the vulnerable HPACK decoder readMetaFrame in golang.org/x/net (CVE-2022-41723).",
+  "provenance": {
+    "source_project": "golang/net",
+    "source_url": "https://github.com/golang/net",
+    "commit": "v0.0.0-20220722155237-a158d28d115b",
+    "cve": "CVE-2022-41723",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41723",
+    "language": "go",
+    "pattern": "transitive",
+    "ground_truth_notes": "http.ListenAndServeTLS enables HTTP/2 which transitively invokes the vulnerable HPACK decoder readMetaFrame in x/net/http2"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-41723",
+      "aliases": ["GHSA-vvpx-j8f3-3w6h", "GO-2023-1571"],
+      "component_purl": "pkg:golang/golang.org/x/net@v0.0.0-20220722155237-a158d28d115b",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "ListenAndServeTLS enables HTTP/2 transparently, which uses x/net/http2 HPACK decoder. The vulnerable readMetaFrame function is reached transitively through the HTTP/2 stack."
+    }
+  ]
+}

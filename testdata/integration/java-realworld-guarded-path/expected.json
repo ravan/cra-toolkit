@@ -1,0 +1,24 @@
+{
+  "description": "Spring REST controller with log4j-core in pom.xml but using System.out.println instead of any logger. CVE-2021-44228 should be not_affected.",
+  "provenance": {
+    "source_project": "apache/logging-log4j2",
+    "source_url": "https://github.com/apache/logging-log4j2",
+    "commit": "2.14.1",
+    "cve": "CVE-2021-44228",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+    "language": "java",
+    "pattern": "guarded_path",
+    "ground_truth_notes": "log4j-core is in pom.xml but App.java uses System.out.println(). No Log4j Logger is ever instantiated or called."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2021-44228",
+      "aliases": ["GHSA-jfh8-c2jp-5v3q"],
+      "component_purl": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "No Log4j Logger is instantiated or called anywhere. The code uses System.out.println for output. The vulnerable JNDI lookup code path is never reachable."
+    }
+  ]
+}

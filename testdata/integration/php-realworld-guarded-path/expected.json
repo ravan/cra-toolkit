@@ -1,0 +1,26 @@
+{
+  "description": "PHP script with guzzlehttp/psr7 2.1.0 dependency but no code path reaches the vulnerable Utils::readLine(). CVE-2022-24775 should be not_affected.",
+  "provenance": {
+    "source_project": "guzzle/psr7",
+    "source_url": "https://github.com/guzzle/psr7",
+    "commit": "2.1.0",
+    "cve": "CVE-2022-24775",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24775",
+    "language": "php",
+    "pattern": "guarded_path",
+    "ground_truth_notes": "Script only prints a message. No Psr7 Utils code is used at all despite the package being declared as a dependency."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-24775",
+      "aliases": [
+        "GHSA-q7rv-6hp3-vh96"
+      ],
+      "component_purl": "pkg:composer/guzzlehttp/psr7@2.1.0",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "No code in the project uses any Psr7 Utils APIs. The package is declared as a dependency but completely unused."
+    }
+  ]
+}

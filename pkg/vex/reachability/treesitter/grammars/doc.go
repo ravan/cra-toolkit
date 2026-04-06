@@ -14,5 +14,6 @@ import (
 	_ "github.com/tree-sitter/tree-sitter-php/bindings/go"
 	_ "github.com/tree-sitter/tree-sitter-python/bindings/go"
 	_ "github.com/tree-sitter/tree-sitter-ruby/bindings/go"
+	_ "github.com/tree-sitter/tree-sitter-rust/bindings/go"
 	_ "github.com/tree-sitter/tree-sitter-typescript/bindings/go"
 )

@@ -1,0 +1,26 @@
+{
+  "description": "Ruby script importing actionpack 7.0.0 but only using ActionDispatch::Request, never calling the vulnerable Response#body method. CVE-2022-23633 should be not_affected.",
+  "provenance": {
+    "source_project": "rails/rails",
+    "source_url": "https://github.com/rails/rails",
+    "commit": "v7.0.0",
+    "cve": "CVE-2022-23633",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-23633",
+    "language": "ruby",
+    "pattern": "imported_unused",
+    "ground_truth_notes": "Only ActionDispatch::Request is used. Response#body is never called anywhere in source."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-23633",
+      "aliases": [
+        "GHSA-wh98-p28r-vrc9"
+      ],
+      "component_purl": "pkg:gem/actionpack@7.0.0",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "The vulnerable body method on Response is never called. Only ActionDispatch::Request is used, which does not trigger the response body leak vulnerability."
+    }
+  ]
+}

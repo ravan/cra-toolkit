@@ -1,0 +1,24 @@
+{
+  "description": "Rust program importing hyper v0.14.10 but only using the HTTP/1.1 client, never calling the vulnerable http2_only() or serve_connection() functions. CVE-2023-26964 should be not_affected.",
+  "provenance": {
+    "source_project": "hyperium/hyper",
+    "source_url": "https://github.com/hyperium/hyper",
+    "commit": "v0.14.10",
+    "cve": "CVE-2023-26964",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-26964",
+    "language": "rust",
+    "pattern": "imported_unused",
+    "ground_truth_notes": "Only Client::new() and client.get() are called. The vulnerable http2_only() and serve_connection() functions are never invoked anywhere in source."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2023-26964",
+      "aliases": ["GHSA-f8vr-r7q7-8c25", "RUSTSEC-2023-0034"],
+      "component_purl": "pkg:cargo/hyper@0.14.10",
+      "expected_status": "not_affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "The vulnerable functions http2_only() and serve_connection() are never called. Only the HTTP/1.1 client API is used, which does not trigger the HTTP/2 DoS vulnerability."
+    }
+  ]
+}

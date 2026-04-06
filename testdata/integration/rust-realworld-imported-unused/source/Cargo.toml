@@ -1,0 +1,8 @@
+[package]
+name = "rust-realworld-imported-unused"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hyper = { version = "=0.14.10", features = ["client", "http1"] }
+tokio = { version = "1", features = ["full"] }

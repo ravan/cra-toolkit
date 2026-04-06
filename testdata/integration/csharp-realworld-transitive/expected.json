@@ -1,0 +1,24 @@
+{
+  "description": "C# program that transitively calls X509Certificate2.Import() through a CertLoader helper class, triggering CVE-2023-29331.",
+  "provenance": {
+    "source_project": "dotnet/runtime",
+    "source_url": "https://github.com/dotnet/runtime",
+    "commit": "v6.0.0",
+    "cve": "CVE-2023-29331",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29331",
+    "language": "dotnet",
+    "pattern": "transitive",
+    "ground_truth_notes": "Program.cs calls CertLoader.LoadCert() which internally calls cert.Import(), reaching the vulnerable function transitively"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2023-29331",
+      "aliases": ["GHSA-555c-2p6r-68mm"],
+      "component_purl": "pkg:nuget/System.Security.Cryptography.X509Certificates@6.0.0",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "CertLoader.LoadCert() calls X509Certificate2.Import() transitively from Main(), making the vulnerability reachable through the helper class."
+    }
+  ]
+}

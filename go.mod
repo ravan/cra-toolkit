@@ -3,6 +3,7 @@ module github.com/ravan/cra-toolkit
 go 1.26.1
 
 require (
+	github.com/BurntSushi/toml v1.6.0
 	github.com/CycloneDX/cyclonedx-go v0.10.0
 	github.com/open-policy-agent/opa v1.15.1
 	github.com/package-url/packageurl-go v0.1.5
@@ -15,6 +16,7 @@ require (
 	github.com/tree-sitter/tree-sitter-php v0.24.2
 	github.com/tree-sitter/tree-sitter-python v0.25.0
 	github.com/tree-sitter/tree-sitter-ruby v0.23.1
+	github.com/tree-sitter/tree-sitter-rust v0.24.2
 	github.com/tree-sitter/tree-sitter-typescript v0.23.2
 	github.com/urfave/cli/v3 v3.8.0
 	golang.org/x/mod v0.34.0
