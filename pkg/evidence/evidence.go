@@ -12,8 +12,13 @@ import (
 	"time"
 )
 
+// RunOption configures a Run() call with extensions.
+type RunOption func(*runConfig)
+
+type runConfig struct{}
+
 // Run executes the evidence bundling pipeline.
-func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
+func Run(opts *Options, out io.Writer, _ ...RunOption) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
 	// 0. Validate required options.
 	if opts.ProductConfig == "" {
 		return ErrNoProductConfig

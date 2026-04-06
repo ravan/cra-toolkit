@@ -23,8 +23,13 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/policykit"
 )
 
+// RunOption configures a Run() call with extensions.
+type RunOption func(*runConfig)
+
+type runConfig struct{}
+
 // Run executes the Art. 14 notification generation pipeline.
-func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
+func Run(opts *Options, out io.Writer, _ ...RunOption) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
 	// 1. Parse inputs.
 	components, err := parseSBOM(opts.SBOMPath)
 	if err != nil {

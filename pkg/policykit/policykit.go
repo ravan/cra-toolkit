@@ -27,6 +27,11 @@ import (
 	"github.com/ravan/cra-toolkit/policies"
 )
 
+// RunOption configures a Run() call with extensions.
+type RunOption func(*runConfig)
+
+type runConfig struct{}
+
 // Options configures a CRA policy evaluation run.
 type Options struct {
 	SBOMPath       string
@@ -41,7 +46,7 @@ type Options struct {
 }
 
 // Run executes the 5-stage CRA policy evaluation pipeline and writes the report to out.
-func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
+func Run(opts *Options, out io.Writer, _ ...RunOption) error { //nolint:gocognit,gocyclo // pipeline has many sequential stages
 	// Stage 1: Parse artifacts.
 	artifacts, err := parseArtifacts(opts)
 	if err != nil {

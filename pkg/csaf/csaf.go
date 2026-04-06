@@ -22,6 +22,11 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 )
 
+// RunOption configures a Run() call with extensions.
+type RunOption func(*runConfig)
+
+type runConfig struct{}
+
 // Options configures a CSAF advisory generation run.
 type Options struct {
 	SBOMPath           string
@@ -34,7 +39,7 @@ type Options struct {
 }
 
 // Run executes the CSAF advisory generation pipeline.
-func Run(opts *Options, out io.Writer) error { //nolint:gocognit,gocyclo // CSAF pipeline has many sequential stages
+func Run(opts *Options, out io.Writer, _ ...RunOption) error { //nolint:gocognit,gocyclo // CSAF pipeline has many sequential stages
 	// 1. Parse SBOM.
 	components, err := parseSBOM(opts.SBOMPath)
 	if err != nil {
