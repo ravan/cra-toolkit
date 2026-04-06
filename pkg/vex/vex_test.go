@@ -133,7 +133,9 @@ func keysOf(m map[string]interface{}) []string {
 	return keys
 }
 
-func TestRun_WithExtraFilter_ResolvesBeforeBuiltin(t *testing.T) {
+func TestRun_WithExtraFilter_CatchesUnresolved(t *testing.T) {
+	// Extra filters run AFTER built-in filters. They catch findings that
+	// built-in filters left as under_investigation.
 	opts := vex.Options{
 		SBOMPath:     "../../testdata/integration/go-reachable/sbom.cdx.json",
 		ScanPaths:    []string{"../../testdata/integration/go-reachable/grype.json"},
@@ -153,9 +155,12 @@ func TestRun_WithExtraFilter_ResolvesBeforeBuiltin(t *testing.T) {
 		t.Fatalf("unmarshal: %v", err)
 	}
 
+	// With the custom filter, no finding should remain as under_investigation.
+	// Findings resolved by built-in filters keep their status; the rest get
+	// caught by the custom filter as not_affected.
 	for i, stmt := range doc.Statements {
-		if stmt.Status != "not_affected" {
-			t.Errorf("statement[%d]: status=%s, want not_affected", i, stmt.Status)
+		if stmt.Status == "under_investigation" {
+			t.Errorf("statement[%d]: status=under_investigation, expected custom filter to catch it", i)
 		}
 	}
 }

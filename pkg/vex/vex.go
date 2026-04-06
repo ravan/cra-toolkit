@@ -256,9 +256,6 @@ func parseVEX(path string, extraProbes []formats.FormatProbe) ([]formats.VEXStat
 func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir string, extraFilters []Filter, extraAnalyzers map[string]reachability.Analyzer) []Filter {
 	var filters []Filter
 
-	// Extra filters run first (extensions get priority).
-	filters = append(filters, extraFilters...)
-
 	// Upstream filter (only if there are upstream statements).
 	if len(upstreamStatements) > 0 {
 		filters = append(filters, NewUpstreamFilter(upstreamStatements))
@@ -279,6 +276,9 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 			filters = append(filters, NewReachabilityFilter(sourceDir, analyzers))
 		}
 	}
+
+	// Extension filters (appended after all built-in filters).
+	filters = append(filters, extraFilters...)
 
 	return filters
 }
