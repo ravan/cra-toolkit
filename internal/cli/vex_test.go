@@ -14,7 +14,7 @@ import (
 )
 
 func TestVexCmd_MissingSBOM_ReturnsError(t *testing.T) {
-	cmd := cli.New("test")
+	cmd := cli.New("test", cli.RunConfig{})
 	err := cmd.Run(context.Background(), []string{"cra", "vex"})
 	if err == nil {
 		t.Fatal("expected error when --sbom is missing, got nil")
@@ -28,7 +28,7 @@ func TestVexCmd_MissingSBOM_ReturnsError(t *testing.T) {
 func TestVexCmd_WithOutputFile(t *testing.T) {
 	tmpFile := t.TempDir() + "/output.json"
 
-	cmd := cli.New("test")
+	cmd := cli.New("test", cli.RunConfig{})
 	err := cmd.Run(context.Background(), []string{
 		"cra", "vex",
 		"--sbom", "../../testdata/integration/upstream-vex/sbom.cdx.json",

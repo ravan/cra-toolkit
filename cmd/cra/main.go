@@ -18,7 +18,7 @@ var (
 )
 
 func main() {
-	cmd := cli.New(version)
+	cmd := cli.New(version, cli.RunConfig{})
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)

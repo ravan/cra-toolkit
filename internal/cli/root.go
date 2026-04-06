@@ -11,8 +11,8 @@ import (
 )
 
 // New creates the root CRA CLI command with all global flags and subcommands registered.
-func New(version string) *urfave.Command {
-	return &urfave.Command{
+func New(version string, cfg RunConfig) *urfave.Command {
+	cmd := &urfave.Command{
 		Name:    "cra",
 		Usage:   "SUSE CRA Compliance Toolkit",
 		Version: version,
@@ -47,6 +47,10 @@ func New(version string) *urfave.Command {
 			newCsafCmd(),
 		},
 	}
+
+	cmd.Commands = append(cmd.Commands, cfg.ExtraCommands...)
+
+	return cmd
 }
 
 // OutputWriter returns the appropriate writer based on the --output flag.
