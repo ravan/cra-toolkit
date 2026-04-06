@@ -46,6 +46,9 @@ site/*
 # Git worktrees
 .worktrees/
 
+# Test fixture generated files
+testdata/**/go.sum
+
 # AI tool config
 .claire/
 .gemini/
