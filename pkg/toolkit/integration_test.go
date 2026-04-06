@@ -91,7 +91,7 @@ func TestIntegration_CustomFilterInVEXPipeline(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	data, err := os.ReadFile(outFile)
+	data, err := os.ReadFile(outFile) //nolint:gosec // test file path from t.TempDir()
 	require.NoError(t, err)
 	require.NotEmpty(t, data, "output file should not be empty")
 
@@ -197,7 +197,7 @@ func TestIntegration_ZeroExtensions_IdenticalBehavior(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	data, err := os.ReadFile(outFile)
+	data, err := os.ReadFile(outFile) //nolint:gosec // test file path from t.TempDir()
 	require.NoError(t, err)
 	require.NotEmpty(t, data)
 
