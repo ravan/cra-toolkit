@@ -28,9 +28,6 @@ coverage.html
 # Taskfile cache
 .task/
 
-# Large binary files
-docs/*.pdf
-
 # Rust
 **/target/
 
