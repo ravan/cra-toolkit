@@ -152,3 +152,82 @@ tasks:
     desc: Remove build artifacts
     cmds:
       - rm -rf {{.BUILD_DIR}}
+
+  showcase:
+    desc: Generate complete showcase with real-world Grafana analysis (requires syft, grype, trivy)
+    cmds:
+      - task: showcase:clean
+      - task: showcase:inputs
+      - task: showcase:vex
+      - task: showcase:reachability
+      - task: showcase:policykit
+      - task: showcase:report
+      - task: showcase:csaf
+      - task: showcase:evidence
+
+  showcase:clean:
+    desc: Remove generated showcase files (preserves product configs)
+    cmds:
+      - rm -f showcase/00-inputs/sbom.cdx.json showcase/00-inputs/grype-scan.json showcase/00-inputs/trivy-scan.json
+      - rm -rf showcase/01-vex showcase/02-policykit showcase/03-report showcase/04-csaf showcase/05-evidence
+
+  showcase:inputs:
+    desc: Generate SBOM and scan results for Grafana
+    cmds:
+      - mkdir -p showcase/00-inputs
+      - git clone --depth 1 https://github.com/grafana/grafana.git /tmp/cra-showcase-grafana
+      - syft /tmp/cra-showcase-grafana -o cyclonedx-json=showcase/00-inputs/sbom.cdx.json
+      - grype sbom:showcase/00-inputs/sbom.cdx.json -o json > showcase/00-inputs/grype-scan.json
+      - trivy fs --scanners vuln --format json /tmp/cra-showcase-grafana 2>/dev/null > showcase/00-inputs/trivy-scan.json
+      - rm -rf /tmp/cra-showcase-grafana
+    status:
+      - test -f showcase/00-inputs/sbom.cdx.json
+
+  showcase:vex:
+    desc: Run VEX determination (OpenVEX + CSAF formats)
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/01-vex
+      - ./bin/cra vex --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --output-format openvex --output showcase/01-vex/vex-results.openvex.json
+      - ./bin/cra vex --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --output-format csaf --output showcase/01-vex/vex-results.csaf.json
+
+  showcase:reachability:
+    desc: Run VEX with reachability analysis against Go test fixtures
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/01-vex
+      - ./bin/cra vex --sbom testdata/integration/go-realworld-direct-call/sbom.cdx.json --scan testdata/integration/go-realworld-direct-call/grype.json --source-dir testdata/integration/go-realworld-direct-call/source --output-format openvex --output showcase/01-vex/reachability-affected.openvex.json
+      - ./bin/cra vex --sbom testdata/integration/go-realworld-imported-unused/sbom.cdx.json --scan testdata/integration/go-realworld-imported-unused/grype.json --source-dir testdata/integration/go-realworld-imported-unused/source --output-format openvex --output showcase/01-vex/reachability-not-affected.openvex.json
+
+  showcase:policykit:
+    desc: Run PolicyKit compliance evaluation (JSON + Markdown)
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/02-policykit
+      - ./bin/cra policykit --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --vex showcase/01-vex/vex-results.openvex.json --product-config showcase/00-inputs/product-config-policykit.yaml --format json --output showcase/02-policykit/policy-report.json
+      - ./bin/cra policykit --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --vex showcase/01-vex/vex-results.openvex.json --product-config showcase/00-inputs/product-config-policykit.yaml --format markdown --output showcase/02-policykit/policy-report.md
+
+  showcase:report:
+    desc: Generate Art. 14 notifications for all three stages (JSON + Markdown)
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/03-report/early-warning showcase/03-report/notification showcase/03-report/final-report
+      - |
+        for stage in early-warning notification final-report; do
+          ./bin/cra report --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --vex showcase/01-vex/vex-results.openvex.json --stage $stage --product-config showcase/00-inputs/product-config.yaml --format json --output showcase/03-report/$stage/report.json
+          ./bin/cra report --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --vex showcase/01-vex/vex-results.openvex.json --stage $stage --product-config showcase/00-inputs/product-config.yaml --format markdown --output showcase/03-report/$stage/report.md
+        done
+
+  showcase:csaf:
+    desc: Generate CSAF 2.0 security advisory
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/04-csaf
+      - ./bin/cra csaf --sbom showcase/00-inputs/sbom.cdx.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --vex showcase/01-vex/vex-results.openvex.json --publisher-name "Grafana Labs" --publisher-namespace "https://grafana.com" --output showcase/04-csaf/advisory.csaf.json
+
+  showcase:evidence:
+    desc: Bundle compliance evidence for Annex VII
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/05-evidence
+      - ./bin/cra evidence --sbom showcase/00-inputs/sbom.cdx.json --vex showcase/01-vex/vex-results.openvex.json --scan showcase/00-inputs/grype-scan.json --scan showcase/00-inputs/trivy-scan.json --policy-report showcase/02-policykit/policy-report.json --csaf showcase/04-csaf/advisory.csaf.json --art14-report showcase/03-report/notification/report.json --product-config showcase/00-inputs/product-config.yaml --output-dir showcase/05-evidence/bundle --archive --format json --output showcase/05-evidence/evidence-summary.json
