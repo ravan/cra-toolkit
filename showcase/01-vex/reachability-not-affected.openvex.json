@@ -1,0 +1,23 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://suse.com/vex/20260407T105353Z",
+  "author": "SUSE CRA Toolkit",
+  "role": "Document Creator",
+  "timestamp": "2026-04-07T10:53:53Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2022-32149"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/golang.org/x/text@v0.3.7"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "{\n  \"analysis_method\": \"govulncheck\",\n  \"call_paths\": [],\n  \"confidence\": \"high\",\n  \"entry_files\": null,\n  \"max_call_depth\": 0,\n  \"summary\": \"Reachability analysis: govulncheck found no findings for module golang.org/x/text\",\n  \"symbols\": null\n}"
+    }
+  ]
+}
