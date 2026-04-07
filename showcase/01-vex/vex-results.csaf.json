@@ -1,0 +1,1357 @@
+{
+  "document": {
+    "category": "csaf_vex",
+    "csaf_version": "2.0",
+    "title": "SUSE CRA Toolkit VEX Document",
+    "publisher": {
+      "category": "vendor",
+      "name": "SUSE CRA Toolkit",
+      "namespace": "https://suse.com"
+    },
+    "tracking": {
+      "id": "suse-cra-vex-20260407T110034Z",
+      "status": "final",
+      "version": "1",
+      "initial_release_date": "2026-04-07T11:00:34Z",
+      "current_release_date": "2026-04-07T11:00:34Z",
+      "revision_history": [
+        {
+          "date": "2026-04-07T11:00:34Z",
+          "number": "1",
+          "summary": "Initial version"
+        }
+      ]
+    }
+  },
+  "product_tree": {
+    "branches": [
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "product": {
+          "name": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "product_identification_helper": {
+            "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@2.3.1",
+        "product": {
+          "name": "pkg:npm/picomatch@2.3.1",
+          "product_id": "pkg:npm/picomatch@2.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@2.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/lodash@4.17.23",
+        "product": {
+          "name": "pkg:npm/lodash@4.17.23",
+          "product_id": "pkg:npm/lodash@4.17.23",
+          "product_identification_helper": {
+            "purl": "pkg:npm/lodash@4.17.23"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/immutable@3.8.2",
+        "product": {
+          "name": "pkg:npm/immutable@3.8.2",
+          "product_id": "pkg:npm/immutable@3.8.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/immutable@3.8.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@2.3.1",
+        "product": {
+          "name": "pkg:npm/picomatch@2.3.1",
+          "product_id": "pkg:npm/picomatch@2.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@2.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/brace-expansion@1.1.12",
+        "product": {
+          "name": "pkg:npm/brace-expansion@1.1.12",
+          "product_id": "pkg:npm/brace-expansion@1.1.12",
+          "product_identification_helper": {
+            "purl": "pkg:npm/brace-expansion@1.1.12"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/lodash@4.17.23",
+        "product": {
+          "name": "pkg:npm/lodash@4.17.23",
+          "product_id": "pkg:npm/lodash@4.17.23",
+          "product_identification_helper": {
+            "purl": "pkg:npm/lodash@4.17.23"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/serialize-javascript@6.0.2",
+        "product": {
+          "name": "pkg:npm/serialize-javascript@6.0.2",
+          "product_id": "pkg:npm/serialize-javascript@6.0.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/serialize-javascript@6.0.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/yaml@2.8.2",
+        "product": {
+          "name": "pkg:npm/yaml@2.8.2",
+          "product_id": "pkg:npm/yaml@2.8.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/yaml@2.8.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.14.1",
+        "product": {
+          "name": "pkg:npm/qs@6.14.1",
+          "product_id": "pkg:npm/qs@6.14.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.14.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/golang.org/x/image@v0.37.0",
+        "product": {
+          "name": "pkg:golang/golang.org/x/image@v0.37.0",
+          "product_id": "pkg:golang/golang.org/x/image@v0.37.0",
+          "product_identification_helper": {
+            "purl": "pkg:golang/golang.org/x/image@v0.37.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/%40hono/node-server@1.19.9",
+        "product": {
+          "name": "pkg:npm/%40hono/node-server@1.19.9",
+          "product_id": "pkg:npm/%40hono/node-server@1.19.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/%40hono/node-server@1.19.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/ajv@6.12.6",
+        "product": {
+          "name": "pkg:npm/ajv@6.12.6",
+          "product_id": "pkg:npm/ajv@6.12.6",
+          "product_identification_helper": {
+            "purl": "pkg:npm/ajv@6.12.6"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+        "product": {
+          "name": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+          "product_id": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/openfga/openfga@v1.11.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.9",
+        "product": {
+          "name": "pkg:npm/tar@7.5.9",
+          "product_id": "pkg:npm/tar@7.5.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/%40tootallnate/once@2.0.0",
+        "product": {
+          "name": "pkg:npm/%40tootallnate/once@2.0.0",
+          "product_id": "pkg:npm/%40tootallnate/once@2.0.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/%40tootallnate/once@2.0.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.9",
+        "product": {
+          "name": "pkg:npm/tar@7.5.9",
+          "product_id": "pkg:npm/tar@7.5.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:github/actions/download-artifact@v4.1.8",
+        "product": {
+          "name": "pkg:github/actions/download-artifact@v4.1.8",
+          "product_id": "pkg:github/actions/download-artifact@v4.1.8",
+          "product_identification_helper": {
+            "purl": "pkg:github/actions/download-artifact@v4.1.8"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/serialize-javascript@6.0.2",
+        "product": {
+          "name": "pkg:npm/serialize-javascript@6.0.2",
+          "product_id": "pkg:npm/serialize-javascript@6.0.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/serialize-javascript@6.0.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+        "product": {
+          "name": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+          "product_id": "pkg:golang/github.com/openfga/openfga@v1.11.3",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/openfga/openfga@v1.11.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+        "product": {
+          "name": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "product_identification_helper": {
+            "purl": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/%40hono/node-server@1.19.9",
+        "product": {
+          "name": "pkg:npm/%40hono/node-server@1.19.9",
+          "product_id": "pkg:npm/%40hono/node-server@1.19.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/%40hono/node-server@1.19.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/%40tootallnate/once@2.0.0",
+        "product": {
+          "name": "pkg:npm/%40tootallnate/once@2.0.0",
+          "product_id": "pkg:npm/%40tootallnate/once@2.0.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/%40tootallnate/once@2.0.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/ajv@6.12.6",
+        "product": {
+          "name": "pkg:npm/ajv@6.12.6",
+          "product_id": "pkg:npm/ajv@6.12.6",
+          "product_identification_helper": {
+            "purl": "pkg:npm/ajv@6.12.6"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/ajv@8.17.1",
+        "product": {
+          "name": "pkg:npm/ajv@8.17.1",
+          "product_id": "pkg:npm/ajv@8.17.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/ajv@8.17.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/brace-expansion@1.1.12",
+        "product": {
+          "name": "pkg:npm/brace-expansion@1.1.12",
+          "product_id": "pkg:npm/brace-expansion@1.1.12",
+          "product_identification_helper": {
+            "purl": "pkg:npm/brace-expansion@1.1.12"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/brace-expansion@2.0.2",
+        "product": {
+          "name": "pkg:npm/brace-expansion@2.0.2",
+          "product_id": "pkg:npm/brace-expansion@2.0.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/brace-expansion@2.0.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/dompurify@3.3.1",
+        "product": {
+          "name": "pkg:npm/dompurify@3.3.1",
+          "product_id": "pkg:npm/dompurify@3.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/dompurify@3.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/file-type@16.5.4",
+        "product": {
+          "name": "pkg:npm/file-type@16.5.4",
+          "product_id": "pkg:npm/file-type@16.5.4",
+          "product_identification_helper": {
+            "purl": "pkg:npm/file-type@16.5.4"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/glob@10.4.1",
+        "product": {
+          "name": "pkg:npm/glob@10.4.1",
+          "product_id": "pkg:npm/glob@10.4.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/glob@10.4.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/immutable@3.8.2",
+        "product": {
+          "name": "pkg:npm/immutable@3.8.2",
+          "product_id": "pkg:npm/immutable@3.8.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/immutable@3.8.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/lodash@4.17.23",
+        "product": {
+          "name": "pkg:npm/lodash@4.17.23",
+          "product_id": "pkg:npm/lodash@4.17.23",
+          "product_identification_helper": {
+            "purl": "pkg:npm/lodash@4.17.23"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/lodash@4.17.23",
+        "product": {
+          "name": "pkg:npm/lodash@4.17.23",
+          "product_id": "pkg:npm/lodash@4.17.23",
+          "product_identification_helper": {
+            "purl": "pkg:npm/lodash@4.17.23"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/mailparser@3.7.1",
+        "product": {
+          "name": "pkg:npm/mailparser@3.7.1",
+          "product_id": "pkg:npm/mailparser@3.7.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/mailparser@3.7.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/node-forge@1.3.3",
+        "product": {
+          "name": "pkg:npm/node-forge@1.3.3",
+          "product_id": "pkg:npm/node-forge@1.3.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/node-forge@1.3.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/nodemailer@7.0.12",
+        "product": {
+          "name": "pkg:npm/nodemailer@7.0.12",
+          "product_id": "pkg:npm/nodemailer@7.0.12",
+          "product_identification_helper": {
+            "purl": "pkg:npm/nodemailer@7.0.12"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/path-to-regexp@8.2.0",
+        "product": {
+          "name": "pkg:npm/path-to-regexp@8.2.0",
+          "product_id": "pkg:npm/path-to-regexp@8.2.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/path-to-regexp@8.2.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/path-to-regexp@8.2.0",
+        "product": {
+          "name": "pkg:npm/path-to-regexp@8.2.0",
+          "product_id": "pkg:npm/path-to-regexp@8.2.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/path-to-regexp@8.2.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@2.3.1",
+        "product": {
+          "name": "pkg:npm/picomatch@2.3.1",
+          "product_id": "pkg:npm/picomatch@2.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@2.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@2.3.1",
+        "product": {
+          "name": "pkg:npm/picomatch@2.3.1",
+          "product_id": "pkg:npm/picomatch@2.3.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@2.3.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@4.0.3",
+        "product": {
+          "name": "pkg:npm/picomatch@4.0.3",
+          "product_id": "pkg:npm/picomatch@4.0.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@4.0.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/picomatch@4.0.3",
+        "product": {
+          "name": "pkg:npm/picomatch@4.0.3",
+          "product_id": "pkg:npm/picomatch@4.0.3",
+          "product_identification_helper": {
+            "purl": "pkg:npm/picomatch@4.0.3"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.14.1",
+        "product": {
+          "name": "pkg:npm/qs@6.14.1",
+          "product_id": "pkg:npm/qs@6.14.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.14.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.13.0",
+        "product": {
+          "name": "pkg:npm/qs@6.13.0",
+          "product_id": "pkg:npm/qs@6.13.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.13.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.14.1",
+        "product": {
+          "name": "pkg:npm/qs@6.14.1",
+          "product_id": "pkg:npm/qs@6.14.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.14.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.14.0",
+        "product": {
+          "name": "pkg:npm/qs@6.14.0",
+          "product_id": "pkg:npm/qs@6.14.0",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.14.0"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/qs@6.14.1",
+        "product": {
+          "name": "pkg:npm/qs@6.14.1",
+          "product_id": "pkg:npm/qs@6.14.1",
+          "product_identification_helper": {
+            "purl": "pkg:npm/qs@6.14.1"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/serialize-javascript@6.0.2",
+        "product": {
+          "name": "pkg:npm/serialize-javascript@6.0.2",
+          "product_id": "pkg:npm/serialize-javascript@6.0.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/serialize-javascript@6.0.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/serialize-javascript@6.0.2",
+        "product": {
+          "name": "pkg:npm/serialize-javascript@6.0.2",
+          "product_id": "pkg:npm/serialize-javascript@6.0.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/serialize-javascript@6.0.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.8",
+        "product": {
+          "name": "pkg:npm/tar@7.5.8",
+          "product_id": "pkg:npm/tar@7.5.8",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.8"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.8",
+        "product": {
+          "name": "pkg:npm/tar@7.5.8",
+          "product_id": "pkg:npm/tar@7.5.8",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.8"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.9",
+        "product": {
+          "name": "pkg:npm/tar@7.5.9",
+          "product_id": "pkg:npm/tar@7.5.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/tar@7.5.9",
+        "product": {
+          "name": "pkg:npm/tar@7.5.9",
+          "product_id": "pkg:npm/tar@7.5.9",
+          "product_identification_helper": {
+            "purl": "pkg:npm/tar@7.5.9"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/yaml@1.10.2",
+        "product": {
+          "name": "pkg:npm/yaml@1.10.2",
+          "product_id": "pkg:npm/yaml@1.10.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/yaml@1.10.2"
+          }
+        }
+      },
+      {
+        "category": "product_version",
+        "name": "pkg:npm/yaml@2.8.2",
+        "product": {
+          "name": "pkg:npm/yaml@2.8.2",
+          "product_id": "pkg:npm/yaml@2.8.2",
+          "product_identification_helper": {
+            "purl": "pkg:npm/yaml@2.8.2"
+          }
+        }
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2025-30066",
+      "product_status": {
+        "under_investigation": [
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2023-51664",
+      "product_status": {
+        "under_investigation": [
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33672",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/picomatch@2.3.1",
+          "pkg:npm/picomatch@2.3.1",
+          "pkg:npm/picomatch@4.0.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-4800",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/lodash@4.17.23",
+          "pkg:npm/lodash@4.17.23"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-29063",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/immutable@3.8.2",
+          "pkg:npm/immutable@3.8.2"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33671",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/picomatch@2.3.1",
+          "pkg:npm/picomatch@2.3.1",
+          "pkg:npm/picomatch@4.0.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33891",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/node-forge@1.3.3",
+          "pkg:npm/node-forge@1.3.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33750",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/brace-expansion@1.1.12",
+          "pkg:npm/brace-expansion@1.1.12",
+          "pkg:npm/brace-expansion@2.0.2"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-2950",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/lodash@4.17.23",
+          "pkg:npm/lodash@4.17.23"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-34043",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/serialize-javascript@6.0.2",
+          "pkg:npm/serialize-javascript@6.0.2"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33532",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/yaml@2.8.2",
+          "pkg:npm/yaml@1.10.2",
+          "pkg:npm/yaml@2.8.2"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-2391",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/qs@6.14.1",
+          "pkg:npm/qs@6.13.0",
+          "pkg:npm/qs@6.14.0",
+          "pkg:npm/qs@6.14.1"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33895",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/node-forge@1.3.3",
+          "pkg:npm/node-forge@1.3.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33809",
+      "product_status": {
+        "under_investigation": [
+          "pkg:golang/golang.org/x/image@v0.37.0"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33896",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/node-forge@1.3.3",
+          "pkg:npm/node-forge@1.3.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33894",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/node-forge@1.3.3",
+          "pkg:npm/node-forge@1.3.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-34040",
+      "product_status": {
+        "under_investigation": [
+          "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-29087",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/%40hono/node-server@1.19.9",
+          "pkg:npm/%40hono/node-server@1.19.9"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2025-69873",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/ajv@6.12.6",
+          "pkg:npm/ajv@6.12.6",
+          "pkg:npm/ajv@8.17.1"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33997",
+      "product_status": {
+        "under_investigation": [
+          "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible",
+          "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-33729",
+      "product_status": {
+        "under_investigation": [
+          "pkg:golang/github.com/openfga/openfga@v1.11.3",
+          "pkg:golang/github.com/openfga/openfga@v1.11.3"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-0540",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/dompurify@3.3.1",
+          "pkg:npm/dompurify@3.3.1"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-31802",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/tar@7.5.9",
+          "pkg:npm/tar@7.5.8",
+          "pkg:npm/tar@7.5.9"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-3449",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/%40tootallnate/once@2.0.0",
+          "pkg:npm/%40tootallnate/once@2.0.0"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-29786",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/tar@7.5.9",
+          "pkg:npm/tar@7.5.8",
+          "pkg:npm/tar@7.5.9"
+        ]
+      }
+    },
+    {
+      "cve": "GHSA-cxww-7g56-2vh6",
+      "product_status": {
+        "known_not_affected": [
+          "pkg:github/actions/download-artifact@v4.1.8"
+        ]
+      },
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "pkg:github/actions/download-artifact@v4.1.8"
+          ]
+        }
+      ]
+    },
+    {
+      "cve": "GHSA-5c6j-r48x-rmvq",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/serialize-javascript@6.0.2",
+          "pkg:npm/serialize-javascript@6.0.2"
+        ]
+      }
+    },
+    {
+      "cve": "GHSA-cj63-jhhr-wcxv",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/dompurify@3.3.1",
+          "pkg:npm/dompurify@3.3.1"
+        ]
+      }
+    },
+    {
+      "cve": "GHSA-cjmm-f4jc-qw8r",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/dompurify@3.3.1",
+          "pkg:npm/dompurify@3.3.1"
+        ]
+      }
+    },
+    {
+      "cve": "GHSA-h8r8-wccr-v5f2",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/dompurify@3.3.1",
+          "pkg:npm/dompurify@3.3.1"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-31808",
+      "product_status": {
+        "known_not_affected": [
+          "pkg:npm/file-type@16.5.4"
+        ]
+      },
+      "flags": [
+        {
+          "label": "component_not_present",
+          "product_ids": [
+            "pkg:npm/file-type@16.5.4"
+          ]
+        }
+      ]
+    },
+    {
+      "cve": "CVE-2025-64756",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/glob@10.4.1"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-3455",
+      "product_status": {
+        "known_not_affected": [
+          "pkg:npm/mailparser@3.7.1"
+        ]
+      },
+      "flags": [
+        {
+          "label": "component_not_present",
+          "product_ids": [
+            "pkg:npm/mailparser@3.7.1"
+          ]
+        }
+      ]
+    },
+    {
+      "cve": "GHSA-c7w3-x93f-qmm8",
+      "product_status": {
+        "known_not_affected": [
+          "pkg:npm/nodemailer@7.0.12"
+        ]
+      },
+      "flags": [
+        {
+          "label": "component_not_present",
+          "product_ids": [
+            "pkg:npm/nodemailer@7.0.12"
+          ]
+        }
+      ]
+    },
+    {
+      "cve": "CVE-2026-4926",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/path-to-regexp@8.2.0"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2026-4923",
+      "product_status": {
+        "under_investigation": [
+          "pkg:npm/path-to-regexp@8.2.0"
+        ]
+      }
+    },
+    {
+      "cve": "CVE-2025-15284",
+      "product_status": {
+        "known_not_affected": [
+          "pkg:npm/qs@6.14.1",
+          "pkg:npm/qs@6.14.1"
+        ]
+      },
+      "flags": [
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "pkg:npm/qs@6.14.1"
+          ]
+        },
+        {
+          "label": "vulnerable_code_not_present",
+          "product_ids": [
+            "pkg:npm/qs@6.14.1"
+          ]
+        }
+      ]
+    }
+  ]
+}

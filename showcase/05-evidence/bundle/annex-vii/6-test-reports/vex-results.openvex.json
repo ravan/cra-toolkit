@@ -1,0 +1,1036 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://suse.com/vex/20260407T110034Z",
+  "author": "SUSE CRA Toolkit",
+  "role": "Document Creator",
+  "timestamp": "2026-04-07T11:00:34Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2025-30066"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-30066"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-30066"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2023-51664"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2023-51664"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2023-51664"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33672"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@2.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-4800"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/lodash@4.17.23"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29063"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/immutable@3.8.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33671"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@2.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33891"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33750"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/brace-expansion@1.1.12"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2950"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/lodash@4.17.23"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34043"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/serialize-javascript@6.0.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33532"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/yaml@2.8.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2391"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.14.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33895"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33809"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/golang.org/x/image@v0.37.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33896"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33894"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29087"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/%40hono/node-server@1.19.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-69873"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/ajv@6.12.6"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33729"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/openfga/openfga@v1.11.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-0540"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-31802"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-3449"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/%40tootallnate/once@2.0.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29786"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-cxww-7g56-2vh6"
+      },
+      "products": [
+        {
+          "@id": "pkg:github/actions/download-artifact@v4.1.8"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "Installed version v4.1.8 \u003e= fix version 4.1.3; component is outside the affected range."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-5c6j-r48x-rmvq"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/serialize-javascript@6.0.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-cj63-jhhr-wcxv"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-cjmm-f4jc-qw8r"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-h8r8-wccr-v5f2"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/moby/moby@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33729"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/openfga/openfga@v1.11.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34040"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33997"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/docker/docker@v28.5.2%2Bincompatible"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29087"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/%40hono/node-server@1.19.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-3449"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/%40tootallnate/once@2.0.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-69873"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/ajv@6.12.6"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-69873"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/ajv@8.17.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33750"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/brace-expansion@1.1.12"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33750"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/brace-expansion@2.0.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-0540"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-cj63-jhhr-wcxv"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-cjmm-f4jc-qw8r"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-h8r8-wccr-v5f2"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/dompurify@3.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-31808"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/file-type@16.5.4"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "component_not_present",
+      "impact_statement": "Component npm//file-type not found in SBOM."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-64756"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/glob@10.4.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29063"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/immutable@3.8.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-4800"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/lodash@4.17.23"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2950"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/lodash@4.17.23"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-3455"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/mailparser@3.7.1"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "component_not_present",
+      "impact_statement": "Component npm//mailparser not found in SBOM."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33891"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33894"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33895"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33896"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/node-forge@1.3.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-c7w3-x93f-qmm8"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/nodemailer@7.0.12"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "component_not_present",
+      "impact_statement": "Component npm//nodemailer not found in SBOM."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-4926"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/path-to-regexp@8.2.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-4923"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/path-to-regexp@8.2.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33671"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@2.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33672"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@2.3.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33671"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@4.0.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33672"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/picomatch@4.0.3"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-15284"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.14.1"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "Installed version 6.14.1 \u003e= fix version 6.14.1; component is outside the affected range."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2391"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.13.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2025-15284"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.14.1"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_present",
+      "impact_statement": "Installed version 6.14.1 \u003e= fix version 6.14.1; component is outside the affected range."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2391"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.14.0"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-2391"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/qs@6.14.1"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "GHSA-5c6j-r48x-rmvq"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/serialize-javascript@6.0.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-34043"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/serialize-javascript@6.0.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29786"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.8"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-31802"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.8"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-29786"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-31802"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/tar@7.5.9"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33532"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/yaml@1.10.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2026-33532"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/yaml@2.8.2"
+        }
+      ],
+      "status": "under_investigation",
+      "impact_statement": "No filter could determine VEX status. Queued for manual review."
+    }
+  ]
+}

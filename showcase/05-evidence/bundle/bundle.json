@@ -1,0 +1,392 @@
+{
+  "bundle_id": "CRA-EVD-20260407T110050Z",
+  "toolkit_version": "0.1.0",
+  "timestamp": "2026-04-07T11:00:50Z",
+  "product": {
+    "name": "grafana",
+    "version": "12.1.0-pre",
+    "manufacturer": "",
+    "intended_purpose": "Open-source observability and data visualization platform",
+    "product_class": "default",
+    "support_period_end": "",
+    "conformity_procedure": "module-A",
+    "security_contact": "security@grafana.com",
+    "cvd_policy_url": "https://grafana.com/security/"
+  },
+  "artifacts": [
+    {
+      "path": "annex-vii/1-general-description/product-config.yaml",
+      "annex_vii_ref": "1a",
+      "format": "yaml",
+      "sha256": "50df49141cd6a331ac8ee65dcc6e489a63b30f7ddddba62917ab21d828b75830",
+      "source": "toolkit",
+      "description": "Product configuration"
+    },
+    {
+      "path": "annex-vii/2b-vulnerability-handling/sbom.cdx.json",
+      "annex_vii_ref": "2b",
+      "format": "CycloneDX",
+      "sha256": "3f5caddd3280371b49cf2721769c2dece26abb6375ad74464e0982332f95d4dc",
+      "source": "toolkit",
+      "description": "Software bill of materials"
+    },
+    {
+      "path": "annex-vii/6-test-reports/vex-results.openvex.json",
+      "annex_vii_ref": "6",
+      "format": "OpenVEX",
+      "sha256": "f2ac10c82c45c2063380c0290874b570f3812d2a78aa890dbfd0cf8a5a634535",
+      "source": "toolkit",
+      "description": "VEX assessment results"
+    },
+    {
+      "path": "annex-vii/6-test-reports/policy-report.json",
+      "annex_vii_ref": "6",
+      "format": "Unknown",
+      "sha256": "7e1162f923bb20e6c6f1346296c0426df9883d6fd2b45eddbcf32e3fa9cc0605",
+      "source": "toolkit",
+      "description": "CRA Annex I policy evaluation report"
+    },
+    {
+      "path": "annex-vii/6-test-reports/advisory.csaf.json",
+      "annex_vii_ref": "6",
+      "format": "CSAF",
+      "sha256": "7ea391189462a043bb850af178b1cae64d9d9b5edc497e694477701af51c1843",
+      "source": "toolkit",
+      "description": "CSAF 2.0 security advisory"
+    },
+    {
+      "path": "annex-vii/6-test-reports/report.json",
+      "annex_vii_ref": "6",
+      "format": "Unknown",
+      "sha256": "09cd9213bbed0791fd293bb0298437dedb93a29e78f7bfd910474bff410fe3c1",
+      "source": "toolkit",
+      "description": "CRA Art. 14 vulnerability notification"
+    },
+    {
+      "path": "annex-vii/6-test-reports/grype-scan.json",
+      "annex_vii_ref": "6",
+      "format": "Grype",
+      "sha256": "4053814ee2e2d2bd6eb3f66ce0fbccba5b83308f0c67220a1a310d9d9bd5f27e",
+      "source": "toolkit",
+      "description": "Vulnerability scan results"
+    },
+    {
+      "path": "annex-vii/6-test-reports/trivy-scan.json",
+      "annex_vii_ref": "6",
+      "format": "Trivy",
+      "sha256": "b3c468499b1f7d20d708a137209a295a6410890fea4d96b556b6b0a338074b8e",
+      "source": "toolkit",
+      "description": "Vulnerability scan results"
+    },
+    {
+      "path": "annex-vii/8-sbom/sbom.cdx.json",
+      "annex_vii_ref": "8",
+      "format": "CycloneDX",
+      "sha256": "3f5caddd3280371b49cf2721769c2dece26abb6375ad74464e0982332f95d4dc",
+      "source": "toolkit",
+      "description": "SBOM for market surveillance (Annex VII point 8)"
+    }
+  ],
+  "validation": {
+    "checks": [
+      {
+        "check_id": "FV-2b",
+        "description": "Format validation: Software bill of materials",
+        "status": "pass",
+        "details": "Detected format: CycloneDX",
+        "artifact_a": "showcase/00-inputs/sbom.cdx.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: VEX assessment results",
+        "status": "pass",
+        "details": "Detected format: OpenVEX",
+        "artifact_a": "showcase/01-vex/vex-results.openvex.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: CRA Annex I policy evaluation report",
+        "status": "fail",
+        "details": "Unrecognized format for showcase/02-policykit/policy-report.json",
+        "artifact_a": "showcase/02-policykit/policy-report.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: CSAF 2.0 security advisory",
+        "status": "pass",
+        "details": "Detected format: CSAF",
+        "artifact_a": "showcase/04-csaf/advisory.csaf.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: CRA Art. 14 vulnerability notification",
+        "status": "fail",
+        "details": "Unrecognized format for showcase/03-report/notification/report.json",
+        "artifact_a": "showcase/03-report/notification/report.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: Vulnerability scan results",
+        "status": "pass",
+        "details": "Detected format: Grype",
+        "artifact_a": "showcase/00-inputs/grype-scan.json"
+      },
+      {
+        "check_id": "FV-6",
+        "description": "Format validation: Vulnerability scan results",
+        "status": "pass",
+        "details": "Detected format: Trivy",
+        "artifact_a": "showcase/00-inputs/trivy-scan.json"
+      },
+      {
+        "check_id": "CV-SBOM-VEX-PURL",
+        "description": "VEX subject PURLs exist in SBOM",
+        "status": "fail",
+        "details": "VEX references 15 PURLs not in SBOM: pkg:npm/ajv@8.17.1, pkg:npm/brace-expansion@2.0.2, pkg:npm/file-type@16.5.4, pkg:npm/glob@10.4.1, pkg:npm/mailparser@3.7.1, pkg:npm/nodemailer@7.0.12, pkg:npm/path-to-regexp@8.2.0, pkg:npm/path-to-regexp@8.2.0, pkg:npm/picomatch@4.0.3, pkg:npm/picomatch@4.0.3, pkg:npm/qs@6.13.0, pkg:npm/qs@6.14.0, pkg:npm/tar@7.5.8, pkg:npm/tar@7.5.8, pkg:npm/yaml@1.10.2",
+        "artifact_a": "sbom",
+        "artifact_b": "vex"
+      },
+      {
+        "check_id": "CV-SBOM-SCAN-COMP",
+        "description": "Scanned components exist in SBOM",
+        "status": "fail",
+        "details": "Scan references 12 PURLs not in SBOM: pkg:npm/ajv@8.17.1, pkg:npm/brace-expansion@2.0.2, pkg:npm/file-type@16.5.4, pkg:npm/glob@10.4.1, pkg:npm/mailparser@3.7.1, pkg:npm/nodemailer@7.0.12, pkg:npm/path-to-regexp@8.2.0, pkg:npm/picomatch@4.0.3, pkg:npm/qs@6.13.0, pkg:npm/qs@6.14.0, pkg:npm/tar@7.5.8, pkg:npm/yaml@1.10.2",
+        "artifact_a": "sbom",
+        "artifact_b": "scans"
+      },
+      {
+        "check_id": "CV-SCAN-VEX-CVE",
+        "description": "Scan CVEs have VEX assessments",
+        "status": "pass",
+        "details": "All scan CVEs have VEX assessments",
+        "artifact_a": "scans",
+        "artifact_b": "vex"
+      },
+      {
+        "check_id": "CV-REPORT-SCAN",
+        "description": "Art. 14 notification CVEs exist in scan results",
+        "status": "pass",
+        "details": "All Art. 14 notification CVEs found in scan results",
+        "artifact_a": "art14-report",
+        "artifact_b": "scans"
+      }
+    ],
+    "passed": 7,
+    "failed": 4,
+    "warnings": 0
+  },
+  "completeness": {
+    "sections": [
+      {
+        "id": "1a",
+        "title": "General description — intended purpose",
+        "cra_ref": "Annex VII, point 1(a)",
+        "required": true,
+        "covered": true,
+        "weight": 10
+      },
+      {
+        "id": "1b",
+        "title": "Versions affecting compliance",
+        "cra_ref": "Annex VII, point 1(b)",
+        "required": true,
+        "covered": true,
+        "weight": 5,
+        "artifacts": [
+          "annex-vii/2b-vulnerability-handling/sbom.cdx.json"
+        ]
+      },
+      {
+        "id": "1c",
+        "title": "Hardware photos/illustrations",
+        "cra_ref": "Annex VII, point 1(c)",
+        "required": false,
+        "covered": true,
+        "weight": 0
+      },
+      {
+        "id": "1d",
+        "title": "User information per Annex II",
+        "cra_ref": "Annex VII, point 1(d)",
+        "required": true,
+        "covered": true,
+        "weight": 5
+      },
+      {
+        "id": "2a",
+        "title": "Design/development/architecture",
+        "cra_ref": "Annex VII, point 2(a)",
+        "required": true,
+        "covered": false,
+        "weight": 10,
+        "gap": "Provide architecture/design documentation"
+      },
+      {
+        "id": "2b-sbom",
+        "title": "Vulnerability handling — SBOM",
+        "cra_ref": "Annex VII, point 2(b)",
+        "required": true,
+        "covered": true,
+        "weight": 15,
+        "artifacts": [
+          "annex-vii/2b-vulnerability-handling/sbom.cdx.json"
+        ]
+      },
+      {
+        "id": "2b-cvd",
+        "title": "Vulnerability handling — CVD policy",
+        "cra_ref": "Annex VII, point 2(b)",
+        "required": true,
+        "covered": true,
+        "weight": 10
+      },
+      {
+        "id": "2b-updates",
+        "title": "Vulnerability handling — secure update mechanism",
+        "cra_ref": "Annex VII, point 2(b)",
+        "required": true,
+        "covered": false,
+        "weight": 5,
+        "gap": "Provide documentation of the secure update mechanism"
+      },
+      {
+        "id": "2c",
+        "title": "Production/monitoring processes",
+        "cra_ref": "Annex VII, point 2(c)",
+        "required": true,
+        "covered": false,
+        "weight": 5,
+        "gap": "Provide production and monitoring process documentation"
+      },
+      {
+        "id": "3",
+        "title": "Cybersecurity risk assessment",
+        "cra_ref": "Annex VII, point 3",
+        "required": true,
+        "covered": false,
+        "weight": 15,
+        "gap": "Provide a cybersecurity risk assessment"
+      },
+      {
+        "id": "4",
+        "title": "Support period determination",
+        "cra_ref": "Annex VII, point 4",
+        "required": true,
+        "covered": false,
+        "weight": 5,
+        "gap": "Set support_period_end in product config"
+      },
+      {
+        "id": "5",
+        "title": "Harmonised standards applied",
+        "cra_ref": "Annex VII, point 5",
+        "required": true,
+        "covered": false,
+        "weight": 5,
+        "gap": "Provide documentation of harmonised standards applied"
+      },
+      {
+        "id": "6",
+        "title": "Test/verification reports",
+        "cra_ref": "Annex VII, point 6",
+        "required": true,
+        "covered": true,
+        "weight": 10,
+        "artifacts": [
+          "annex-vii/6-test-reports/vex-results.openvex.json",
+          "annex-vii/6-test-reports/policy-report.json",
+          "annex-vii/6-test-reports/advisory.csaf.json",
+          "annex-vii/6-test-reports/report.json",
+          "annex-vii/6-test-reports/grype-scan.json",
+          "annex-vii/6-test-reports/trivy-scan.json"
+        ]
+      },
+      {
+        "id": "7",
+        "title": "EU declaration of conformity",
+        "cra_ref": "Annex VII, point 7",
+        "required": true,
+        "covered": false,
+        "weight": 10,
+        "gap": "Provide the EU declaration of conformity"
+      },
+      {
+        "id": "8",
+        "title": "SBOM (market surveillance)",
+        "cra_ref": "Annex VII, point 8",
+        "required": true,
+        "covered": true,
+        "weight": 5,
+        "artifacts": [
+          "annex-vii/2b-vulnerability-handling/sbom.cdx.json"
+        ]
+      }
+    ],
+    "score": 52.17391304347826,
+    "total_weight": 115,
+    "covered_weight": 60,
+    "note": "Toolkit quality metric. CRA Annex VII does not define completeness thresholds."
+  },
+  "annex_vii_summary": {
+    "product_description": "Open-source observability and data visualization platform",
+    "sbom_stats": {
+      "format": "CycloneDX",
+      "component_count": 8301,
+      "product_name": "./.github/actions/build-package",
+      "product_version": "UNKNOWN"
+    },
+    "vuln_handling_stats": {
+      "total_assessed": 85,
+      "status_distribution": {
+        "not_affected": 6,
+        "under_investigation": 79
+      },
+      "reachability_based": 0
+    },
+    "policy_compliance_stats": {
+      "total": 18,
+      "passed": 5,
+      "failed": 3,
+      "skipped": 2,
+      "human": 8
+    },
+    "scan_stats": {
+      "total_findings": 85,
+      "severity_distribution": {
+        "high": 40,
+        "low": 8,
+        "medium": 37
+      },
+      "scanner_count": 2
+    },
+    "support_period": "",
+    "conformity_procedure": "module-A",
+    "standards_applied": [
+      "ISO/IEC 27001:2022",
+      "EN 18031-1"
+    ]
+  },
+  "manifest": {
+    "algorithm": "sha256",
+    "entries": {
+      "annex-vii-summary.md": "62243c993ef72184cf2616e724787d5f11684676c5d40523fc272b6653aa4789",
+      "annex-vii/1-general-description/product-config.yaml": "50df49141cd6a331ac8ee65dcc6e489a63b30f7ddddba62917ab21d828b75830",
+      "annex-vii/2b-vulnerability-handling/sbom.cdx.json": "3f5caddd3280371b49cf2721769c2dece26abb6375ad74464e0982332f95d4dc",
+      "annex-vii/6-test-reports/advisory.csaf.json": "7ea391189462a043bb850af178b1cae64d9d9b5edc497e694477701af51c1843",
+      "annex-vii/6-test-reports/grype-scan.json": "4053814ee2e2d2bd6eb3f66ce0fbccba5b83308f0c67220a1a310d9d9bd5f27e",
+      "annex-vii/6-test-reports/policy-report.json": "7e1162f923bb20e6c6f1346296c0426df9883d6fd2b45eddbcf32e3fa9cc0605",
+      "annex-vii/6-test-reports/report.json": "09cd9213bbed0791fd293bb0298437dedb93a29e78f7bfd910474bff410fe3c1",
+      "annex-vii/6-test-reports/trivy-scan.json": "b3c468499b1f7d20d708a137209a295a6410890fea4d96b556b6b0a338074b8e",
+      "annex-vii/6-test-reports/vex-results.openvex.json": "f2ac10c82c45c2063380c0290874b570f3812d2a78aa890dbfd0cf8a5a634535",
+      "annex-vii/8-sbom/sbom.cdx.json": "3f5caddd3280371b49cf2721769c2dece26abb6375ad74464e0982332f95d4dc",
+      "bundle.json": "8844e5df19234227863c2fa0f083b51f960832f78763a36184c8cecd3e72eae6",
+      "completeness.md": "40bcfd6cbb889424e870a328f72d8d381aa8fa7284c011e33de8dd62b6a159d8",
+      "manifest.sha256": "388e3062735ddb3fcc262d27e521fb06e288137ceaef643603cba4c63c66d5f2",
+      "validation.md": "7dae437f1482ed79dd56425ece7ab65a6acfc66138a037746a3143b688140dac"
+    }
+  },
+  "signature": {
+    "method": "unsigned",
+    "signature": ""
+  }
+}

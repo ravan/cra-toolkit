@@ -1,0 +1,192 @@
+{
+  "report_id": "CRA-RPT-20260407T110040Z",
+  "toolkit_version": "0.1.0",
+  "timestamp": "2026-04-07T11:00:40Z",
+  "summary": {
+    "total": 18,
+    "passed": 5,
+    "failed": 3,
+    "skipped": 2,
+    "human": 8
+  },
+  "results": [
+    {
+      "rule_id": "CRA-AI-2.1",
+      "name": "No known exploited vulnerabilities",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "FAIL",
+      "severity": "critical",
+      "evidence": {
+        "kev_catalog_date": "2026-04-06T14:59:12.2467Z",
+        "kev_matches": [
+          "CVE-2025-30066"
+        ],
+        "total_cves_checked": 37
+      }
+    },
+    {
+      "rule_id": "CRA-AI-3.1",
+      "name": "Build provenance exists (SLSA L1+)",
+      "cra_reference": "Art. 13",
+      "status": "SKIP",
+      "severity": "high",
+      "evidence": {
+        "reason": "No provenance attestation provided (--provenance flag)"
+      }
+    },
+    {
+      "rule_id": "CRA-REACH-2",
+      "name": "Reachability affected claims must have supporting call paths",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "PASS",
+      "severity": "high",
+      "evidence": {
+        "missing_call_paths_cves": [],
+        "total_reachability_affected": 0
+      }
+    },
+    {
+      "rule_id": "CRA-REACH-1",
+      "name": "Reachability not_affected claims require high confidence",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "PASS",
+      "severity": "high",
+      "evidence": {
+        "low_confidence_cves": [],
+        "total_reachability_not_affected": 0
+      }
+    },
+    {
+      "rule_id": "CRA-REACH-3",
+      "name": "Pattern-match reachability alone cannot justify not_affected",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "PASS",
+      "severity": "medium",
+      "evidence": {
+        "pattern_match_not_affected_cves": []
+      }
+    },
+    {
+      "rule_id": "CRA-AI-1.1",
+      "name": "SBOM exists and is valid",
+      "cra_reference": "Annex I Part II.1",
+      "status": "FAIL",
+      "severity": "critical"
+    },
+    {
+      "rule_id": "CRA-AI-3.2",
+      "name": "Artifacts cryptographically signed",
+      "cra_reference": "Art. 13",
+      "status": "SKIP",
+      "severity": "high",
+      "evidence": {
+        "reason": "No signature files provided (--signature flag)"
+      }
+    },
+    {
+      "rule_id": "CRA-AI-4.1",
+      "name": "Support period declared and \u003e 5 years",
+      "cra_reference": "Annex I Part II",
+      "status": "PASS",
+      "severity": "medium",
+      "evidence": {
+        "release_date": "2025-06-01",
+        "support_end_date": "2030-06-01",
+        "support_years": 5
+      }
+    },
+    {
+      "rule_id": "CRA-AI-4.2",
+      "name": "Secure update mechanism documented",
+      "cra_reference": "Annex I Part II.7",
+      "status": "PASS",
+      "severity": "medium",
+      "evidence": {
+        "auto_update_default": true,
+        "mechanism_type": "automatic",
+        "security_updates_separate": true,
+        "url_present": true
+      }
+    },
+    {
+      "rule_id": "CRA-AI-2.2",
+      "name": "All critical/high CVEs have VEX assessment",
+      "cra_reference": "Annex I Part I.2(a)",
+      "status": "FAIL",
+      "severity": "high",
+      "evidence": {
+        "assessed": 45,
+        "total_critical_high": 48,
+        "unassessed": [
+          "GHSA-cxww-7g56-2vh6",
+          "CVE-2025-15284",
+          "CVE-2025-15284"
+        ]
+      }
+    },
+    {
+      "rule_id": "CRA-HU-1.1",
+      "name": "Appropriate cybersecurity level",
+      "cra_reference": "Annex I Part I.1",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify risk assessment performed and cybersecurity measures are proportionate to identified risks."
+    },
+    {
+      "rule_id": "CRA-HU-1.2",
+      "name": "Secure by default configuration",
+      "cra_reference": "Annex I Part I.2(b)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify product ships with secure defaults and users can reset to original state."
+    },
+    {
+      "rule_id": "CRA-HU-1.3",
+      "name": "Access control mechanisms",
+      "cra_reference": "Annex I Part I.2(d)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify authentication, identity, and access management systems protect against unauthorised access."
+    },
+    {
+      "rule_id": "CRA-HU-1.4",
+      "name": "Data encryption at rest and in transit",
+      "cra_reference": "Annex I Part I.2(e)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify confidentiality of stored, transmitted, and processed data using state of the art encryption."
+    },
+    {
+      "rule_id": "CRA-HU-1.5",
+      "name": "Data integrity protection",
+      "cra_reference": "Annex I Part I.2(f)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify integrity of stored, transmitted data, commands, programs, and configuration against unauthorised modification."
+    },
+    {
+      "rule_id": "CRA-HU-1.6",
+      "name": "Data minimisation",
+      "cra_reference": "Annex I Part I.2(g)",
+      "status": "HUMAN",
+      "severity": "medium",
+      "guidance": "Verify only adequate, relevant, and limited data is processed for the product's intended purpose."
+    },
+    {
+      "rule_id": "CRA-HU-1.7",
+      "name": "Attack surface minimisation",
+      "cra_reference": "Annex I Part I.2(j)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify product is designed to limit attack surfaces including external interfaces."
+    },
+    {
+      "rule_id": "CRA-HU-1.8",
+      "name": "Risk assessment performed",
+      "cra_reference": "Art. 13(2)",
+      "status": "HUMAN",
+      "severity": "high",
+      "guidance": "Verify cybersecurity risk assessment has been carried out and is documented."
+    }
+  ]
+}

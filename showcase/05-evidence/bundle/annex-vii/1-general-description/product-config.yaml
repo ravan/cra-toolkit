@@ -1,0 +1,26 @@
+product:
+  name: "grafana"
+  version: "12.1.0-pre"
+  support_period: "2030-06-01"
+  update_mechanism: "automatic"
+
+manufacturer:
+  name: "Grafana Labs"
+  member_state: "SE"
+  contact_email: "security@grafana.com"
+  website: "https://grafana.com"
+  member_states_available:
+    - SE
+    - DE
+    - FR
+    - NL
+
+evidence:
+  intended_purpose: "Open-source observability and data visualization platform"
+  product_class: "default"
+  conformity_procedure: "module-A"
+  security_contact: "security@grafana.com"
+  cvd_policy_url: "https://grafana.com/security/"
+  standards_applied:
+    - "ISO/IEC 27001:2022"
+    - "EN 18031-1"

@@ -1,0 +1,72 @@
+{
+  "notification_id": "CRA-NOTIF-20260407T110044Z",
+  "toolkit_version": "0.1.0",
+  "timestamp": "2026-04-07T11:00:44Z",
+  "stage": "early-warning",
+  "cra_reference": "Art. 14(2)(a)",
+  "submission_channel": "ENISA Single Reporting Platform (Art. 16)",
+  "manufacturer": {
+    "name": "Grafana Labs",
+    "member_state": "SE",
+    "contact_email": "security@grafana.com",
+    "website": "https://grafana.com",
+    "member_states_available": [
+      "SE",
+      "DE",
+      "FR",
+      "NL"
+    ]
+  },
+  "csirt_coordinator": {
+    "name": "CERT-SE (MSB)",
+    "country": "SE",
+    "submission_channel": "ENISA Single Reporting Platform (Art. 16)"
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2025-30066",
+      "exploitation_signals": [
+        {
+          "source": "kev",
+          "detail": "Listed in CISA Known Exploited Vulnerabilities catalog"
+        }
+      ],
+      "severity": "high",
+      "cvss": 8.6,
+      "affected_products": [
+        {
+          "name": "tj-actions/changed-files",
+          "version": "ed68ef82c095e0d48ec87eccea555d944a631a4c",
+          "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+        }
+      ],
+      "member_states": [
+        "SE",
+        "DE",
+        "FR",
+        "NL"
+      ]
+    }
+  ],
+  "user_notification": {
+    "affected_products": [
+      {
+        "name": "tj-actions/changed-files",
+        "version": "ed68ef82c095e0d48ec87eccea555d944a631a4c",
+        "purl": "pkg:github/tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c"
+      }
+    ],
+    "recommended_actions": [
+      "Update tj-actions/changed-files to version 46.0.1 or later"
+    ],
+    "severity": "high"
+  },
+  "completeness": {
+    "score": 1,
+    "total_fields": 4,
+    "filled_fields": 4,
+    "machine_generated": 4,
+    "human_provided": 0,
+    "note": "Toolkit quality metric. CRA Art. 14 does not define completeness thresholds."
+  }
+}
