@@ -1,12 +1,12 @@
-# Evidence — Bundling & Signing
+# Evidence - Bundling & Signing
 
-`cra evidence` bundles and signs compliance outputs into a versioned CRA evidence package for Annex VII technical documentation and conformity assessment. It collects artifacts from all other tools in the pipeline — plus manually authored documents — validates them, and produces a signed, archivable bundle that demonstrates compliance with the EU Cyber Resilience Act.
+`cra evidence` bundles and signs compliance outputs into a versioned CRA evidence package for Annex VII technical documentation and conformity assessment. It collects artifacts from all other tools in the pipeline - plus manually authored documents - validates them, and produces a signed, archivable bundle that demonstrates compliance with the EU Cyber Resilience Act.
 
 !!! abstract "CRA Reference"
-    This tool addresses **Annex VII** — Content of the Technical Documentation, and
-    **Annex V** — EU Declaration of Conformity. It assembles the evidence package
+    This tool addresses **Annex VII** - Content of the Technical Documentation, and
+    **Annex V** - EU Declaration of Conformity. It assembles the evidence package
     required for conformity assessment under **Article 32**.
-    See [Annex VII — Technical Documentation](../cra/annex-vii.md).
+    See [Annex VII - Technical Documentation](../cra/annex-vii.md).
 
 ---
 
@@ -72,20 +72,20 @@ cra evidence --product-config <path> --output-dir <path> [flags]
 
 | Flag | Description | Required | Default |
 |---|---|---|---|
-| `--product-config` | Path to product configuration YAML | Yes | — |
-| `--output-dir` | Output directory for evidence bundle | Yes | — |
-| `--sbom` | Path to SBOM | No | — |
-| `--vex` | Path to VEX document | No | — |
-| `--scan` | Path to scan results; repeatable | No | — |
-| `--policy-report` | Path to PolicyKit report JSON | No | — |
-| `--csaf` | Path to CSAF advisory | No | — |
-| `--art14-report` | Path to Art. 14 notification JSON | No | — |
-| `--risk-assessment` | Path to cybersecurity risk assessment | No | — |
-| `--architecture` | Path to architecture document | No | — |
-| `--production-process` | Path to production process document | No | — |
-| `--eu-declaration` | Path to EU declaration of conformity | No | — |
-| `--cvd-policy` | Path to CVD policy | No | — |
-| `--standards` | Path to harmonised standards document | No | — |
+| `--product-config` | Path to product configuration YAML | Yes | - |
+| `--output-dir` | Output directory for evidence bundle | Yes | - |
+| `--sbom` | Path to SBOM | No | - |
+| `--vex` | Path to VEX document | No | - |
+| `--scan` | Path to scan results; repeatable | No | - |
+| `--policy-report` | Path to PolicyKit report JSON | No | - |
+| `--csaf` | Path to CSAF advisory | No | - |
+| `--art14-report` | Path to Art. 14 notification JSON | No | - |
+| `--risk-assessment` | Path to cybersecurity risk assessment | No | - |
+| `--architecture` | Path to architecture document | No | - |
+| `--production-process` | Path to production process document | No | - |
+| `--eu-declaration` | Path to EU declaration of conformity | No | - |
+| `--cvd-policy` | Path to CVD policy | No | - |
+| `--standards` | Path to harmonised standards document | No | - |
 | `--format` | Output format: `json` or `markdown` | No | `json` |
 | `--archive` | Also produce .tar.gz archive | No | `false` |
 | `--signing-key` | Cosign key path (keyless if omitted) | No | keyless |
@@ -121,7 +121,7 @@ cra evidence --product-config product.yaml --output-dir ./evidence \
   --standards standards-mapping.pdf
 ```
 
-Creates a comprehensive evidence bundle with all 13 artifact types — both automated outputs and manually authored documents. Cross-validation checks consistency across all artifacts.
+Creates a full evidence bundle with all 13 artifact types - both automated outputs and manually authored documents. Cross-validation checks consistency across all artifacts.
 
 ### Signed archive for submission
 
@@ -141,11 +141,11 @@ Creates a signed evidence bundle and packages it as a `.tar.gz` archive using a 
 
 ## Integration
 
-Evidence is the final tool in the CRA compliance pipeline — it consumes outputs from all other tools:
+Evidence is the final tool in the CRA compliance pipeline - it consumes outputs from all other tools:
 
-- **`cra vex`** — VEX document providing vulnerability exploitability determinations and reachability evidence. See [VEX — Vulnerability Exploitability eXchange](vex.md).
-- **`cra policykit`** — policy evaluation report verifying Annex I compliance. See [PolicyKit — Policy Evaluation Engine](policykit.md).
-- **`cra csaf`** — CSAF advisory for structured vulnerability disclosure. See [CSAF — Advisory Generation](csaf.md).
-- **`cra report`** — Art. 14 notification documents for vulnerability reporting. See [Report — Article 14 Notifications](report.md).
-- **External tools** — SBOMs from syft or cdxgen, scan results from Grype or Trivy.
-- **Manual artifacts** — risk assessments, architecture documentation, production process descriptions, EU declarations of conformity, CVD policies, and harmonised standards mappings authored by the product team.
+- **`cra vex`** - VEX document providing vulnerability exploitability determinations and reachability evidence. See [VEX - Vulnerability Exploitability eXchange](vex.md).
+- **`cra policykit`** - policy evaluation report verifying Annex I compliance. See [PolicyKit - Policy Evaluation Engine](policykit.md).
+- **`cra csaf`** - CSAF advisory for structured vulnerability disclosure. See [CSAF - Advisory Generation](csaf.md).
+- **`cra report`** - Art. 14 notification documents for vulnerability reporting. See [Report - Article 14 Notifications](report.md).
+- **External tools** - SBOMs from syft or cdxgen, scan results from Grype or Trivy.
+- **Manual artifacts** - risk assessments, architecture documentation, production process descriptions, EU declarations of conformity, CVD policies, and harmonised standards mappings authored by the product team.

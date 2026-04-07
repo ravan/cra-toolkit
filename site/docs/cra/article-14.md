@@ -1,4 +1,4 @@
-# Article 14 — Vulnerability Reporting Obligations
+# Article 14 - Vulnerability Reporting Obligations
 
 ## The Obligation
 
@@ -16,15 +16,15 @@
   <figcaption>The three notification stages required by Article 14 of Regulation (EU) 2024/2847.</figcaption>
 </figure>
 
-### 24-hour Early Warning — Art. 14(2)(a)
+### 24-hour Early Warning - Art. 14(2)(a)
 
 An early warning notification of an actively exploited vulnerability, without undue delay and in any event within 24 hours of the manufacturer becoming aware of it, indicating, where applicable, the Member States on the territory of which the manufacturer is aware that their product with digital elements has been made available.
 
-### 72-hour Notification — Art. 14(2)(b)
+### 72-hour Notification - Art. 14(2)(b)
 
 Unless the relevant information has already been provided, a vulnerability notification, without undue delay and in any event within 72 hours of the manufacturer becoming aware of the actively exploited vulnerability, which shall provide general information, as available, about the product with digital elements concerned, the general nature of the exploit and of the vulnerability concerned as well as any corrective or mitigating measures taken, and corrective or mitigating measures that users can take, and which shall also indicate, where applicable, how sensitive the manufacturer considers the notified information to be.
 
-### 14-day Final Report — Art. 14(2)(c)
+### 14-day Final Report - Art. 14(2)(c)
 
 Unless the relevant information has already been provided, a final report, no later than 14 days after a corrective or mitigating measure is available, including at least:
 
@@ -34,7 +34,7 @@ Unless the relevant information has already been provided, a final report, no la
 
 ---
 
-## Severe Incidents — Art. 14(3-5)
+## Severe Incidents - Art. 14(3-5)
 
 Manufacturers must also notify any severe incident having an impact on the security of the product. An incident is considered severe where:
 
@@ -44,19 +44,19 @@ Manufacturers must also notify any severe incident having an impact on the secur
 
 ---
 
-## User Notification — Art. 14(8)
+## User Notification - Art. 14(8)
 
 After becoming aware of an actively exploited vulnerability or a severe incident, the manufacturer shall inform the impacted users of the product with digital elements, and where appropriate all users, of that vulnerability or incident and, where necessary, of any risk mitigation and corrective measures that the users can deploy to mitigate the impact. Where appropriate, notification shall be in a structured, machine-readable format that is easily automatically processable.
 
 ---
 
-## Single Reporting Platform — Art. 16
+## Single Reporting Platform - Art. 16
 
 ENISA establishes and maintains the single reporting platform for all Article 14 notifications. CSIRTs designated as coordinators disseminate notifications to affected Member States.
 
 ---
 
-## Intermediate Reports — Art. 14(6)
+## Intermediate Reports - Art. 14(6)
 
 Where necessary, the CSIRT designated as coordinator may request manufacturers to provide intermediate reports on relevant status updates.
 
@@ -64,7 +64,7 @@ Where necessary, the CSIRT designated as coordinator may request manufacturers t
 
 !!! tip "Toolkit Implementation"
     The `cra report` tool generates all three notification stages automatically from your SBOM, scan results, and VEX assessments.
-    See [Report — Article 14 Notification Generator](../tools/report.md).
+    See [Report - Article 14 Notification Generator](../tools/report.md).
 
     The `cra csaf` tool produces the structured, machine-readable advisories required by Art. 14(8).
-    See [CSAF — Advisory Generation](../tools/csaf.md).
+    See [CSAF - Advisory Generation](../tools/csaf.md).

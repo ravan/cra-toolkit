@@ -1,12 +1,12 @@
-# PolicyKit — Policy Evaluation Engine
+# PolicyKit - Policy Evaluation Engine
 
 `cra policykit` evaluates CRA Annex I compliance policies against product artifacts using embedded OPA (Open Policy Agent) and Rego rules. It provides machine-checkable, auditable compliance verification with clear PASS/FAIL/SKIP results per policy, producing a structured report suitable for conformity assessment documentation.
 
 !!! abstract "CRA Reference"
     This tool evaluates compliance with **Annex I** essential cybersecurity requirements
     and supports **Annex VII** conformity assessment documentation.
-    See [Annex I — Essential Requirements](../cra/annex-i.md) and
-    [Annex VII — Technical Documentation](../cra/annex-vii.md).
+    See [Annex I - Essential Requirements](../cra/annex-i.md) and
+    [Annex VII - Technical Documentation](../cra/annex-vii.md).
 
 ---
 
@@ -63,12 +63,12 @@ Users can write their own Rego policies and load them via `--policy-dir`. Custom
 
 A custom policy must produce results with the same structure as built-in policies:
 
-- **`rule_id`** — unique identifier (e.g., `CUSTOM-1`)
-- **`name`** — human-readable policy name
-- **`cra_reference`** — CRA article or annex reference
-- **`status`** — `pass`, `fail`, or `skip`
-- **`severity`** — `critical`, `high`, `medium`, or `low`
-- **`evidence`** — free-text explanation of the determination
+- **`rule_id`** - unique identifier (e.g., `CUSTOM-1`)
+- **`name`** - human-readable policy name
+- **`cra_reference`** - CRA article or annex reference
+- **`status`** - `pass`, `fail`, or `skip`
+- **`severity`** - `critical`, `high`, `medium`, or `low`
+- **`evidence`** - free-text explanation of the determination
 
 Custom policies have access to the same structured input document as built-in policies, including the parsed SBOM, VEX, scan results, provenance, signatures, product config, and KEV catalog.
 
@@ -84,14 +84,14 @@ cra policykit --sbom <path> --scan <path> --vex <path> [flags]
 
 | Flag | Description | Required | Default |
 |---|---|---|---|
-| `--sbom` | Path to SBOM file (CycloneDX or SPDX) | Yes | — |
-| `--scan` | Path to scan results (Grype, Trivy, or SARIF); repeatable | Yes | — |
-| `--vex` | Path to VEX document (OpenVEX or CSAF) | Yes | — |
-| `--provenance` | Path to SLSA provenance attestation JSON | No | — |
-| `--signature` | Path to signature file; repeatable | No | — |
-| `--product-config` | Path to product metadata YAML/JSON | No | — |
+| `--sbom` | Path to SBOM file (CycloneDX or SPDX) | Yes | - |
+| `--scan` | Path to scan results (Grype, Trivy, or SARIF); repeatable | Yes | - |
+| `--vex` | Path to VEX document (OpenVEX or CSAF) | Yes | - |
+| `--provenance` | Path to SLSA provenance attestation JSON | No | - |
+| `--signature` | Path to signature file; repeatable | No | - |
+| `--product-config` | Path to product metadata YAML/JSON | No | - |
 | `--kev` | Path to local CISA KEV catalog JSON (auto-fetched if omitted) | No | auto-fetch |
-| `--policy-dir` | Directory of custom Rego policies | No | — |
+| `--policy-dir` | Directory of custom Rego policies | No | - |
 | `--format` | Output format: `json` or `markdown` | No | `json` |
 | `--output`, `-o` | Output file path | No | stdout |
 
@@ -99,7 +99,7 @@ cra policykit --sbom <path> --scan <path> --vex <path> [flags]
 
 ## Input Formats
 
-All input formats are auto-detected by probing JSON/YAML structure — no format flags needed.
+All input formats are auto-detected by probing JSON/YAML structure - no format flags needed.
 
 - **SBOM:** CycloneDX (JSON), SPDX (JSON)
 - **Scans:** Grype (JSON), Trivy (JSON), SARIF
@@ -113,8 +113,8 @@ All input formats are auto-detected by probing JSON/YAML structure — no format
 
 ## Output Formats
 
-- **JSON** (default) — machine-readable report with structured results per policy, suitable for CI/CD integration and downstream tooling
-- **Markdown** — human-readable report with tables and summary statistics, suitable for review and documentation
+- **JSON** (default) - machine-readable report with structured results per policy, suitable for CI/CD integration and downstream tooling
+- **Markdown** - human-readable report with tables and summary statistics, suitable for review and documentation
 
 ### JSON Output Structure
 
@@ -176,6 +176,6 @@ Loads custom Rego policies from the `./custom-policies/` directory and evaluates
 
 The policy report feeds into `cra evidence` as a bundle artifact, providing machine-checkable compliance verification for Annex VII conformity assessment documentation. Run `cra policykit` after `cra vex` to validate VEX coverage and reachability quality.
 
-- **`cra evidence`** — the policy report is included as an artifact in the signed evidence bundle. See [Evidence — Bundling & Signing](evidence.md).
-- **`cra vex`** — run VEX determination first to produce the VEX document that PolicyKit validates. See [VEX — Vulnerability Assessment](vex.md).
-- **`cra report`** — policy results inform the compliance summary section of Article 14 notifications. See [Report — Article 14 Notifications](report.md).
+- **`cra evidence`** - the policy report is included as an artifact in the signed evidence bundle. See [Evidence - Bundling & Signing](evidence.md).
+- **`cra vex`** - run VEX determination first to produce the VEX document that PolicyKit validates. See [VEX - Vulnerability Assessment](vex.md).
+- **`cra report`** - policy results inform the compliance summary section of Article 14 notifications. See [Report - Article 14 Notifications](report.md).

@@ -8,7 +8,7 @@ The CRA Compliance Toolkit provides five commands that form a complete complianc
 
 ### Data Flow
 
-1. **External tools generate inputs** — SBOM generators (syft, cdxgen) produce a software bill of materials, and vulnerability scanners (Grype, Trivy) produce scan results. These are the raw inputs to the toolkit.
+1. **External tools generate inputs.** SBOM generators (syft, cdxgen) produce a software bill of materials, and vulnerability scanners (Grype, Trivy) produce scan results. These are the raw inputs to the toolkit.
 
 2. **`cra vex`** consumes an SBOM, scan results, optional upstream VEX documents, and optional source code. It performs reachability analysis and produces a VEX document in OpenVEX or CSAF format that captures vulnerability exploitability assessments for every finding.
 
@@ -22,7 +22,7 @@ The CRA Compliance Toolkit provides five commands that form a complete complianc
 
 ## Composability
 
-Every tool in the toolkit is designed to work standalone or as part of a chain. Each tool's output is a standard format — OpenVEX, CSAF 2.0, JSON policy reports, Markdown notifications — that other tools can consume directly. There is no proprietary intermediate format.
+Every tool in the toolkit is designed to work standalone or as part of a chain. Each tool's output is a standard format (OpenVEX, CSAF 2.0, JSON policy reports, Markdown notifications) that other tools can consume directly. There is no proprietary intermediate format.
 
 For example, you can:
 
@@ -32,7 +32,7 @@ For example, you can:
 
 ## Format Auto-Detection
 
-The toolkit automatically detects input file formats by probing JSON structure. You never need to pass format flags — just point a command at a file and the toolkit figures out what it is.
+The toolkit automatically detects input file formats by probing JSON structure. You never need to pass format flags. Just point a command at a file and the toolkit figures out what it is.
 
 Discriminating keys used for detection:
 
@@ -50,13 +50,13 @@ Discriminating keys used for detection:
 
 These concepts appear across multiple tools and flow through the pipeline:
 
-**PURLs** — Package URL identifiers (e.g., `pkg:golang/golang.org/x/text@v0.3.7`) used across all tools for consistent component identification. Every finding, policy check, and advisory references components by PURL.
+**PURLs** - Package URL identifiers (e.g., `pkg:golang/golang.org/x/text@v0.3.7`) used across all tools for consistent component identification. Every finding, policy check, and advisory references components by PURL.
 
-**Findings** — A unified vulnerability finding structure containing the CVE ID, affected PURL, severity level, CVSS score, and fix version. Scanners produce findings, and every downstream tool consumes them in this normalized form.
+**Findings** - A unified vulnerability finding structure containing the CVE ID, affected PURL, severity level, CVSS score, and fix version. Scanners produce findings, and every downstream tool consumes them in this normalized form.
 
-**Call Paths** — Reachability evidence expressed as function call chains from an entry point to vulnerable code. The `cra vex` command generates call paths during reachability analysis, and they propagate through `cra report` and `cra evidence` so reviewers can see exactly how a vulnerability is reachable.
+**Call Paths** - Reachability evidence expressed as function call chains from an entry point to vulnerable code. The `cra vex` command generates call paths during reachability analysis, and they propagate through `cra report` and `cra evidence` so reviewers can see exactly how a vulnerability is reachable.
 
-**Confidence Scores** — Reachability confidence levels (`high`, `medium`, `low`) indicating the quality of the reachability analysis. A `high` confidence score means static analysis confirmed the call path; `low` means the assessment is based on heuristics or incomplete data.
+**Confidence Scores** - Reachability confidence levels (`high`, `medium`, `low`) indicating the quality of the reachability analysis. A `high` confidence score means static analysis confirmed the call path; `low` means the assessment is based on heuristics or incomplete data.
 
 ## Global CLI Flags
 

@@ -2,7 +2,7 @@
 
 **Regulation (EU) 2024/2847** of the European Parliament and of the Council, adopted on 23 October 2024 at Strasbourg and published in the Official Journal of the European Union on 20 November 2024.
 
-The Cyber Resilience Act (CRA) is the first EU-wide horizontal cybersecurity regulation for **products with digital elements**. It establishes harmonised cybersecurity requirements that apply uniformly across all EU Member States, covering the entire lifecycle of hardware and software products — from design and development through to market placement and ongoing maintenance.
+The Cyber Resilience Act (CRA) is the first EU-wide horizontal cybersecurity regulation for **products with digital elements**. It establishes harmonised cybersecurity requirements that apply uniformly across all EU Member States, covering the entire lifecycle of hardware and software products - from design and development through to market placement and ongoing maintenance.
 
 ---
 
@@ -10,7 +10,7 @@ The Cyber Resilience Act (CRA) is the first EU-wide horizontal cybersecurity reg
 
 <figure markdown="span">
   ![CRA Overview](../assets/diagrams/cra-overview.svg){ width="100%" }
-  <figcaption>Structure of the EU Cyber Resilience Act — key dates, articles, annexes, product categories, and penalties.</figcaption>
+  <figcaption>Structure of the EU Cyber Resilience Act - key dates, articles, annexes, product categories, and penalties.</figcaption>
 </figure>
 
 | Date | Milestone |
@@ -57,7 +57,7 @@ Distributors must act with due care in relation to the CRA requirements:
 
 ### Open-Source Software Stewards (Article 24)
 
-Open-source software stewards — legal persons that systematically provide support for the development of free and open-source software intended for commercial activities — must:
+Open-source software stewards - legal persons that systematically provide support for the development of free and open-source software intended for commercial activities - must:
 
 - Put in place and document a **cybersecurity policy** to foster development of secure products
 - Facilitate **voluntary vulnerability reporting** by developers
@@ -93,7 +93,7 @@ Open-source software stewards — legal persons that systematically provide supp
 | Annex IV | Critical products with digital elements | Hardware devices with security boxes, smart meter gateways, smartcards and similar secure elements |
 | Annex V | EU declaration of conformity | Required content and format for the manufacturer's formal declaration of conformity |
 | Annex VII | Technical documentation content | Detailed list of elements required: product description, risk assessment, design/development information, vulnerability handling process documentation, applied standards, test reports |
-| Annex VIII | Conformity assessment procedures | **Module A** (internal control — self-assessment), **Module B+C** (EU-type examination + conformity to type), **Module H** (full quality assurance) |
+| Annex VIII | Conformity assessment procedures | **Module A** (internal control - self-assessment), **Module B+C** (EU-type examination + conformity to type), **Module H** (full quality assurance) |
 
 ---
 
@@ -103,9 +103,9 @@ The CRA establishes a tiered classification system that determines the conformit
 
 ### Default Products
 
-The majority of products with digital elements fall into the **default category**. These require only an internal control assessment (**Module A**, Annex VIII Part I) — effectively a self-assessment by the manufacturer.
+The majority of products with digital elements fall into the **default category**. These require only an internal control assessment (**Module A**, Annex VIII Part I) - effectively a self-assessment by the manufacturer.
 
-### Important Products — Class I (Annex III, Part I)
+### Important Products - Class I (Annex III, Part I)
 
 Products with a higher cybersecurity risk that may use harmonised standards or, where unavailable, must undergo third-party assessment:
 
@@ -126,7 +126,7 @@ Products with a higher cybersecurity risk that may use harmonised standards or, 
 - Connected toys with social interactive features
 - Personal wearable health products
 
-### Important Products — Class II (Annex III, Part II)
+### Important Products - Class II (Annex III, Part II)
 
 Products requiring **mandatory third-party assessment** due to their elevated risk profile:
 

@@ -1,6 +1,6 @@
 # Vulnerability Scanners
 
-The CRA toolkit consumes vulnerability scan results from multiple scanners. Each scanner outputs JSON that the toolkit auto-detects — no format flags needed. This page covers how to generate compatible output from each supported scanner.
+The CRA toolkit consumes vulnerability scan results from multiple scanners. Each scanner outputs JSON that the toolkit auto-detects - no format flags needed. This page covers how to generate compatible output from each supported scanner.
 
 ---
 
@@ -23,7 +23,7 @@ grype dir:. -o json > grype.json
 grype myimage:latest -o json > grype.json
 ```
 
-The `-o json` flag is required — the toolkit does not accept Grype's table or other output formats.
+The `-o json` flag is required - the toolkit does not accept Grype's table or other output formats.
 
 ### Using with the toolkit
 
@@ -90,7 +90,7 @@ codeql database analyze db --format=sarif-latest --output=results.sarif
 semgrep --config auto --sarif --output results.sarif .
 ```
 
-**Other SARIF producers** — any tool that writes valid SARIF JSON can be used. Common examples include ESLint (with SARIF formatter), Checkov, Bandit, and Snyk Code.
+**Other SARIF producers** - any tool that writes valid SARIF JSON can be used. Common examples include ESLint (with SARIF formatter), Checkov, Bandit, and Snyk Code.
 
 ### Using with the toolkit
 
@@ -106,7 +106,7 @@ cra vex --sbom sbom.cdx.json --scan grype.json --scan results.sarif -o vex.json
 
 ## Multiple Scanners
 
-The `--scan` flag is repeatable across all toolkit tools. Combining multiple scanners improves vulnerability coverage — different scanners use different vulnerability databases and detection methods.
+The `--scan` flag is repeatable across all toolkit tools. Combining multiple scanners improves vulnerability coverage - different scanners use different vulnerability databases and detection methods.
 
 ```bash
 # Combine Grype, Trivy, and SARIF results

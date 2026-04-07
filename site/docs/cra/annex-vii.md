@@ -1,4 +1,4 @@
-# Annex VII — Technical Documentation
+# Annex VII - Technical Documentation
 
 Annex VII of Regulation (EU) 2024/2847 (the Cyber Resilience Act) specifies the minimum content that must be included in the **technical documentation** referred to in Article 31. This documentation is central to demonstrating conformity with the essential cybersecurity requirements and must be maintained throughout the product's support period.
 
@@ -67,7 +67,7 @@ Where applicable, the software bill of materials (SBOM), further to a reasoned r
 
 Article 32 defines which conformity assessment procedures (set out in Annex VIII) manufacturers must follow. The applicable procedure depends on the product's classification.
 
-### Module A — Internal Control
+### Module A - Internal Control
 
 **Part I of Annex VIII.** The manufacturer self-declares conformity. Under this procedure, the manufacturer:
 
@@ -77,13 +77,13 @@ Article 32 defines which conformity assessment procedures (set out in Annex VIII
 
 Module A is available for **all default-category products** (Art. 32(1)(a)). It is also available for **free and open-source software manufacturers** of important or critical products, provided they make the technical documentation publicly available (Art. 32(5)).
 
-### Module B + C — EU-Type Examination + Internal Production Control
+### Module B + C - EU-Type Examination + Internal Production Control
 
 **Parts II and III of Annex VIII.** A notified body examines the technical design and development of the product with digital elements and issues an **EU-type examination certificate** confirming that the design meets the essential cybersecurity requirements. The manufacturer then ensures that production conforms to the approved type.
 
 Module B+C is **required for Important Class I products** where harmonised standards, common specifications, or European cybersecurity certification schemes have not been fully applied (Art. 32(2)). It is also an option for Important Class II products.
 
-### Module H — Full Quality Assurance
+### Module H - Full Quality Assurance
 
 **Part IV of Annex VIII.** A notified body assesses and approves the manufacturer's **quality system** for the design, development, production, and final product testing of the product with digital elements. The notified body conducts ongoing surveillance of the quality system.
 
@@ -110,4 +110,4 @@ Products listed in **Annex IV** (critical products with digital elements) must u
 !!! tip "Toolkit Implementation"
     The `cra evidence` tool bundles all required technical documentation into a signed evidence package.
     It validates completeness against Annex VII requirements and cross-validates artifact consistency.
-    See [Evidence — Bundling & Signing](../tools/evidence.md).
+    See [Evidence - Bundling & Signing](../tools/evidence.md).

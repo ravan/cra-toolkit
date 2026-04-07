@@ -1,16 +1,16 @@
-# CSAF — Advisory Generation
+# CSAF - Advisory Generation
 
-`cra csaf` converts vulnerability scanner output and VEX assessments into CSAF 2.0 (Common Security Advisory Framework) security advisories — the industry-standard machine-readable format for vulnerability communication to downstream users.
+`cra csaf` converts vulnerability scanner output and VEX assessments into CSAF 2.0 (Common Security Advisory Framework) security advisories - the industry-standard machine-readable format for vulnerability communication to downstream users.
 
 !!! abstract "CRA Reference"
     This tool addresses **Article 14(8)**: after becoming aware of an actively exploited
     vulnerability, the manufacturer shall inform impacted users in a structured,
     machine-readable format that is easily automatically processable.
-    See [Article 14 — Vulnerability Notification](../cra/article-14.md).
+    See [Article 14 - Vulnerability Notification](../cra/article-14.md).
 
     It also supports **Annex I, Part II, point (8)**: security updates shall be
     accompanied by advisory messages providing users with relevant information.
-    See [Annex I — Essential Requirements](../cra/annex-i.md).
+    See [Annex I - Essential Requirements](../cra/annex-i.md).
 
 ---
 
@@ -34,7 +34,7 @@ A hierarchical representation of the products and components affected by the adv
 
 #### Vulnerabilities
 
-The core of the advisory — one entry per CVE found in the scan results. Each vulnerability entry includes the CVE identifier, title, and discovery date. When a VEX document is provided, findings are enriched with exploitability status (affected, not affected, under investigation), giving consumers actionable context beyond the raw CVE data.
+The core of the advisory - one entry per CVE found in the scan results. Each vulnerability entry includes the CVE identifier, title, and discovery date. When a VEX document is provided, findings are enriched with exploitability status (affected, not affected, under investigation), giving consumers actionable context beyond the raw CVE data.
 
 #### Scores
 
@@ -64,11 +64,11 @@ cra csaf --sbom <path> --scan <path> --publisher-name <name> --publisher-namespa
 
 | Flag | Description | Required | Default |
 |---|---|---|---|
-| `--sbom` | Path to SBOM file (CycloneDX or SPDX) | Yes | — |
-| `--scan` | Path to scan results (Grype, Trivy, or SARIF); repeatable | Yes | — |
-| `--publisher-name` | Organization name for the advisory publisher | Yes | — |
-| `--publisher-namespace` | Organization URL for the advisory publisher | Yes | — |
-| `--vex` | Path to VEX results (OpenVEX or CSAF VEX) | No | — |
+| `--sbom` | Path to SBOM file (CycloneDX or SPDX) | Yes | - |
+| `--scan` | Path to scan results (Grype, Trivy, or SARIF); repeatable | Yes | - |
+| `--publisher-name` | Organization name for the advisory publisher | Yes | - |
+| `--publisher-namespace` | Organization URL for the advisory publisher | Yes | - |
+| `--vex` | Path to VEX results (OpenVEX or CSAF VEX) | No | - |
 | `--tracking-id` | Advisory tracking ID (auto-generated if omitted) | No | auto |
 | `--title` | Advisory title (auto-generated if omitted) | No | auto |
 | `--output`, `-o` | Output file path | No | stdout |
@@ -77,7 +77,7 @@ cra csaf --sbom <path> --scan <path> --publisher-name <name> --publisher-namespa
 
 ## Input Formats
 
-All input formats are auto-detected by probing JSON structure — no format flags needed.
+All input formats are auto-detected by probing JSON structure - no format flags needed.
 
 - **SBOM:** CycloneDX (JSON), SPDX (JSON)
 - **Scans:** Grype (JSON), Trivy (JSON), SARIF
@@ -106,14 +106,14 @@ cra csaf --sbom sbom.cdx.json --scan grype.json --vex vex.json \
   -o advisory.json
 ```
 
-Enriches the advisory with VEX exploitability assessments. Vulnerabilities that have been assessed as `not_affected` in the VEX document are reflected in the advisory with their justifications. The custom tracking ID and title provide stable identifiers for advisory lifecycle management — updates to the same advisory reuse the tracking ID with an incremented version.
+Enriches the advisory with VEX exploitability assessments. Vulnerabilities that have been assessed as `not_affected` in the VEX document are reflected in the advisory with their justifications. The custom tracking ID and title provide stable identifiers for advisory lifecycle management - updates to the same advisory reuse the tracking ID with an incremented version.
 
 ---
 
 ## Integration
 
-CSAF output feeds into `cra evidence` as a signed artifact in the compliance bundle. Use alongside `cra report` for complete Article 14 compliance — Report generates CSIRT/ENISA notifications, while CSAF produces downstream user advisories. Together, they cover both regulatory notification obligations and user communication requirements.
+CSAF output feeds into `cra evidence` as a signed artifact in the compliance bundle. Use alongside `cra report` for complete Article 14 compliance - Report generates CSIRT/ENISA notifications, while CSAF produces downstream user advisories. Together, they cover both regulatory notification obligations and user communication requirements.
 
-- **`cra evidence`** — includes the CSAF advisory in the signed evidence bundle for conformity assessment. See [Evidence — Bundling & Signing](evidence.md).
-- **`cra report`** — generates Article 14 notifications for CSIRT/ENISA. See [Report — Article 14 Notifications](report.md).
-- **`cra vex`** — produces VEX documents that enrich CSAF advisories with exploitability context. See [VEX — Vulnerability Exploitability eXchange](vex.md).
+- **`cra evidence`** - includes the CSAF advisory in the signed evidence bundle for conformity assessment. See [Evidence - Bundling & Signing](evidence.md).
+- **`cra report`** - generates Article 14 notifications for CSIRT/ENISA. See [Report - Article 14 Notifications](report.md).
+- **`cra vex`** - produces VEX documents that enrich CSAF advisories with exploitability context. See [VEX - Vulnerability Exploitability eXchange](vex.md).

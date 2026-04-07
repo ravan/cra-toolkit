@@ -2,7 +2,7 @@
 
 **You ship software in the EU. The Cyber Resilience Act changes everything.**
 
-Regulation (EU) 2024/2847 — the **Cyber Resilience Act (CRA)** — introduces mandatory cybersecurity requirements for all products with digital elements placed on the EU market. It applies to manufacturers, importers, and distributors alike. Enforcement of vulnerability reporting obligations begins **11 September 2026**, with full application of all requirements from **11 December 2027**.
+Regulation (EU) 2024/2847, the **Cyber Resilience Act (CRA)**, introduces mandatory cybersecurity requirements for all products with digital elements placed on the EU market. It applies to manufacturers, importers, and distributors alike. Enforcement of vulnerability reporting obligations begins **11 September 2026**, with full application of all requirements from **11 December 2027**.
 
 Non-compliance carries administrative fines of up to EUR 15 million or 2.5% of global annual turnover. The clock is running.
 
@@ -19,7 +19,7 @@ The CRA imposes concrete, auditable obligations on software manufacturers:
 - **Bundle technical documentation** for conformity assessment (Annex VII)
 
 !!! warning "Not optional"
-    These are legal requirements, not best practices. Every product with digital elements — from container images to firmware — must comply.
+    These are legal requirements, not best practices. Every product with digital elements, from container images to firmware, must comply.
 
 The CRA introduces obligations across the entire product lifecycle:
 
@@ -39,7 +39,7 @@ The CRA Compliance Toolkit automates the technical obligations of the CRA throug
 | [**Evidence**](tools/evidence.md) | Bundle and sign compliance outputs into a versioned evidence package | Annex VII |
 | [**CSAF**](tools/csaf.md) | Convert scanner output and VEX results into CSAF 2.0 advisories | Article 14(8) |
 
-Each tool reads standard inputs (CycloneDX SBOMs, scanner JSON, OpenVEX) and produces standard outputs — no vendor lock-in, no proprietary formats.
+Each tool reads standard inputs (CycloneDX SBOMs, scanner JSON, OpenVEX) and produces standard outputs. No vendor lock-in, no proprietary formats.
 
 ---
 
