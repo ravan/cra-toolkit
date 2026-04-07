@@ -54,6 +54,7 @@ nav:
     - Infrastructure: ecosystem/infrastructure.md
   - Guides:
     - "End-to-End Workflow": guides/workflow.md
+    - "Real-World Analysis": guides/showcase.md
     - "CI/CD Integration": guides/ci-cd.md
 
 markdown_extensions:
