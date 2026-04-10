@@ -99,11 +99,14 @@ func (a *Analyzer) Analyze(ctx context.Context, sbom *SBOMSummary, finding *form
 			continue
 		}
 		// Final app-side check: use the same RunHop against the application
-		// source with the final target set from the walk.
+		// source. Transform FinalTargets from internal module-qualified names
+		// (e.g., "api.get") to package-level names the app actually calls
+		// (e.g., "requests.get") using the path root package name.
+		appTargets := transformToPackageTargets(res.FinalTargets, p[0].Name)
 		appRes, err := RunHop(ctx, HopInput{
 			Language:      a.Language,
 			SourceDir:     sourceDir,
-			TargetSymbols: res.FinalTargets,
+			TargetSymbols: appTargets,
 			MaxTargets:    a.Config.MaxTargetSymbolsPerHop,
 		})
 		if err != nil {
@@ -194,6 +197,33 @@ func notApplicable(reason string) reachability.Result {
 		Degradations: []string{reason},
 		Evidence:     "transitive: " + reason,
 	}
+}
+
+// transformToPackageTargets converts internal module-qualified targets from a
+// walker's FinalTargets into the package-level names the application actually
+// calls. For each target like "api.get" and root package "requests" it emits:
+//   - "requests.get"     — short form, matching re-exports from __init__
+//   - "requests.api.get" — full form, matching qualified access paths
+//
+// Duplicates are suppressed.
+func transformToPackageTargets(finalTargets []string, rootPkgName string) []string {
+	seen := make(map[string]struct{}, len(finalTargets)*2)
+	result := make([]string, 0, len(finalTargets)*2)
+	add := func(s string) {
+		if _, ok := seen[s]; !ok {
+			seen[s] = struct{}{}
+			result = append(result, s)
+		}
+	}
+	for _, t := range finalTargets {
+		// Full path: rootPkg.module.symbol
+		add(rootPkgName + "." + t)
+		// Short path: rootPkg.symbol — strip the leading module component.
+		if dot := strings.Index(t, "."); dot >= 0 {
+			add(rootPkgName + "." + t[dot+1:])
+		}
+	}
+	return result
 }
 
 // joinPackages produces a human-readable arrow-joined package name chain.

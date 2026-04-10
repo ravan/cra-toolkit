@@ -124,15 +124,31 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 		}
 	}
 
+	// Phase 2b: Add synthetic class → class.__init__ edges so that
+	// constructor call sites (e.g. HTTPAdapter()) can reach __init__ body.
+	for _, fi := range fileInfos {
+		for _, sym := range fi.symbols {
+			if sym.Kind != treesitter.SymbolClass {
+				continue
+			}
+			initID := treesitter.SymbolID(string(sym.ID) + ".__init__")
+			if graph.GetSymbol(initID) != nil {
+				graph.AddEdge(treesitter.Edge{From: sym.ID, To: initID})
+			}
+		}
+	}
+
 	// Phase 3: Extract call edges.
 	for _, fi := range fileInfos {
 		augScope := buildCrossFileScope(fi.imports, moduleSymbols, fi.scope)
+		mod := moduleNameFrom(fi.pr.File)
 		edges, edgeErr := ext.ExtractCalls(fi.pr.File, fi.pr.Source, fi.pr.Tree, augScope)
 		if edgeErr != nil {
 			continue
 		}
 		for _, e := range edges {
-			e.To = resolveTarget(e.To, augScope)
+			e.To = resolveTarget(e.To, augScope, mod)
+			e.To = resolveSelfCall(e.To, e.From)
 			graph.AddEdge(e)
 		}
 	}
@@ -239,8 +255,11 @@ func buildCrossFileScope(
 }
 
 // resolveTarget resolves a call target SymbolID using the scope for
-// cross-module symbol bindings.
-func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope) treesitter.SymbolID {
+// cross-module symbol bindings. For bare names not found in scope, it falls
+// back to qualifying with localMod (the calling file's module name), which
+// covers same-file function calls (e.g., call to "request" in api.py
+// resolves to "api.request").
+func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope, localMod string) treesitter.SymbolID {
 	toStr := string(to)
 	if strings.Contains(toStr, ".") {
 		return to
@@ -248,5 +267,32 @@ func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope) treesitter.S
 	if qualName, ok := scope.Lookup(toStr); ok {
 		return treesitter.SymbolID(qualName)
 	}
+	// Qualify with local module name so same-file calls are traceable.
+	if localMod != "" {
+		return treesitter.SymbolID(localMod + "." + toStr)
+	}
 	return to
+}
+
+// resolveSelfCall rewrites call targets of the form "self.X" to their
+// class-qualified form "Module.ClassName.X" by extracting the class context
+// from the from symbol ID. For example, if from="adapters.HTTPAdapter.__init__"
+// and to="self.init_poolmanager", this returns "adapters.HTTPAdapter.init_poolmanager".
+//
+// Only applies when from has at least three dot-separated components (module,
+// class, method). Free functions (e.g., "api.get") are left unchanged.
+func resolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID {
+	toStr := string(to)
+	if !strings.HasPrefix(toStr, "self.") {
+		return to
+	}
+	methodName := toStr[len("self."):]
+	fromParts := strings.Split(string(from), ".")
+	if len(fromParts) < 3 {
+		// Not inside a class method — no class context available.
+		return to
+	}
+	// classQual = everything except the last component (the method name in from).
+	classQual := strings.Join(fromParts[:len(fromParts)-1], ".")
+	return treesitter.SymbolID(classQual + "." + methodName)
 }

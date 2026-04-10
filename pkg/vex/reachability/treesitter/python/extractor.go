@@ -283,9 +283,16 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 		// Collect imported symbols.
 		// The grammar can produce either:
 		//   - an import_list node wrapping the names, OR
-		//   - dotted_name/identifier children directly (older grammar versions)
+		//   - dotted_name/identifier children directly
+		//
+		// seenModule tracks whether the module dotted_name has been consumed in
+		// the child iteration loop. For absolute imports ("from flask import X"),
+		// the module appears again as a dotted_name child and must be skipped.
+		// For relative imports ("from .adapters import X"), the module_name
+		// field points to a relative_import node — the module will NOT appear as
+		// a dotted_name child, so the first dotted_name IS an imported symbol.
 		var syms []string
-		seenModule := false
+		seenModule := moduleNode != nil && moduleNode.Kind() != "dotted_name"
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
 			if child == nil {
@@ -318,6 +325,11 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 				} else {
 					syms = append(syms, nodeText(child, src))
 				}
+			case "identifier":
+				// Single-symbol import not wrapped in import_list, e.g.:
+				//   from .adapters import HTTPAdapter
+				// Some grammar versions produce a bare identifier here.
+				syms = append(syms, nodeText(child, src))
 			case "aliased_import":
 				nameNode := child.ChildByFieldName("name")
 				if nameNode != nil {
