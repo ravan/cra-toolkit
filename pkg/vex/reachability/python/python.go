@@ -15,13 +15,17 @@ import (
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 	grammarpython "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
 	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 // Analyzer performs Python reachability analysis using tree-sitter AST parsing.
-type Analyzer struct{}
+type Analyzer struct {
+	Transitive  *transitive.Analyzer
+	SBOMSummary *transitive.SBOMSummary
+}
 
 // New returns a new Python tree-sitter reachability analyzer.
 func New() *Analyzer { return &Analyzer{} }
@@ -80,7 +84,15 @@ type fileInfo struct {
 // entry point.
 //
 //nolint:gocognit,gocyclo,maintidx // pipeline has multiple orchestration phases; extracting further would reduce readability
-func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
+func (a *Analyzer) Analyze(ctx context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
+	// Pre-check: consult the transitive analyzer if configured.
+	if a.Transitive != nil && a.SBOMSummary != nil {
+		tres, terr := a.Transitive.Analyze(ctx, a.SBOMSummary, finding, sourceDir)
+		if terr == nil && tres.Reachable {
+			return tres, nil
+		}
+	}
+
 	// Collect all Python files via WalkDir (filepath.Glob("**/*.py") doesn't work in Go)
 	var files []string
 	if err := filepath.WalkDir(sourceDir, func(path string, d fs.DirEntry, err error) error {
