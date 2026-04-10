@@ -160,6 +160,7 @@ tasks:
       - task: showcase:inputs
       - task: showcase:vex
       - task: showcase:reachability
+      - task: showcase:transitive
       - task: showcase:policykit
       - task: showcase:report
       - task: showcase:csaf
@@ -198,6 +199,14 @@ tasks:
       - mkdir -p showcase/01-vex
       - ./bin/cra vex --sbom testdata/integration/go-realworld-direct-call/sbom.cdx.json --scan testdata/integration/go-realworld-direct-call/grype.json --source-dir testdata/integration/go-realworld-direct-call/source --output-format openvex --output showcase/01-vex/reachability-affected.openvex.json
       - ./bin/cra vex --sbom testdata/integration/go-realworld-imported-unused/sbom.cdx.json --scan testdata/integration/go-realworld-imported-unused/grype.json --source-dir testdata/integration/go-realworld-imported-unused/source --output-format openvex --output showcase/01-vex/reachability-not-affected.openvex.json
+
+  showcase:transitive:
+    desc: Run VEX with transitive reachability against cross-package fixtures
+    deps: [build]
+    cmds:
+      - mkdir -p showcase/01-vex
+      - ./bin/cra vex --sbom testdata/integration/python-realworld-cross-package/sbom.cdx.json --scan testdata/integration/python-realworld-cross-package/trivy.json --source-dir testdata/integration/python-realworld-cross-package/source --output-format openvex > showcase/01-vex/transitive-python-reachable.openvex.json
+      - ./bin/cra vex --sbom testdata/integration/python-realworld-cross-package-safe/sbom.cdx.json --scan testdata/integration/python-realworld-cross-package-safe/trivy.json --source-dir testdata/integration/python-realworld-cross-package-safe/source --output-format openvex > showcase/01-vex/transitive-python-safe.openvex.json
 
   showcase:policykit:
     desc: Run PolicyKit compliance evaluation (JSON + Markdown)
