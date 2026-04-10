@@ -7,11 +7,12 @@ import "github.com/ravan/cra-toolkit/pkg/formats"
 
 // Result holds the outcome of a reachability analysis.
 type Result struct {
-	Reachable  bool               // whether the vulnerable code is reachable
-	Confidence formats.Confidence // confidence level of the determination
-	Evidence   string             // human-readable evidence description
-	Symbols    []string           // symbols found to be reachable (if any)
-	Paths      []formats.CallPath // call paths from entry points to vulnerable symbols
+	Reachable    bool               // whether the vulnerable code is reachable
+	Confidence   formats.Confidence // confidence level of the determination
+	Evidence     string             // human-readable evidence description
+	Symbols      []string           // symbols found to be reachable (if any)
+	Paths        []formats.CallPath // call paths from entry points to vulnerable symbols
+	Degradations []string           // structured degradation reasons surfaced as VEX evidence
 }
 
 // CallPath is an alias for formats.CallPath for backward compatibility.

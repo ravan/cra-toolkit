@@ -6,6 +6,7 @@ package reachability_test
 import (
 	"testing"
 
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 )
 
@@ -50,5 +51,22 @@ func TestResult_WithPaths(t *testing.T) {
 	}
 	if len(result.Paths[0].Nodes) != 2 {
 		t.Errorf("expected 2 nodes in path, got %d", len(result.Paths[0].Nodes))
+	}
+}
+
+func TestResult_Degradations(t *testing.T) {
+	r := reachability.Result{
+		Reachable:  true,
+		Confidence: formats.ConfidenceLow,
+		Degradations: []string{
+			"source_unavailable",
+			"bound_exceeded",
+		},
+	}
+	if len(r.Degradations) != 2 {
+		t.Fatalf("expected 2 degradations, got %d", len(r.Degradations))
+	}
+	if r.Degradations[0] != "source_unavailable" {
+		t.Errorf("unexpected first degradation: %q", r.Degradations[0])
 	}
 }
