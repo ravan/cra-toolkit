@@ -150,8 +150,9 @@ func TestResolveTransitiveConfig_YAMLOverridesDefaults(t *testing.T) {
 	if cfg.MaxHopsPerPath != 20 {
 		t.Errorf("expected MaxHopsPerPath=20, got %d", cfg.MaxHopsPerPath)
 	}
-	if cfg.MaxPathsPerFinding != 16 {
-		t.Errorf("expected default MaxPathsPerFinding=16, got %d", cfg.MaxPathsPerFinding)
+	defaults := transitive.DefaultConfig()
+	if cfg.MaxPathsPerFinding != defaults.MaxPathsPerFinding {
+		t.Errorf("default MaxPathsPerFinding lost, got %d", cfg.MaxPathsPerFinding)
 	}
 	if !cfg.Enabled {
 		t.Error("expected Enabled=true")
@@ -171,13 +172,25 @@ func TestResolveTransitiveConfig_CLIOverridesYAML(t *testing.T) {
 	}
 }
 
+func TestResolveTransitiveConfig_CLIEnabledWinsOverYAML(t *testing.T) {
+	rc := &ReachabilityConfig{
+		Transitive: transitive.Config{Enabled: false},
+	}
+	opts := &Options{TransitiveEnabled: true}
+	cfg := resolveTransitiveConfig(opts, rc)
+	if !cfg.Enabled {
+		t.Error("opts.TransitiveEnabled must win over YAML Enabled field")
+	}
+}
+
 func TestResolveTransitiveConfig_DisabledViaOpts(t *testing.T) {
 	opts := &Options{TransitiveEnabled: false}
 	cfg := resolveTransitiveConfig(opts, nil)
 	if cfg.Enabled {
 		t.Error("expected Enabled=false when opts.TransitiveEnabled=false")
 	}
-	if cfg.MaxPathsPerFinding != 16 {
-		t.Errorf("expected default MaxPathsPerFinding=16, got %d", cfg.MaxPathsPerFinding)
+	defaults := transitive.DefaultConfig()
+	if cfg.MaxPathsPerFinding != defaults.MaxPathsPerFinding {
+		t.Errorf("default MaxPathsPerFinding lost, got %d", cfg.MaxPathsPerFinding)
 	}
 }
