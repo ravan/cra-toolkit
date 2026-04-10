@@ -62,16 +62,17 @@ func (p Parser) Parse(r io.Reader) ([]formats.Finding, error) {
 			}
 
 			findings = append(findings, formats.Finding{
-				CVE:          v.VulnerabilityID,
-				AffectedPURL: purl,
-				AffectedName: v.PkgName,
-				FixVersion:   v.FixedVersion,
-				Severity:     strings.ToLower(v.Severity),
-				CVSS:         bestCVSS(v.CVSS),
-				Description:  v.Description,
-				DataSource:   "trivy",
-				Language:     languageForType(res.Type),
-				Symbols:      v.VulnerableFunctions,
+				CVE:             v.VulnerabilityID,
+				AffectedPURL:    purl,
+				AffectedName:    v.PkgName,
+				AffectedVersion: v.InstalledVersion,
+				FixVersion:      v.FixedVersion,
+				Severity:        strings.ToLower(v.Severity),
+				CVSS:            bestCVSS(v.CVSS),
+				Description:     v.Description,
+				DataSource:      "trivy",
+				Language:        languageForType(res.Type),
+				Symbols:         v.VulnerableFunctions,
 			})
 		}
 	}
