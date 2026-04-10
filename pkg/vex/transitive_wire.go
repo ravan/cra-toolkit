@@ -77,8 +77,23 @@ func buildTransitiveAnalyzer(cfg transitive.Config, language string) *transitive
 	}
 }
 
+// ReachabilityConfig holds YAML-configurable bounds for reachability analysis.
+// It is embedded in whatever top-level product-config struct is added later.
+type ReachabilityConfig struct {
+	Transitive transitive.Config `yaml:"transitive,omitempty"`
+}
+
 // resolveTransitiveConfig returns the transitive Config to use for a vex.Run.
-// Currently returns DefaultConfig; future tasks will overlay product-config YAML.
-func resolveTransitiveConfig(_ *Options) transitive.Config {
-	return transitive.DefaultConfig()
+// It starts from DefaultConfig, merges any YAML-provided ReachabilityConfig,
+// then applies CLI-level overrides from opts (which always win).
+func resolveTransitiveConfig(opts *Options, rc *ReachabilityConfig) transitive.Config {
+	cfg := transitive.DefaultConfig()
+	if rc != nil {
+		cfg = cfg.Merge(rc.Transitive)
+	}
+	cfg.Enabled = opts.TransitiveEnabled
+	if opts.TransitiveCacheDir != "" {
+		cfg.CacheDir = opts.TransitiveCacheDir
+	}
+	return cfg
 }

@@ -138,3 +138,46 @@ func TestBuildTransitiveAnalyzer_UnsupportedLanguage(t *testing.T) {
 		t.Error("expected nil analyzer for unsupported language")
 	}
 }
+
+func TestResolveTransitiveConfig_YAMLOverridesDefaults(t *testing.T) {
+	rc := &ReachabilityConfig{
+		Transitive: transitive.Config{
+			MaxHopsPerPath: 20,
+		},
+	}
+	opts := &Options{TransitiveEnabled: true}
+	cfg := resolveTransitiveConfig(opts, rc)
+	if cfg.MaxHopsPerPath != 20 {
+		t.Errorf("expected MaxHopsPerPath=20, got %d", cfg.MaxHopsPerPath)
+	}
+	if cfg.MaxPathsPerFinding != 16 {
+		t.Errorf("expected default MaxPathsPerFinding=16, got %d", cfg.MaxPathsPerFinding)
+	}
+	if !cfg.Enabled {
+		t.Error("expected Enabled=true")
+	}
+}
+
+func TestResolveTransitiveConfig_CLIOverridesYAML(t *testing.T) {
+	rc := &ReachabilityConfig{
+		Transitive: transitive.Config{
+			CacheDir: "/from/yaml",
+		},
+	}
+	opts := &Options{TransitiveEnabled: true, TransitiveCacheDir: "/from/cli"}
+	cfg := resolveTransitiveConfig(opts, rc)
+	if cfg.CacheDir != "/from/cli" {
+		t.Errorf("expected CLI cache dir /from/cli, got %q", cfg.CacheDir)
+	}
+}
+
+func TestResolveTransitiveConfig_DisabledViaOpts(t *testing.T) {
+	opts := &Options{TransitiveEnabled: false}
+	cfg := resolveTransitiveConfig(opts, nil)
+	if cfg.Enabled {
+		t.Error("expected Enabled=false when opts.TransitiveEnabled=false")
+	}
+	if cfg.MaxPathsPerFinding != 16 {
+		t.Errorf("expected default MaxPathsPerFinding=16, got %d", cfg.MaxPathsPerFinding)
+	}
+}

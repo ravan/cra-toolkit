@@ -159,7 +159,7 @@ func Run(opts *Options, out io.Writer, runOpts ...RunOption) error {
 	}
 
 	// 4. Build filter chain.
-	transitiveCfg := resolveTransitiveConfig(opts)
+	transitiveCfg := resolveTransitiveConfig(opts, nil)
 	filters := buildFilterChain(upstreamStatements, opts.SourceDir, components, transitiveCfg, cfg.ExtraFilters, cfg.ExtraAnalyzers)
 
 	// 5. Run each finding through chain.
