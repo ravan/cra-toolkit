@@ -192,3 +192,18 @@ func TestIntegration_PythonTreesitterNotReachable(t *testing.T) {
 		t.Errorf("expected 0 paths, got %d", len(result.Paths))
 	}
 }
+
+func TestPython_Analyzer_TransitiveShortCircuit(t *testing.T) {
+	a := &python.Analyzer{} // Transitive is nil → must fall back
+	_, err := a.Analyze(context.Background(), t.TempDir(), &formats.Finding{
+		AffectedName: "urllib3",
+	})
+	if err != nil {
+		t.Fatalf("Analyze: %v", err)
+	}
+}
+
+func TestPython_Analyzer_AcceptsTransitiveField(t *testing.T) {
+	a := &python.Analyzer{Transitive: nil}
+	_ = a // compile-time check only: struct must accept Transitive field
+}

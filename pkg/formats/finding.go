@@ -11,6 +11,7 @@ type Finding struct {
 	AffectedPURL     string   // PURL of the affected component
 	AffectedName     string   // package name
 	AffectedVersions string   // affected version range expression (e.g. "< 0.3.8")
+	AffectedVersion  string   // pinned version of the affected component (e.g. "1.26.5")
 	FixVersion       string   // version that fixes the vulnerability (empty if no fix)
 	Severity         string   // "critical", "high", "medium", "low", "unknown"
 	CVSS             float64  // CVSS score (0-10)

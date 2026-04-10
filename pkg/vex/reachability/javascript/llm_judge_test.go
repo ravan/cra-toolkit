@@ -21,6 +21,7 @@ import (
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/javascript"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 type reachabilityScores struct {
@@ -140,6 +141,150 @@ Respond ONLY with valid JSON:
 	t.Logf("Reasoning: %s", scores.Reasoning)
 
 	threshold := 8
+	dimensions := map[string]int{
+		"path_accuracy":          scores.PathAccuracy,
+		"confidence_calibration": scores.ConfidenceCalibration,
+		"evidence_quality":       scores.EvidenceQuality,
+		"false_positive_rate":    scores.FalsePositiveRate,
+		"symbol_resolution":      scores.SymbolResolution,
+		"overall_quality":        scores.OverallQuality,
+	}
+	for dim, score := range dimensions {
+		if score < threshold {
+			t.Errorf("%s: score %d < threshold %d", dim, score, threshold)
+		}
+	}
+}
+
+func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
+	geminiPath, err := exec.LookPath("gemini")
+	if err != nil {
+		t.Skip("gemini CLI not available, skipping LLM judge test")
+	}
+
+	_, f, _, _ := runtime.Caller(0)
+	fixtureBase := filepath.Join(filepath.Dir(f), "..", "..", "..", "..", "testdata", "integration")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+
+	reachableDir := filepath.Join(fixtureBase, "javascript-realworld-cross-package")
+	notReachableDir := filepath.Join(fixtureBase, "javascript-realworld-cross-package-safe")
+
+	// Build a minimal SBOMSummary from the fixture's SBOM.
+	sbomData, err := os.ReadFile(filepath.Join(reachableDir, "sbom.cdx.json"))
+	if err != nil {
+		t.Fatalf("read sbom: %v", err)
+	}
+	var sbomDoc struct {
+		Components []struct {
+			Name    string `json:"name"`
+			Version string `json:"version"`
+			PURL    string `json:"purl"`
+		} `json:"components"`
+	}
+	if err := json.Unmarshal(sbomData, &sbomDoc); err != nil {
+		t.Fatalf("parse sbom: %v", err)
+	}
+	var pkgs []transitive.Package
+	var roots []string
+	for _, c := range sbomDoc.Components {
+		if strings.HasPrefix(c.PURL, "pkg:npm/") {
+			pkgs = append(pkgs, transitive.Package{Name: c.Name, Version: c.Version})
+			roots = append(roots, c.Name)
+		}
+	}
+	summary := &transitive.SBOMSummary{Packages: pkgs, Roots: roots}
+
+	cache := transitive.NewCache(t.TempDir())
+	fetcher := &transitive.NPMFetcher{Cache: cache}
+	ta := &transitive.Analyzer{
+		Config:    transitive.DefaultConfig(),
+		Language:  "javascript",
+		Ecosystem: "npm",
+		Fetchers:  map[string]transitive.Fetcher{"npm": fetcher},
+	}
+
+	finding := &formats.Finding{
+		AffectedName:    "follow-redirects",
+		AffectedVersion: "1.14.0",
+	}
+
+	reachableResult, err := ta.Analyze(ctx, summary, finding, filepath.Join(reachableDir, "source"))
+	if err != nil {
+		t.Fatalf("Analyze reachable: %v", err)
+	}
+
+	notReachableResult, err := ta.Analyze(ctx, summary, finding, filepath.Join(notReachableDir, "source"))
+	if err != nil {
+		t.Fatalf("Analyze not-reachable: %v", err)
+	}
+
+	var pathStrs []string
+	for _, p := range reachableResult.Paths {
+		pathStrs = append(pathStrs, p.String())
+	}
+
+	prompt := fmt.Sprintf(`You are a security engineering judge evaluating a transitive dependency reachability analyzer for CRA compliance.
+
+VULNERABILITY: CVE-2022-0155 — follow-redirects sensitive cookie/credential leakage via improper redirect handling.
+VULNERABLE PACKAGE: follow-redirects@1.14.0 (transitive dependency reached through axios@0.24.0)
+CHAIN: app → axios.get → follow-redirects → vulnerable redirect handler
+
+REACHABLE PROJECT (source: %s):
+Analysis result: Reachable=%v, Confidence=%s, Degradations=%v
+Call paths found: %s
+Evidence: %s
+
+NOT-REACHABLE PROJECT (source: %s):
+Analysis result: Reachable=%v, Confidence=%s, Degradations=%v
+Evidence: %s
+
+Score the transitive analyzer (1-10 each):
+1. path_accuracy: Are the reported cross-package call paths real?
+2. confidence_calibration: Does confidence reflect the uncertainty of transitive analysis?
+3. evidence_quality: Is the stitched call path evidence sufficient for a VEX determination?
+4. false_positive_rate: Is the not-reachable case correctly identified?
+5. symbol_resolution: Are the cross-package symbols correctly resolved?
+6. overall_quality: Would this analysis pass a CRA market surveillance authority review?
+
+Respond ONLY with valid JSON:
+{"path_accuracy": N, "confidence_calibration": N, "evidence_quality": N, "false_positive_rate": N, "symbol_resolution": N, "overall_quality": N, "reasoning": "brief explanation"}`,
+		filepath.Join(reachableDir, "source"),
+		reachableResult.Reachable, reachableResult.Confidence, reachableResult.Degradations,
+		strings.Join(pathStrs, "; "),
+		reachableResult.Evidence,
+		filepath.Join(notReachableDir, "source"),
+		notReachableResult.Reachable, notReachableResult.Confidence, notReachableResult.Degradations,
+		notReachableResult.Evidence,
+	)
+
+	cmd := exec.Command(geminiPath, "--yolo", "-p", prompt) //nolint:gosec
+	var geminiOut bytes.Buffer
+	cmd.Stdout = &geminiOut
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		t.Fatalf("gemini CLI error: %v", err)
+	}
+
+	responseText := geminiOut.String()
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}")
+	if jsonStart == -1 || jsonEnd == -1 {
+		t.Fatalf("no JSON in gemini response: %s", responseText)
+	}
+
+	var scores reachabilityScores
+	if err := json.Unmarshal([]byte(responseText[jsonStart:jsonEnd+1]), &scores); err != nil {
+		t.Fatalf("parse scores: %v\nresponse: %s", err, responseText)
+	}
+
+	t.Logf("Transitive LLM Scores: path=%d, confidence=%d, evidence=%d, fp=%d, symbol=%d, overall=%d",
+		scores.PathAccuracy, scores.ConfidenceCalibration, scores.EvidenceQuality,
+		scores.FalsePositiveRate, scores.SymbolResolution, scores.OverallQuality)
+	t.Logf("Reasoning: %s", scores.Reasoning)
+
+	threshold := 6 // lower threshold for transitive (harder problem)
 	dimensions := map[string]int{
 		"path_accuracy":          scores.PathAccuracy,
 		"confidence_calibration": scores.ConfidenceCalibration,

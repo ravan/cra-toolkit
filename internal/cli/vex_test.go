@@ -15,9 +15,9 @@ import (
 )
 
 // TestVexCmd_TransitiveFlags verifies that:
-// 1. The vex command exposes --transitive (bool, default true) and
-//    --transitive-cache-dir (string) flags.
-// 2. vex.Options has TransitiveEnabled and TransitiveCacheDir fields.
+//  1. The vex command exposes --transitive (bool, default true) and
+//     --transitive-cache-dir (string) flags.
+//  2. vex.Options has TransitiveEnabled and TransitiveCacheDir fields.
 func TestVexCmd_TransitiveFlags(t *testing.T) {
 	// Verify vex.Options has the required fields at compile time.
 	_ = vex.Options{

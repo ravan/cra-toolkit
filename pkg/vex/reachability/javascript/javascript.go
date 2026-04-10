@@ -13,6 +13,7 @@ import (
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 	jsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
 	tsgrammar "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/typescript"
@@ -20,7 +21,10 @@ import (
 )
 
 // Analyzer performs JavaScript/TypeScript reachability analysis using tree-sitter AST parsing.
-type Analyzer struct{}
+type Analyzer struct {
+	Transitive  *transitive.Analyzer
+	SBOMSummary *transitive.SBOMSummary
+}
 
 // New returns a new JavaScript/TypeScript tree-sitter reachability analyzer.
 func New() *Analyzer { return &Analyzer{} }
@@ -88,7 +92,15 @@ type fileInfo struct {
 // whether any of the vulnerable symbols from the finding are reachable from an entry point.
 //
 //nolint:gocognit,gocyclo,maintidx // pipeline has multiple orchestration phases; extracting further would reduce readability
-func (a *Analyzer) Analyze(_ context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
+func (a *Analyzer) Analyze(ctx context.Context, sourceDir string, finding *formats.Finding) (reachability.Result, error) {
+	// Pre-check: consult the transitive analyzer if configured.
+	if a.Transitive != nil && a.SBOMSummary != nil {
+		tres, terr := a.Transitive.Analyze(ctx, a.SBOMSummary, finding, sourceDir)
+		if terr == nil && tres.Reachable {
+			return tres, nil
+		}
+	}
+
 	// Collect all JS/TS files via WalkDir (filepath.Glob("**/*.js") doesn't work in Go)
 	var jsFiles, tsFiles []string
 	if err := filepath.WalkDir(sourceDir, func(path string, d fs.DirEntry, err error) error {

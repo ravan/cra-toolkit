@@ -262,3 +262,8 @@ func TestIntegration_JavaScriptTreesitterNotReachable(t *testing.T) {
 		t.Errorf("expected 0 paths, got %d", len(result.Paths))
 	}
 }
+
+func TestJavaScript_Analyzer_AcceptsTransitiveField(t *testing.T) {
+	a := &javascript.Analyzer{Transitive: nil}
+	_ = a
+}

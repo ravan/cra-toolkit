@@ -48,6 +48,11 @@ tasks:
     cmds:
       - go test -tags integration -race -count=1 -v -timeout 10m -run TestIntegration_RealWorldReachability ./pkg/vex/...
 
+  test:transitive:
+    desc: Run transitive reachability integration tests (requires network for PyPI/npm)
+    cmds:
+      - go test -tags integration -race -count=1 -v -timeout 10m -run TestIntegration_Transitive ./pkg/vex/reachability/transitive/...
+
   test:llmjudge:
     desc: Run LLM quality judge tests (requires gemini CLI)
     cmds:

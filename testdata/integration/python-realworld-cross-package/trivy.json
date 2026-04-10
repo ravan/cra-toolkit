@@ -1,0 +1,21 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "python-realworld-cross-package",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Target": "sbom.cdx.json",
+      "Class": "lang-pkgs",
+      "Type": "python-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2023-43804",
+          "PkgName": "urllib3",
+          "InstalledVersion": "2.0.5",
+          "FixedVersion": "2.0.6",
+          "Severity": "HIGH"
+        }
+      ]
+    }
+  ]
+}

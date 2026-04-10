@@ -1,38 +1,67 @@
 // Copyright 2026 Ravan Naidoo
 // SPDX-License-Identifier: GPL-3.0-only
 
-// Package transitive provides configuration and helpers for transitive
-// dependency reachability analysis across package ecosystems.
 package transitive
 
 import (
 	"os"
 	"path/filepath"
+	"time"
 )
 
-// Config controls transitive reachability analysis behaviour.
+// Config controls bounds, caching, and timeout behavior for transitive analysis.
+// Defaults are chosen to terminate in reasonable time on real-world applications
+// while allowing walks deep enough for realistic dependency chains.
 type Config struct {
-	// Enabled, when false, disables transitive reachability analysis and
-	// preserves direct-only behaviour. Defaults to true.
-	Enabled bool
-	// CacheDir is the directory used to cache fetched package tarballs.
-	// Defaults to ~/.cache/cra-toolkit/pkgs.
-	CacheDir string
+	MaxHopsPerPath         int           `yaml:"max_hops,omitempty"`
+	MaxPathsPerFinding     int           `yaml:"max_paths,omitempty"`
+	MaxTargetSymbolsPerHop int           `yaml:"max_target_symbols_per_hop,omitempty"`
+	HopTimeout             time.Duration `yaml:"hop_timeout,omitempty"`
+	FindingBudget          time.Duration `yaml:"finding_budget,omitempty"`
+	CacheDir               string        `yaml:"cache_dir,omitempty"`
+	Enabled                bool          `yaml:"enabled,omitempty"`
 }
 
-// DefaultConfig returns a Config with production-safe defaults.
+// DefaultConfig returns Config populated with the defaults documented in the
+// transitive reachability design spec.
 func DefaultConfig() Config {
+	cacheDir := ""
+	if home, err := os.UserCacheDir(); err == nil {
+		cacheDir = filepath.Join(home, "cra-toolkit", "pkgs")
+	} else {
+		cacheDir = filepath.Join(os.TempDir(), "cra-toolkit-pkgs")
+	}
 	return Config{
-		Enabled:  true,
-		CacheDir: defaultCacheDir(),
+		MaxHopsPerPath:         8,
+		MaxPathsPerFinding:     16,
+		MaxTargetSymbolsPerHop: 256,
+		HopTimeout:             30 * time.Second,
+		FindingBudget:          5 * time.Minute,
+		CacheDir:               cacheDir,
+		Enabled:                true,
 	}
 }
 
-// defaultCacheDir returns the platform default cache directory for fetched
-// package tarballs.
-func defaultCacheDir() string {
-	if d, err := os.UserCacheDir(); err == nil {
-		return filepath.Join(d, "cra-toolkit", "pkgs")
+// Merge overlays any non-zero fields from override onto c and returns the result.
+// Used to apply product-config YAML values on top of DefaultConfig().
+func (c Config) Merge(override Config) Config {
+	if override.MaxHopsPerPath > 0 {
+		c.MaxHopsPerPath = override.MaxHopsPerPath
 	}
-	return filepath.Join(os.TempDir(), "cra-toolkit", "pkgs")
+	if override.MaxPathsPerFinding > 0 {
+		c.MaxPathsPerFinding = override.MaxPathsPerFinding
+	}
+	if override.MaxTargetSymbolsPerHop > 0 {
+		c.MaxTargetSymbolsPerHop = override.MaxTargetSymbolsPerHop
+	}
+	if override.HopTimeout > 0 {
+		c.HopTimeout = override.HopTimeout
+	}
+	if override.FindingBudget > 0 {
+		c.FindingBudget = override.FindingBudget
+	}
+	if override.CacheDir != "" {
+		c.CacheDir = override.CacheDir
+	}
+	return c
 }

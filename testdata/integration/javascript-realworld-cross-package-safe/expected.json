@@ -1,0 +1,24 @@
+{
+  "description": "Same deps as reachable fixture but maxRedirects=0 prevents follow-redirects from executing the vulnerable path.",
+  "provenance": {
+    "source_project": "follow-redirects/follow-redirects",
+    "source_url": "https://github.com/follow-redirects/follow-redirects",
+    "commit": "1.14.0",
+    "cve": "CVE-2022-0155",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0155",
+    "language": "javascript",
+    "pattern": "cross-package-transitive-safe",
+    "ground_truth_notes": "maxRedirects: 0 short-circuits the redirect handler, so the vulnerable code is not executed."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-0155",
+      "component_purl": "pkg:npm/follow-redirects@1.14.0",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "transitive_reachability",
+      "expected_justification": "vulnerable_code_not_in_execute_path",
+      "human_justification": "The redirect handler is never invoked when maxRedirects is 0."
+    }
+  ]
+}
