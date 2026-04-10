@@ -67,6 +67,60 @@ Performs interprocedural call graph analysis using tree-sitter to determine whet
 
     **Call path evidence:** When a vulnerable function is found to be reachable, the exact function call chain from the application entry point to the vulnerable code is recorded. This call path evidence propagates through downstream tools - `cra report` renders it in Article 14 notifications, and `cra evidence` includes it in the compliance bundle - so reviewers can see precisely how a vulnerability is reachable.
 
+## Transitive Reachability Analysis
+
+For Python and JavaScript projects, the VEX command can trace call chains through
+transitive dependencies to determine whether a vulnerability sitting inside a
+library the application does not import directly is actually reachable.
+
+### How it works
+
+Given an SBOM and a finding, the transitive analyzer:
+
+1. Derives the dependency graph from registry manifests (PyPI JSON API, npm
+   registry) pinned by SBOM versions.
+2. Computes all paths from the application's direct dependencies to the
+   vulnerable package.
+3. Walks each path in reverse, one hop at a time, fetching package source from
+   the registry and running a reachability check at each step.
+4. Short-circuits any path where an intermediate package has no caller of its
+   downstream neighbor's exports.
+5. Stitches per-hop call paths into a single continuous path from the
+   application through every intermediate package to the vulnerable function.
+
+No virtualenv, `node_modules`, or build system is required — package source is
+fetched directly from the registry and content-addressed in
+`~/.cache/cra-toolkit/pkgs/`.
+
+### Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--transitive` | `true` | Enable transitive analysis. Set to `false` for direct-only behavior. |
+| `--transitive-cache-dir` | `~/.cache/cra-toolkit/pkgs` | Override the package tarball cache location. |
+
+### Bounds
+
+Bounds are configurable through the product-config YAML:
+
+```yaml
+reachability:
+  transitive:
+    max_hops: 8
+    max_paths: 16
+    max_target_symbols_per_hop: 256
+    hop_timeout: 30s
+    finding_budget: 5m
+```
+
+### Degradation evidence
+
+When analysis cannot produce a clean verdict, the VEX output records a structured
+reason: `transitive_not_applicable`, `source_unavailable`, `bound_exceeded`,
+`path_broken`, `digest_mismatch`, and others. See the implementation spec at
+`docs/superpowers/specs/2026-04-10-transitive-reachability-design.md` for the
+complete taxonomy.
+
 ---
 
 ## Usage
