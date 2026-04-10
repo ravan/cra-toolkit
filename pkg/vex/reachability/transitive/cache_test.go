@@ -16,7 +16,7 @@ func TestCache_PutAndGet(t *testing.T) {
 	c := NewCache(dir)
 	digest := "sha256:abc123"
 	src := t.TempDir()
-	if err := os.WriteFile(filepath.Join(src, "hello.txt"), []byte("hi"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(src, "hello.txt"), []byte("hi"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 	got, err := c.Put(digest, src)
@@ -26,7 +26,7 @@ func TestCache_PutAndGet(t *testing.T) {
 	if got == "" {
 		t.Fatal("Put returned empty path")
 	}
-	data, err := os.ReadFile(filepath.Join(got, "hello.txt"))
+	data, err := os.ReadFile(filepath.Join(got, "hello.txt")) //nolint:gosec // test reads from t.TempDir() path
 	if err != nil {
 		t.Fatalf("file not present in cache: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestCache_SingleFlight(t *testing.T) {
 			_, _ = c.Do(digest, func() (string, error) {
 				calls.Add(1)
 				src := t.TempDir()
-				_ = os.WriteFile(filepath.Join(src, "data"), []byte("x"), 0o644)
+				_ = os.WriteFile(filepath.Join(src, "data"), []byte("x"), 0o600)
 				return c.Put(digest, src)
 			})
 		}()

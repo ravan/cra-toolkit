@@ -66,6 +66,9 @@ func (f *PyPIFetcher) Manifest(ctx context.Context, name, version string) (Packa
 	}
 	deps := make(map[string]string)
 	for _, r := range meta.Info.RequiresDist {
+		if strings.Contains(r, "extra ==") {
+			continue
+		}
 		n, constraint := splitRequiresDist(r)
 		if n == "" {
 			continue
@@ -87,38 +90,48 @@ func (f *PyPIFetcher) Fetch(ctx context.Context, name, version string, expectedD
 		return FetchResult{SourceUnavailable: true}, nil
 	}
 
-	cacheKey := digest.String()
 	if f.Cache != nil {
-		if p, ok := f.Cache.Get(cacheKey); ok {
+		if p, ok := f.Cache.Get(digest.String()); ok {
 			return FetchResult{SourceDir: p, Digest: digest}, nil
 		}
 	}
 
+	body, actual, err := f.downloadAndVerify(ctx, url, digest, expectedDigest)
+	if err != nil {
+		return FetchResult{}, err
+	}
+
+	return f.unpackAndCache(name, kind, digest.String(), body, actual)
+}
+
+func (f *PyPIFetcher) downloadAndVerify(ctx context.Context, url string, digest Digest, expectedDigest *Digest) ([]byte, Digest, error) {
 	body, err := f.download(ctx, url)
 	if err != nil {
-		return FetchResult{}, fmt.Errorf("%s: %w", ReasonTarballFetchFailed, err)
+		return nil, Digest{}, fmt.Errorf("%s: %w", ReasonTarballFetchFailed, err)
 	}
 	actual := Digest{Algorithm: "sha256", Hex: hashHex(body)}
 	if !actual.Equals(digest) {
-		return FetchResult{}, fmt.Errorf("%s: expected %s, got %s", ReasonDigestMismatch, digest, actual)
+		return nil, Digest{}, fmt.Errorf("%s: expected %s, got %s", ReasonDigestMismatch, digest, actual)
 	}
 	if expectedDigest != nil && !expectedDigest.IsZero() && !expectedDigest.Equals(actual) {
-		return FetchResult{}, fmt.Errorf("%s: SBOM expected %s, registry returned %s", ReasonDigestMismatch, expectedDigest, actual)
+		return nil, Digest{}, fmt.Errorf("%s: SBOM expected %s, registry returned %s", ReasonDigestMismatch, expectedDigest, actual)
 	}
+	return body, actual, nil
+}
 
+func (f *PyPIFetcher) unpackAndCache(name, kind, cacheKey string, body []byte, actual Digest) (FetchResult, error) {
 	tmp, err := os.MkdirTemp("", "pypi-*")
 	if err != nil {
 		return FetchResult{}, err
 	}
 	if err := unpack(body, kind, tmp); err != nil {
-		os.RemoveAll(tmp)
+		_ = os.RemoveAll(tmp)
 		return FetchResult{}, fmt.Errorf("unpack %s: %w", name, err)
 	}
-
 	srcDir := tmp
 	if f.Cache != nil {
 		p, err := f.Cache.Put(cacheKey, tmp)
-		os.RemoveAll(tmp)
+		_ = os.RemoveAll(tmp)
 		if err != nil {
 			return FetchResult{}, err
 		}
@@ -129,7 +142,7 @@ func (f *PyPIFetcher) Fetch(ctx context.Context, name, version string, expectedD
 
 func (f *PyPIFetcher) fetchMeta(ctx context.Context, name, version string) (*pypiMeta, error) {
 	url := fmt.Sprintf("%s/%s/%s/json", f.baseURL(), name, version)
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +150,7 @@ func (f *PyPIFetcher) fetchMeta(ctx context.Context, name, version string) (*pyp
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck // deferred read-path close, error not actionable
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("pypi metadata %s: status %d", url, resp.StatusCode)
 	}
@@ -149,7 +162,7 @@ func (f *PyPIFetcher) fetchMeta(ctx context.Context, name, version string) (*pyp
 }
 
 func (f *PyPIFetcher) download(ctx context.Context, url string) ([]byte, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +170,7 @@ func (f *PyPIFetcher) download(ctx context.Context, url string) ([]byte, error) 
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck // deferred read-path close, error not actionable
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("pypi download %s: status %d", url, resp.StatusCode)
 	}
@@ -179,6 +192,10 @@ func pickArtifact(m *pypiMeta) (url string, digest Digest, kind string) {
 	return "", Digest{}, ""
 }
 
+// requiresDistSeps is the set of runes that terminate the package name portion
+// of a PEP 508 requires_dist entry.
+const requiresDistSeps = " (><=!~"
+
 // splitRequiresDist parses a requires_dist entry into (name, constraint).
 func splitRequiresDist(s string) (name, constraint string) {
 	if idx := strings.Index(s, ";"); idx >= 0 {
@@ -188,16 +205,15 @@ func splitRequiresDist(s string) (name, constraint string) {
 	if s == "" {
 		return "", ""
 	}
-	for i, r := range s {
-		if r == ' ' || r == '(' || r == '>' || r == '<' || r == '=' || r == '!' || r == '~' {
-			name = strings.TrimSpace(s[:i])
-			rest := strings.TrimSpace(s[i:])
-			rest = strings.TrimPrefix(rest, "(")
-			rest = strings.TrimSuffix(rest, ")")
-			return name, strings.TrimSpace(rest)
-		}
+	idx := strings.IndexAny(s, requiresDistSeps)
+	if idx < 0 {
+		return s, ""
 	}
-	return s, ""
+	name = strings.TrimSpace(s[:idx])
+	rest := strings.TrimSpace(s[idx:])
+	rest = strings.TrimPrefix(rest, "(")
+	rest = strings.TrimSuffix(rest, ")")
+	return name, strings.TrimSpace(rest)
 }
 
 func hashHex(b []byte) string {
@@ -213,13 +229,16 @@ func unpack(data []byte, kind, dst string) error {
 	return unzip(data, dst)
 }
 
+const maxUnpackedFileSize = 100 << 20 // 100 MiB per file
+
 func untarGz(data []byte, dst string) error {
 	gz, err := gzip.NewReader(bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
-	defer gz.Close()
+	defer gz.Close() //nolint:errcheck // deferred read-path close, error not actionable
 	tr := tar.NewReader(gz)
+	dstClean := filepath.Clean(dst) + string(os.PathSeparator)
 	for {
 		hdr, err := tr.Next()
 		if err == io.EOF {
@@ -228,30 +247,39 @@ func untarGz(data []byte, dst string) error {
 		if err != nil {
 			return err
 		}
-		target := filepath.Join(dst, sanitizeTarPath(hdr.Name))
-		if !strings.HasPrefix(target, dst) {
-			continue // path traversal guard
-		}
-		switch hdr.Typeflag {
-		case tar.TypeDir:
-			if err := os.MkdirAll(target, 0o755); err != nil {
-				return err
-			}
-		case tar.TypeReg:
-			if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
-				return err
-			}
-			out, err := os.Create(target)
-			if err != nil {
-				return err
-			}
-			if _, err := io.Copy(out, tr); err != nil {
-				out.Close()
-				return err
-			}
-			out.Close()
+		if err := extractTarEntry(hdr, tr, dst, dstClean); err != nil {
+			return err
 		}
 	}
+}
+
+func extractTarEntry(hdr *tar.Header, tr *tar.Reader, dst, dstClean string) error {
+	target := filepath.Join(dst, sanitizeTarPath(hdr.Name))
+	if !strings.HasPrefix(target, dstClean) {
+		return nil // path traversal guard
+	}
+	switch hdr.Typeflag {
+	case tar.TypeDir:
+		return os.MkdirAll(target, 0o750)
+	case tar.TypeReg:
+		return writeFile(target, io.LimitReader(tr, maxUnpackedFileSize))
+	}
+	return nil
+}
+
+func writeFile(target string, src io.Reader) error {
+	if err := os.MkdirAll(filepath.Dir(target), 0o750); err != nil {
+		return err
+	}
+	out, err := os.Create(target) //nolint:gosec // target is sanitized and validated against dstClean prefix
+	if err != nil {
+		return err
+	}
+	if _, err := io.Copy(out, src); err != nil {
+		out.Close() //nolint:errcheck,gosec // error path, original error returned
+		return err
+	}
+	return out.Close()
 }
 
 func sanitizeTarPath(name string) string {

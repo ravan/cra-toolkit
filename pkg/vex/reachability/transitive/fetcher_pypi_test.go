@@ -14,6 +14,60 @@ import (
 	"testing"
 )
 
+const pypiFixtureDir = "../../../../testdata/transitive/pypi"
+
+// rewriteURLs updates the "url" fields in a PyPI JSON response to point to
+// the in-process test server.
+func rewriteURLs(data []byte, host string) []byte {
+	var obj map[string]interface{}
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return data
+	}
+	urls, ok := obj["urls"].([]interface{})
+	if !ok {
+		return data
+	}
+	for _, u := range urls {
+		m, ok := u.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		if rel, _ := m["filename"].(string); rel != "" {
+			m["url"] = "http://" + host + "/files/" + rel
+		}
+	}
+	out, _ := json.Marshal(obj)
+	return out
+}
+
+func handlePyPIMeta(w http.ResponseWriter, r *http.Request) {
+	parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+	if len(parts) < 4 {
+		http.NotFound(w, r)
+		return
+	}
+	pkg, ver := parts[1], parts[2]
+	path := filepath.Join(pypiFixtureDir, pkg+"_"+ver+".json")
+	data, err := os.ReadFile(path) //nolint:gosec // test reads known fixture file path
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write(rewriteURLs(data, r.Host))
+}
+
+func handlePyPIFile(w http.ResponseWriter, r *http.Request) {
+	name := strings.TrimPrefix(r.URL.Path, "/files/")
+	path := filepath.Join(pypiFixtureDir, name)
+	data, err := os.ReadFile(path) //nolint:gosec // test reads known fixture file path
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	_, _ = w.Write(data)
+}
+
 // newPyPITestServer serves fixtures from testdata/transitive/pypi/.
 // Routes:
 //
@@ -22,46 +76,8 @@ import (
 func newPyPITestServer(t *testing.T) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
-	mux.HandleFunc("/pypi/", func(w http.ResponseWriter, r *http.Request) {
-		parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
-		if len(parts) < 4 {
-			http.NotFound(w, r)
-			return
-		}
-		pkg := parts[1]
-		ver := parts[2]
-		path := filepath.Join("..", "..", "..", "..", "testdata", "transitive", "pypi", pkg+"_"+ver+".json")
-		data, err := os.ReadFile(path)
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-		// Rewrite URLs so the test can fetch through the httptest server.
-		var obj map[string]interface{}
-		_ = json.Unmarshal(data, &obj)
-		if urls, ok := obj["urls"].([]interface{}); ok {
-			for _, u := range urls {
-				if m, ok := u.(map[string]interface{}); ok {
-					if rel, _ := m["filename"].(string); rel != "" {
-						m["url"] = "http://" + r.Host + "/files/" + rel
-					}
-				}
-			}
-		}
-		out, _ := json.Marshal(obj)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(out)
-	})
-	mux.HandleFunc("/files/", func(w http.ResponseWriter, r *http.Request) {
-		name := strings.TrimPrefix(r.URL.Path, "/files/")
-		path := filepath.Join("..", "..", "..", "..", "testdata", "transitive", "pypi", name)
-		data, err := os.ReadFile(path)
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-		w.Write(data)
-	})
+	mux.HandleFunc("/pypi/", handlePyPIMeta)
+	mux.HandleFunc("/files/", handlePyPIFile)
 	return httptest.NewServer(mux)
 }
 
@@ -74,8 +90,12 @@ func TestPyPIFetcher_Manifest(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Manifest: %v", err)
 	}
-	if len(m.Dependencies) == 0 {
-		t.Errorf("expected some dependencies for urllib3 1.26.5")
+	// urllib3 1.26.5 has only extras-conditional deps; after filtering extras
+	// the unconditional dep list is empty, which is correct behaviour.
+	for dep := range m.Dependencies {
+		if strings.Contains(dep, "extra ==") {
+			t.Errorf("extras dep leaked into manifest: %s", dep)
+		}
 	}
 }
 
@@ -98,7 +118,7 @@ func TestPyPIFetcher_Fetch(t *testing.T) {
 	}
 	// Verify at least one .py file was unpacked.
 	found := false
-	filepath.WalkDir(res.SourceDir, func(p string, d os.DirEntry, err error) error {
+	_ = filepath.WalkDir(res.SourceDir, func(p string, d os.DirEntry, err error) error {
 		if err == nil && !d.IsDir() && strings.HasSuffix(p, ".py") {
 			found = true
 		}

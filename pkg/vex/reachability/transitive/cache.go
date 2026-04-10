@@ -54,7 +54,7 @@ func (c *Cache) Put(digest, srcDir string) (string, error) {
 	if _, err := os.Stat(dst); err == nil {
 		return dst, nil
 	}
-	if err := os.MkdirAll(filepath.Dir(dst), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(dst), 0o750); err != nil {
 		return "", fmt.Errorf("mkdir cache parent: %w", err)
 	}
 	tmp, err := os.MkdirTemp(filepath.Dir(dst), ".tmp-*")
@@ -62,11 +62,11 @@ func (c *Cache) Put(digest, srcDir string) (string, error) {
 		return "", fmt.Errorf("mkdir tmp: %w", err)
 	}
 	if err := copyTree(srcDir, tmp); err != nil {
-		os.RemoveAll(tmp)
+		_ = os.RemoveAll(tmp)
 		return "", err
 	}
 	if err := os.Rename(tmp, dst); err != nil {
-		os.RemoveAll(tmp)
+		_ = os.RemoveAll(tmp)
 		return "", fmt.Errorf("rename cache: %w", err)
 	}
 	return dst, nil
@@ -119,24 +119,28 @@ func copyTree(src, dst string) error {
 		}
 		target := filepath.Join(dst, rel)
 		if d.IsDir() {
-			return os.MkdirAll(target, 0o755)
+			return os.MkdirAll(target, 0o750)
 		}
-		in, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		defer in.Close()
-		if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
-			return err
-		}
-		out, err := os.Create(target)
-		if err != nil {
-			return err
-		}
-		if _, err := io.Copy(out, in); err != nil {
-			out.Close()
-			return err
-		}
-		return out.Close()
+		return copyFile(path, target)
 	})
+}
+
+func copyFile(src, dst string) error {
+	in, err := os.Open(src) //nolint:gosec // src is a validated path from filepath.WalkDir within a temp dir
+	if err != nil {
+		return err
+	}
+	defer in.Close() //nolint:errcheck // deferred read-path close, error not actionable
+	if err := os.MkdirAll(filepath.Dir(dst), 0o750); err != nil {
+		return err
+	}
+	out, err := os.Create(dst) //nolint:gosec // dst is a validated target path within the cache dir
+	if err != nil {
+		return err
+	}
+	if _, err := io.Copy(out, in); err != nil {
+		out.Close() //nolint:errcheck,gosec // error path, original error returned
+		return err
+	}
+	return out.Close()
 }
