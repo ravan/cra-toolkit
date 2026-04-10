@@ -22,6 +22,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 	csharpanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/csharp"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/generic"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/golang"
 	javaanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/java"
@@ -39,6 +40,12 @@ type Options struct {
 	UpstreamVEXPaths []string
 	SourceDir        string
 	OutputFormat     string // "openvex" or "csaf"
+	// TransitiveEnabled, when false, disables transitive reachability
+	// analysis and preserves direct-only behavior. Defaults to true.
+	TransitiveEnabled bool
+	// TransitiveCacheDir overrides the default cache location for fetched
+	// package tarballs. Empty means use the default.
+	TransitiveCacheDir string
 }
 
 // RunConfig holds extension registrations passed via RunOption.
@@ -321,6 +328,17 @@ func buildAnalyzers(sourceDir string, extra map[string]reachability.Analyzer) ma
 	}
 
 	return analyzers
+}
+
+// resolveTransitiveConfig builds a transitive.Config from pipeline options,
+// applying any user-supplied overrides over the production defaults.
+func resolveTransitiveConfig(opts *Options) transitive.Config {
+	cfg := transitive.DefaultConfig()
+	cfg.Enabled = opts.TransitiveEnabled
+	if opts.TransitiveCacheDir != "" {
+		cfg.CacheDir = opts.TransitiveCacheDir
+	}
+	return cfg
 }
 
 // selectWriter returns the appropriate VEX writer for the given format.

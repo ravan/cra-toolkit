@@ -42,6 +42,15 @@ func newVexCmd(cfg *RunConfig) *urfave.Command {
 				Value: "openvex",
 				Usage: "output format: openvex or csaf",
 			},
+			&urfave.BoolFlag{
+				Name:  "transitive",
+				Usage: "enable transitive dependency reachability analysis (Python, JavaScript)",
+				Value: true,
+			},
+			&urfave.StringFlag{
+				Name:  "transitive-cache-dir",
+				Usage: "cache directory for fetched package tarballs (default ~/.cache/cra-toolkit/pkgs)",
+			},
 		},
 		Action: func(ctx context.Context, cmd *urfave.Command) error {
 			outputFormat := cmd.String("output-format")
@@ -50,11 +59,13 @@ func newVexCmd(cfg *RunConfig) *urfave.Command {
 			}
 
 			opts := &vex.Options{
-				SBOMPath:         cmd.String("sbom"),
-				ScanPaths:        cmd.StringSlice("scan"),
-				UpstreamVEXPaths: cmd.StringSlice("upstream-vex"),
-				SourceDir:        cmd.String("source-dir"),
-				OutputFormat:     outputFormat,
+				SBOMPath:           cmd.String("sbom"),
+				ScanPaths:          cmd.StringSlice("scan"),
+				UpstreamVEXPaths:   cmd.StringSlice("upstream-vex"),
+				SourceDir:          cmd.String("source-dir"),
+				OutputFormat:       outputFormat,
+				TransitiveEnabled:  cmd.Bool("transitive"),
+				TransitiveCacheDir: cmd.String("transitive-cache-dir"),
 			}
 
 			w, closer := OutputWriter(cmd)

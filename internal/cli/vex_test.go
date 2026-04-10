@@ -11,7 +11,37 @@ import (
 	"testing"
 
 	"github.com/ravan/cra-toolkit/internal/cli"
+	"github.com/ravan/cra-toolkit/pkg/vex"
 )
+
+// TestVexCmd_TransitiveFlags verifies that:
+// 1. The vex command exposes --transitive (bool, default true) and
+//    --transitive-cache-dir (string) flags.
+// 2. vex.Options has TransitiveEnabled and TransitiveCacheDir fields.
+func TestVexCmd_TransitiveFlags(t *testing.T) {
+	// Verify vex.Options has the required fields at compile time.
+	_ = vex.Options{
+		TransitiveEnabled:  true,
+		TransitiveCacheDir: "/tmp/cache",
+	}
+
+	// Verify the CLI accepts --transitive=false without crashing on flag parsing.
+	// (We still need --sbom and --scan, so we expect an error about missing files,
+	// not about unknown flags.)
+	cmd := cli.New("test", &cli.RunConfig{})
+	err := cmd.Run(context.Background(), []string{
+		"cra", "vex",
+		"--sbom", "nonexistent.json",
+		"--scan", "nonexistent.json",
+		"--transitive=false",
+		"--transitive-cache-dir", "/tmp/test-cache",
+	})
+	// We expect a file-not-found error, not an "unknown flag" error.
+	if err != nil && strings.Contains(err.Error(), "transitive") && strings.Contains(err.Error(), "flag") {
+		t.Fatalf("--transitive flag not recognised: %v", err)
+	}
+	// Missing files is acceptable — it means flags were parsed correctly.
+}
 
 func TestVexCmd_MissingSBOM_ReturnsError(t *testing.T) {
 	cmd := cli.New("test", &cli.RunConfig{})
