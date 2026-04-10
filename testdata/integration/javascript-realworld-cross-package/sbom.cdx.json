@@ -1,0 +1,34 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:e03f33b9-61cc-4a0c-834a-a47221e35e29",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-04-10T13:24:42+02:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "author": "anchore",
+          "name": "syft",
+          "version": "1.42.4"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "axios",
+      "version": "0.25.0",
+      "purl": "pkg:npm/axios@0.25.0"
+    },
+    {
+      "type": "library",
+      "name": "follow-redirects",
+      "version": "1.14.0",
+      "purl": "pkg:npm/follow-redirects@1.14.0"
+    }
+  ]
+}
