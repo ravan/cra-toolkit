@@ -22,7 +22,6 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 	csharpanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/csharp"
-	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/generic"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/golang"
 	javaanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/java"
@@ -31,6 +30,7 @@ import (
 	pythonanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 	rubyanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 // Options configures a VEX pipeline run.
