@@ -7,13 +7,15 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 func TestBuildAnalyzers_TreesitterFallback(t *testing.T) {
 	dir := t.TempDir()
 	os.WriteFile(filepath.Join(dir, "requirements.txt"), []byte("PyYAML==5.3"), 0o644) //nolint:errcheck,gosec // test helper
 
-	analyzers := buildAnalyzers(dir, nil)
+	analyzers := buildAnalyzers(dir, nil, transitive.Config{}, nil)
 
 	if _, ok := analyzers["python"]; !ok {
 		t.Error("expected python analyzer to be registered")
@@ -41,7 +43,7 @@ func TestBuildAnalyzers_AllLanguages(t *testing.T) {
 		os.WriteFile(filepath.Join(dir, m), []byte(""), 0o644) //nolint:errcheck,gosec // test helper
 	}
 
-	analyzers := buildAnalyzers(dir, nil)
+	analyzers := buildAnalyzers(dir, nil, transitive.Config{}, nil)
 
 	expected := []string{"go", "rust", "python", "javascript", "java", "csharp", "php", "ruby", "generic"}
 	for _, lang := range expected {

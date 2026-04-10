@@ -30,6 +30,7 @@ import (
 	pythonanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 	rubyanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 // Options configures a VEX pipeline run.
@@ -152,7 +153,8 @@ func Run(opts *Options, out io.Writer, runOpts ...RunOption) error {
 	}
 
 	// 4. Build filter chain.
-	filters := buildFilterChain(upstreamStatements, opts.SourceDir, cfg.ExtraFilters, cfg.ExtraAnalyzers)
+	transitiveCfg := resolveTransitiveConfig(opts)
+	filters := buildFilterChain(upstreamStatements, opts.SourceDir, components, transitiveCfg, cfg.ExtraFilters, cfg.ExtraAnalyzers)
 
 	// 5. Run each finding through chain.
 	results := make([]formats.VEXResult, 0, len(findings))
@@ -253,7 +255,7 @@ func parseVEX(path string, extraProbes []formats.FormatProbe) ([]formats.VEXStat
 }
 
 // buildFilterChain creates the ordered filter chain.
-func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir string, extraFilters []Filter, extraAnalyzers map[string]reachability.Analyzer) []Filter {
+func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir string, components []formats.Component, transitiveCfg transitive.Config, extraFilters []Filter, extraAnalyzers map[string]reachability.Analyzer) []Filter {
 	var filters []Filter
 
 	// Upstream filter (only if there are upstream statements).
@@ -271,7 +273,7 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 
 	// Reachability filter (only if source dir is provided).
 	if sourceDir != "" {
-		analyzers := buildAnalyzers(sourceDir, extraAnalyzers)
+		analyzers := buildAnalyzers(sourceDir, components, transitiveCfg, extraAnalyzers)
 		if len(analyzers) > 0 {
 			filters = append(filters, NewReachabilityFilter(sourceDir, analyzers))
 		}
@@ -287,7 +289,7 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 // the appropriate reachability analyzers.
 //
 //nolint:gocyclo // language-analyzer mapping is inherently branchy
-func buildAnalyzers(sourceDir string, extra map[string]reachability.Analyzer) map[string]reachability.Analyzer {
+func buildAnalyzers(sourceDir string, components []formats.Component, transitiveCfg transitive.Config, extra map[string]reachability.Analyzer) map[string]reachability.Analyzer {
 	analyzers := make(map[string]reachability.Analyzer)
 
 	langs := reachability.DetectLanguages(sourceDir)
@@ -298,9 +300,19 @@ func buildAnalyzers(sourceDir string, extra map[string]reachability.Analyzer) ma
 		case "rust":
 			analyzers["rust"] = rust.New()
 		case "python":
-			analyzers["python"] = pythonanalyzer.New()
+			a := pythonanalyzer.New()
+			if ta := buildTransitiveAnalyzer(transitiveCfg, "python"); ta != nil {
+				a.Transitive = ta
+				a.SBOMSummary = buildTransitiveSummary(components, "pypi")
+			}
+			analyzers["python"] = a
 		case "javascript":
-			analyzers["javascript"] = jsanalyzer.New()
+			a := jsanalyzer.New()
+			if ta := buildTransitiveAnalyzer(transitiveCfg, "javascript"); ta != nil {
+				a.Transitive = ta
+				a.SBOMSummary = buildTransitiveSummary(components, "npm")
+			}
+			analyzers["javascript"] = a
 		case "java":
 			analyzers["java"] = javaanalyzer.New()
 		case "csharp":
