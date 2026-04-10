@@ -22,6 +22,7 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/formats/trivy"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
 	csharpanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/csharp"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/generic"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/golang"
 	javaanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/java"
@@ -30,7 +31,6 @@ import (
 	pythonanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 	rubyanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
-	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 // Options configures a VEX pipeline run.
@@ -40,6 +40,12 @@ type Options struct {
 	UpstreamVEXPaths []string
 	SourceDir        string
 	OutputFormat     string // "openvex" or "csaf"
+	// TransitiveEnabled, when false, disables transitive reachability
+	// analysis and preserves direct-only behavior. Defaults to true.
+	TransitiveEnabled bool
+	// TransitiveCacheDir overrides the default cache location for fetched
+	// package tarballs. Empty means use the default.
+	TransitiveCacheDir string
 }
 
 // RunConfig holds extension registrations passed via RunOption.
