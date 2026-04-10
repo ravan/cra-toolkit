@@ -10,7 +10,6 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -142,39 +141,15 @@ func (f *PyPIFetcher) unpackAndCache(name, kind, cacheKey string, body []byte, a
 
 func (f *PyPIFetcher) fetchMeta(ctx context.Context, name, version string) (*pypiMeta, error) {
 	url := fmt.Sprintf("%s/%s/%s/json", f.baseURL(), name, version)
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := f.client().Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close() //nolint:errcheck // deferred read-path close, error not actionable
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("pypi metadata %s: status %d", url, resp.StatusCode)
-	}
 	var m pypiMeta
-	if err := json.NewDecoder(resp.Body).Decode(&m); err != nil {
-		return nil, fmt.Errorf("decode pypi metadata: %w", err)
+	if err := httpGetJSON(ctx, f.client(), url, &m); err != nil {
+		return nil, err
 	}
 	return &m, nil
 }
 
 func (f *PyPIFetcher) download(ctx context.Context, url string) ([]byte, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := f.client().Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close() //nolint:errcheck // deferred read-path close, error not actionable
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("pypi download %s: status %d", url, resp.StatusCode)
-	}
-	return io.ReadAll(resp.Body)
+	return httpGetBytes(ctx, f.client(), url)
 }
 
 // pickArtifact chooses the best source artifact from the available URLs.
