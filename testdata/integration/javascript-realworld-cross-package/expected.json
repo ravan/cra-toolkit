@@ -1,23 +1,23 @@
 {
-  "description": "Express app using axios.get reaching CVE-2022-0155 in follow-redirects through the axios → follow-redirects internal chain.",
+  "description": "App using body-parser.urlencoded({ extended: true }) reaching CVE-2022-24999 in qs through body-parser's extended URL-encoding path.",
   "provenance": {
-    "source_project": "follow-redirects/follow-redirects",
-    "source_url": "https://github.com/follow-redirects/follow-redirects",
-    "commit": "1.14.0",
-    "cve": "CVE-2022-0155",
-    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0155",
+    "source_project": "expressjs/body-parser",
+    "source_url": "https://github.com/expressjs/body-parser",
+    "commit": "1.19.0",
+    "cve": "CVE-2022-24999",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24999",
     "language": "javascript",
     "pattern": "cross-package-transitive",
-    "ground_truth_notes": "app.fetchWithRedirects → axios.get → adapter → http.request wrapped by follow-redirects → vulnerable redirect handler"
+    "ground_truth_notes": "handleFormSubmit → bodyParser.urlencoded (body-parser/lib/types/urlencoded.js) → qs.parse (vulnerable prototype pollution)"
   },
   "findings": [
     {
-      "cve": "CVE-2022-0155",
-      "component_purl": "pkg:npm/follow-redirects@1.14.0",
+      "cve": "CVE-2022-24999",
+      "component_purl": "pkg:npm/qs@6.7.0",
       "expected_status": "affected",
       "expected_confidence": "medium",
       "expected_resolved_by": "transitive_reachability",
-      "human_justification": "axios.get is invoked with maxRedirects > 0, which routes through follow-redirects' vulnerable redirect wrapper."
+      "human_justification": "bodyParser.urlencoded({ extended: true }) calls qs.parse via body-parser/lib/types/urlencoded.js; qs@6.7.0 is vulnerable (fixed in 6.7.3)."
     }
   ]
 }

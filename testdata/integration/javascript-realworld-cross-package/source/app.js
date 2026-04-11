@@ -1,12 +1,13 @@
-// Express app that uses axios to fetch URLs. The transitive dep follow-redirects
-// is invoked by axios for every redirect response, reaching CVE-2022-0155's
-// credential-leak code path.
+// App that processes URL-encoded form bodies.
+// body-parser.urlencoded({ extended: true }) internally calls qs.parse,
+// reaching CVE-2022-24999 (prototype pollution in qs < 6.10.3).
 
-const axios = require('axios');
+const bodyParser = require('body-parser')
 
-async function fetchWithRedirects(url) {
-    const response = await axios.get(url, { maxRedirects: 5 });
-    return response.data;
+const parseUrlEncoded = bodyParser.urlencoded({ extended: true })
+
+function handleFormSubmit(req, res, next) {
+  parseUrlEncoded(req, res, next)
 }
 
-module.exports = { fetchWithRedirects };
+module.exports = { handleFormSubmit }

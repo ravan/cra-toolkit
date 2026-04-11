@@ -1,24 +1,23 @@
 {
-  "description": "Same deps as reachable fixture but maxRedirects=0 prevents follow-redirects from executing the vulnerable path.",
+  "description": "App using body-parser.json() only — JSON parsing uses JSON.parse, never calls qs.parse. CVE-2022-24999 in qs@6.7.0 is not reachable.",
   "provenance": {
-    "source_project": "follow-redirects/follow-redirects",
-    "source_url": "https://github.com/follow-redirects/follow-redirects",
-    "commit": "1.14.0",
-    "cve": "CVE-2022-0155",
-    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0155",
+    "source_project": "expressjs/body-parser",
+    "source_url": "https://github.com/expressjs/body-parser",
+    "commit": "1.19.0",
+    "cve": "CVE-2022-24999",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24999",
     "language": "javascript",
     "pattern": "cross-package-transitive-safe",
-    "ground_truth_notes": "maxRedirects: 0 short-circuits the redirect handler, so the vulnerable code is not executed."
+    "ground_truth_notes": "handleJsonPost → bodyParser.json() → JSON.parse; qs.parse is never called."
   },
   "findings": [
     {
-      "cve": "CVE-2022-0155",
-      "component_purl": "pkg:npm/follow-redirects@1.14.0",
+      "cve": "CVE-2022-24999",
+      "component_purl": "pkg:npm/qs@6.7.0",
       "expected_status": "not_affected",
       "expected_confidence": "medium",
       "expected_resolved_by": "transitive_reachability",
-      "expected_justification": "vulnerable_code_not_in_execute_path",
-      "human_justification": "The redirect handler is never invoked when maxRedirects is 0."
+      "human_justification": "bodyParser.json() is the only body-parser API invoked; body-parser/lib/types/json.js uses JSON.parse with no qs dependency."
     }
   ]
 }

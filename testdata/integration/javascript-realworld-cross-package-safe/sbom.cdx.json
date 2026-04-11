@@ -2,33 +2,35 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:e03f33b9-61cc-4a0c-834a-a47221e35e29",
+  "serialNumber": "urn:uuid:c2d3e4f5-a6b7-8901-cdef-012345678912",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-04-10T13:24:42+02:00",
-    "tools": {
-      "components": [
-        {
-          "type": "application",
-          "author": "anchore",
-          "name": "syft",
-          "version": "1.42.4"
-        }
-      ]
+    "timestamp": "2026-04-11T00:00:00Z",
+    "component": {
+      "bom-ref": "my-app",
+      "type": "application",
+      "name": "my-app",
+      "version": "1.0.0"
     }
   },
   "components": [
     {
+      "bom-ref": "pkg:npm/body-parser@1.19.0",
       "type": "library",
-      "name": "axios",
-      "version": "0.25.0",
-      "purl": "pkg:npm/axios@0.25.0"
+      "name": "body-parser",
+      "version": "1.19.0",
+      "purl": "pkg:npm/body-parser@1.19.0"
     },
     {
+      "bom-ref": "pkg:npm/qs@6.7.0",
       "type": "library",
-      "name": "follow-redirects",
-      "version": "1.14.0",
-      "purl": "pkg:npm/follow-redirects@1.14.0"
+      "name": "qs",
+      "version": "6.7.0",
+      "purl": "pkg:npm/qs@6.7.0"
     }
+  ],
+  "dependencies": [
+    { "ref": "my-app", "dependsOn": ["pkg:npm/body-parser@1.19.0"] },
+    { "ref": "pkg:npm/body-parser@1.19.0", "dependsOn": ["pkg:npm/qs@6.7.0"] }
   ]
 }

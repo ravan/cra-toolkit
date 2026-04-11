@@ -197,10 +197,10 @@ func TestIntegration_Transitive_PythonNotReachable(t *testing.T) {
 
 func TestIntegration_Transitive_JavaScriptReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "javascript-realworld-cross-package")
-	runIntegrationFixture(t, dir, "javascript", "npm", "follow-redirects", "1.14.0", true)
+	runIntegrationFixture(t, dir, "javascript", "npm", "qs", "6.7.0", true)
 }
 
 func TestIntegration_Transitive_JavaScriptNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "javascript-realworld-cross-package-safe")
-	runIntegrationFixture(t, dir, "javascript", "npm", "follow-redirects", "1.14.0", false)
+	runIntegrationFixture(t, dir, "javascript", "npm", "qs", "6.7.0", false)
 }

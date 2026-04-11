@@ -9,10 +9,10 @@
       "Type": "node-pkg",
       "Vulnerabilities": [
         {
-          "VulnerabilityID": "CVE-2022-0155",
-          "PkgName": "follow-redirects",
-          "InstalledVersion": "1.14.0",
-          "FixedVersion": "1.14.7",
+          "VulnerabilityID": "CVE-2022-24999",
+          "PkgName": "qs",
+          "InstalledVersion": "6.7.0",
+          "FixedVersion": "6.10.3",
           "Severity": "HIGH"
         }
       ]
