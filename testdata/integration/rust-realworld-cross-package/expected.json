@@ -1,0 +1,21 @@
+{
+  "description": "Rust application depending on chrono which transitively depends on time@0.2.23. CVE-2020-26235 in time is reachable because chrono::Utc::now() internally calls into time's public API. The analyzer must produce a reachable verdict with a stitched cross-package call path.",
+  "provenance": {
+    "source_project": "time-rs/time",
+    "cve": "CVE-2020-26235",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-26235",
+    "language": "rust",
+    "pattern": "cross_package_reachable"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2020-26235",
+      "aliases": ["RUSTSEC-2020-0071"],
+      "component_purl": "pkg:cargo/time@0.2.23",
+      "expected_status": "affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "chrono::Utc::now() internally invokes time::OffsetDateTime methods, which are in the vulnerable public API surface."
+    }
+  ]
+}
