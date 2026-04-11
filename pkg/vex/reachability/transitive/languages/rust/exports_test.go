@@ -118,6 +118,103 @@ func TestListExports_NestedSubmodules(t *testing.T) {
 	assertKeys(t, got, want)
 }
 
+func TestListExports_StructsEnumsTraits(t *testing.T) {
+	root := writeCrate(t, "kinds", "0.1.0", map[string]string{
+		"src/lib.rs": `pub struct Request;
+struct PrivateReq;
+pub enum Status { Ok, Err }
+enum PrivateStatus { A }
+pub trait Handler { fn handle(&self); }
+trait PrivateTrait { fn x(&self); }
+`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "kinds")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"kinds.Request": true,
+		"kinds.Status":  true,
+		"kinds.Handler": true,
+		// Trait required-method: emitted as kinds.Handler.handle because
+		// the trait itself is public, so downstream callers can reach it.
+		"kinds.Handler.handle": true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_InherentImplMethods(t *testing.T) {
+	root := writeCrate(t, "inh", "0.1.0", map[string]string{
+		"src/lib.rs": `pub struct Server;
+
+impl Server {
+    pub fn serve(&self) {}
+    fn internal(&self) {}
+}
+
+struct PrivateServer;
+impl PrivateServer {
+    pub fn unreachable(&self) {}
+}
+`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "inh")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"inh.Server":       true,
+		"inh.Server.serve": true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_TraitImplMethodsOnPublicType(t *testing.T) {
+	root := writeCrate(t, "trimpl", "0.1.0", map[string]string{
+		"src/lib.rs": `pub struct Reader;
+pub trait Read { fn read(&self); }
+impl Read for Reader {
+    fn read(&self) {}
+}
+`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "trimpl")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"trimpl.Reader":      true,
+		"trimpl.Read":        true,
+		"trimpl.Read.read":   true,
+		"trimpl.Reader.read": true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_TraitImplOnPrivateTypeExcluded(t *testing.T) {
+	root := writeCrate(t, "hidden", "0.1.0", map[string]string{
+		"src/lib.rs": `pub trait Run { fn run(&self); }
+struct Private;
+impl Run for Private {
+    fn run(&self) {}
+}
+`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "hidden")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"hidden.Run":     true,
+		"hidden.Run.run": true,
+	}
+	assertKeys(t, got, want)
+}
+
 // assertKeys compares the returned export key slice against the expected set
 // (order-insensitive) and reports missing and unexpected keys.
 func assertKeys(t *testing.T, got []string, want map[string]bool) {
