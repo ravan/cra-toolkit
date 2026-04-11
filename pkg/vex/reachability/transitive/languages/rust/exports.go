@@ -82,42 +82,67 @@ func (l *Language) ListExports(sourceDir, packageName string) ([]string, error) 
 		tree.Close()
 	}
 
-	// Pass 3: re-export collection.
-	var edges []reExportEdge
-	for _, m := range modules {
-		if !m.isPublic {
-			continue
-		}
-		src, ok := sources[m.file]
-		if !ok {
-			continue
-		}
-		tree := parser.Parse(src, nil)
-		if tree == nil {
-			continue
-		}
-		edges = append(edges, collectPubUseEdges(tree.RootNode(), src, packageName, m.path, canonicalByName)...)
-		tree.Close()
-	}
-
-	// Pass 4: fixed-point chain resolution.
+	// Pass 3+4: fixed-point re-export resolution.
+	// We iterate: collect pub use edges → build/extend publicPaths → propagate
+	// chains → update canonicalByName with newly resolved public paths →
+	// repeat until stable.
 	publicPaths := make(map[string]map[string]struct{})
-	for _, e := range edges {
-		if _, ok := publicPaths[e.canonical]; !ok {
-			publicPaths[e.canonical] = make(map[string]struct{})
-		}
-		publicPaths[e.canonical][e.publicPath] = struct{}{}
-	}
+
 	for changed := true; changed; {
 		changed = false
-		for canonicalA, pathsA := range publicPaths {
-			for p := range pathsA {
-				if pathsA2, ok := publicPaths[p]; ok && p != canonicalA {
-					for p2 := range pathsA2 {
-						if _, exists := publicPaths[canonicalA][p2]; !exists {
-							publicPaths[canonicalA][p2] = struct{}{}
-							changed = true
+
+		// Collect all pub use edges with current canonicalByName.
+		for _, m := range modules {
+			if !m.isPublic {
+				continue
+			}
+			src, ok := sources[m.file]
+			if !ok {
+				continue
+			}
+			tree := parser.Parse(src, nil)
+			if tree == nil {
+				continue
+			}
+			for _, e := range collectPubUseEdges(tree.RootNode(), src, packageName, m.path, canonicalByName) {
+				if _, ok := publicPaths[e.canonical]; !ok {
+					publicPaths[e.canonical] = make(map[string]struct{})
+				}
+				if _, exists := publicPaths[e.canonical][e.publicPath]; !exists {
+					publicPaths[e.canonical][e.publicPath] = struct{}{}
+					changed = true
+				}
+			}
+			tree.Close()
+		}
+
+		// Propagate transitive chains within publicPaths.
+		for stable := false; !stable; {
+			stable = true
+			for canonicalA, pathsA := range publicPaths {
+				for p := range pathsA {
+					if pathsA2, ok := publicPaths[p]; ok && p != canonicalA {
+						for p2 := range pathsA2 {
+							if _, exists := publicPaths[canonicalA][p2]; !exists {
+								publicPaths[canonicalA][p2] = struct{}{}
+								stable = false
+								changed = true
+							}
 						}
+					}
+				}
+			}
+		}
+
+		// Update canonicalByName with any newly resolved public paths so the
+		// next iteration can resolve chains that reference them.
+		for canonical, paths := range publicPaths {
+			for p := range paths {
+				if strings.HasPrefix(p, packageName+".") {
+					rel := p[len(packageName)+1:]
+					if _, alreadyKnown := canonicalByName[rel]; !alreadyKnown {
+						canonicalByName[rel] = canonical
+						changed = true
 					}
 				}
 			}

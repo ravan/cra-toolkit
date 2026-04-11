@@ -215,6 +215,120 @@ impl Run for Private {
 	assertKeys(t, got, want)
 }
 
+func TestListExports_SimpleReExport(t *testing.T) {
+	root := writeCrate(t, "reexp", "0.1.0", map[string]string{
+		"src/lib.rs":   `pub mod inner; pub use inner::Thing;`,
+		"src/inner.rs": `pub struct Thing;`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "reexp")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"reexp.inner.Thing": true,
+		"reexp.Thing":       true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_GroupedReExport(t *testing.T) {
+	root := writeCrate(t, "reexp", "0.1.0", map[string]string{
+		"src/lib.rs":   `pub mod inner; pub use inner::{Foo, Bar};`,
+		"src/inner.rs": `pub struct Foo; pub struct Bar;`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "reexp")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"reexp.inner.Foo": true,
+		"reexp.inner.Bar": true,
+		"reexp.Foo":       true,
+		"reexp.Bar":       true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_AliasedReExport(t *testing.T) {
+	root := writeCrate(t, "reexp", "0.1.0", map[string]string{
+		"src/lib.rs":   `pub mod inner; pub use inner::Thing as Renamed;`,
+		"src/inner.rs": `pub struct Thing;`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "reexp")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"reexp.inner.Thing": true,
+		"reexp.Renamed":     true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_WildcardReExport(t *testing.T) {
+	root := writeCrate(t, "reexp", "0.1.0", map[string]string{
+		"src/lib.rs":   `pub mod inner; pub use inner::*;`,
+		"src/inner.rs": `pub struct Foo; pub struct Bar; pub fn run() {}`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "reexp")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"reexp.inner.Foo": true,
+		"reexp.inner.Bar": true,
+		"reexp.inner.run": true,
+		"reexp.Foo":       true,
+		"reexp.Bar":       true,
+		"reexp.run":       true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_ChainedReExport(t *testing.T) {
+	root := writeCrate(t, "chain", "0.1.0", map[string]string{
+		"src/lib.rs": `pub mod a; pub mod b; pub use b::Thing;`,
+		"src/a.rs":   `pub struct Thing;`,
+		"src/b.rs":   `pub use crate::a::Thing;`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "chain")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	want := map[string]bool{
+		"chain.a.Thing": true,
+		"chain.b.Thing": true,
+		"chain.Thing":   true,
+	}
+	assertKeys(t, got, want)
+}
+
+func TestListExports_ForeignReExportExcluded(t *testing.T) {
+	root := writeCrate(t, "norelay", "0.1.0", map[string]string{
+		"src/lib.rs": `pub use serde::Serialize; pub fn go() {}`,
+	})
+	lang := rust.New()
+	got, err := lang.ListExports(root, "norelay")
+	if err != nil {
+		t.Fatalf("ListExports: %v", err)
+	}
+	gotSet := make(map[string]bool, len(got))
+	for _, k := range got {
+		gotSet[k] = true
+	}
+	if gotSet["norelay.Serialize"] {
+		t.Error("foreign re-export leaked as norelay.Serialize")
+	}
+	if !gotSet["norelay.go"] {
+		t.Error("missing norelay.go")
+	}
+}
+
 // assertKeys compares the returned export key slice against the expected set
 // (order-insensitive) and reports missing and unexpected keys.
 func assertKeys(t *testing.T, got []string, want map[string]bool) {
