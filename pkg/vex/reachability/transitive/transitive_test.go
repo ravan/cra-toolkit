@@ -69,23 +69,26 @@ func TestCollectVulnSymbols_NoLibraryAPI(t *testing.T) {
 
 type noLibAPILang struct{}
 
-func (noLibAPILang) Name() string                            { return "rust" }
-func (noLibAPILang) Ecosystem() string                       { return "crates.io" }
-func (noLibAPILang) FileExtensions() []string                { return []string{".rs"} }
-func (noLibAPILang) Grammar() unsafe.Pointer                 { return nil }
-func (noLibAPILang) Extractor() treesitter.LanguageExtractor { return nil }
+func (noLibAPILang) Name() string                             { return "rust" }
+func (noLibAPILang) Ecosystem() string                        { return "crates.io" }
+func (noLibAPILang) FileExtensions() []string                 { return []string{".rs"} }
+func (noLibAPILang) Grammar() unsafe.Pointer                  { return nil }
+func (noLibAPILang) Extractor() treesitter.LanguageExtractor  { return nil }
 func (noLibAPILang) IsExportedSymbol(*treesitter.Symbol) bool { return false }
 func (noLibAPILang) ModulePath(string, string, string) string { return "" }
 func (noLibAPILang) SymbolKey(string, string) string          { return "" }
 func (noLibAPILang) NormalizeImports(raw []treesitter.Import) []treesitter.Import {
 	return raw
 }
+
 func (noLibAPILang) ResolveDottedTarget(string, string, *treesitter.Scope) (treesitter.SymbolID, bool) {
 	return "", false
 }
+
 func (noLibAPILang) ResolveSelfCall(to, _ treesitter.SymbolID) treesitter.SymbolID {
 	return to
 }
+
 func (noLibAPILang) ListExports(string, string) ([]string, error) {
 	return nil, rust.ErrNoLibraryAPI
 }
@@ -96,6 +99,7 @@ func (noLibAPIFetcher) Ecosystem() string { return "crates.io" }
 func (noLibAPIFetcher) Fetch(_ context.Context, _, _ string, _ *Digest) (FetchResult, error) {
 	return FetchResult{SourceDir: "/tmp/fake"}, nil
 }
+
 func (noLibAPIFetcher) Manifest(_ context.Context, _, _ string) (PackageManifest, error) {
 	return PackageManifest{}, nil
 }

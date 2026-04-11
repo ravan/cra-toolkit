@@ -60,7 +60,7 @@ fn private_helper() {}
 
 func TestListExports_FileBackedSubmodule(t *testing.T) {
 	root := writeCrate(t, "util", "0.2.0", map[string]string{
-		"src/lib.rs":     `pub mod helpers;`,
+		"src/lib.rs": `pub mod helpers;`,
 		"src/helpers.rs": `pub fn run() {}
 fn hidden() {}
 `,
