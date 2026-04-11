@@ -802,3 +802,168 @@ switch (type) {
 		t.Error("expected to find require('querystring') nested inside switch default")
 	}
 }
+
+// TestExtractCalls_MemberExprReturnReference verifies that `return qs.parse`
+// (a member expression that references, but does NOT call, an imported
+// function) still emits a reference edge to qs.parse. This covers the
+// body-parser pattern where a function returns a reference to an imported
+// parser for later invocation.
+func TestExtractCalls_MemberExprReturnReference(t *testing.T) {
+	source := `var qs = require('qs');
+function getParse () {
+  return qs.parse;
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("qs", "qs", []string{})
+
+	edges, err := ext.ExtractCalls("ref.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundRef bool
+	for _, e := range edges {
+		if string(e.From) == "ref.getParse" && string(e.To) == "qs.parse" {
+			foundRef = true
+		}
+	}
+
+	if !foundRef {
+		t.Error("expected reference edge getParse -> qs.parse for `return qs.parse`")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}
+
+// TestExtractCalls_MemberExprVarDeclaratorReference verifies that
+// `var p = qs.parse` (capturing an imported function in a local variable)
+// emits a reference edge to qs.parse.
+func TestExtractCalls_MemberExprVarDeclaratorReference(t *testing.T) {
+	source := `var qs = require('qs');
+function doSomething () {
+  var p = qs.parse;
+  p('body');
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("qs", "qs", []string{})
+
+	edges, err := ext.ExtractCalls("ref.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundRef bool
+	for _, e := range edges {
+		if string(e.From) == "ref.doSomething" && string(e.To) == "qs.parse" {
+			foundRef = true
+		}
+	}
+
+	if !foundRef {
+		t.Error("expected reference edge doSomething -> qs.parse for `var p = qs.parse`")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}
+
+// TestExtractCalls_MemberExprAliasCollision verifies that when an alias is
+// reassigned to multiple modules (body-parser's urlencoded.js switch pattern),
+// reference edges are emitted for BOTH candidate modules.
+func TestExtractCalls_MemberExprAliasCollision(t *testing.T) {
+	source := `function parser (name) {
+  var mod;
+  switch (name) {
+    case 'qs':
+      mod = require('qs');
+      break;
+    case 'querystring':
+      mod = require('querystring');
+      break;
+  }
+  return mod.parse;
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	// Simulate both alias candidates as the analyzer would after ResolveImports.
+	scope.DefineImport("mod", "qs", []string{})
+	scope.DefineImport("mod", "querystring", []string{})
+
+	edges, err := ext.ExtractCalls("urlencoded.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundQsParse, foundQuerystringParse bool
+	for _, e := range edges {
+		switch string(e.To) {
+		case "qs.parse":
+			foundQsParse = true
+		case "querystring.parse":
+			foundQuerystringParse = true
+		}
+	}
+
+	if !foundQsParse {
+		t.Error("expected reference edge parser -> qs.parse (one of two alias candidates)")
+	}
+	if !foundQuerystringParse {
+		t.Error("expected reference edge parser -> querystring.parse (one of two alias candidates)")
+	}
+	if !foundQsParse || !foundQuerystringParse {
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}
+
+// TestExtractCalls_MemberExprArgumentReference verifies that passing an
+// imported function as a callback argument (wire(qs.parse)) emits a reference
+// edge to qs.parse.
+func TestExtractCalls_MemberExprArgumentReference(t *testing.T) {
+	source := `var qs = require('qs');
+function wire (fn) {}
+wire(qs.parse);
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("qs", "qs", []string{})
+
+	edges, err := ext.ExtractCalls("ref.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	// The reference edge is emitted from the module-level context.
+	var foundRef bool
+	for _, e := range edges {
+		if string(e.To) == "qs.parse" {
+			foundRef = true
+		}
+	}
+
+	if !foundRef {
+		t.Error("expected reference edge -> qs.parse for wire(qs.parse)")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}

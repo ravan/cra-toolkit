@@ -1103,7 +1103,7 @@ func collectTypedVarsNode(node *tree_sitter.Node, src []byte, typed map[string]b
 
 // collectCalls recursively visits nodes to find call expressions.
 //
-//nolint:gocognit,gocyclo // call extraction must traverse many JS node kinds
+//nolint:gocognit,gocyclo,maintidx // call extraction must traverse many JS node kinds
 func collectCalls(
 	node *tree_sitter.Node,
 	src []byte,
@@ -1196,27 +1196,78 @@ func collectCalls(
 		if funcNode != nil {
 			callee := resolveCallee(funcNode, src)
 			if callee != "" {
-				// Resolve CJS/ESM import aliases: if callee is "alias.method" and "alias"
-				// is a known import alias in scope, rewrite to "module.method".
-				callee = resolveAliasInCallee(callee, scope)
+				// Resolve CJS/ESM import aliases: if callee is "alias.method" and
+				// "alias" is a known import alias in scope, rewrite to one or more
+				// "module.method" edges. An alias may resolve to multiple modules
+				// when reassigned within a file (e.g. body-parser's urlencoded.js
+				// `mod = require('qs')` in one branch and
+				// `mod = require('querystring')` in another); in that case we emit
+				// one edge per candidate so all reachable modules are tracked.
+				callees := resolveAliasInCalleeAll(callee, scope)
 				from := treesitter.SymbolID(currentFunc)
 				if currentFunc == "" {
 					from = treesitter.SymbolID(moduleName)
 				}
 				conf := callConfidence(funcNode, src, typedVars)
-				*edges = append(*edges, treesitter.Edge{
-					From:       from,
-					To:         treesitter.SymbolID(callee),
-					Kind:       treesitter.EdgeDirect,
-					Confidence: conf,
-					File:       file,
-					Line:       rowToLine(node.StartPosition().Row),
-				})
+				for _, c := range callees {
+					*edges = append(*edges, treesitter.Edge{
+						From:       from,
+						To:         treesitter.SymbolID(c),
+						Kind:       treesitter.EdgeDirect,
+						Confidence: conf,
+						File:       file,
+						Line:       rowToLine(node.StartPosition().Row),
+					})
+				}
 			}
 		}
-		// Recurse into arguments to capture inline lambdas.
+		// Recurse into arguments to capture inline lambdas and reference
+		// edges for imported members passed as callbacks (e.g. wire(qs.parse)).
 		if argsNode := node.ChildByFieldName("arguments"); argsNode != nil {
 			collectCalls(argsNode, src, file, moduleName, currentFunc, scope, typedVars, edges)
+		}
+		return
+
+	case "member_expression":
+		// Emit reference edges for member expressions whose object is an
+		// import alias. This captures patterns where imported functions are
+		// passed around without being immediately called — for example
+		// `return qs.parse`, `var p = qs.parse`, or `wire(qs.parse)`.
+		// Reachability analysis must treat any reference to an imported
+		// function as potentially reachable, because downstream code may
+		// invoke it indirectly.
+		//
+		// Double-counting is avoided at the call_expression case above: when
+		// a member_expression IS the function side of a call, the
+		// call_expression branch handles it directly without recursing into
+		// funcNode, so we never visit it here.
+		objNode := node.ChildByFieldName("object")
+		propNode := node.ChildByFieldName("property")
+		if objNode != nil && propNode != nil && objNode.Kind() == "identifier" {
+			alias := nodeText(objNode, src)
+			prop := nodeText(propNode, src)
+			if alias != "" && prop != "" && scope != nil {
+				mods := scope.LookupImports(alias)
+				from := treesitter.SymbolID(currentFunc)
+				if currentFunc == "" {
+					from = treesitter.SymbolID(moduleName)
+				}
+				for _, mod := range mods {
+					*edges = append(*edges, treesitter.Edge{
+						From:       from,
+						To:         treesitter.SymbolID(mod + "." + prop),
+						Kind:       treesitter.EdgeDirect,
+						Confidence: 1.0,
+						File:       file,
+						Line:       rowToLine(node.StartPosition().Row),
+					})
+				}
+			}
+		}
+		// Recurse into children so chained expressions like `foo().bar` still
+		// have their inner call_expression processed.
+		for i := uint(0); i < node.ChildCount(); i++ {
+			collectCalls(node.Child(i), src, file, moduleName, currentFunc, scope, typedVars, edges)
 		}
 		return
 
@@ -1316,28 +1367,37 @@ func collectCallsInClass(
 	}
 }
 
-// resolveAliasInCallee rewrites a callee string by resolving the leading object name against
-// known import aliases in scope. For example, if scope has DefineImport("_", "lodash", ...),
-// then "_.template" becomes "lodash.template". If the object part is not a known alias,
-// the callee is returned unchanged.
-func resolveAliasInCallee(callee string, scope *treesitter.Scope) string {
+// resolveAliasInCalleeAll rewrites a callee string by resolving the leading
+// object name against known import aliases in scope.
+// If the leading object is an import alias that maps to one or more modules,
+// it returns one rewritten callee per candidate. If the alias is unknown, it
+// returns the original callee as a single-element slice. An empty or
+// whitespace-only callee returns nil.
+func resolveAliasInCalleeAll(callee string, scope *treesitter.Scope) []string {
+	if callee == "" {
+		return nil
+	}
 	if scope == nil {
-		return callee
+		return []string{callee}
 	}
 	dotIdx := strings.Index(callee, ".")
 	if dotIdx < 0 {
-		// Plain identifier — not a member call; check if it is itself an import alias.
-		if mod, ok := scope.LookupImport(callee); ok {
-			return mod
+		// Plain identifier — check if it is itself an import alias.
+		if mods := scope.LookupImports(callee); len(mods) > 0 {
+			return mods
 		}
-		return callee
+		return []string{callee}
 	}
 	obj := callee[:dotIdx]
 	rest := callee[dotIdx:] // includes the leading "."
-	if mod, ok := scope.LookupImport(obj); ok {
-		return mod + rest
+	if mods := scope.LookupImports(obj); len(mods) > 0 {
+		out := make([]string, 0, len(mods))
+		for _, mod := range mods {
+			out = append(out, mod+rest)
+		}
+		return out
 	}
-	return callee
+	return []string{callee}
 }
 
 // resolveCallee extracts the callee name from a call's function node.

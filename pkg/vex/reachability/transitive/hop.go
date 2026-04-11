@@ -124,6 +124,37 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 		}
 	}
 
+	// Phase 2a: Add synthetic module-level symbols so that module-level
+	// call/reference edges (e.g. `const x = bodyParser.urlencoded()` at the
+	// top of a file) have a recognized local "caller" identity. Without this,
+	// reverse BFS from a target would skip module-level callers because their
+	// SymbolID (the bare module name) has no corresponding Symbol in the graph
+	// and the walker filters out non-symbol nodes.
+	//
+	// This is load-bearing for the JavaScript cross-package case: the fixture
+	// application has `bodyParser.urlencoded({...})` at module scope, which
+	// emits an edge `app -> body-parser.urlencoded`; without a synthetic
+	// `app` symbol the walker cannot surface that edge as a reaching caller.
+	for _, fi := range fileInfos {
+		mod := moduleNameFrom(fi.pr.File)
+		if mod == "" {
+			continue
+		}
+		modID := treesitter.SymbolID(mod)
+		if graph.GetSymbol(modID) != nil {
+			continue
+		}
+		graph.AddSymbol(&treesitter.Symbol{
+			ID:            modID,
+			Name:          mod,
+			QualifiedName: mod,
+			Language:      input.Language,
+			File:          fi.pr.File,
+			Package:       mod,
+			Kind:          treesitter.SymbolFunction,
+		})
+	}
+
 	// Phase 2b: Add synthetic class → class.__init__ edges so that
 	// constructor call sites (e.g. HTTPAdapter()) can reach __init__ body.
 	for _, fi := range fileInfos {

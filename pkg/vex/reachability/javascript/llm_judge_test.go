@@ -19,8 +19,8 @@ import (
 	"testing"
 	"time"
 
-	cdxformats "github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 	"github.com/ravan/cra-toolkit/pkg/formats"
+	cdxformats "github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/javascript"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
