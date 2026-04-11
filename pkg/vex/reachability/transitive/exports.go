@@ -99,7 +99,7 @@ func listExportedJavaScript(sourceDir, packageName string) ([]string, error) {
 			if s.Kind != treesitter.SymbolFunction && s.Kind != treesitter.SymbolMethod && s.Kind != treesitter.SymbolClass {
 				continue
 			}
-			seen[mod+"."+s.Name] = struct{}{}
+			seen[packageName+"."+s.Name] = struct{}{}
 		}
 	}
 	out := make([]string, 0, len(seen))
