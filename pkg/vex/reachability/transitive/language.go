@@ -79,7 +79,7 @@ type LanguageSupport interface {
 // Task 1 leaves this as a stub returning errors for every input; Tasks 2
 // and 3 add the Python and JavaScript cases.
 func LanguageFor(name string) (LanguageSupport, error) {
-	switch strings.ToLower(name) {
+	switch strings.ToLower(name) { //nolint:staticcheck // stub — cases added in Tasks 2 and 3
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }
