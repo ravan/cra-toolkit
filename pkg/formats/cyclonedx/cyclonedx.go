@@ -5,6 +5,7 @@ package cyclonedx
 
 import (
 	"io"
+	"os"
 
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	packageurl "github.com/package-url/packageurl-go"
@@ -74,4 +75,66 @@ func flattenCDXComponents(cdxComponents []cdx.Component) []formats.Component {
 		}
 	}
 	return result
+}
+
+// ParseDirectDeps returns the names of packages listed as direct dependencies
+// of the application component in a CycloneDX SBOM's dependencies block.
+// Returns nil when the file cannot be read, is not valid CycloneDX, or the
+// metadata component has no dependsOn entry.
+func ParseDirectDeps(path string) []string {
+	f, err := os.Open(path) //nolint:gosec
+	if err != nil {
+		return nil
+	}
+	defer f.Close() //nolint:errcheck
+
+	bom := new(cdx.BOM)
+	if err := cdx.NewBOMDecoder(f, cdx.BOMFileFormatJSON).Decode(bom); err != nil {
+		return nil
+	}
+	if bom.Metadata == nil || bom.Metadata.Component == nil {
+		return nil
+	}
+	appRef := bom.Metadata.Component.BOMRef
+	if appRef == "" || bom.Dependencies == nil {
+		return nil
+	}
+
+	// Build bom-ref → name map for components that carry a BOMRef.
+	refToName := make(map[string]string)
+	if bom.Components != nil {
+		for _, c := range *bom.Components {
+			if c.BOMRef != "" {
+				refToName[c.BOMRef] = c.Name
+			}
+		}
+	}
+
+	for _, dep := range *bom.Dependencies {
+		if dep.Ref != appRef || dep.Dependencies == nil {
+			continue
+		}
+		var names []string
+		for _, childRef := range *dep.Dependencies {
+			if n := resolveRefName(childRef, refToName); n != "" {
+				names = append(names, n)
+			}
+		}
+		return names
+	}
+	return nil
+}
+
+// resolveRefName resolves a CycloneDX dependency ref to a package name.
+// It first checks the bom-ref map, then falls back to PURL name extraction.
+// Handles Syft-style qualifiers: "pkg:pypi/requests@2.31.0?package-id=xxx" → "requests".
+func resolveRefName(ref string, refToName map[string]string) string {
+	if n, ok := refToName[ref]; ok {
+		return n
+	}
+	// PURL extraction: "pkg:<type>/<name>@<version>[?qualifiers]"
+	if purl, err := packageurl.FromString(ref); err == nil {
+		return purl.Name
+	}
+	return ""
 }
