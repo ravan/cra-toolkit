@@ -756,11 +756,42 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 			collectRequireImport(node, src, file, imports)
 		}
 		return
+
+	case "call_expression":
+		// Catch require() calls that are not part of a variable_declarator —
+		// e.g. bare assignments like `mod = require('qs')` inside switch/if blocks.
+		if isRequireCallSrc(node, src) {
+			collectBareRequireImport(node, src, file, imports)
+		}
+		return
 	}
 
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
 		collectImports(child, src, file, imports)
+	}
+}
+
+// collectBareRequireImport extracts the module from a standalone require() call expression
+// that is not bound to a variable (e.g. inside a switch case or conditional block).
+func collectBareRequireImport(node *tree_sitter.Node, src []byte, file string, imports *[]treesitter.Import) {
+	argsNode := node.ChildByFieldName("arguments")
+	if argsNode == nil {
+		return
+	}
+	for i := uint(0); i < argsNode.ChildCount(); i++ {
+		child := argsNode.Child(i)
+		if child != nil && (child.Kind() == "string" || child.Kind() == "template_string") {
+			module := stripQuotes(nodeText(child, src))
+			if module != "" {
+				*imports = append(*imports, treesitter.Import{
+					Module: module,
+					File:   file,
+					Line:   rowToLine(node.StartPosition().Row),
+				})
+			}
+			return
+		}
 	}
 }
 

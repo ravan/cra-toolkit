@@ -565,3 +565,51 @@ function untypedHandler(req, res) {
 		t.Errorf("res.json in untyped handler: expected confidence 0.8, got %f", untypedJsonConf)
 	}
 }
+
+// TestResolveImports_NestedRequire verifies that require() calls inside switch/conditional
+// blocks (like body-parser's urlencoded.js pattern) are resolved as imports.
+func TestResolveImports_NestedRequire(t *testing.T) {
+	source := `
+var mod;
+switch (type) {
+  case 'qs':
+    mod = require('qs');
+    break;
+  case 'simple':
+    mod = require('qs/simple');
+    break;
+  default:
+    mod = require('querystring');
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	imports, err := ext.ResolveImports("urlencoded.js", src, tree, "/project")
+	if err != nil {
+		t.Fatalf("ResolveImports failed: %v", err)
+	}
+
+	var foundQs, foundQsSimple, foundQuerystring bool
+	for _, imp := range imports {
+		switch imp.Module {
+		case "qs":
+			foundQs = true
+		case "qs/simple":
+			foundQsSimple = true
+		case "querystring":
+			foundQuerystring = true
+		}
+	}
+
+	if !foundQs {
+		t.Error("expected to find require('qs') nested inside switch case")
+	}
+	if !foundQsSimple {
+		t.Error("expected to find require('qs/simple') nested inside switch case")
+	}
+	if !foundQuerystring {
+		t.Error("expected to find require('querystring') nested inside switch default")
+	}
+}
