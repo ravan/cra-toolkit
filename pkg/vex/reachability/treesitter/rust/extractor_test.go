@@ -895,6 +895,70 @@ fn helper() {}
 	}
 }
 
+func TestExtractor_SnapshotRestoreState(t *testing.T) {
+	srcA := `pub trait Handler { fn handle(&self); }
+pub struct LogHandler;
+impl Handler for LogHandler { fn handle(&self) {} }
+`
+	srcB := `pub struct FileHandler;
+impl Handler for FileHandler { fn handle(&self) {} }
+`
+	treeA, bytesA := parseRustSource(t, srcA)
+	defer treeA.Close()
+	treeB, bytesB := parseRustSource(t, srcB)
+	defer treeB.Close()
+
+	ext := rustextractor.New()
+
+	_, err := ext.ExtractSymbols("src/a.rs", bytesA, treeA)
+	if err != nil {
+		t.Fatalf("ExtractSymbols A: %v", err)
+	}
+	snapA := ext.SnapshotState()
+
+	// Second call wipes internal state.
+	_, err = ext.ExtractSymbols("src/b.rs", bytesB, treeB)
+	if err != nil {
+		t.Fatalf("ExtractSymbols B: %v", err)
+	}
+	snapB := ext.SnapshotState()
+
+	// Restoring both snapshots should yield a merged state where Handler has
+	// BOTH LogHandler and FileHandler as implementors.
+	ext.RestoreState(snapA)
+	ext.RestoreState(snapB)
+
+	// Use ExtractCalls on a synthetic dispatcher to observe the merged map.
+	dispatcher := `fn run(h: &dyn Handler) { h.handle(); }`
+	treeD, bytesD := parseRustSource(t, dispatcher)
+	defer treeD.Close()
+
+	_, err = ext.ExtractSymbols("src/dispatcher.rs", bytesD, treeD)
+	if err != nil {
+		t.Fatalf("ExtractSymbols D: %v", err)
+	}
+	// After ExtractSymbols, state was wiped again — replay snapshots.
+	ext.RestoreState(snapA)
+	ext.RestoreState(snapB)
+
+	edges, err := ext.ExtractCalls("src/dispatcher.rs", bytesD, treeD, nil)
+	if err != nil {
+		t.Fatalf("ExtractCalls: %v", err)
+	}
+
+	var dispatchTargets []string
+	for _, e := range edges {
+		if e.Kind == treesitter.EdgeDispatch {
+			dispatchTargets = append(dispatchTargets, string(e.To))
+		}
+	}
+
+	// Expect two dispatch edges, one per implementor.
+	if len(dispatchTargets) != 2 {
+		t.Fatalf("expected 2 dispatch edges, got %d: %v", len(dispatchTargets), dispatchTargets)
+	}
+}
+
 func TestExtractSymbols_PublicVisibility(t *testing.T) {
 	source := `pub fn public_fn() {}
 fn private_fn() {}

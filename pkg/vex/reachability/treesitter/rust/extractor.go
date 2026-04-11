@@ -573,6 +573,27 @@ func (e *Extractor) RestoreTraitImpls(snap *TraitImplSnapshot) {
 	}
 }
 
+// SnapshotState implements the CrossFileStateExtractor capability declared in
+// pkg/vex/reachability/transitive. It returns an opaque snapshot of the
+// cross-file trait-impl state. Callers pair this with RestoreState to bridge
+// trait dispatch across files, because ExtractSymbols resets internal state
+// at the start of every call.
+func (e *Extractor) SnapshotState() any {
+	return e.SnapshotTraitImpls()
+}
+
+// RestoreState merges the given snapshot into the live extractor state. It
+// uses appendUnique semantics, so calling it repeatedly with different
+// snapshots accumulates rather than overwrites. A nil or wrong-type argument
+// is a no-op (defensive — the interface is optional).
+func (e *Extractor) RestoreState(s any) {
+	snap, ok := s.(*TraitImplSnapshot)
+	if !ok {
+		return
+	}
+	e.RestoreTraitImpls(snap)
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ResolveImports
 // ─────────────────────────────────────────────────────────────────────────────
