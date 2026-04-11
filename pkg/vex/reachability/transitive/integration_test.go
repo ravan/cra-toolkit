@@ -40,13 +40,25 @@ func loadFixture(t *testing.T, dir string) expectedFixture {
 }
 
 type cdxComponent struct {
+	BOMRef  string `json:"bom-ref"`
 	Name    string `json:"name"`
 	Version string `json:"version"`
 	PURL    string `json:"purl"`
 }
 
+type cdxDependency struct {
+	Ref       string   `json:"ref"`
+	DependsOn []string `json:"dependsOn"`
+}
+
 type cdxDoc struct {
-	Components []cdxComponent `json:"components"`
+	Metadata struct {
+		Component struct {
+			BOMRef string `json:"bom-ref"`
+		} `json:"component"`
+	} `json:"metadata"`
+	Components   []cdxComponent  `json:"components"`
+	Dependencies []cdxDependency `json:"dependencies"`
 }
 
 func parseSBOMForTest(t *testing.T, path, ecosystem string) *SBOMSummary {
@@ -60,21 +72,73 @@ func parseSBOMForTest(t *testing.T, path, ecosystem string) *SBOMSummary {
 		t.Fatalf("unmarshal sbom: %v", err)
 	}
 	prefix := "pkg:" + ecosystem + "/"
+
+	// Build bom-ref → name map and collect ecosystem packages.
+	refToName := make(map[string]string)
 	var pkgs []Package
+	pkgNameSet := make(map[string]bool)
 	for _, c := range doc.Components {
+		if c.BOMRef != "" {
+			refToName[c.BOMRef] = c.Name
+		}
 		if !strings.HasPrefix(c.PURL, prefix) {
 			continue
 		}
 		pkgs = append(pkgs, Package{Name: c.Name, Version: c.Version})
+		pkgNameSet[c.Name] = true
 	}
 	if len(pkgs) == 0 {
 		t.Fatalf("no %s components in sbom %s", ecosystem, path)
 	}
-	roots := make([]string, 0, len(pkgs))
-	for _, p := range pkgs {
-		roots = append(roots, p.Name)
+
+	// Derive roots from the metadata application component's dependsOn.
+	appRef := doc.Metadata.Component.BOMRef
+	var roots []string
+	if appRef != "" {
+		for _, dep := range doc.Dependencies {
+			if dep.Ref != appRef {
+				continue
+			}
+			for _, childRef := range dep.DependsOn {
+				name := sbomRefName(childRef, refToName)
+				if pkgNameSet[name] {
+					roots = append(roots, name)
+				}
+			}
+			break
+		}
 	}
+	if len(roots) == 0 {
+		t.Logf("SBOM %s: no application-level dependsOn found — using all %s packages as roots (degraded)", path, ecosystem)
+		for _, p := range pkgs {
+			roots = append(roots, p.Name)
+		}
+	}
+
 	return &SBOMSummary{Packages: pkgs, Roots: roots}
+}
+
+// sbomRefName resolves a CycloneDX dependency ref to a package name.
+// Tries the bom-ref map first, then extracts from PURL:
+// "pkg:pypi/requests@2.31.0?package-id=abc" → "requests"
+func sbomRefName(ref string, refToName map[string]string) string {
+	if n, ok := refToName[ref]; ok {
+		return n
+	}
+	// PURL: "pkg:<type>/<name>@<version>[?qualifiers]"
+	// Find the last "/" before "@" or "?"
+	slashIdx := strings.LastIndex(ref, "/")
+	if slashIdx < 0 {
+		return ""
+	}
+	nameVer := ref[slashIdx+1:]
+	if atIdx := strings.IndexByte(nameVer, '@'); atIdx >= 0 {
+		return nameVer[:atIdx]
+	}
+	if qIdx := strings.IndexByte(nameVer, '?'); qIdx >= 0 {
+		return nameVer[:qIdx]
+	}
+	return nameVer
 }
 
 func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affectedName, affectedVersion string, wantReachable bool) {
