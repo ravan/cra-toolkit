@@ -22,7 +22,7 @@ func writeCrate(t *testing.T, name, version string, files map[string]string) str
 	crateDir := filepath.Join(root, name+"-"+version)
 	for rel, content := range files {
 		full := filepath.Join(crateDir, rel)
-		if err := os.MkdirAll(filepath.Dir(full), 0o755); err != nil {
+		if err := os.MkdirAll(filepath.Dir(full), 0o750); err != nil { //nolint:gosec // test helper creates temp directories with restricted permissions
 			t.Fatalf("mkdir %s: %v", filepath.Dir(full), err)
 		}
 		if err := os.WriteFile(full, []byte(content), 0o600); err != nil {

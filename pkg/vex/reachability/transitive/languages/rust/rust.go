@@ -51,6 +51,8 @@ func (l *Language) IsExportedSymbol(sym *treesitter.Symbol) bool {
 }
 
 // ModulePath derives the crate-relative module path for a Rust source file.
+//
+//nolint:gocyclo // path derivation has many branch cases for Rust module conventions (lib, main, mod, nested)
 func (l *Language) ModulePath(file, sourceDir, packageName string) string {
 	rel, err := filepath.Rel(sourceDir, file)
 	if err != nil {

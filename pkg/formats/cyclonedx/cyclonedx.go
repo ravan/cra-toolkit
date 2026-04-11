@@ -81,12 +81,14 @@ func flattenCDXComponents(cdxComponents []cdx.Component) []formats.Component {
 // of the application component in a CycloneDX SBOM's dependencies block.
 // Returns nil when the file cannot be read, is not valid CycloneDX, or the
 // metadata component has no dependsOn entry.
+//
+//nolint:gocognit,gocyclo // SBOM parsing requires many nil guards for optional CycloneDX fields; unavoidable
 func ParseDirectDeps(path string) []string {
-	f, err := os.Open(path) //nolint:gosec
+	f, err := os.Open(path) //nolint:gosec // path comes from trusted caller (not user input)
 	if err != nil {
 		return nil
 	}
-	defer f.Close() //nolint:errcheck
+	defer f.Close() //nolint:errcheck // best-effort close on read-only file
 
 	bom := new(cdx.BOM)
 	if err := cdx.NewBOMDecoder(f, cdx.BOMFileFormatJSON).Decode(bom); err != nil {
@@ -103,7 +105,8 @@ func ParseDirectDeps(path string) []string {
 	// Build bom-ref → name map for components that carry a BOMRef.
 	refToName := make(map[string]string)
 	if bom.Components != nil {
-		for _, c := range *bom.Components {
+		for i := range *bom.Components { //nolint:gocritic // rangeValCopy: index to avoid copying 368-byte cdx.Component
+			c := &(*bom.Components)[i]
 			if c.BOMRef != "" {
 				refToName[c.BOMRef] = c.Name
 			}

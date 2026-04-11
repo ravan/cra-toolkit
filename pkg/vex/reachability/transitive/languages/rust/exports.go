@@ -24,6 +24,8 @@ var ErrNoLibraryAPI = errors.New("rust crate has no library API")
 // sourceDir. See section 4 of
 // docs/superpowers/specs/2026-04-11-rust-transitive-language-support-design.md
 // for the full algorithm.
+//
+//nolint:gocognit,gocyclo,maintidx // multi-phase pub-use resolution pipeline; splitting further would obscure the algorithm
 func (l *Language) ListExports(sourceDir, packageName string) ([]string, error) {
 	crateRoot, libRS, err := findLibRS(sourceDir, packageName)
 	if err != nil {
@@ -184,7 +186,7 @@ type moduleNode struct {
 // the absolute path to src/lib.rs. It searches for a `<name>-<version>/`
 // subdirectory of sourceDir first — that's how CratesFetcher unpacks — and
 // falls back to sourceDir itself for test fixtures that use a flat layout.
-func findLibRS(sourceDir, packageName string) (crateRoot, libRS string, err error) { //nolint:nonamedreturns
+func findLibRS(sourceDir, packageName string) (crateRoot, libRS string, err error) { //nolint:nonamedreturns // named returns needed for deferred error enrichment
 	// Preferred layout: sourceDir/<name>-<version>/src/lib.rs
 	entries, readErr := os.ReadDir(sourceDir)
 	if readErr == nil {
@@ -251,6 +253,8 @@ func walkModuleTree(crateRoot, libRS string) ([]moduleNode, error) {
 }
 
 // findModDecls returns the child module nodes declared in parent's source.
+//
+//nolint:gocognit,gocyclo // recursive module discovery with many node type branches; splitting would obscure the tree walk
 func findModDecls(root *tree_sitter.Node, src []byte, parent moduleNode, crateRoot string) []moduleNode {
 	_ = crateRoot
 	var out []moduleNode
@@ -395,7 +399,7 @@ func findTypeIdent(node *tree_sitter.Node, src []byte) string {
 // emitCanonicalRecord emits canonical keys for all public symbols in root,
 // populating canonicalByName for re-export resolution.
 //
-//nolint:gocognit,gocyclo
+//nolint:gocognit,gocyclo // complex AST traversal for Rust symbol export emission; unavoidable complexity
 func emitCanonicalRecord(
 	root *tree_sitter.Node,
 	src []byte,
@@ -470,6 +474,8 @@ func emitCanonicalRecord(
 }
 
 // emitImplRecord emits method keys for an impl block, gated on publicTypes.
+//
+//nolint:gocognit,gocyclo // impl block has trait-for-type, inherent, and visibility branches; unavoidable complexity
 func emitImplRecord(node *tree_sitter.Node, src []byte, base string, publicTypes map[string]bool, record func(string)) {
 	var traitName, typeName string
 	hasFOR := false
@@ -532,6 +538,8 @@ func findFnName(node *tree_sitter.Node, src []byte) string {
 }
 
 // collectPubUseEdges collects re-export edges from pub use declarations.
+//
+//nolint:gocognit,gocyclo // use declaration AST has many shapes (list, glob, as, nested); unavoidable
 func collectPubUseEdges(
 	root *tree_sitter.Node,
 	src []byte,
@@ -642,6 +650,8 @@ func appendResolvedReExport(
 }
 
 // resolveUseList handles `pub use prefix::{A, B, C}` imports.
+//
+//nolint:gocognit,gocyclo // nested use list resolution with alias and glob branches; unavoidable
 func resolveUseList(
 	node *tree_sitter.Node,
 	src []byte,
@@ -689,6 +699,8 @@ func resolveUseList(
 }
 
 // extractUseAsInner extracts the inner path and alias from a use_as_clause.
+//
+//nolint:gocritic // unnamedResult: the two returns (inner, alias) are self-descriptive at call sites
 func extractUseAsInner(node *tree_sitter.Node, src []byte) (string, string) {
 	var inner, alias string
 	sawAs := false
@@ -756,7 +768,7 @@ func resolveUseWildcard(
 	if !ok {
 		return nil
 	}
-	var edges []reExportEdge
+	var edges []reExportEdge //nolint:prealloc // wildcard count unknown without pre-scanning the canonical map
 	relPrefix := rel + "."
 	for canonicalRel, canonicalFull := range canonicalByName {
 		if !strings.HasPrefix(canonicalRel, relPrefix) {

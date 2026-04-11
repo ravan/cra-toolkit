@@ -602,6 +602,8 @@ func TestExtractSymbols_ModuleExportsFunctionExpression(t *testing.T) {
 // `module.exports = { parse: parseFunc, stringify: stringifyFunc }` emits
 // the object keys (parse, stringify) as symbols.
 // This is the CommonJS pattern used by qs/index.js.
+//
+//nolint:gocyclo // table-driven assertions across many symbol kinds; splitting would hide the scenario
 func TestExtractSymbols_ModuleExportsObjectLiteralKeys(t *testing.T) {
 	source := `var parseFunc = require('./lib/parse');
 var stringifyFunc = require('./lib/stringify');
@@ -679,6 +681,8 @@ function foo() {
 
 // TestExtractCalls_AssignmentExpressionAlias verifies that call edges via an alias set through
 // an assignment_expression (mod = require('qs')) are resolved to the correct module symbol.
+//
+//nolint:dupl // structurally similar to switch-case and argument-reference variants; separate tests cover distinct patterns
 func TestExtractCalls_AssignmentExpressionAlias(t *testing.T) {
 	source := `var mod;
 mod = require('qs');
@@ -716,6 +720,8 @@ function foo() {
 
 // TestExtractCalls_SwitchAssignmentExpressionAlias verifies the body-parser switch pattern:
 // var mod; switch (type) { case 'qs': mod = require('qs'); break; } return mod.parse(body);
+//
+//nolint:dupl // structurally similar to assignment-expression and argument-reference variants; separate tests cover distinct patterns
 func TestExtractCalls_SwitchAssignmentExpressionAlias(t *testing.T) {
 	source := `var mod;
 switch (type) {
@@ -808,6 +814,8 @@ switch (type) {
 // function) still emits a reference edge to qs.parse. This covers the
 // body-parser pattern where a function returns a reference to an imported
 // parser for later invocation.
+//
+//nolint:dupl // structurally similar to var-declarator and argument-reference variants; separate tests cover distinct context
 func TestExtractCalls_MemberExprReturnReference(t *testing.T) {
 	source := `var qs = require('qs');
 function getParse () {
@@ -844,6 +852,8 @@ function getParse () {
 // TestExtractCalls_MemberExprVarDeclaratorReference verifies that
 // `var p = qs.parse` (capturing an imported function in a local variable)
 // emits a reference edge to qs.parse.
+//
+//nolint:dupl // structurally similar to return-reference and argument-reference variants; separate tests cover distinct context
 func TestExtractCalls_MemberExprVarDeclaratorReference(t *testing.T) {
 	source := `var qs = require('qs');
 function doSomething () {
@@ -935,6 +945,8 @@ func TestExtractCalls_MemberExprAliasCollision(t *testing.T) {
 // TestExtractCalls_MemberExprArgumentReference verifies that passing an
 // imported function as a callback argument (wire(qs.parse)) emits a reference
 // edge to qs.parse.
+//
+//nolint:dupl // structurally similar to return-reference and var-declarator variants; separate tests cover distinct context
 func TestExtractCalls_MemberExprArgumentReference(t *testing.T) {
 	source := `var qs = require('qs');
 function wire (fn) {}

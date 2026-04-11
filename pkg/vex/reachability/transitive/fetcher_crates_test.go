@@ -86,6 +86,7 @@ func TestCratesFetcher_Manifest_404(t *testing.T) {
 	}
 }
 
+//nolint:gocritic // unnamedResult: the two returns (tarball, digest) are self-descriptive at call sites
 func buildTestCrate(t *testing.T, name, version, libContents string) ([]byte, string) {
 	t.Helper()
 	var buf bytes.Buffer
@@ -113,7 +114,7 @@ func buildTestCrate(t *testing.T, name, version, libContents string) ([]byte, st
 	}
 	writeTarDir(rootDir)
 	writeTarDir(rootDir + "src/")
-	writeTarFile(rootDir+"Cargo.toml", fmt.Sprintf("[package]\nname = \"%s\"\nversion = \"%s\"\n", name, version))
+	writeTarFile(rootDir+"Cargo.toml", fmt.Sprintf("[package]\nname = %q\nversion = %q\n", name, version))
 	writeTarFile(rootDir+"src/lib.rs", libContents)
 	if err := tw.Close(); err != nil {
 		t.Fatalf("tar close: %v", err)

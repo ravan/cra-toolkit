@@ -636,7 +636,7 @@ func extractMethodDef(
 
 // extractVarDecl handles const/let/var declarations containing arrow/function expressions.
 //
-//nolint:gocognit // handles many var/const declaration binding patterns
+//nolint:gocognit,gocyclo // handles many var/const declaration binding patterns
 func extractVarDecl(
 	node *tree_sitter.Node,
 	src []byte,

@@ -95,6 +95,8 @@ func (f *CratesFetcher) crateTarballURL(dlPath string) string {
 // Fetch downloads the crate tarball for (name, version), verifies its SHA-256
 // digest against the crates.io metadata, optionally checks against an expected
 // digest, unpacks it into the cache and returns the result.
+//
+//nolint:gocyclo // download-verify-unpack pipeline; splitting further would spread error handling across helpers
 func (f *CratesFetcher) Fetch(ctx context.Context, name, version string, expectedDigest *Digest) (FetchResult, error) {
 	meta, err := f.fetchMeta(ctx, name, version)
 	if err != nil {
