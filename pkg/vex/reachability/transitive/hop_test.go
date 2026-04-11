@@ -7,6 +7,8 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
+
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestRunHop_Python_FindsCaller(t *testing.T) {
@@ -34,6 +36,49 @@ func TestRunHop_Python_FindsCaller(t *testing.T) {
 	}
 	if !found {
 		t.Errorf("expected outer_func in reaching symbols, got %v", res.ReachingSymbols)
+	}
+}
+
+// TestBuildCrossFileScope_AliasOnlyImport verifies that an import with an alias
+// but no named symbols (e.g. `const mod = require('qs')`) registers the alias
+// in the scope so that dotted calls like `mod.parse` can be resolved.
+//
+// Regression: buildCrossFileScope previously skipped imports where Symbols == []
+// causing the mod → qs mapping to never be registered.
+func TestBuildCrossFileScope_AliasOnlyImport(t *testing.T) {
+	// Simulate: const mod = require('qs')  →  Import{Module:"qs", Alias:"mod", Symbols:[]}
+	imports := []treesitter.Import{
+		{Module: "qs", Alias: "mod", Symbols: []string{}},
+	}
+	moduleSymbols := map[string][]*treesitter.Symbol{}
+	baseScope := treesitter.NewScope(nil)
+
+	augScope := buildCrossFileScope(imports, moduleSymbols, baseScope)
+
+	// The alias "mod" must resolve to module "qs".
+	modName, ok := augScope.LookupImport("mod")
+	if !ok {
+		t.Fatalf("buildCrossFileScope: alias %q not registered in scope; want module %q", "mod", "qs")
+	}
+	if modName != "qs" {
+		t.Errorf("buildCrossFileScope: alias %q resolved to %q, want %q", "mod", modName, "qs")
+	}
+}
+
+// TestResolveTarget_DottedAliasCall verifies that a dotted call like `mod.parse`
+// is resolved via the scope alias map to `qs.parse` when `mod → qs` is registered.
+//
+// Regression: resolveTarget previously returned the dotted callee unchanged when
+// it contained a dot, bypassing the alias scope lookup entirely.
+func TestResolveTarget_DottedAliasCall(t *testing.T) {
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("mod", "qs", []string{})
+
+	got := resolveTarget(treesitter.SymbolID("mod.parse"), scope, "urlencoded")
+
+	want := treesitter.SymbolID("qs.parse")
+	if got != want {
+		t.Errorf("resolveTarget(%q): got %q, want %q", "mod.parse", got, want)
 	}
 }
 

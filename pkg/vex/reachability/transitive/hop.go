@@ -243,8 +243,12 @@ func buildCrossFileScope(
 ) *treesitter.Scope {
 	aug := treesitter.NewScope(baseScope)
 	for _, imp := range imports {
-		if len(imp.Symbols) == 0 {
-			continue
+		// Register alias → module mapping even when no named symbols are listed.
+		// This covers patterns like `const mod = require('qs')` where the entire
+		// module is bound to an alias (Alias="mod", Symbols=[]) so that dotted
+		// calls such as `mod.parse` can later be resolved to `qs.parse`.
+		if imp.Alias != "" && imp.Module != "" {
+			aug.DefineImport(imp.Alias, imp.Module, imp.Symbols)
 		}
 		for _, sym := range imp.Symbols {
 			aug.Define(sym, imp.Module+"."+sym)
@@ -261,7 +265,14 @@ func buildCrossFileScope(
 // resolves to "api.request").
 func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope, localMod string) treesitter.SymbolID {
 	toStr := string(to)
-	if strings.Contains(toStr, ".") {
+	if dotIdx := strings.Index(toStr, "."); dotIdx >= 0 {
+		// Dotted callee: try to resolve the prefix as an import alias.
+		// e.g. "mod.parse" where scope has mod → qs  →  returns "qs.parse".
+		prefix := toStr[:dotIdx]
+		suffix := toStr[dotIdx+1:]
+		if resolved, ok := scope.LookupImport(prefix); ok {
+			return treesitter.SymbolID(resolved + "." + suffix)
+		}
 		return to
 	}
 	if qualName, ok := scope.Lookup(toStr); ok {
