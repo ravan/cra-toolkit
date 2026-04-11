@@ -166,7 +166,7 @@ func walkSymbols(
 		detectRouteHandlers(node, src, routeHandlers)
 		detectAndExtractInlineRouteHandlers(node, src, file, moduleName, symbols, exported, routeHandlers)
 		// Detect module.exports = { ... } / module.exports.foo = fn assignments.
-		detectModuleExports(node, src, moduleName, symbols, exported)
+		detectModuleExports(node, src, file, moduleName, symbols, exported)
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
 			walkSymbols(child, src, file, moduleName, className, symbols, decorators, exported, routeHandlers)
@@ -312,13 +312,15 @@ func detectAndExtractInlineRouteHandlers(
 }
 
 // detectModuleExports detects CommonJS module.exports = { ... } and module.exports.foo = fn
-// assignments and marks the referenced names in the exported map.
+// assignments and marks the referenced names in the exported map. It also emits Symbol
+// entries for object literal keys and named function expressions so that listExportedJavaScript
+// can find them when iterating the symbols slice.
 //
-//nolint:gocognit,gocyclo // handles object literal, identifier, and property assignment forms
+//nolint:gocognit,gocyclo // handles object literal, identifier, function expression, and property assignment forms
 func detectModuleExports(
 	node *tree_sitter.Node,
 	src []byte,
-	moduleName string,
+	file, moduleName string,
 	symbols *[]*treesitter.Symbol,
 	exported map[treesitter.SymbolID]bool,
 ) {
@@ -339,7 +341,8 @@ func detectModuleExports(
 
 		leftText := nodeText(leftNode, src)
 
-		// Case 1: module.exports = { foo, Bar, ... }
+		// Case 1: module.exports = { foo, Bar, ... } or { parse: parseFunc, ... }
+		// Emit each key as a Symbol so listExportedJavaScript can find it.
 		if leftText == "module.exports" && rightNode.Kind() == "object" {
 			for j := uint(0); j < rightNode.ChildCount(); j++ {
 				prop := rightNode.Child(j)
@@ -357,13 +360,51 @@ func detectModuleExports(
 					}
 				}
 				if name != "" {
-					exported[treesitter.SymbolID(moduleName+"."+name)] = true
+					id := treesitter.SymbolID(moduleName + "." + name)
+					exported[id] = true
+					// Emit a Symbol for this key so listExportedJavaScript finds it.
+					*symbols = append(*symbols, &treesitter.Symbol{
+						ID:            id,
+						Name:          name,
+						QualifiedName: moduleName + "." + name,
+						Language:      "javascript",
+						File:          file,
+						Package:       moduleName,
+						StartLine:     rowToLine(prop.StartPosition().Row),
+						EndLine:       rowToLine(prop.EndPosition().Row),
+						Kind:          treesitter.SymbolFunction,
+					})
 				}
 			}
 			continue
 		}
 
-		// Case 2: module.exports = identifier
+		// Case 2: module.exports = function name(...) {...}
+		// Emit the named function as a Symbol.
+		if leftText == "module.exports" && rightNode.Kind() == "function_expression" {
+			nameNode := rightNode.ChildByFieldName("name")
+			if nameNode != nil {
+				name := nodeText(nameNode, src)
+				if name != "" {
+					id := treesitter.SymbolID(moduleName + "." + name)
+					exported[id] = true
+					*symbols = append(*symbols, &treesitter.Symbol{
+						ID:            id,
+						Name:          name,
+						QualifiedName: moduleName + "." + name,
+						Language:      "javascript",
+						File:          file,
+						Package:       moduleName,
+						StartLine:     rowToLine(rightNode.StartPosition().Row),
+						EndLine:       rowToLine(rightNode.EndPosition().Row),
+						Kind:          treesitter.SymbolFunction,
+					})
+				}
+			}
+			continue
+		}
+
+		// Case 3: module.exports = identifier
 		if leftText == "module.exports" && rightNode.Kind() == "identifier" {
 			name := nodeText(rightNode, src)
 			if name != "" {
@@ -372,7 +413,7 @@ func detectModuleExports(
 			continue
 		}
 
-		// Case 3: module.exports.foo = fn
+		// Case 4: module.exports.foo = fn
 		if leftNode.Kind() == "member_expression" {
 			objNode := leftNode.ChildByFieldName("object")
 			propNode := leftNode.ChildByFieldName("property")
@@ -614,7 +655,40 @@ func extractVarDecl(
 			continue
 		}
 
-		if !isArrowOrFunction(valueNode) {
+		// Unwrap: var x = module.exports = function name(...) {}
+		// The value is an assignment_expression where right is a function_expression.
+		funcNode := valueNode
+		if valueNode.Kind() == "assignment_expression" {
+			assignLeft := valueNode.ChildByFieldName("left")
+			assignRight := valueNode.ChildByFieldName("right")
+			if assignLeft != nil && nodeText(assignLeft, src) == "module.exports" && assignRight != nil && isArrowOrFunction(assignRight) {
+				funcNode = assignRight
+				// Also record the function's own name (if any) as a module export.
+				if assignRight.Kind() == "function_expression" {
+					fnNameNode := assignRight.ChildByFieldName("name")
+					if fnNameNode != nil {
+						fnName := nodeText(fnNameNode, src)
+						if fnName != "" {
+							id := treesitter.SymbolID(moduleName + "." + fnName)
+							st.exported[id] = true
+							*symbols = append(*symbols, &treesitter.Symbol{
+								ID:            id,
+								Name:          fnName,
+								QualifiedName: moduleName + "." + fnName,
+								Language:      "javascript",
+								File:          file,
+								Package:       moduleName,
+								StartLine:     rowToLine(assignRight.StartPosition().Row),
+								EndLine:       rowToLine(assignRight.EndPosition().Row),
+								Kind:          treesitter.SymbolFunction,
+							})
+						}
+					}
+				}
+			}
+		}
+
+		if !isArrowOrFunction(funcNode) {
 			continue
 		}
 

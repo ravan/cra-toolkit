@@ -69,3 +69,79 @@ module.exports = { parse };
 		t.Errorf("unexpected deep symbol %q found in result %v; symbols should use flat packageName prefix", wantDeep, syms)
 	}
 }
+
+// TestListExportedJavaScript_ModuleExportsFunctionExpression verifies that
+// `var x = module.exports = function name(str, opts) {...}` emits the function
+// name as a symbol. This is the pattern used by qs/lib/parse.js.
+func TestListExportedJavaScript_ModuleExportsFunctionExpression(t *testing.T) {
+	tmp := t.TempDir()
+
+	libDir := filepath.Join(tmp, "qs", "lib")
+	if err := os.MkdirAll(libDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	// qs/lib/parse.js pattern: var parse = module.exports = function parse(str, opts) {...}
+	parseJS := `var parse = module.exports = function parse(str, opts) {
+    return {};
+};
+`
+	if err := os.WriteFile(filepath.Join(libDir, "parse.js"), []byte(parseJS), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	syms, err := listExportedJavaScript(tmp, "qs")
+	if err != nil {
+		t.Fatalf("listExportedJavaScript: %v", err)
+	}
+
+	wantFlat := "qs.parse"
+	var foundFlat bool
+	for _, s := range syms {
+		if s == wantFlat {
+			foundFlat = true
+		}
+	}
+
+	if !foundFlat {
+		t.Errorf("expected symbol %q in result %v (module.exports = function parse pattern missed)", wantFlat, syms)
+	}
+}
+
+// TestListExportedJavaScript_ModuleExportsObjectKeys verifies that
+// `module.exports = { parse: require('./lib/parse'), stringify: ... }` emits
+// the object keys as symbols. This is the pattern used by qs/index.js.
+func TestListExportedJavaScript_ModuleExportsObjectKeys(t *testing.T) {
+	tmp := t.TempDir()
+
+	pkgDir := filepath.Join(tmp, "qs")
+	if err := os.MkdirAll(pkgDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	// qs/index.js pattern: module.exports = { parse: require('./lib/parse'), ... }
+	indexJS := `module.exports = {
+    formats: require('./lib/formats'),
+    parse:   require('./lib/parse'),
+    stringify: require('./lib/stringify'),
+};
+`
+	if err := os.WriteFile(filepath.Join(pkgDir, "index.js"), []byte(indexJS), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	syms, err := listExportedJavaScript(tmp, "qs")
+	if err != nil {
+		t.Fatalf("listExportedJavaScript: %v", err)
+	}
+
+	wantSymbols := []string{"qs.parse", "qs.stringify", "qs.formats"}
+	symSet := make(map[string]bool, len(syms))
+	for _, s := range syms {
+		symSet[s] = true
+	}
+
+	for _, want := range wantSymbols {
+		if !symSet[want] {
+			t.Errorf("expected symbol %q in result %v (module.exports object key missed)", want, syms)
+		}
+	}
+}

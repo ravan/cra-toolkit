@@ -566,6 +566,83 @@ function untypedHandler(req, res) {
 	}
 }
 
+// TestExtractSymbols_ModuleExportsFunctionExpression verifies that
+// `module.exports = function name(str) {...}` emits the function name as a symbol.
+// This is the CommonJS pattern used by qs/lib/parse.js.
+func TestExtractSymbols_ModuleExportsFunctionExpression(t *testing.T) {
+	source := `var parse = module.exports = function parse(str, opts) {
+    return {};
+};
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	symbols, err := ext.ExtractSymbols("parse.js", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	var foundParse bool
+	for _, s := range symbols {
+		if s.Name == "parse" && s.Kind == treesitter.SymbolFunction {
+			foundParse = true
+		}
+	}
+
+	if !foundParse {
+		t.Error("expected to find function 'parse' from module.exports = function parse(...) {}")
+		for _, s := range symbols {
+			t.Logf("  got symbol: %s (%s)", s.Name, s.Kind)
+		}
+	}
+}
+
+// TestExtractSymbols_ModuleExportsObjectLiteralKeys verifies that
+// `module.exports = { parse: parseFunc, stringify: stringifyFunc }` emits
+// the object keys (parse, stringify) as symbols.
+// This is the CommonJS pattern used by qs/index.js.
+func TestExtractSymbols_ModuleExportsObjectLiteralKeys(t *testing.T) {
+	source := `var parseFunc = require('./lib/parse');
+var stringifyFunc = require('./lib/stringify');
+
+module.exports = {
+    parse: parseFunc,
+    stringify: stringifyFunc,
+};
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	symbols, err := ext.ExtractSymbols("index.js", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols failed: %v", err)
+	}
+
+	var foundParse, foundStringify bool
+	for _, s := range symbols {
+		switch {
+		case s.Name == "parse" && s.Kind == treesitter.SymbolFunction:
+			foundParse = true
+		case s.Name == "stringify" && s.Kind == treesitter.SymbolFunction:
+			foundStringify = true
+		}
+	}
+
+	if !foundParse {
+		t.Error("expected to find symbol 'parse' from module.exports = { parse: ... }")
+	}
+	if !foundStringify {
+		t.Error("expected to find symbol 'stringify' from module.exports = { stringify: ... }")
+	}
+	if !foundParse || !foundStringify {
+		for _, s := range symbols {
+			t.Logf("  got symbol: %s (%s)", s.Name, s.Kind)
+		}
+	}
+}
+
 // TestResolveImports_NestedRequire verifies that require() calls inside switch/conditional
 // blocks (like body-parser's urlencoded.js pattern) are resolved as imports.
 func TestResolveImports_NestedRequire(t *testing.T) {
