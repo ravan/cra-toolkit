@@ -10,6 +10,7 @@ import (
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/javascript"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/rust"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
@@ -112,6 +113,8 @@ func LanguageFor(name string) (LanguageSupport, error) {
 		return python.New(), nil
 	case "javascript", "js":
 		return javascript.New(), nil
+	case "rust":
+		return rust.New(), nil
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }
