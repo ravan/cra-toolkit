@@ -124,8 +124,20 @@ func (l *Language) ResolveDottedTarget(prefix, suffix string, scope *treesitter.
 }
 
 // ResolveSelfCall rewrites a self-reference call target into a class-qualified
-// form based on the caller's symbol ID. Stub implementation — filled in by
-// Task 12.
+// form based on the caller's symbol ID. When "to" starts with "self.", the
+// method name is appended to the class portion of "from" (all parts except the
+// last). Requires "from" to have at least three parts (pkg.Class.method) to
+// determine the class; otherwise "to" is returned unchanged.
 func (l *Language) ResolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID {
-	return to
+	toStr := string(to)
+	if !strings.HasPrefix(toStr, "self.") {
+		return to
+	}
+	methodName := toStr[len("self."):]
+	fromParts := strings.Split(string(from), ".")
+	if len(fromParts) < 3 {
+		return to
+	}
+	classQual := strings.Join(fromParts[:len(fromParts)-1], ".")
+	return treesitter.SymbolID(classQual + "." + methodName)
 }

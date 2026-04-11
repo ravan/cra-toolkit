@@ -121,6 +121,49 @@ func TestLanguage_SymbolKey(t *testing.T) {
 	}
 }
 
+func TestLanguage_ResolveSelfCall(t *testing.T) {
+	lang := rust.New()
+	cases := []struct {
+		name string
+		to   treesitter.SymbolID
+		from treesitter.SymbolID
+		want treesitter.SymbolID
+	}{
+		{
+			name: "method call through self",
+			to:   "self.inner",
+			from: "hyper.Server.serve",
+			want: "hyper.Server.inner",
+		},
+		{
+			name: "free function call is unchanged",
+			to:   "helper",
+			from: "hyper.entry",
+			want: "helper",
+		},
+		{
+			name: "self at top level leaves unchanged",
+			to:   "self.foo",
+			from: "main",
+			want: "self.foo",
+		},
+		{
+			name: "nested module with three-part from rewrites",
+			to:   "self.read",
+			from: "client.connect.Http.connect",
+			want: "client.connect.Http.read",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := lang.ResolveSelfCall(tc.to, tc.from)
+			if got != tc.want {
+				t.Errorf("ResolveSelfCall(%q, %q) = %q, want %q", tc.to, tc.from, got, tc.want)
+			}
+		})
+	}
+}
+
 func TestLanguage_ResolveDottedTarget(t *testing.T) {
 	lang := rust.New()
 	scope := treesitter.NewScope(nil)
