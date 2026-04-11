@@ -1,0 +1,20 @@
+{
+  "description": "Rust application depending on chrono but only using chrono::Duration for arithmetic. chrono::Duration is internal to chrono and does not reach the vulnerable time@0.2.23 surface. CVE-2020-26235 should be not_affected.",
+  "provenance": {
+    "source_project": "time-rs/time",
+    "cve": "CVE-2020-26235",
+    "language": "rust",
+    "pattern": "cross_package_not_reachable"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2020-26235",
+      "aliases": ["RUSTSEC-2020-0071"],
+      "component_purl": "pkg:cargo/time@0.2.23",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Only chrono::Duration is used, which is self-contained inside chrono and does not invoke the vulnerable time::OffsetDateTime methods."
+    }
+  ]
+}

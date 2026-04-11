@@ -1,0 +1,42 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:22222222-3333-4444-5555-666666666666",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-04-12T00:00:00Z",
+    "component": {
+      "bom-ref": "my-app-safe",
+      "type": "application",
+      "name": "my-app-safe",
+      "version": "0.1.0"
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "pkg:cargo/chrono@0.4.19",
+      "type": "library",
+      "name": "chrono",
+      "version": "0.4.19",
+      "purl": "pkg:cargo/chrono@0.4.19"
+    },
+    {
+      "bom-ref": "pkg:cargo/time@0.2.23",
+      "type": "library",
+      "name": "time",
+      "version": "0.2.23",
+      "purl": "pkg:cargo/time@0.2.23"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "my-app-safe",
+      "dependsOn": ["pkg:cargo/chrono@0.4.19"]
+    },
+    {
+      "ref": "pkg:cargo/chrono@0.4.19",
+      "dependsOn": ["pkg:cargo/time@0.2.23"]
+    }
+  ]
+}
