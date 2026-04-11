@@ -52,3 +52,5 @@ testdata/**/go.sum
 # AI tool config
 .claire/
 .gemini/
+
+!docs/superpowers/specs
