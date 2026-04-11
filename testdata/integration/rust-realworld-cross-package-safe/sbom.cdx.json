@@ -15,28 +15,28 @@
   },
   "components": [
     {
-      "bom-ref": "pkg:cargo/chrono@0.4.19",
+      "bom-ref": "pkg:cargo/uuid@1.6.1",
       "type": "library",
-      "name": "chrono",
-      "version": "0.4.19",
-      "purl": "pkg:cargo/chrono@0.4.19"
+      "name": "uuid",
+      "version": "1.6.1",
+      "purl": "pkg:cargo/uuid@1.6.1"
     },
     {
-      "bom-ref": "pkg:cargo/time@0.2.23",
+      "bom-ref": "pkg:cargo/getrandom@0.2.11",
       "type": "library",
-      "name": "time",
-      "version": "0.2.23",
-      "purl": "pkg:cargo/time@0.2.23"
+      "name": "getrandom",
+      "version": "0.2.11",
+      "purl": "pkg:cargo/getrandom@0.2.11"
     }
   ],
   "dependencies": [
     {
       "ref": "my-app-safe",
-      "dependsOn": ["pkg:cargo/chrono@0.4.19"]
+      "dependsOn": ["pkg:cargo/uuid@1.6.1"]
     },
     {
-      "ref": "pkg:cargo/chrono@0.4.19",
-      "dependsOn": ["pkg:cargo/time@0.2.23"]
+      "ref": "pkg:cargo/uuid@1.6.1",
+      "dependsOn": ["pkg:cargo/getrandom@0.2.11"]
     }
   ]
 }

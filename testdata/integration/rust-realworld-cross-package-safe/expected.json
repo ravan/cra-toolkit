@@ -1,20 +1,19 @@
 {
-  "description": "Rust application depending on chrono but only using chrono::Duration for arithmetic. chrono::Duration is internal to chrono and does not reach the vulnerable time@0.2.23 surface. CVE-2020-26235 should be not_affected.",
+  "description": "Rust application depending on uuid but only using uuid::Uuid::parse_str() for string parsing. parse_str() does not call getrandom::getrandom() — it requires no entropy. getrandom@0.2.11 is in the dependency graph but not reachable from app code.",
   "provenance": {
-    "source_project": "time-rs/time",
-    "cve": "CVE-2020-26235",
+    "source_project": "uuid-rs/uuid",
+    "cve": "hypothetical-vuln-in-getrandom",
     "language": "rust",
     "pattern": "cross_package_not_reachable"
   },
   "findings": [
     {
-      "cve": "CVE-2020-26235",
-      "aliases": ["RUSTSEC-2020-0071"],
-      "component_purl": "pkg:cargo/time@0.2.23",
+      "cve": "hypothetical-vuln-in-getrandom",
+      "component_purl": "pkg:cargo/getrandom@0.2.11",
       "expected_status": "not_affected",
       "expected_confidence": "medium",
       "expected_resolved_by": "reachability_analysis",
-      "human_justification": "Only chrono::Duration is used, which is self-contained inside chrono and does not invoke the vulnerable time::OffsetDateTime methods."
+      "human_justification": "Only uuid::Uuid::parse_str() is used, which is a pure parsing function. It does not invoke getrandom::getrandom() and requires no entropy source."
     }
   ]
 }

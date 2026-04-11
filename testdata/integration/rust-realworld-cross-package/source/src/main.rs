@@ -1,15 +1,13 @@
-// Minimal application that uses chrono to format the current time.
-// CVE-2020-26235 in time@0.2.23 is transitively reachable because chrono
-// internally calls into time's public API (specifically time::OffsetDateTime
-// methods) to construct DateTime values.
+// Minimal application that generates a UUID v4.
+// uuid::Uuid::new_v4() calls getrandom::getrandom() internally via
+// crate::rng::bytes() — getrandom@0.2.11 is transitively reachable.
 
-use chrono::Utc;
+use uuid::Uuid;
 
-fn format_now() -> String {
-    let now = Utc::now();
-    now.to_rfc3339()
+fn generate_id() -> String {
+    Uuid::new_v4().to_string()
 }
 
 fn main() {
-    println!("{}", format_now());
+    println!("{}", generate_id());
 }

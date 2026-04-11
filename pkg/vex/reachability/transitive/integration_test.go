@@ -218,10 +218,10 @@ func TestIntegration_Transitive_JavaScriptNotReachable(t *testing.T) {
 
 func TestIntegration_Transitive_RustReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "rust-realworld-cross-package")
-	runIntegrationFixture(t, dir, "rust", "crates.io", "time", "0.2.23", true)
+	runIntegrationFixture(t, dir, "rust", "crates.io", "getrandom", "0.2.11", true)
 }
 
 func TestIntegration_Transitive_RustNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "rust-realworld-cross-package-safe")
-	runIntegrationFixture(t, dir, "rust", "crates.io", "time", "0.2.23", false)
+	runIntegrationFixture(t, dir, "rust", "crates.io", "getrandom", "0.2.11", false)
 }

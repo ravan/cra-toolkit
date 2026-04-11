@@ -115,7 +115,16 @@ func (l *Language) NormalizeImports(raw []treesitter.Import) []treesitter.Import
 // ResolveDottedTarget attempts to resolve a dotted call target whose prefix
 // is an import alias. It looks up the prefix in the scope's import table and
 // appends the suffix to form a fully-qualified symbol ID.
+//
+// Special case: Rust's "crate::" keyword is a root-relative path to the
+// current crate. It is never an external import alias, so strip it and
+// return the suffix directly. This converts "crate.module.function" edges
+// (emitted when code calls crate::module::function()) into "module.function",
+// which matches the symbol keys derived from file names by the extractor.
 func (l *Language) ResolveDottedTarget(prefix, suffix string, scope *treesitter.Scope) (treesitter.SymbolID, bool) {
+	if prefix == "crate" {
+		return treesitter.SymbolID(suffix), true
+	}
 	resolved, ok := scope.LookupImport(prefix)
 	if !ok {
 		return "", false

@@ -1,14 +1,14 @@
-// Minimal application that uses chrono's Duration type for arithmetic only.
-// chrono::Duration is implemented inside chrono and does NOT touch time's
-// vulnerable surface (time::OffsetDateTime). CVE-2020-26235 should be
-// not_affected for this application.
+// Minimal application that parses a UUID from a string literal.
+// uuid::Uuid::parse_str() is a pure parsing function and does NOT call
+// getrandom::getrandom() — it needs no entropy. getrandom@0.2.11 is
+// transitively present in the dependency graph but not reachable from app code.
 
-use chrono::Duration;
+use uuid::Uuid;
 
-fn seconds_in_an_hour() -> i64 {
-    Duration::hours(1).num_seconds()
+fn is_valid_id(s: &str) -> bool {
+    Uuid::parse_str(s).is_ok()
 }
 
 fn main() {
-    println!("{}", seconds_in_an_hour());
+    println!("{}", is_valid_id("550e8400-e29b-41d4-a716-446655440000"));
 }

@@ -896,11 +896,33 @@ func (e *Extractor) collectCalls(
 
 	case "call_expression":
 		e.processCallExpression(node, src, file, mod, currentFunc, edges)
-		// Recurse into arguments for nested calls
+		// Recurse into sub-expressions to find nested calls.
+		// - arguments: normal recursive case (nested calls in function args).
+		// - field_expression callee: when the call is a method chain such as
+		//   `getrandom::getrandom(buf).unwrap_or_else(...)` or
+		//   `Builder::from_random_bytes(rng::bytes()).into_uuid()`, the inner
+		//   call expression sits in the receiver of the field_expression and
+		//   would be missed if we only walked arguments.
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
-			if child != nil && child.Kind() == "arguments" {
+			if child == nil {
+				continue
+			}
+			switch child.Kind() {
+			case "arguments":
 				e.collectCalls(child, src, file, mod, currentFunc, edges)
+			case "field_expression":
+				// Recurse into the receiver portion of the method chain.
+				for j := uint(0); j < child.ChildCount(); j++ {
+					grandchild := child.Child(j)
+					if grandchild == nil {
+						continue
+					}
+					switch grandchild.Kind() {
+					case "call_expression", "field_expression":
+						e.collectCalls(grandchild, src, file, mod, currentFunc, edges)
+					}
+				}
 			}
 		}
 		return
