@@ -95,6 +95,26 @@ func qualifyName(parts ...string) string {
 	return strings.Join(nonEmpty, ".")
 }
 
+// isPubVisibility reports whether node has a direct visibility_modifier child
+// whose literal text is exactly "pub" (not "pub(crate)", "pub(super)", or
+// "pub(in path)"). A trimmed equality check handles grammars that include
+// trailing whitespace in the modifier's text span.
+func isPubVisibility(node *tree_sitter.Node, src []byte) bool {
+	if node == nil {
+		return false
+	}
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil || child.Kind() != "visibility_modifier" {
+			continue
+		}
+		if strings.TrimSpace(nodeText(child, src)) == "pub" {
+			return true
+		}
+	}
+	return false
+}
+
 // stripRefWrappers strips reference wrappers from a type string:
 // &, &mut, Box<T>, Arc<T>, Rc<T>, dyn Trait → inner type.
 func stripRefWrappers(typeName string) string {
@@ -157,15 +177,15 @@ func (e *Extractor) walkSymbols(
 
 	switch kind {
 	case "function_item":
-		e.extractFunction(node, src, file, mod, currentType, symbols)
+		e.extractFunction(node, src, file, mod, currentType, isPubVisibility(node, src), symbols)
 		return
 
 	case "struct_item":
-		e.extractTypeDefNode(node, src, file, mod, "type_identifier", symbols)
+		e.extractTypeDefNode(node, src, file, mod, "type_identifier", isPubVisibility(node, src), symbols)
 		return
 
 	case "enum_item":
-		e.extractTypeDefNode(node, src, file, mod, "type_identifier", symbols)
+		e.extractTypeDefNode(node, src, file, mod, "type_identifier", isPubVisibility(node, src), symbols)
 		return
 
 	case "trait_item":
@@ -200,6 +220,7 @@ func (e *Extractor) extractFunction(
 	node *tree_sitter.Node,
 	src []byte,
 	file, mod, currentType string,
+	isPublic bool,
 	symbols *[]*treesitter.Symbol,
 ) {
 	name := findChildIdentifier(node, src)
@@ -226,6 +247,7 @@ func (e *Extractor) extractFunction(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          symKind,
+		IsPublic:      isPublic,
 	}
 	*symbols = append(*symbols, sym)
 
@@ -282,6 +304,7 @@ func (e *Extractor) extractTypeDefNode(
 	node *tree_sitter.Node,
 	src []byte,
 	file, mod, _ string,
+	isPublic bool,
 	symbols *[]*treesitter.Symbol,
 ) {
 	name := findChildTypeIdentifier(node, src)
@@ -302,6 +325,7 @@ func (e *Extractor) extractTypeDefNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolClass,
+		IsPublic:      isPublic,
 	}
 	*symbols = append(*symbols, sym)
 }
@@ -321,6 +345,8 @@ func (e *Extractor) extractTrait(
 		return
 	}
 
+	traitIsPublic := isPubVisibility(node, src)
+
 	qualifiedName := qualifyName(mod, traitName)
 	id := treesitter.SymbolID(qualifiedName)
 
@@ -334,6 +360,7 @@ func (e *Extractor) extractTrait(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolClass,
+		IsPublic:      traitIsPublic,
 	}
 	*symbols = append(*symbols, sym)
 
@@ -366,13 +393,14 @@ func (e *Extractor) extractTrait(
 					StartLine:     rowToLine(item.StartPosition().Row),
 					EndLine:       rowToLine(item.EndPosition().Row),
 					Kind:          treesitter.SymbolMethod,
+					IsPublic:      traitIsPublic,
 				}
 				*symbols = append(*symbols, mSym)
 				e.methodToTypes[methodName] = appendUnique(e.methodToTypes[methodName], traitName)
 
 			case "function_item":
-				// Default trait method implementation
-				e.extractFunction(item, src, file, mod, traitName, symbols)
+				// Default trait method body — inherits trait visibility.
+				e.extractFunction(item, src, file, mod, traitName, traitIsPublic, symbols)
 			}
 		}
 	}
@@ -432,6 +460,7 @@ func (e *Extractor) extractImpl(
 	}
 
 	// Extract methods from the impl body
+	isTraitImpl := traitName != ""
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
 		if child == nil || child.Kind() != "declaration_list" {
@@ -440,7 +469,8 @@ func (e *Extractor) extractImpl(
 		for j := uint(0); j < child.ChildCount(); j++ {
 			item := child.Child(j)
 			if item != nil && item.Kind() == "function_item" {
-				e.extractFunction(item, src, file, mod, typeName, symbols)
+				isPublic := isTraitImpl || isPubVisibility(item, src)
+				e.extractFunction(item, src, file, mod, typeName, isPublic, symbols)
 			}
 		}
 	}

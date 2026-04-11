@@ -894,3 +894,68 @@ fn helper() {}
 		t.Errorf("expected at least 2 test entry points, got %d", testEPs)
 	}
 }
+
+func TestExtractSymbols_PublicVisibility(t *testing.T) {
+	source := `pub fn public_fn() {}
+fn private_fn() {}
+pub(crate) fn crate_fn() {}
+pub(super) fn super_fn() {}
+
+pub struct PublicStruct;
+struct PrivateStruct;
+
+pub trait PublicTrait {
+    fn required(&self);
+}
+
+pub struct Server;
+
+impl Server {
+    pub fn serve(&self) {}
+    fn internal(&self) {}
+}
+
+impl PublicTrait for Server {
+    fn required(&self) {}
+}
+`
+	tree, src := parseRustSource(t, source)
+	defer tree.Close()
+
+	ext := rustextractor.New()
+	symbols, err := ext.ExtractSymbols("src/lib.rs", src, tree)
+	if err != nil {
+		t.Fatalf("ExtractSymbols: %v", err)
+	}
+
+	got := make(map[string]bool, len(symbols))
+	for _, s := range symbols {
+		got[s.Name] = s.IsPublic
+	}
+
+	expected := map[string]bool{
+		"public_fn":     true,
+		"private_fn":    false,
+		"crate_fn":      false,
+		"super_fn":      false,
+		"PublicStruct":  true,
+		"PrivateStruct": false,
+		"PublicTrait":   true,
+		"Server":        true,
+		"serve":         true,
+		"internal":      false,
+		// Trait-impl method: inherits visibility from the impl block unconditionally.
+		"required": true,
+	}
+
+	for name, want := range expected {
+		pub, found := got[name]
+		if !found {
+			t.Errorf("symbol %q not emitted", name)
+			continue
+		}
+		if pub != want {
+			t.Errorf("symbol %q IsPublic = %v, want %v", name, pub, want)
+		}
+	}
+}
