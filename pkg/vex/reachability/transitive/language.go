@@ -8,6 +8,7 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/javascript"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
@@ -83,6 +84,8 @@ func LanguageFor(name string) (LanguageSupport, error) {
 	switch strings.ToLower(name) {
 	case "python":
 		return python.New(), nil
+	case "javascript", "js":
+		return javascript.New(), nil
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }
