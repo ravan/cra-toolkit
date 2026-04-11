@@ -121,6 +121,34 @@ func TestLanguage_SymbolKey(t *testing.T) {
 	}
 }
 
+func TestLanguage_ResolveDottedTarget(t *testing.T) {
+	lang := rust.New()
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("Deserialize", "serde.Deserialize", nil)
+	scope.DefineImport("tokio", "tokio", nil)
+
+	got, ok := lang.ResolveDottedTarget("Deserialize", "deserialize", scope)
+	if !ok {
+		t.Fatal("ResolveDottedTarget(Deserialize) returned !ok, want ok")
+	}
+	if got != "serde.Deserialize.deserialize" {
+		t.Errorf("got %q, want %q", got, "serde.Deserialize.deserialize")
+	}
+
+	got, ok = lang.ResolveDottedTarget("tokio", "spawn", scope)
+	if !ok {
+		t.Fatal("ResolveDottedTarget(tokio) returned !ok, want ok")
+	}
+	if got != "tokio.spawn" {
+		t.Errorf("got %q, want %q", got, "tokio.spawn")
+	}
+
+	_, ok = lang.ResolveDottedTarget("unknown", "fn", scope)
+	if ok {
+		t.Error("ResolveDottedTarget(unknown) returned ok, want !ok")
+	}
+}
+
 func TestLanguage_NormalizeImports(t *testing.T) {
 	lang := rust.New()
 	in := []treesitter.Import{

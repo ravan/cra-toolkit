@@ -113,9 +113,14 @@ func (l *Language) NormalizeImports(raw []treesitter.Import) []treesitter.Import
 }
 
 // ResolveDottedTarget attempts to resolve a dotted call target whose prefix
-// is an import alias. Stub implementation — filled in by Task 11.
+// is an import alias. It looks up the prefix in the scope's import table and
+// appends the suffix to form a fully-qualified symbol ID.
 func (l *Language) ResolveDottedTarget(prefix, suffix string, scope *treesitter.Scope) (treesitter.SymbolID, bool) {
-	return "", false
+	resolved, ok := scope.LookupImport(prefix)
+	if !ok {
+		return "", false
+	}
+	return treesitter.SymbolID(resolved + "." + suffix), true
 }
 
 // ResolveSelfCall rewrites a self-reference call target into a class-qualified
