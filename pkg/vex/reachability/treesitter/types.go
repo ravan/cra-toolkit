@@ -31,6 +31,7 @@ type Symbol struct {
 	Kind          SymbolKind
 	IsEntryPoint  bool
 	IsExternal    bool
+	IsPublic      bool
 }
 
 // SymbolKind classifies what kind of code construct a symbol represents.
