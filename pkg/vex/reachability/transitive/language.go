@@ -8,6 +8,7 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
@@ -79,13 +80,10 @@ type LanguageSupport interface {
 // Task 1 leaves this as a stub returning errors for every input; Tasks 2
 // and 3 add the Python and JavaScript cases.
 func LanguageFor(name string) (LanguageSupport, error) {
-	switch strings.ToLower(name) { //nolint:staticcheck // stub — cases added in Tasks 2 and 3
+	switch strings.ToLower(name) {
+	case "python":
+		return python.New(), nil
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }
 
-// ensure unsafe is referenced so the import is not flagged while the stub
-// has no language cases; this reference is removed implicitly once Tasks 2
-// and 3 land (python.New() and javascript.New() satisfy the interface that
-// uses unsafe.Pointer via Grammar).
-var _ unsafe.Pointer //nolint:unused // retained until Task 2 lands Python
