@@ -31,7 +31,6 @@ import (
 	pythonanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 	rubyanalyzer "github.com/ravan/cra-toolkit/pkg/vex/reachability/ruby"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/rust"
-	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 // Options configures a VEX pipeline run.
@@ -340,17 +339,6 @@ func buildAnalyzers(sourceDir string, components []formats.Component, transitive
 	}
 
 	return analyzers
-}
-
-// resolveTransitiveConfig builds a transitive.Config from pipeline options,
-// applying any user-supplied overrides over the production defaults.
-func resolveTransitiveConfig(opts *Options) transitive.Config {
-	cfg := transitive.DefaultConfig()
-	cfg.Enabled = opts.TransitiveEnabled
-	if opts.TransitiveCacheDir != "" {
-		cfg.CacheDir = opts.TransitiveCacheDir
-	}
-	return cfg
 }
 
 // selectWriter returns the appropriate VEX writer for the given format.
