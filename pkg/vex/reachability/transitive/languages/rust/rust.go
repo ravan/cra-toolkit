@@ -1,0 +1,81 @@
+// Copyright 2026 Ravan Naidoo
+// SPDX-License-Identifier: GPL-3.0-only
+
+// Package rust provides the Rust LanguageSupport implementation for the
+// transitive cross-package reachability analyzer. It is imported only by
+// the transitive package's LanguageFor factory.
+package rust
+
+import (
+	"unsafe"
+
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	grammarrust "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/rust"
+	rustextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/rust"
+)
+
+// Language is the Rust LanguageSupport implementation. Callers use New to
+// construct a value; the zero value is not valid.
+type Language struct {
+	extractor treesitter.LanguageExtractor
+}
+
+// New returns a fresh Rust Language. The extractor is constructed once per
+// call; callers that run many analyses should cache the result.
+func New() *Language {
+	return &Language{extractor: rustextractor.New()}
+}
+
+func (l *Language) Name() string                            { return "rust" }
+func (l *Language) Ecosystem() string                       { return "crates.io" }
+func (l *Language) FileExtensions() []string                { return []string{".rs"} }
+func (l *Language) Grammar() unsafe.Pointer                 { return grammarrust.Language() }
+func (l *Language) Extractor() treesitter.LanguageExtractor { return l.extractor }
+
+// IsExportedSymbol reports whether a symbol is part of the Rust crate's
+// public API. It is a fallback used only if the ExportLister hook is not
+// consulted (the primary path uses Language.ListExports, defined in
+// exports.go). A symbol is considered exported when it is flagged public
+// by the extractor AND its kind is a callable or type container.
+func (l *Language) IsExportedSymbol(sym *treesitter.Symbol) bool {
+	if sym == nil || !sym.IsPublic {
+		return false
+	}
+	switch sym.Kind {
+	case treesitter.SymbolFunction, treesitter.SymbolMethod, treesitter.SymbolClass:
+		return true
+	}
+	return false
+}
+
+// ModulePath derives the crate-relative module path for a Rust source file.
+// Stub implementation — filled in by Task 9.
+func (l *Language) ModulePath(file, sourceDir, packageName string) string {
+	return packageName
+}
+
+// SymbolKey composes a fully-qualified symbol key from a module path and a
+// symbol name. Stub implementation — filled in by Task 9.
+func (l *Language) SymbolKey(modulePath, symbolName string) string {
+	return modulePath + "::" + symbolName
+}
+
+// NormalizeImports transforms raw imports emitted by the extractor into the
+// canonical form consumed by the shared scope builder. Stub implementation —
+// filled in by Task 10.
+func (l *Language) NormalizeImports(raw []treesitter.Import) []treesitter.Import {
+	return raw
+}
+
+// ResolveDottedTarget attempts to resolve a dotted call target whose prefix
+// is an import alias. Stub implementation — filled in by Task 11.
+func (l *Language) ResolveDottedTarget(prefix, suffix string, scope *treesitter.Scope) (treesitter.SymbolID, bool) {
+	return "", false
+}
+
+// ResolveSelfCall rewrites a self-reference call target into a class-qualified
+// form based on the caller's symbol ID. Stub implementation — filled in by
+// Task 12.
+func (l *Language) ResolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID {
+	return to
+}
