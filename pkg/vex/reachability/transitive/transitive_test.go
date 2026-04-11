@@ -6,9 +6,12 @@ package transitive
 import (
 	"context"
 	"testing"
+	"unsafe"
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/rust"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
 func TestAnalyzer_NotApplicable_WhenNoSBOM(t *testing.T) {
@@ -43,4 +46,56 @@ func TestAnalyzer_NotApplicable_WhenPackageNotInGraph(t *testing.T) {
 	if len(res.Degradations) == 0 || res.Degradations[0] != ReasonTransitiveNotApplicable {
 		t.Errorf("expected transitive_not_applicable, got %v", res.Degradations)
 	}
+}
+
+func TestCollectVulnSymbols_NoLibraryAPI(t *testing.T) {
+	lang := &noLibAPILang{}
+	a := &Analyzer{
+		Config:   DefaultConfig(),
+		Language: lang,
+		Fetchers: map[string]Fetcher{"crates.io": &noLibAPIFetcher{}},
+	}
+	_, degradations := a.collectVulnSymbols(context.Background(), &formats.Finding{
+		AffectedName:    "mycrate",
+		AffectedVersion: "0.1.0",
+	})
+	for _, d := range degradations {
+		if d == ReasonNoLibraryAPI {
+			return
+		}
+	}
+	t.Errorf("degradations = %v, want to contain %q", degradations, ReasonNoLibraryAPI)
+}
+
+type noLibAPILang struct{}
+
+func (noLibAPILang) Name() string                            { return "rust" }
+func (noLibAPILang) Ecosystem() string                       { return "crates.io" }
+func (noLibAPILang) FileExtensions() []string                { return []string{".rs"} }
+func (noLibAPILang) Grammar() unsafe.Pointer                 { return nil }
+func (noLibAPILang) Extractor() treesitter.LanguageExtractor { return nil }
+func (noLibAPILang) IsExportedSymbol(*treesitter.Symbol) bool { return false }
+func (noLibAPILang) ModulePath(string, string, string) string { return "" }
+func (noLibAPILang) SymbolKey(string, string) string          { return "" }
+func (noLibAPILang) NormalizeImports(raw []treesitter.Import) []treesitter.Import {
+	return raw
+}
+func (noLibAPILang) ResolveDottedTarget(string, string, *treesitter.Scope) (treesitter.SymbolID, bool) {
+	return "", false
+}
+func (noLibAPILang) ResolveSelfCall(to, _ treesitter.SymbolID) treesitter.SymbolID {
+	return to
+}
+func (noLibAPILang) ListExports(string, string) ([]string, error) {
+	return nil, rust.ErrNoLibraryAPI
+}
+
+type noLibAPIFetcher struct{}
+
+func (noLibAPIFetcher) Ecosystem() string { return "crates.io" }
+func (noLibAPIFetcher) Fetch(_ context.Context, _, _ string, _ *Digest) (FetchResult, error) {
+	return FetchResult{SourceDir: "/tmp/fake"}, nil
+}
+func (noLibAPIFetcher) Manifest(_ context.Context, _, _ string) (PackageManifest, error) {
+	return PackageManifest{}, nil
 }

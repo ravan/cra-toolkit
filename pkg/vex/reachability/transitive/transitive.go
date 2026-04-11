@@ -5,10 +5,12 @@ package transitive
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/rust"
 )
 
 // SBOMSummary is the minimal SBOM projection the transitive analyzer needs:
@@ -189,6 +191,9 @@ func findingVersion(f *formats.Finding) string {
 func extractExportedSymbols(lang LanguageSupport, sourceDir, packageName string) (symbols, degradations []string) { //nolint:nonamedreturns // gocritic requires named returns
 	syms, err := listExportedSymbols(lang, sourceDir, packageName)
 	if err != nil {
+		if errors.Is(err, rust.ErrNoLibraryAPI) {
+			return nil, []string{ReasonNoLibraryAPI}
+		}
 		return nil, []string{ReasonExtractorError}
 	}
 	return syms, nil
