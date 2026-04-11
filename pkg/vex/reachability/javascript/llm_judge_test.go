@@ -214,11 +214,14 @@ func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
 
 	cache := transitive.NewCache(t.TempDir())
 	fetcher := &transitive.NPMFetcher{Cache: cache}
+	lang, langErr := transitive.LanguageFor("javascript")
+	if langErr != nil {
+		t.Fatalf("LanguageFor(javascript): %v", langErr)
+	}
 	ta := &transitive.Analyzer{
-		Config:    transitive.DefaultConfig(),
-		Language:  "javascript",
-		Ecosystem: "npm",
-		Fetchers:  map[string]transitive.Fetcher{"npm": fetcher},
+		Config:   transitive.DefaultConfig(),
+		Language: lang,
+		Fetchers: map[string]transitive.Fetcher{"npm": fetcher},
 	}
 
 	finding := &formats.Finding{

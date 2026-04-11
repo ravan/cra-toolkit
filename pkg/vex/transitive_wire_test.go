@@ -135,11 +135,11 @@ func TestBuildTransitiveAnalyzer_Python(t *testing.T) {
 	if a == nil {
 		t.Fatal("expected non-nil analyzer for python")
 	}
-	if a.Language != "python" {
-		t.Errorf("Language: got %q, want %q", a.Language, "python")
+	if a.Language.Name() != "python" {
+		t.Errorf("Language.Name(): got %q, want %q", a.Language.Name(), "python")
 	}
-	if a.Ecosystem != "pypi" {
-		t.Errorf("Ecosystem: got %q, want %q", a.Ecosystem, "pypi")
+	if a.Language.Ecosystem() != "pypi" {
+		t.Errorf("Language.Ecosystem(): got %q, want %q", a.Language.Ecosystem(), "pypi")
 	}
 	if _, ok := a.Fetchers["pypi"]; !ok {
 		t.Error("expected pypi fetcher in Fetchers map")
@@ -152,11 +152,11 @@ func TestBuildTransitiveAnalyzer_JavaScript(t *testing.T) {
 	if a == nil {
 		t.Fatal("expected non-nil analyzer for javascript")
 	}
-	if a.Language != "javascript" {
-		t.Errorf("Language: got %q, want %q", a.Language, "javascript")
+	if a.Language.Name() != "javascript" {
+		t.Errorf("Language.Name(): got %q, want %q", a.Language.Name(), "javascript")
 	}
-	if a.Ecosystem != "npm" {
-		t.Errorf("Ecosystem: got %q, want %q", a.Ecosystem, "npm")
+	if a.Language.Ecosystem() != "npm" {
+		t.Errorf("Language.Ecosystem(): got %q, want %q", a.Language.Ecosystem(), "npm")
 	}
 	if _, ok := a.Fetchers["npm"]; !ok {
 		t.Error("expected npm fetcher in Fetchers map")

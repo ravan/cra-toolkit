@@ -161,11 +161,15 @@ func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affect
 		t.Fatalf("unknown ecosystem %q", ecosystem)
 	}
 
+	lang, langErr := LanguageFor(language)
+	if langErr != nil {
+		t.Fatalf("LanguageFor(%q): %v", language, langErr)
+	}
+
 	analyzer := &Analyzer{
-		Config:    DefaultConfig(),
-		Language:  language,
-		Ecosystem: ecosystem,
-		Fetchers:  map[string]Fetcher{ecosystem: fetcher},
+		Config:   DefaultConfig(),
+		Language: lang,
+		Fetchers: map[string]Fetcher{ecosystem: fetcher},
 	}
 
 	res, err := analyzer.Analyze(context.Background(), summary, &formats.Finding{

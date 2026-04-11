@@ -6,6 +6,8 @@ package transitive
 import (
 	"context"
 	"testing"
+
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 )
 
 // stubHopRunner records calls and returns canned results so the walker's
@@ -53,7 +55,7 @@ func TestWalker_Reachable_StitchesCallPaths(t *testing.T) {
 		Fetcher:     stubFetcher{},
 		Hop:         hops.Run,
 		Config:      DefaultConfig(),
-		Language:    "python",
+		Language:    python.New(),
 		InitialTarg: []string{"V.entry"},
 	}
 	res, err := w.WalkPath(context.Background(), path)
@@ -90,7 +92,7 @@ func TestWalker_ShortCircuit_OnBrokenLink(t *testing.T) {
 		Fetcher:     stubFetcher{},
 		Hop:         hops.Run,
 		Config:      DefaultConfig(),
-		Language:    "python",
+		Language:    python.New(),
 		InitialTarg: []string{"V.entry"},
 	}
 	res, err := w.WalkPath(context.Background(), path)
@@ -121,7 +123,7 @@ func TestWalker_HopBoundExceeded(t *testing.T) {
 		Fetcher:     stubFetcher{},
 		Hop:         hops.Run,
 		Config:      cfg,
-		Language:    "python",
+		Language:    python.New(),
 		InitialTarg: []string{"target"},
 	}
 	res, _ := w.WalkPath(context.Background(), longPath)

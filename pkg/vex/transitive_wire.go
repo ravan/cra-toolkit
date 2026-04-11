@@ -52,43 +52,45 @@ func buildTransitiveSummary(components []formats.Component, directDeps []string,
 	}
 }
 
-// buildTransitiveAnalyzer constructs a transitive.Analyzer for the given language.
-// Returns nil when cfg.Enabled is false or the language is not supported
-// (currently "python" and "javascript" only).
+// buildTransitiveAnalyzer constructs a transitive.Analyzer for the given
+// language. Returns nil when cfg.Enabled is false, the language is not
+// registered in transitive.LanguageFor, or no fetcher is available for the
+// language's ecosystem.
 func buildTransitiveAnalyzer(cfg transitive.Config, language string) *transitive.Analyzer {
 	if !cfg.Enabled {
 		return nil
 	}
-
-	var ecosystem string
-	switch language {
-	case "python":
-		ecosystem = "pypi"
-	case "javascript":
-		ecosystem = "npm"
-	default:
+	lang, err := transitive.LanguageFor(language)
+	if err != nil {
 		return nil
 	}
-
 	var cache *transitive.Cache
 	if cfg.CacheDir != "" {
 		cache = transitive.NewCache(cfg.CacheDir)
 	}
+	fetchers := buildFetchers(cache, lang.Ecosystem())
+	if fetchers == nil {
+		return nil
+	}
+	return &transitive.Analyzer{
+		Config:   cfg,
+		Fetchers: fetchers,
+		Language: lang,
+	}
+}
 
-	var fetcher transitive.Fetcher
+// buildFetchers returns a map containing the single fetcher required for
+// the given ecosystem, or nil if the ecosystem has no registered fetcher.
+// This is the one remaining ecosystem switch in the codebase; each
+// language's LanguageSupport declares the ecosystem key it requires.
+func buildFetchers(cache *transitive.Cache, ecosystem string) map[string]transitive.Fetcher {
 	switch ecosystem {
 	case "pypi":
-		fetcher = &transitive.PyPIFetcher{Cache: cache}
+		return map[string]transitive.Fetcher{"pypi": &transitive.PyPIFetcher{Cache: cache}}
 	case "npm":
-		fetcher = &transitive.NPMFetcher{Cache: cache}
+		return map[string]transitive.Fetcher{"npm": &transitive.NPMFetcher{Cache: cache}}
 	}
-
-	return &transitive.Analyzer{
-		Config:    cfg,
-		Fetchers:  map[string]transitive.Fetcher{ecosystem: fetcher},
-		Language:  language,
-		Ecosystem: ecosystem,
-	}
+	return nil
 }
 
 // ReachabilityConfig holds YAML-configurable bounds for reachability analysis.

@@ -29,9 +29,9 @@ func New() *Language {
 }
 
 func (l *Language) Name() string                            { return "javascript" }
-func (l *Language) Ecosystem() string                      { return "npm" }
-func (l *Language) FileExtensions() []string               { return []string{".js", ".mjs", ".cjs"} }
-func (l *Language) Grammar() unsafe.Pointer                { return grammarjs.Language() }
+func (l *Language) Ecosystem() string                       { return "npm" }
+func (l *Language) FileExtensions() []string                { return []string{".js", ".mjs", ".cjs"} }
+func (l *Language) Grammar() unsafe.Pointer                 { return grammarjs.Language() }
 func (l *Language) Extractor() treesitter.LanguageExtractor { return l.extractor }
 
 // IsExportedSymbol reports whether a symbol is part of the JavaScript

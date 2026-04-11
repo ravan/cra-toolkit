@@ -20,7 +20,7 @@ type Walker struct {
 	Fetcher     Fetcher
 	Hop         HopRunner
 	Config      Config
-	Language    string
+	Language    LanguageSupport
 	InitialTarg []string // target symbols at the vulnerable package
 }
 

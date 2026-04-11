@@ -10,9 +10,9 @@ import (
 
 func TestLanguageFor_RegisteredLanguages(t *testing.T) {
 	tests := []struct {
-		input        string
-		wantName     string
-		wantEcosys   string
+		input      string
+		wantName   string
+		wantEcosys string
 	}{
 		{"python", "python", "pypi"},
 		{"Python", "python", "pypi"},
@@ -71,6 +71,8 @@ func TestLanguageFor_UnknownLanguage(t *testing.T) {
 // TestLanguageSupport_Contract verifies that every registered language
 // honors the interface contract: non-empty identity fields, non-nil
 // tree-sitter plumbing, and round-trippable name via LanguageFor.
+//
+//nolint:gocognit,gocyclo // contract test: each sub-check is intentionally co-located for readability
 func TestLanguageSupport_Contract(t *testing.T) {
 	registered := []string{"python", "javascript"}
 	for _, name := range registered {

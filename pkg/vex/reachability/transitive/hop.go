@@ -9,19 +9,14 @@ import (
 	"io/fs"
 	"path/filepath"
 	"strings"
-	"unsafe"
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
-	grammarjs "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/javascript"
-	grammarpython "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/python"
-	jsextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/javascript"
-	pyextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/python"
 )
 
 // HopInput describes a single per-hop reachability query.
 type HopInput struct {
-	// Language is the source language: "python" or "javascript".
-	Language string
+	// Language is the LanguageSupport implementation for the source language.
+	Language LanguageSupport
 	// SourceDir is the root directory containing source files to scan.
 	SourceDir string
 	// TargetSymbols are the qualified symbol names to search for
@@ -44,19 +39,27 @@ type HopResult struct {
 //
 //nolint:gocognit,gocyclo,maintidx // multi-phase call graph pipeline; splitting further would obscure the flow
 func RunHop(_ context.Context, input HopInput) (HopResult, error) {
-	ext, langPtr, fileExt, err := extractorForLanguage(input.Language)
-	if err != nil {
-		return HopResult{}, err
+	if input.Language == nil {
+		return HopResult{}, fmt.Errorf("RunHop: input.Language is nil")
 	}
+	ext := input.Language.Extractor()
+	langPtr := input.Language.Grammar()
+	fileExts := input.Language.FileExtensions()
 
-	// Collect all source files.
+	// Collect all source files matching any of the language's extensions.
 	var files []string
 	if walkErr := filepath.WalkDir(input.SourceDir, func(path string, d fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
 			return walkErr
 		}
-		if !d.IsDir() && strings.HasSuffix(path, fileExt) {
-			files = append(files, path)
+		if d.IsDir() {
+			return nil
+		}
+		for _, ext := range fileExts {
+			if strings.HasSuffix(path, ext) {
+				files = append(files, path)
+				return nil
+			}
 		}
 		return nil
 	}); walkErr != nil {
@@ -148,7 +151,7 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 			ID:            modID,
 			Name:          mod,
 			QualifiedName: mod,
-			Language:      input.Language,
+			Language:      input.Language.Name(),
 			File:          fi.pr.File,
 			Package:       mod,
 			Kind:          treesitter.SymbolFunction,
@@ -171,15 +174,15 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 
 	// Phase 3: Extract call edges.
 	for _, fi := range fileInfos {
-		augScope := buildCrossFileScope(fi.imports, moduleSymbols, fi.scope)
+		augScope := buildCrossFileScope(fi.imports, moduleSymbols, fi.scope, input.Language)
 		mod := moduleNameFrom(fi.pr.File)
 		edges, edgeErr := ext.ExtractCalls(fi.pr.File, fi.pr.Source, fi.pr.Tree, augScope)
 		if edgeErr != nil {
 			continue
 		}
 		for _, e := range edges {
-			e.To = resolveTarget(e.To, augScope, mod)
-			e.To = resolveSelfCall(e.To, e.From)
+			e.To = resolveTarget(e.To, augScope, mod, input.Language)
+			e.To = input.Language.ResolveSelfCall(e.To, e.From)
 			graph.AddEdge(e)
 		}
 	}
@@ -199,7 +202,7 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 				ID:         id,
 				Name:       t,
 				IsExternal: true,
-				Language:   input.Language,
+				Language:   input.Language.Name(),
 			})
 		}
 	}
@@ -246,19 +249,6 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 	return HopResult{ReachingSymbols: result}, nil
 }
 
-// extractorForLanguage returns the LanguageExtractor, grammar language pointer,
-// and file extension for the given language name.
-func extractorForLanguage(lang string) (ext treesitter.LanguageExtractor, langPtr unsafe.Pointer, fileExt string, err error) { //nolint:nonamedreturns // gocritic requires named returns for clarity
-	switch strings.ToLower(lang) {
-	case "python":
-		return pyextractor.New(), grammarpython.Language(), ".py", nil
-	case "javascript", "js":
-		return jsextractor.New(), grammarjs.Language(), ".js", nil
-	default:
-		return nil, nil, "", fmt.Errorf("unsupported language %q: only python and javascript are supported", lang)
-	}
-}
-
 // moduleNameFrom derives a module/file name from an absolute path.
 func moduleNameFrom(file string) string {
 	base := filepath.Base(file)
@@ -271,13 +261,16 @@ func buildCrossFileScope(
 	imports []treesitter.Import,
 	moduleSymbols map[string][]*treesitter.Symbol,
 	baseScope *treesitter.Scope,
+	lang LanguageSupport,
 ) *treesitter.Scope {
+	normalized := lang.NormalizeImports(imports)
 	aug := treesitter.NewScope(baseScope)
-	for _, imp := range imports {
-		// Register alias → module mapping even when no named symbols are listed.
-		// This covers patterns like `const mod = require('qs')` where the entire
-		// module is bound to an alias (Alias="mod", Symbols=[]) so that dotted
-		// calls such as `mod.parse` can later be resolved to `qs.parse`.
+	for _, imp := range normalized {
+		// Register alias → module mapping even when no named symbols are
+		// listed. This covers patterns like `const mod = require('qs')`
+		// where the entire module is bound to an alias (Alias="mod",
+		// Symbols=[]) so that dotted calls such as `mod.parse` can later
+		// be resolved to `qs.parse`.
 		if imp.Alias != "" && imp.Module != "" {
 			aug.DefineImport(imp.Alias, imp.Module, imp.Symbols)
 		}
@@ -294,47 +287,21 @@ func buildCrossFileScope(
 // back to qualifying with localMod (the calling file's module name), which
 // covers same-file function calls (e.g., call to "request" in api.py
 // resolves to "api.request").
-func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope, localMod string) treesitter.SymbolID {
+func resolveTarget(to treesitter.SymbolID, scope *treesitter.Scope, localMod string, lang LanguageSupport) treesitter.SymbolID {
 	toStr := string(to)
 	if dotIdx := strings.Index(toStr, "."); dotIdx >= 0 {
-		// Dotted callee: try to resolve the prefix as an import alias.
-		// e.g. "mod.parse" where scope has mod → qs  →  returns "qs.parse".
 		prefix := toStr[:dotIdx]
 		suffix := toStr[dotIdx+1:]
-		if resolved, ok := scope.LookupImport(prefix); ok {
-			return treesitter.SymbolID(resolved + "." + suffix)
+		if resolved, ok := lang.ResolveDottedTarget(prefix, suffix, scope); ok {
+			return resolved
 		}
 		return to
 	}
 	if qualName, ok := scope.Lookup(toStr); ok {
 		return treesitter.SymbolID(qualName)
 	}
-	// Qualify with local module name so same-file calls are traceable.
 	if localMod != "" {
 		return treesitter.SymbolID(localMod + "." + toStr)
 	}
 	return to
-}
-
-// resolveSelfCall rewrites call targets of the form "self.X" to their
-// class-qualified form "Module.ClassName.X" by extracting the class context
-// from the from symbol ID. For example, if from="adapters.HTTPAdapter.__init__"
-// and to="self.init_poolmanager", this returns "adapters.HTTPAdapter.init_poolmanager".
-//
-// Only applies when from has at least three dot-separated components (module,
-// class, method). Free functions (e.g., "api.get") are left unchanged.
-func resolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID {
-	toStr := string(to)
-	if !strings.HasPrefix(toStr, "self.") {
-		return to
-	}
-	methodName := toStr[len("self."):]
-	fromParts := strings.Split(string(from), ".")
-	if len(fromParts) < 3 {
-		// Not inside a class method — no class context available.
-		return to
-	}
-	// classQual = everything except the last component (the method name in from).
-	classQual := strings.Join(fromParts[:len(fromParts)-1], ".")
-	return treesitter.SymbolID(classQual + "." + methodName)
 }

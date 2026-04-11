@@ -213,11 +213,14 @@ func TestLLMJudge_PythonTransitiveReachability(t *testing.T) {
 
 	cache := transitive.NewCache(t.TempDir())
 	fetcher := &transitive.PyPIFetcher{Cache: cache}
+	lang, langErr := transitive.LanguageFor("python")
+	if langErr != nil {
+		t.Fatalf("LanguageFor(python): %v", langErr)
+	}
 	ta := &transitive.Analyzer{
-		Config:    transitive.DefaultConfig(),
-		Language:  "python",
-		Ecosystem: "pypi",
-		Fetchers:  map[string]transitive.Fetcher{"pypi": fetcher},
+		Config:   transitive.DefaultConfig(),
+		Language: lang,
+		Fetchers: map[string]transitive.Fetcher{"pypi": fetcher},
 	}
 
 	finding := &formats.Finding{

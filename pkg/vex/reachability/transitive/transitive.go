@@ -24,10 +24,9 @@ type SBOMSummary struct {
 // constructed per vex.Run with the SBOM summary and ecosystem-specific fetcher
 // wired in. It is safe to reuse across findings within the same run.
 type Analyzer struct {
-	Config    Config
-	Fetchers  map[string]Fetcher // keyed by ecosystem: "pypi", "npm"
-	Language  string             // "python" or "javascript"
-	Ecosystem string             // matching ecosystem key for Fetchers
+	Config   Config
+	Fetchers map[string]Fetcher // keyed by ecosystem: "pypi", "npm"
+	Language LanguageSupport    // per-language plug-in; selects fetcher via Ecosystem()
 }
 
 // Analyze attempts transitive reachability analysis for the given finding.
@@ -41,7 +40,10 @@ func (a *Analyzer) Analyze(ctx context.Context, sbom *SBOMSummary, finding *form
 	if sbom == nil || len(sbom.Packages) == 0 || len(sbom.Roots) == 0 {
 		return notApplicable(ReasonTransitiveNotApplicable), nil
 	}
-	fetcher, ok := a.Fetchers[a.Ecosystem]
+	if a.Language == nil {
+		return notApplicable(ReasonTransitiveNotApplicable), nil
+	}
+	fetcher, ok := a.Fetchers[a.Language.Ecosystem()]
 	if !ok {
 		return notApplicable(ReasonTransitiveNotApplicable), nil
 	}
@@ -138,7 +140,10 @@ func (a *Analyzer) Analyze(ctx context.Context, sbom *SBOMSummary, finding *form
 // collectVulnSymbols fetches the vulnerable package's source and returns its
 // exported symbols as the coarse target set (Stage B of the algorithm).
 func (a *Analyzer) collectVulnSymbols(ctx context.Context, finding *formats.Finding) (symbols, degradations []string) { //nolint:nonamedreturns // gocritic requires named returns
-	fetcher, ok := a.Fetchers[a.Ecosystem]
+	if a.Language == nil {
+		return nil, []string{ReasonTransitiveNotApplicable}
+	}
+	fetcher, ok := a.Fetchers[a.Language.Ecosystem()]
 	if !ok {
 		return nil, []string{ReasonTransitiveNotApplicable}
 	}
@@ -181,8 +186,8 @@ func findingVersion(f *formats.Finding) string {
 // symbol IDs of its public API. v1: "all top-level functions and methods."
 // Filtering by language conventions (leading underscore for Python private)
 // is applied.
-func extractExportedSymbols(language, sourceDir, packageName string) (symbols, degradations []string) { //nolint:nonamedreturns // gocritic requires named returns
-	syms, err := listExportedSymbols(language, sourceDir, packageName)
+func extractExportedSymbols(lang LanguageSupport, sourceDir, packageName string) (symbols, degradations []string) { //nolint:nonamedreturns // gocritic requires named returns
+	syms, err := listExportedSymbols(lang, sourceDir, packageName)
 	if err != nil {
 		return nil, []string{ReasonExtractorError}
 	}

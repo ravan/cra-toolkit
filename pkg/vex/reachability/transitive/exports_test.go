@@ -7,9 +7,11 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/javascript"
 )
 
-// TestListExportedJavaScript_FlatSymbolKeys verifies that listExportedJavaScript
+// TestListExportedJavaScript_FlatSymbolKeys verifies that listExportedSymbols
 // emits symbols as "<packageName>.<symbolName>" (flat) rather than the deep
 // file-path-qualified form "<packageName>.<subdir>.<file>.<symbolName>".
 //
@@ -23,28 +25,28 @@ func TestListExportedJavaScript_FlatSymbolKeys(t *testing.T) {
 	//
 	// NPMFetcher unpacks the tarball to tmp/ and renames the inner "package/"
 	// directory to "<name>/" (i.e. tmp/qs/). It then returns SourceDir = tmp,
-	// so listExportedJavaScript is called with sourceDir=tmp and packageName="qs".
+	// so listExportedSymbols is called with sourceDir=tmp and packageName="qs".
 	libDir := filepath.Join(tmp, "qs", "lib")
-	if err := os.MkdirAll(libDir, 0o755); err != nil {
+	if err := os.MkdirAll(libDir, 0o750); err != nil { //nolint:gosec // test helper: controlled temp dir
 		t.Fatal(err)
 	}
 	parseJS := `function parse(str, opts) { return {}; }
 module.exports = { parse };
 `
-	if err := os.WriteFile(filepath.Join(libDir, "parse.js"), []byte(parseJS), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(libDir, "parse.js"), []byte(parseJS), 0o600); err != nil { //nolint:gosec // test helper
 		t.Fatal(err)
 	}
 
 	// Optional but realistic package.json at the package root.
 	pkgJSON := `{"name":"qs","version":"6.11.0","main":"lib/stringify.js"}`
-	if err := os.WriteFile(filepath.Join(tmp, "qs", "package.json"), []byte(pkgJSON), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmp, "qs", "package.json"), []byte(pkgJSON), 0o600); err != nil { //nolint:gosec // test helper
 		t.Fatal(err)
 	}
 
 	// sourceDir is the parent tmp dir (not tmp/qs/), matching real NPMFetcher output.
-	syms, err := listExportedJavaScript(tmp, "qs")
+	syms, err := listExportedSymbols(javascript.New(), tmp, "qs")
 	if err != nil {
-		t.Fatalf("listExportedJavaScript: %v", err)
+		t.Fatalf("listExportedSymbols: %v", err)
 	}
 
 	// Must contain the flat form "qs.parse".
@@ -77,7 +79,7 @@ func TestListExportedJavaScript_ModuleExportsFunctionExpression(t *testing.T) {
 	tmp := t.TempDir()
 
 	libDir := filepath.Join(tmp, "qs", "lib")
-	if err := os.MkdirAll(libDir, 0o755); err != nil {
+	if err := os.MkdirAll(libDir, 0o750); err != nil { //nolint:gosec // test helper: controlled temp dir
 		t.Fatal(err)
 	}
 	// qs/lib/parse.js pattern: var parse = module.exports = function parse(str, opts) {...}
@@ -85,13 +87,13 @@ func TestListExportedJavaScript_ModuleExportsFunctionExpression(t *testing.T) {
     return {};
 };
 `
-	if err := os.WriteFile(filepath.Join(libDir, "parse.js"), []byte(parseJS), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(libDir, "parse.js"), []byte(parseJS), 0o600); err != nil { //nolint:gosec // test helper
 		t.Fatal(err)
 	}
 
-	syms, err := listExportedJavaScript(tmp, "qs")
+	syms, err := listExportedSymbols(javascript.New(), tmp, "qs")
 	if err != nil {
-		t.Fatalf("listExportedJavaScript: %v", err)
+		t.Fatalf("listExportedSymbols: %v", err)
 	}
 
 	wantFlat := "qs.parse"
@@ -114,7 +116,7 @@ func TestListExportedJavaScript_ModuleExportsObjectKeys(t *testing.T) {
 	tmp := t.TempDir()
 
 	pkgDir := filepath.Join(tmp, "qs")
-	if err := os.MkdirAll(pkgDir, 0o755); err != nil {
+	if err := os.MkdirAll(pkgDir, 0o750); err != nil { //nolint:gosec // test helper: controlled temp dir
 		t.Fatal(err)
 	}
 	// qs/index.js pattern: module.exports = { parse: require('./lib/parse'), ... }
@@ -124,13 +126,13 @@ func TestListExportedJavaScript_ModuleExportsObjectKeys(t *testing.T) {
     stringify: require('./lib/stringify'),
 };
 `
-	if err := os.WriteFile(filepath.Join(pkgDir, "index.js"), []byte(indexJS), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(pkgDir, "index.js"), []byte(indexJS), 0o600); err != nil { //nolint:gosec // test helper
 		t.Fatal(err)
 	}
 
-	syms, err := listExportedJavaScript(tmp, "qs")
+	syms, err := listExportedSymbols(javascript.New(), tmp, "qs")
 	if err != nil {
-		t.Fatalf("listExportedJavaScript: %v", err)
+		t.Fatalf("listExportedSymbols: %v", err)
 	}
 
 	wantSymbols := []string{"qs.parse", "qs.stringify", "qs.formats"}

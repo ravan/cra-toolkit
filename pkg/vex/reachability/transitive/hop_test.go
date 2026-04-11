@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
@@ -17,7 +18,7 @@ func TestRunHop_Python_FindsCaller(t *testing.T) {
 		t.Fatal(err)
 	}
 	res, err := RunHop(context.Background(), HopInput{
-		Language:      "python",
+		Language:      python.New(),
 		SourceDir:     src,
 		TargetSymbols: []string{"urllib3.PoolManager"},
 		MaxTargets:    100,
@@ -53,7 +54,7 @@ func TestBuildCrossFileScope_AliasOnlyImport(t *testing.T) {
 	moduleSymbols := map[string][]*treesitter.Symbol{}
 	baseScope := treesitter.NewScope(nil)
 
-	augScope := buildCrossFileScope(imports, moduleSymbols, baseScope)
+	augScope := buildCrossFileScope(imports, moduleSymbols, baseScope, python.New())
 
 	// The alias "mod" must resolve to module "qs".
 	modName, ok := augScope.LookupImport("mod")
@@ -74,7 +75,7 @@ func TestResolveTarget_DottedAliasCall(t *testing.T) {
 	scope := treesitter.NewScope(nil)
 	scope.DefineImport("mod", "qs", []string{})
 
-	got := resolveTarget(treesitter.SymbolID("mod.parse"), scope, "urlencoded")
+	got := resolveTarget(treesitter.SymbolID("mod.parse"), scope, "urlencoded", python.New())
 
 	want := treesitter.SymbolID("qs.parse")
 	if got != want {
@@ -88,7 +89,7 @@ func TestRunHop_Python_NoCaller(t *testing.T) {
 		t.Fatal(err)
 	}
 	res, err := RunHop(context.Background(), HopInput{
-		Language:      "python",
+		Language:      python.New(),
 		SourceDir:     src,
 		TargetSymbols: []string{"somepkg.does_not_exist"},
 		MaxTargets:    100,

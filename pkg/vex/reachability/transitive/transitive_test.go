@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 )
 
 func TestAnalyzer_NotApplicable_WhenNoSBOM(t *testing.T) {
@@ -33,8 +34,7 @@ func TestAnalyzer_NotApplicable_WhenPackageNotInGraph(t *testing.T) {
 			eco:       "pypi",
 			manifests: map[string]map[string]string{"flask@2.0.1": {}},
 		}},
-		Language:  "python",
-		Ecosystem: "pypi",
+		Language: python.New(),
 	}
 	res, err := a.Analyze(context.Background(), sbom, &formats.Finding{AffectedName: "unknown"}, "/app")
 	if err != nil {
