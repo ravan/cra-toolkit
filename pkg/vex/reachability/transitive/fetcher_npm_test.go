@@ -88,6 +88,12 @@ func TestNPMFetcher_Fetch(t *testing.T) {
 	if !found {
 		t.Errorf("no .js files in %s", res.SourceDir)
 	}
+
+	// Verify the package is unpacked under <pkgname>/ not package/
+	lodashDir := filepath.Join(res.SourceDir, "lodash")
+	if _, err := os.Stat(lodashDir); os.IsNotExist(err) {
+		t.Errorf("expected lodash/ subdir in SourceDir %s; old package/ layout still used", res.SourceDir)
+	}
 }
 
 func TestNPMFetcher_Ecosystem(t *testing.T) {

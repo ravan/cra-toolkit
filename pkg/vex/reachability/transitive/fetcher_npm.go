@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 // NPMFetcher implements Fetcher for the npm ecosystem.
@@ -109,26 +110,26 @@ func (f *NPMFetcher) unpackAndCache(name, cacheKey string, body []byte) (string,
 		return "", fmt.Errorf("unpack npm %s: %w", name, err)
 	}
 
-	// npm tarballs unpack under a leading "package/" directory — point at that.
-	pkgDir := npmPkgDir(tmp)
+	// npm tarballs always unpack to a "package/" subdirectory. Rename it to
+	// "<name>/" so modulePrefix can find the package name in the file path.
+	packageDir := filepath.Join(tmp, "package")
+	namedDir := filepath.Join(tmp, name)
+	if st, err := os.Stat(packageDir); err == nil && st.IsDir() {
+		if renameErr := os.Rename(packageDir, namedDir); renameErr != nil {
+			_ = os.RemoveAll(tmp)
+			return "", fmt.Errorf("rename npm package dir %s → %s: %w", packageDir, namedDir, renameErr)
+		}
+	}
 
 	if f.Cache == nil {
-		return pkgDir, nil
+		return tmp, nil
 	}
-	p, putErr := f.Cache.Put(cacheKey, pkgDir)
+	p, putErr := f.Cache.Put(cacheKey, tmp)
 	_ = os.RemoveAll(tmp)
 	if putErr != nil {
 		return "", putErr
 	}
 	return p, nil
-}
-
-// npmPkgDir returns the "package/" subdirectory of tmp if it exists, otherwise tmp.
-func npmPkgDir(tmp string) string {
-	if st, err := os.Stat(tmp + "/package"); err == nil && st.IsDir() {
-		return tmp + "/package"
-	}
-	return tmp
 }
 
 func (f *NPMFetcher) fetchMeta(ctx context.Context, name, version string) (*npmMeta, error) {
