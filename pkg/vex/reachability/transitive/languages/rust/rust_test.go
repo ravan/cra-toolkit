@@ -120,3 +120,31 @@ func TestLanguage_SymbolKey(t *testing.T) {
 		t.Errorf("SymbolKey = %q, want %q", got, "hyper.spawn")
 	}
 }
+
+func TestLanguage_NormalizeImports(t *testing.T) {
+	lang := rust.New()
+	in := []treesitter.Import{
+		{Module: "std::collections::HashMap", Alias: "HashMap"},
+		{Module: "serde::Serialize", Alias: "Ser"},
+		{Module: "tokio", Alias: "tokio"},
+		{Module: "crate::internal::helpers", Alias: "helpers"},
+	}
+	out := lang.NormalizeImports(in)
+	if len(out) != len(in) {
+		t.Fatalf("len(out) = %d, want %d", len(out), len(in))
+	}
+	want := []treesitter.Import{
+		{Module: "std.collections.HashMap", Alias: "HashMap"},
+		{Module: "serde.Serialize", Alias: "Ser"},
+		{Module: "tokio", Alias: "tokio"},
+		{Module: "crate.internal.helpers", Alias: "helpers"},
+	}
+	for i, w := range want {
+		if out[i].Module != w.Module {
+			t.Errorf("[%d].Module = %q, want %q", i, out[i].Module, w.Module)
+		}
+		if out[i].Alias != w.Alias {
+			t.Errorf("[%d].Alias = %q, want %q", i, out[i].Alias, w.Alias)
+		}
+	}
+}

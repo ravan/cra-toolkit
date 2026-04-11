@@ -100,10 +100,16 @@ func (l *Language) SymbolKey(modulePath, symbolName string) string {
 }
 
 // NormalizeImports transforms raw imports emitted by the extractor into the
-// canonical form consumed by the shared scope builder. Stub implementation —
-// filled in by Task 10.
+// canonical form consumed by the shared scope builder. It converts Rust's
+// "::" path separators to "." so all downstream logic uses a uniform format.
 func (l *Language) NormalizeImports(raw []treesitter.Import) []treesitter.Import {
-	return raw
+	out := make([]treesitter.Import, len(raw))
+	for i, imp := range raw {
+		imp.Module = strings.ReplaceAll(imp.Module, "::", ".")
+		imp.Alias = strings.ReplaceAll(imp.Alias, "::", ".")
+		out[i] = imp
+	}
+	return out
 }
 
 // ResolveDottedTarget attempts to resolve a dotted call target whose prefix
