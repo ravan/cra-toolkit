@@ -19,6 +19,7 @@ import (
 	"testing"
 	"time"
 
+	cdxformats "github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/javascript"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
@@ -172,7 +173,8 @@ func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
 	notReachableDir := filepath.Join(fixtureBase, "javascript-realworld-cross-package-safe")
 
 	// Build a minimal SBOMSummary from the fixture's SBOM.
-	sbomData, err := os.ReadFile(filepath.Join(reachableDir, "sbom.cdx.json"))
+	sbomPath := filepath.Join(reachableDir, "sbom.cdx.json")
+	sbomData, err := os.ReadFile(sbomPath)
 	if err != nil {
 		t.Fatalf("read sbom: %v", err)
 	}
@@ -187,11 +189,25 @@ func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
 		t.Fatalf("parse sbom: %v", err)
 	}
 	var pkgs []transitive.Package
-	var roots []string
 	for _, c := range sbomDoc.Components {
 		if strings.HasPrefix(c.PURL, "pkg:npm/") {
 			pkgs = append(pkgs, transitive.Package{Name: c.Name, Version: c.Version})
-			roots = append(roots, c.Name)
+		}
+	}
+	directDeps := cdxformats.ParseDirectDeps(sbomPath)
+	pkgNameSet := make(map[string]bool, len(pkgs))
+	for _, p := range pkgs {
+		pkgNameSet[p.Name] = true
+	}
+	var roots []string
+	for _, d := range directDeps {
+		if pkgNameSet[d] {
+			roots = append(roots, d)
+		}
+	}
+	if len(roots) == 0 {
+		for _, p := range pkgs {
+			roots = append(roots, p.Name)
 		}
 	}
 	summary := &transitive.SBOMSummary{Packages: pkgs, Roots: roots}
@@ -206,8 +222,8 @@ func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
 	}
 
 	finding := &formats.Finding{
-		AffectedName:    "follow-redirects",
-		AffectedVersion: "1.14.0",
+		AffectedName:    "qs",
+		AffectedVersion: "6.7.0",
 	}
 
 	reachableResult, err := ta.Analyze(ctx, summary, finding, filepath.Join(reachableDir, "source"))
@@ -227,9 +243,9 @@ func TestLLMJudge_JavaScriptTransitiveReachability(t *testing.T) {
 
 	prompt := fmt.Sprintf(`You are a security engineering judge evaluating a transitive dependency reachability analyzer for CRA compliance.
 
-VULNERABILITY: CVE-2022-0155 — follow-redirects sensitive cookie/credential leakage via improper redirect handling.
-VULNERABLE PACKAGE: follow-redirects@1.14.0 (transitive dependency reached through axios@0.24.0)
-CHAIN: app → axios.get → follow-redirects → vulnerable redirect handler
+VULNERABILITY: CVE-2022-24999 — qs prototype pollution via __proto__ key in parsed query strings.
+VULNERABLE PACKAGE: qs@6.7.0 (transitive dependency reached through body-parser@1.19.0)
+CHAIN: app → bodyParser.urlencoded({ extended: true }) → body-parser/lib/types/urlencoded.js → qs.parse
 
 REACHABLE PROJECT (source: %s):
 Analysis result: Reachable=%v, Confidence=%s, Degradations=%v
@@ -244,8 +260,8 @@ Score the transitive analyzer (1-10 each):
 1. path_accuracy: Are the reported cross-package call paths real?
 2. confidence_calibration: Does confidence reflect the uncertainty of transitive analysis?
 3. evidence_quality: Is the stitched call path evidence sufficient for a VEX determination?
-4. false_positive_rate: Is the not-reachable case correctly identified?
-5. symbol_resolution: Are the cross-package symbols correctly resolved?
+4. false_positive_rate: Is the not-reachable case (bodyParser.json) correctly identified as not-affected?
+5. symbol_resolution: Are the cross-package symbols correctly resolved (urlencoded vs json)?
 6. overall_quality: Would this analysis pass a CRA market surveillance authority review?
 
 Respond ONLY with valid JSON:

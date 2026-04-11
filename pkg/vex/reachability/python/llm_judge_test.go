@@ -18,6 +18,7 @@ import (
 	"testing"
 	"time"
 
+	cdxformats "github.com/ravan/cra-toolkit/pkg/formats/cyclonedx"
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/python"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
@@ -171,7 +172,8 @@ func TestLLMJudge_PythonTransitiveReachability(t *testing.T) {
 	notReachableDir := filepath.Join(fixtureBase, "python-realworld-cross-package-safe")
 
 	// Build a minimal SBOMSummary from the fixture's SBOM.
-	sbomData, err := os.ReadFile(filepath.Join(reachableDir, "sbom.cdx.json"))
+	sbomPath := filepath.Join(reachableDir, "sbom.cdx.json")
+	sbomData, err := os.ReadFile(sbomPath)
 	if err != nil {
 		t.Fatalf("read sbom: %v", err)
 	}
@@ -186,11 +188,25 @@ func TestLLMJudge_PythonTransitiveReachability(t *testing.T) {
 		t.Fatalf("parse sbom: %v", err)
 	}
 	var pkgs []transitive.Package
-	var roots []string
 	for _, c := range sbomDoc.Components {
 		if strings.HasPrefix(c.PURL, "pkg:pypi/") {
 			pkgs = append(pkgs, transitive.Package{Name: c.Name, Version: c.Version})
-			roots = append(roots, c.Name)
+		}
+	}
+	directDeps := cdxformats.ParseDirectDeps(sbomPath)
+	pkgNameSet := make(map[string]bool, len(pkgs))
+	for _, p := range pkgs {
+		pkgNameSet[p.Name] = true
+	}
+	var roots []string
+	for _, d := range directDeps {
+		if pkgNameSet[d] {
+			roots = append(roots, d)
+		}
+	}
+	if len(roots) == 0 {
+		for _, p := range pkgs {
+			roots = append(roots, p.Name)
 		}
 	}
 	summary := &transitive.SBOMSummary{Packages: pkgs, Roots: roots}
@@ -235,7 +251,7 @@ Analysis result: Reachable=%v, Confidence=%s, Degradations=%v
 Call paths found: %s
 Evidence: %s
 
-NOT-REACHABLE PROJECT (source: %s):
+NOT-REACHABLE PROJECT uses requests.Request.prepare() — URL preparation only, no network I/O, urllib3 never invoked (source: %s):
 Analysis result: Reachable=%v, Confidence=%s, Degradations=%v
 Evidence: %s
 
