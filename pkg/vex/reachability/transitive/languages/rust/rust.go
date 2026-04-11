@@ -7,6 +7,8 @@
 package rust
 
 import (
+	"path/filepath"
+	"strings"
 	"unsafe"
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
@@ -49,15 +51,52 @@ func (l *Language) IsExportedSymbol(sym *treesitter.Symbol) bool {
 }
 
 // ModulePath derives the crate-relative module path for a Rust source file.
-// Stub implementation — filled in by Task 9.
 func (l *Language) ModulePath(file, sourceDir, packageName string) string {
-	return packageName
+	rel, err := filepath.Rel(sourceDir, file)
+	if err != nil {
+		return packageName
+	}
+	parts := strings.Split(rel, string(filepath.Separator))
+	srcIdx := -1
+	for i, p := range parts {
+		if p == "src" {
+			srcIdx = i
+			break
+		}
+	}
+	if srcIdx < 0 {
+		if len(parts) == 0 {
+			return ""
+		}
+		return parts[0]
+	}
+	tail := parts[srcIdx+1:]
+	if len(tail) == 0 {
+		return packageName
+	}
+	last := tail[len(tail)-1]
+	last = strings.TrimSuffix(last, ".rs")
+	tail[len(tail)-1] = last
+
+	switch last {
+	case "lib", "main":
+		if len(tail) == 1 {
+			return packageName
+		}
+		tail = tail[:len(tail)-1]
+	case "mod":
+		tail = tail[:len(tail)-1]
+	}
+	if len(tail) == 0 {
+		return packageName
+	}
+	return packageName + "." + strings.Join(tail, ".")
 }
 
 // SymbolKey composes a fully-qualified symbol key from a module path and a
-// symbol name. Stub implementation — filled in by Task 9.
+// symbol name.
 func (l *Language) SymbolKey(modulePath, symbolName string) string {
-	return modulePath + "::" + symbolName
+	return modulePath + "." + symbolName
 }
 
 // NormalizeImports transforms raw imports emitted by the extractor into the

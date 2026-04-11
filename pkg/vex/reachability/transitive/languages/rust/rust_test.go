@@ -55,3 +55,68 @@ func TestLanguage_IsExportedSymbol(t *testing.T) {
 		})
 	}
 }
+
+func TestLanguage_ModulePath(t *testing.T) {
+	lang := rust.New()
+	cases := []struct {
+		name      string
+		file      string
+		sourceDir string
+		pkg       string
+		want      string
+	}{
+		{
+			name:      "lib.rs at crate root",
+			file:      "/tmp/hyper-0.14.10/src/lib.rs",
+			sourceDir: "/tmp/hyper-0.14.10",
+			pkg:       "hyper",
+			want:      "hyper",
+		},
+		{
+			name:      "submodule file",
+			file:      "/tmp/hyper-0.14.10/src/client.rs",
+			sourceDir: "/tmp/hyper-0.14.10",
+			pkg:       "hyper",
+			want:      "hyper.client",
+		},
+		{
+			name:      "nested mod.rs",
+			file:      "/tmp/hyper-0.14.10/src/client/connect/mod.rs",
+			sourceDir: "/tmp/hyper-0.14.10",
+			pkg:       "hyper",
+			want:      "hyper.client.connect",
+		},
+		{
+			name:      "nested leaf file",
+			file:      "/tmp/hyper-0.14.10/src/client/connect/http.rs",
+			sourceDir: "/tmp/hyper-0.14.10",
+			pkg:       "hyper",
+			want:      "hyper.client.connect.http",
+		},
+		{
+			name:      "out-of-src test file is rejected",
+			file:      "/tmp/hyper-0.14.10/tests/integration.rs",
+			sourceDir: "/tmp/hyper-0.14.10",
+			pkg:       "hyper",
+			want:      "tests",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := lang.ModulePath(tc.file, tc.sourceDir, tc.pkg)
+			if got != tc.want {
+				t.Errorf("ModulePath = %q, want %q", got, tc.want)
+			}
+		})
+	}
+}
+
+func TestLanguage_SymbolKey(t *testing.T) {
+	lang := rust.New()
+	if got := lang.SymbolKey("hyper.client", "Request"); got != "hyper.client.Request" {
+		t.Errorf("SymbolKey = %q, want %q", got, "hyper.client.Request")
+	}
+	if got := lang.SymbolKey("hyper", "spawn"); got != "hyper.spawn" {
+		t.Errorf("SymbolKey = %q, want %q", got, "hyper.spawn")
+	}
+}
