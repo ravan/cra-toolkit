@@ -643,6 +643,118 @@ module.exports = {
 	}
 }
 
+// TestResolveImports_AssignmentExpression verifies that `mod = require('qs')` (assignment_expression,
+// not variable_declarator) registers "mod" as an alias for "qs".
+// This covers the body-parser@1.19.0 pattern where a pre-declared var is assigned inside a switch.
+func TestResolveImports_AssignmentExpression(t *testing.T) {
+	source := `var mod;
+mod = require('qs');
+function foo() {
+  return mod.parse('test');
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	imports, err := ext.ResolveImports("urlencoded.js", src, tree, "/project")
+	if err != nil {
+		t.Fatalf("ResolveImports failed: %v", err)
+	}
+
+	var foundQsWithAlias bool
+	for _, imp := range imports {
+		if imp.Module == "qs" && imp.Alias == "mod" {
+			foundQsWithAlias = true
+		}
+	}
+
+	if !foundQsWithAlias {
+		t.Error("expected mod = require('qs') to register alias 'mod' for module 'qs'")
+		for _, imp := range imports {
+			t.Logf("  module=%q alias=%q symbols=%v", imp.Module, imp.Alias, imp.Symbols)
+		}
+	}
+}
+
+// TestExtractCalls_AssignmentExpressionAlias verifies that call edges via an alias set through
+// an assignment_expression (mod = require('qs')) are resolved to the correct module symbol.
+func TestExtractCalls_AssignmentExpressionAlias(t *testing.T) {
+	source := `var mod;
+mod = require('qs');
+function foo() {
+  return mod.parse('test');
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	// Simulate alias registration as the analyzer would do after ResolveImports.
+	scope.DefineImport("mod", "qs", []string{})
+
+	edges, err := ext.ExtractCalls("urlencoded.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundQsParse bool
+	for _, e := range edges {
+		if string(e.To) == "qs.parse" {
+			foundQsParse = true
+		}
+	}
+
+	if !foundQsParse {
+		t.Error("expected mod.parse to resolve to qs.parse via assignment_expression alias")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}
+
+// TestExtractCalls_SwitchAssignmentExpressionAlias verifies the body-parser switch pattern:
+// var mod; switch (type) { case 'qs': mod = require('qs'); break; } return mod.parse(body);
+func TestExtractCalls_SwitchAssignmentExpressionAlias(t *testing.T) {
+	source := `var mod;
+switch (type) {
+  case 'qs':
+    mod = require('qs');
+    break;
+}
+function parser() {
+  return mod.parse(body);
+}
+`
+	tree, src := parseJS(t, source)
+	defer tree.Close()
+
+	ext := jsextractor.New()
+	scope := treesitter.NewScope(nil)
+	// Simulate what analyzer does after collecting imports via ResolveImports.
+	scope.DefineImport("mod", "qs", []string{})
+
+	edges, err := ext.ExtractCalls("urlencoded.js", src, tree, scope)
+	if err != nil {
+		t.Fatalf("ExtractCalls failed: %v", err)
+	}
+
+	var foundQsParse bool
+	for _, e := range edges {
+		if string(e.To) == "qs.parse" {
+			foundQsParse = true
+		}
+	}
+
+	if !foundQsParse {
+		t.Error("expected mod.parse to resolve to qs.parse via switch-case assignment_expression alias")
+		for _, e := range edges {
+			t.Logf("  %s -> %s", e.From, e.To)
+		}
+	}
+}
+
 // TestResolveImports_NestedRequire verifies that require() calls inside switch/conditional
 // blocks (like body-parser's urlencoded.js pattern) are resolved as imports.
 func TestResolveImports_NestedRequire(t *testing.T) {

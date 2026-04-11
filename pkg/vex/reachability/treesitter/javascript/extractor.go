@@ -831,6 +831,16 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 		}
 		return
 
+	case "assignment_expression":
+		// Handle `mod = require('qs')` — variable declared elsewhere, assigned inside switch/if.
+		// This is the body-parser pattern where a pre-declared var is bound to require() inside a branch.
+		rightNode := node.ChildByFieldName("right")
+		if rightNode != nil && isRequireCallSrc(rightNode, src) {
+			collectAssignRequireImport(node, src, file, imports)
+			return
+		}
+		// Not a require assignment — fall through to recurse into children.
+
 	case "call_expression":
 		// Catch require() calls that are not part of a variable_declarator —
 		// e.g. bare assignments like `mod = require('qs')` inside switch/if blocks.
@@ -867,6 +877,43 @@ func collectBareRequireImport(node *tree_sitter.Node, src []byte, file string, i
 			return
 		}
 	}
+}
+
+// collectAssignRequireImport extracts the module and alias from an assignment_expression
+// of the form `mod = require('qs')`, where the left-hand side is an identifier.
+// This covers the body-parser pattern where a pre-declared variable is assigned inside a switch/if.
+func collectAssignRequireImport(node *tree_sitter.Node, src []byte, file string, imports *[]treesitter.Import) {
+	leftNode := node.ChildByFieldName("left")
+	rightNode := node.ChildByFieldName("right")
+	if leftNode == nil || rightNode == nil {
+		return
+	}
+	if leftNode.Kind() != "identifier" {
+		return
+	}
+
+	argsNode := rightNode.ChildByFieldName("arguments")
+	if argsNode == nil {
+		return
+	}
+	module := ""
+	for i := uint(0); i < argsNode.ChildCount(); i++ {
+		child := argsNode.Child(i)
+		if child != nil && (child.Kind() == "string" || child.Kind() == "template_string") {
+			module = stripQuotes(nodeText(child, src))
+			break
+		}
+	}
+	if module == "" {
+		return
+	}
+
+	*imports = append(*imports, treesitter.Import{
+		Module: module,
+		Alias:  nodeText(leftNode, src),
+		File:   file,
+		Line:   rowToLine(node.StartPosition().Row),
+	})
 }
 
 // collectESMImport parses an import_statement node.
