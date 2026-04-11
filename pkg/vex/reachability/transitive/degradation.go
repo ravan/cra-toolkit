@@ -19,4 +19,5 @@ const (
 	ReasonExtractorError          = "extractor_error"
 	ReasonPathBroken              = "path_broken"
 	ReasonNoApplicationRoot       = "no_application_root"
+	ReasonRootsUnknown            = "roots_unknown"
 )
