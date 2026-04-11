@@ -88,6 +88,9 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 	fileInfos := make([]fileInfo, 0, len(parseResults))
 	moduleSymbols := make(map[string][]*treesitter.Symbol)
 
+	stateful, hasCrossFileState := ext.(CrossFileStateExtractor)
+	var snapshots []any
+
 	for _, pr := range parseResults {
 		symbols, symErr := ext.ExtractSymbols(pr.File, pr.Source, pr.Tree)
 		if symErr != nil {
@@ -116,6 +119,15 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 			imports: imports,
 			scope:   scope,
 		})
+		if hasCrossFileState {
+			snapshots = append(snapshots, stateful.SnapshotState())
+		}
+	}
+
+	if hasCrossFileState {
+		for _, s := range snapshots {
+			stateful.RestoreState(s)
+		}
 	}
 
 	// Phase 2: Build the call graph.

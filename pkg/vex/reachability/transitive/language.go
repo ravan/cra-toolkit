@@ -85,6 +85,21 @@ type ExportLister interface {
 	ListExports(sourceDir, packageName string) ([]string, error)
 }
 
+// CrossFileStateExtractor is an optional capability for language extractors
+// that accumulate state across files — notably Rust's trait-impl map for
+// &dyn Trait dispatch. RunHop type-asserts its active extractor against this
+// interface and, when supported, snapshots state after each per-file symbol
+// extraction and replays the full snapshot list before call extraction. This
+// ensures cross-file trait dispatch is resolved even though ExtractSymbols
+// resets internal state at the start of every call.
+//
+// RestoreState must be idempotent and additive: calling it multiple times
+// with different snapshots merges (not overwrites) the contained state.
+type CrossFileStateExtractor interface {
+	SnapshotState() any
+	RestoreState(any)
+}
+
 // LanguageFor returns the LanguageSupport implementation for the given
 // language name. Returns an error for unknown languages so callers can
 // surface a clear message rather than a nil dereference.

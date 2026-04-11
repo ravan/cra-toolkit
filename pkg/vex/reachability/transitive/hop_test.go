@@ -5,6 +5,7 @@ package transitive
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -99,5 +100,65 @@ func TestRunHop_Python_NoCaller(t *testing.T) {
 	}
 	if len(res.ReachingSymbols) != 0 {
 		t.Errorf("expected no reaching symbols, got %v", res.ReachingSymbols)
+	}
+}
+
+// recordingStatefulExtractor wraps an existing extractor and records
+// snapshot/restore calls so the test can assert RunHop wired them correctly.
+type recordingStatefulExtractor struct {
+	treesitter.LanguageExtractor
+	snapshots int
+	restores  int
+}
+
+func (r *recordingStatefulExtractor) SnapshotState() any {
+	r.snapshots++
+	return r.snapshots
+}
+
+func (r *recordingStatefulExtractor) RestoreState(_ any) {
+	r.restores++
+}
+
+// fakeStatefulLanguage wraps a real LanguageSupport but swaps its extractor
+// for the recording wrapper so RunHop exercises the CrossFileStateExtractor
+// branch.
+type fakeStatefulLanguage struct {
+	LanguageSupport
+	rec *recordingStatefulExtractor
+}
+
+func (f *fakeStatefulLanguage) Extractor() treesitter.LanguageExtractor { return f.rec }
+
+func TestRunHop_CallsCrossFileStateExtractor(t *testing.T) {
+	python, err := LanguageFor("python")
+	if err != nil {
+		t.Fatalf("LanguageFor(python): %v", err)
+	}
+	rec := &recordingStatefulExtractor{LanguageExtractor: python.Extractor()}
+	lang := &fakeStatefulLanguage{LanguageSupport: python, rec: rec}
+
+	dir := t.TempDir()
+	for _, name := range []string{"a.py", "b.py", "c.py"} {
+		path := filepath.Join(dir, name)
+		if err := os.WriteFile(path, []byte("def fn():\n    pass\n"), 0o600); err != nil {
+			t.Fatalf("write %s: %v", name, err)
+		}
+	}
+
+	_, err = RunHop(context.Background(), HopInput{
+		Language:      lang,
+		SourceDir:     dir,
+		TargetSymbols: []string{"fn"},
+		MaxTargets:    10,
+	})
+	if err != nil {
+		t.Fatalf("RunHop: %v", err)
+	}
+	if rec.snapshots != 3 {
+		t.Errorf("snapshots = %d, want 3 (one per file)", rec.snapshots)
+	}
+	if rec.restores != 3 {
+		t.Errorf("restores = %d, want 3 (replay of all snapshots)", rec.restores)
 	}
 }
