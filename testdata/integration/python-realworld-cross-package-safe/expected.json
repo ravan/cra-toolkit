@@ -1,5 +1,5 @@
 {
-  "description": "Same deps as the reachable fixture but the app only uses requests.Session().options(), which does not reach CVE-2023-43804's vulnerable redirect path.",
+  "description": "App validates URLs via requests.PreparedRequest.prepare() without sending. No connection is opened; urllib3 is never invoked. CVE-2023-43804 is not reachable.",
   "provenance": {
     "source_project": "urllib3/urllib3",
     "source_url": "https://github.com/urllib3/urllib3",
@@ -8,7 +8,7 @@
     "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43804",
     "language": "python",
     "pattern": "cross-package-transitive-safe",
-    "ground_truth_notes": "Session.options() does not invoke redirect handling; CVE path is not reachable."
+    "ground_truth_notes": "validate_url → requests.Request.prepare() uses urllib.parse only; HTTPAdapter.send / urllib3.urlopen are never called."
   },
   "findings": [
     {
@@ -18,7 +18,7 @@
       "expected_confidence": "medium",
       "expected_resolved_by": "transitive_reachability",
       "expected_justification": "vulnerable_code_not_in_execute_path",
-      "human_justification": "Session.options is the only requests API reached from entry point; options does not trigger the vulnerable redirect path."
+      "human_justification": "PreparedRequest.prepare() performs URL parsing with stdlib urllib.parse; it does not open connections or invoke urllib3."
     }
   ]
 }

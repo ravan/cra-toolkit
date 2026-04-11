@@ -1,13 +1,17 @@
-# This app imports requests but only uses its Session object for OPTIONS probes,
-# which do not invoke the redirect handling code path where CVE-2023-43804
-# lives. The CVE function is not reachable from any entry point.
+# This app uses requests only for URL preparation (not sending).
+# PreparedRequest.prepare() parses and normalises the URL using Python's
+# stdlib urllib.parse — it does not open a connection or invoke urllib3.
+# CVE-2023-43804 (urllib3 cookie leakage via redirect) is not reachable.
 
 import requests
 
-def check_server(url):
-    session = requests.Session()
-    resp = session.options(url)  # OPTIONS does not follow redirects
-    return resp.headers
+
+def validate_url(url):
+    """Validates a URL by preparing — but not sending — a GET request."""
+    req = requests.Request('GET', url)
+    prepared = req.prepare()
+    return prepared.url
+
 
 if __name__ == "__main__":
-    check_server("https://example.com")
+    validate_url("https://example.com")
