@@ -71,7 +71,12 @@ func parseSBOMForTest(t *testing.T, path, ecosystem string) *SBOMSummary {
 	if err := json.Unmarshal(data, &doc); err != nil {
 		t.Fatalf("unmarshal sbom: %v", err)
 	}
-	prefix := "pkg:" + ecosystem + "/"
+	// Map ecosystem to PURL type prefix (crates.io uses pkg:cargo/)
+	purlType := ecosystem
+	if ecosystem == "crates.io" {
+		purlType = "cargo"
+	}
+	prefix := "pkg:" + purlType + "/"
 
 	// Build bom-ref → name map and collect ecosystem packages.
 	refToName := make(map[string]string)
@@ -157,6 +162,8 @@ func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affect
 		fetcher = &PyPIFetcher{Cache: cache}
 	case "npm":
 		fetcher = &NPMFetcher{Cache: cache}
+	case "crates.io":
+		fetcher = &CratesFetcher{Cache: cache}
 	default:
 		t.Fatalf("unknown ecosystem %q", ecosystem)
 	}
@@ -207,4 +214,14 @@ func TestIntegration_Transitive_JavaScriptReachable(t *testing.T) {
 func TestIntegration_Transitive_JavaScriptNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "javascript-realworld-cross-package-safe")
 	runIntegrationFixture(t, dir, "javascript", "npm", "qs", "6.7.0", false)
+}
+
+func TestIntegration_Transitive_RustReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "rust-realworld-cross-package")
+	runIntegrationFixture(t, dir, "rust", "crates.io", "time", "0.2.23", true)
+}
+
+func TestIntegration_Transitive_RustNotReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "rust-realworld-cross-package-safe")
+	runIntegrationFixture(t, dir, "rust", "crates.io", "time", "0.2.23", false)
 }
