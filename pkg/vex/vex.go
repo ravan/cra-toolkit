@@ -159,8 +159,9 @@ func Run(opts *Options, out io.Writer, runOpts ...RunOption) error {
 	}
 
 	// 4. Build filter chain.
+	directDeps := cyclonedx.ParseDirectDeps(opts.SBOMPath)
 	transitiveCfg := resolveTransitiveConfig(opts, nil)
-	filters := buildFilterChain(upstreamStatements, opts.SourceDir, components, transitiveCfg, cfg.ExtraFilters, cfg.ExtraAnalyzers)
+	filters := buildFilterChain(upstreamStatements, opts.SourceDir, components, directDeps, transitiveCfg, cfg.ExtraFilters, cfg.ExtraAnalyzers)
 
 	// 5. Run each finding through chain.
 	results := make([]formats.VEXResult, 0, len(findings))
@@ -261,7 +262,7 @@ func parseVEX(path string, extraProbes []formats.FormatProbe) ([]formats.VEXStat
 }
 
 // buildFilterChain creates the ordered filter chain.
-func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir string, components []formats.Component, transitiveCfg transitive.Config, extraFilters []Filter, extraAnalyzers map[string]reachability.Analyzer) []Filter {
+func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir string, components []formats.Component, directDeps []string, transitiveCfg transitive.Config, extraFilters []Filter, extraAnalyzers map[string]reachability.Analyzer) []Filter {
 	var filters []Filter
 
 	// Upstream filter (only if there are upstream statements).
@@ -279,7 +280,7 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 
 	// Reachability filter (only if source dir is provided).
 	if sourceDir != "" {
-		analyzers := buildAnalyzers(sourceDir, components, transitiveCfg, extraAnalyzers)
+		analyzers := buildAnalyzers(sourceDir, components, directDeps, transitiveCfg, extraAnalyzers)
 		if len(analyzers) > 0 {
 			filters = append(filters, NewReachabilityFilter(sourceDir, analyzers))
 		}
@@ -295,7 +296,7 @@ func buildFilterChain(upstreamStatements []formats.VEXStatement, sourceDir strin
 // the appropriate reachability analyzers.
 //
 //nolint:gocyclo // language-analyzer mapping is inherently branchy
-func buildAnalyzers(sourceDir string, components []formats.Component, transitiveCfg transitive.Config, extra map[string]reachability.Analyzer) map[string]reachability.Analyzer {
+func buildAnalyzers(sourceDir string, components []formats.Component, directDeps []string, transitiveCfg transitive.Config, extra map[string]reachability.Analyzer) map[string]reachability.Analyzer {
 	analyzers := make(map[string]reachability.Analyzer)
 
 	langs := reachability.DetectLanguages(sourceDir)
@@ -309,14 +310,14 @@ func buildAnalyzers(sourceDir string, components []formats.Component, transitive
 			a := pythonanalyzer.New()
 			if ta := buildTransitiveAnalyzer(transitiveCfg, "python"); ta != nil {
 				a.Transitive = ta
-				a.SBOMSummary = buildTransitiveSummary(components, "pypi")
+				a.SBOMSummary = buildTransitiveSummary(components, directDeps, "pypi")
 			}
 			analyzers["python"] = a
 		case "javascript":
 			a := jsanalyzer.New()
 			if ta := buildTransitiveAnalyzer(transitiveCfg, "javascript"); ta != nil {
 				a.Transitive = ta
-				a.SBOMSummary = buildTransitiveSummary(components, "npm")
+				a.SBOMSummary = buildTransitiveSummary(components, directDeps, "npm")
 			}
 			analyzers["javascript"] = a
 		case "java":

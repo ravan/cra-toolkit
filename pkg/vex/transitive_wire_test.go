@@ -22,7 +22,7 @@ func testComponents() []formats.Component {
 }
 
 func TestBuildTransitiveSummary_PyPI(t *testing.T) {
-	summary := buildTransitiveSummary(testComponents(), "pypi")
+	summary := buildTransitiveSummary(testComponents(), nil, "pypi")
 	if summary == nil {
 		t.Fatal("expected non-nil summary")
 	}
@@ -46,7 +46,7 @@ func TestBuildTransitiveSummary_PyPI(t *testing.T) {
 }
 
 func TestBuildTransitiveSummary_NPM(t *testing.T) {
-	summary := buildTransitiveSummary(testComponents(), "npm")
+	summary := buildTransitiveSummary(testComponents(), nil, "npm")
 	if summary == nil {
 		t.Fatal("expected non-nil summary")
 	}
@@ -56,7 +56,7 @@ func TestBuildTransitiveSummary_NPM(t *testing.T) {
 }
 
 func TestBuildTransitiveSummary_UnknownEcosystem(t *testing.T) {
-	summary := buildTransitiveSummary(testComponents(), "cargo")
+	summary := buildTransitiveSummary(testComponents(), nil, "cargo")
 	if summary == nil {
 		t.Fatal("expected non-nil summary")
 	}
@@ -66,7 +66,7 @@ func TestBuildTransitiveSummary_UnknownEcosystem(t *testing.T) {
 }
 
 func TestBuildTransitiveSummary_NilComponents(t *testing.T) {
-	summary := buildTransitiveSummary(nil, "pypi")
+	summary := buildTransitiveSummary(nil, nil, "pypi")
 	if summary == nil {
 		t.Fatal("expected non-nil summary")
 	}
@@ -80,12 +80,44 @@ func TestBuildTransitiveSummary_Roots(t *testing.T) {
 		{Name: "flask", Version: "2.3.0", PURL: "pkg:pypi/flask@2.3.0", Type: "pypi"},
 		{Name: "werkzeug", Version: "2.3.0", PURL: "pkg:pypi/werkzeug@2.3.0", Type: "pypi"},
 	}
-	summary := buildTransitiveSummary(components, "pypi")
+	summary := buildTransitiveSummary(components, nil, "pypi")
 	if summary == nil {
 		t.Fatal("expected non-nil summary")
 	}
 	if len(summary.Roots) == 0 {
 		t.Error("expected at least one root package")
+	}
+}
+
+func TestBuildTransitiveSummary_WithDirectDeps(t *testing.T) {
+	components := []formats.Component{
+		{Name: "flask", Version: "2.3.0", PURL: "pkg:pypi/flask@2.3.0", Type: "pypi"},
+		{Name: "werkzeug", Version: "2.3.0", PURL: "pkg:pypi/werkzeug@2.3.0", Type: "pypi"},
+	}
+	// Only flask is a direct dep; werkzeug is transitive.
+	summary := buildTransitiveSummary(components, []string{"flask"}, "pypi")
+	if len(summary.Roots) != 1 || summary.Roots[0] != "flask" {
+		t.Errorf("roots: got %v, want [flask]", summary.Roots)
+	}
+}
+
+func TestBuildTransitiveSummary_DirectDepsFilteredToEcosystem(t *testing.T) {
+	// directDeps may contain names from other ecosystems; only matching ones become roots.
+	summary := buildTransitiveSummary(testComponents(), []string{"flask", "express"}, "pypi")
+	if len(summary.Roots) != 1 || summary.Roots[0] != "flask" {
+		t.Errorf("roots: got %v, want [flask]", summary.Roots)
+	}
+}
+
+func TestBuildTransitiveSummary_FallbackWhenNoDirectDeps(t *testing.T) {
+	components := []formats.Component{
+		{Name: "flask", Version: "2.3.0", PURL: "pkg:pypi/flask@2.3.0", Type: "pypi"},
+		{Name: "werkzeug", Version: "2.3.0", PURL: "pkg:pypi/werkzeug@2.3.0", Type: "pypi"},
+	}
+	// nil directDeps → all packages become roots (fallback).
+	summary := buildTransitiveSummary(components, nil, "pypi")
+	if len(summary.Roots) != 2 {
+		t.Errorf("fallback roots: got %d, want 2", len(summary.Roots))
 	}
 }
 

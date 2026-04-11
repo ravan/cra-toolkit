@@ -13,13 +13,13 @@ import (
 // buildTransitiveSummary projects a flat []formats.Component slice into the
 // minimal SBOMSummary the transitive analyzer needs. Components are filtered to
 // those whose PURL starts with "pkg:<ecosystem>/" (e.g. "pkg:pypi/" or
-// "pkg:npm/"). All matching packages are also treated as potential roots because
-// the SBOM component list does not reliably distinguish direct vs. transitive
-// dependencies at this layer.
-func buildTransitiveSummary(components []formats.Component, ecosystem string) *transitive.SBOMSummary {
+// "pkg:npm/"). directDeps names the application's declared direct dependencies;
+// only those that appear in the filtered set become roots. When directDeps is
+// empty the function falls back to treating all filtered packages as roots.
+func buildTransitiveSummary(components []formats.Component, directDeps []string, ecosystem string) *transitive.SBOMSummary {
 	prefix := "pkg:" + ecosystem + "/"
 	pkgs := make([]transitive.Package, 0, len(components))
-	roots := make([]string, 0, len(components))
+	pkgNameSet := make(map[string]bool)
 
 	for i := range components {
 		if !strings.HasPrefix(components[i].PURL, prefix) {
@@ -29,7 +29,21 @@ func buildTransitiveSummary(components []formats.Component, ecosystem string) *t
 			Name:    components[i].Name,
 			Version: components[i].Version,
 		})
-		roots = append(roots, components[i].Name)
+		pkgNameSet[components[i].Name] = true
+	}
+
+	// Build roots from declared direct deps intersected with the ecosystem set.
+	var roots []string
+	for _, dep := range directDeps {
+		if pkgNameSet[dep] {
+			roots = append(roots, dep)
+		}
+	}
+	// Fallback: all ecosystem packages are roots when no direct deps are known.
+	if len(roots) == 0 {
+		for _, p := range pkgs {
+			roots = append(roots, p.Name)
+		}
 	}
 
 	return &transitive.SBOMSummary{
