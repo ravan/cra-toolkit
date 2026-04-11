@@ -20,4 +20,9 @@ const (
 	ReasonPathBroken              = "path_broken"
 	ReasonNoApplicationRoot       = "no_application_root"
 	ReasonRootsUnknown            = "roots_unknown"
+	// ReasonNoLibraryAPI indicates the vulnerable crate ships no library
+	// surface (src/lib.rs absent). External callers cannot link against a
+	// binary-only crate, so transitive reachability does not apply and the
+	// analyzer returns a not-applicable verdict rather than a false positive.
+	ReasonNoLibraryAPI = "no_library_api"
 )
