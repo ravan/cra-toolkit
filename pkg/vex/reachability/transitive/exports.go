@@ -19,6 +19,9 @@ import (
 //
 //nolint:gocognit // parse-and-collect pattern; splitting further would obscure intent
 func listExportedSymbols(lang LanguageSupport, sourceDir, packageName string) ([]string, error) {
+	if lister, ok := lang.(ExportLister); ok {
+		return lister.ListExports(sourceDir, packageName)
+	}
 	files, err := collectFilesByExt(sourceDir, lang.FileExtensions())
 	if err != nil {
 		return nil, err

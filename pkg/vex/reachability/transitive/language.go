@@ -74,6 +74,17 @@ type LanguageSupport interface {
 	ResolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID
 }
 
+// ExportLister is an optional capability some languages implement in addition
+// to LanguageSupport. When a LanguageSupport also satisfies ExportLister, the
+// generic listExportedSymbols walker in exports.go delegates the entire
+// enumeration to ListExports — useful for languages whose public API
+// enumeration cannot be expressed by the IsExportedSymbol + ModulePath +
+// SymbolKey triple. Rust implements this to walk the `pub mod` tree from
+// lib.rs and resolve `pub use` re-exports.
+type ExportLister interface {
+	ListExports(sourceDir, packageName string) ([]string, error)
+}
+
 // LanguageFor returns the LanguageSupport implementation for the given
 // language name. Returns an error for unknown languages so callers can
 // surface a clear message rather than a nil dereference.

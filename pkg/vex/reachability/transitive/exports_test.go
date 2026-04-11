@@ -109,6 +109,44 @@ func TestListExportedJavaScript_ModuleExportsFunctionExpression(t *testing.T) {
 	}
 }
 
+// fakeExportLister implements LanguageSupport plus ExportLister. It short-
+// circuits the generic walker by returning a canned export list.
+type fakeExportLister struct {
+	LanguageSupport
+	called bool
+	out    []string
+}
+
+func (f *fakeExportLister) ListExports(sourceDir, packageName string) ([]string, error) {
+	f.called = true
+	return f.out, nil
+}
+
+func TestListExportedSymbols_DelegatesToExportLister(t *testing.T) {
+	python, err := LanguageFor("python")
+	if err != nil {
+		t.Fatalf("LanguageFor(python): %v", err)
+	}
+	lister := &fakeExportLister{LanguageSupport: python, out: []string{"pkg.Foo", "pkg.Bar"}}
+
+	got, err := listExportedSymbols(lister, t.TempDir(), "pkg")
+	if err != nil {
+		t.Fatalf("listExportedSymbols: %v", err)
+	}
+	if !lister.called {
+		t.Error("expected ListExports to be called, but it was not")
+	}
+	want := map[string]bool{"pkg.Foo": true, "pkg.Bar": true}
+	if len(got) != len(want) {
+		t.Fatalf("got %d keys, want %d: %v", len(got), len(want), got)
+	}
+	for _, k := range got {
+		if !want[k] {
+			t.Errorf("unexpected key %q", k)
+		}
+	}
+}
+
 // TestListExportedJavaScript_ModuleExportsObjectKeys verifies that
 // `module.exports = { parse: require('./lib/parse'), stringify: ... }` emits
 // the object keys as symbols. This is the pattern used by qs/index.js.
