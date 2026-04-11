@@ -226,3 +226,18 @@ func TestResolveTransitiveConfig_DisabledViaOpts(t *testing.T) {
 		t.Errorf("default MaxPathsPerFinding lost, got %d", cfg.MaxPathsPerFinding)
 	}
 }
+
+func TestBuildFetchers_CratesIO(t *testing.T) {
+	cache := transitive.NewCache(t.TempDir())
+	fetchers := buildFetchers(cache, "crates.io")
+	if fetchers == nil {
+		t.Fatal("buildFetchers(crates.io) returned nil")
+	}
+	f, ok := fetchers["crates.io"]
+	if !ok {
+		t.Fatal("fetchers missing crates.io key")
+	}
+	if _, ok := f.(*transitive.CratesFetcher); !ok {
+		t.Errorf("fetchers[crates.io] is %T, want *transitive.CratesFetcher", f)
+	}
+}
