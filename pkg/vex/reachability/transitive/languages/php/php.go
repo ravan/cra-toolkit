@@ -7,6 +7,7 @@
 package php
 
 import (
+	"path/filepath"
 	"strings"
 	"unsafe"
 
@@ -36,6 +37,52 @@ func (l *Language) Ecosystem() string                       { return "packagist"
 func (l *Language) FileExtensions() []string                { return []string{".php"} }
 func (l *Language) Grammar() unsafe.Pointer                 { return grammarphp.Language() }
 func (l *Language) Extractor() treesitter.LanguageExtractor { return l.extractor }
+
+// IsExportedSymbol reports whether a symbol is part of the PHP package's
+// public API. PHP has no underscore-prefix convention; visibility is
+// determined by the extractor's IsPublic flag and callable symbol kinds.
+func (l *Language) IsExportedSymbol(sym *treesitter.Symbol) bool {
+	if sym == nil {
+		return false
+	}
+	if !sym.IsPublic {
+		return false
+	}
+	switch sym.Kind {
+	case treesitter.SymbolFunction, treesitter.SymbolMethod, treesitter.SymbolClass:
+		return true
+	}
+	return false
+}
+
+// ModulePath derives a dotted module path for a PHP source file relative
+// to sourceDir. The conventional src/ or lib/ prefix is stripped:
+//
+//	src/Psr7/Utils.php  → "guzzlehttp/psr7.Psr7.Utils"
+//	lib/Logger.php      → "monolog/monolog.Logger"
+//	Handler/Request.php → "vendor/pkg.Handler.Request"
+func (l *Language) ModulePath(file, sourceDir, packageName string) string {
+	rel, err := filepath.Rel(sourceDir, file)
+	if err != nil {
+		return packageName
+	}
+	rel = strings.TrimSuffix(rel, filepath.Ext(rel))
+	parts := strings.Split(rel, string(filepath.Separator))
+	// Strip conventional src/ or lib/ prefix.
+	if len(parts) > 0 && (parts[0] == "src" || parts[0] == "lib") {
+		parts = parts[1:]
+	}
+	if len(parts) == 0 {
+		return packageName
+	}
+	mod := strings.Join(parts, ".")
+	return packageName + "." + mod
+}
+
+// SymbolKey composes a dotted symbol key: "<modulePath>.<symbolName>".
+func (l *Language) SymbolKey(modulePath, symbolName string) string {
+	return modulePath + "." + symbolName
+}
 
 // normalizeSep converts PHP's \ (namespace) and :: (method dispatch)
 // separators to . for the shared graph machinery. A leading backslash
