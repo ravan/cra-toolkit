@@ -21,6 +21,7 @@ import (
 
 	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/php"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive"
 )
 
 type reachabilityScores struct {
@@ -178,4 +179,176 @@ func writeSourceFiles(t *testing.T, dir string, out *os.File) {
 	}); err != nil {
 		t.Logf("walk source files: %v", err)
 	}
+}
+
+func TestLLMJudge_PHPTransitiveReachability(t *testing.T) {
+	geminiPath, err := exec.LookPath("gemini")
+	if err != nil {
+		t.Skip("gemini CLI not available, skipping LLM judge test")
+	}
+
+	_, f, _, _ := runtime.Caller(0)
+	fixtureBase := filepath.Join(filepath.Dir(f), "..", "..", "..", "..", "testdata", "integration")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+
+	reachableDir := filepath.Join(fixtureBase, "php-realworld-cross-package")
+	notReachableDir := filepath.Join(fixtureBase, "php-realworld-cross-package-safe")
+
+	summary := parseSBOMForPHPJudge(t, reachableDir)
+
+	cache := transitive.NewCache(t.TempDir())
+	fetcher := &transitive.PackagistFetcher{Cache: cache}
+	lang, langErr := transitive.LanguageFor("php")
+	if langErr != nil {
+		t.Fatalf("LanguageFor(php): %v", langErr)
+	}
+	ta := &transitive.Analyzer{
+		Config:   transitive.DefaultConfig(),
+		Language: lang,
+		Fetchers: map[string]transitive.Fetcher{"packagist": fetcher},
+	}
+
+	finding := &formats.Finding{
+		AffectedName:    "guzzlehttp/psr7",
+		AffectedVersion: "2.1.0",
+	}
+
+	reachableResult, err := ta.Analyze(ctx, summary, finding, filepath.Join(reachableDir, "source"))
+	if err != nil {
+		t.Fatalf("Analyze reachable: %v", err)
+	}
+
+	notReachableResult, err := ta.Analyze(ctx, summary, finding, filepath.Join(notReachableDir, "source"))
+	if err != nil {
+		t.Fatalf("Analyze not-reachable: %v", err)
+	}
+
+	var pathStrs []string
+	for _, p := range reachableResult.Paths {
+		pathStrs = append(pathStrs, p.String())
+	}
+
+	prompt := fmt.Sprintf(`You are a security engineering judge evaluating a transitive dependency reachability analyzer for CRA (Cyber Resilience Act) compliance. The analyzer uses tree-sitter AST parsing for PHP source code.
+
+VULNERABILITY: CVE-2022-24775 in guzzlehttp/psr7@2.1.0.
+VULNERABLE PACKAGE: guzzlehttp/psr7@2.1.0 (direct dependency)
+EXPECTED REACHABLE CHAIN: RequestParser::parse() → Utils::readLine()
+EXPECTED SAFE CHAIN: file_get_contents() [does NOT call Guzzle PSR7]
+
+REACHABLE PROJECT (source: %s):
+Analysis result: Reachable=%%v, Confidence=%%s, Degradations=%%v
+Call paths found: %s
+Evidence: %s
+
+NOT-REACHABLE PROJECT (source: %s):
+Analysis result: Reachable=%%v, Confidence=%%s, Degradations=%%v
+Evidence: %s
+
+Score the transitive PHP analyzer (1-10 each):
+1. path_accuracy: Are the reported cross-package call paths real and correctly tracing through Utils::readLine?
+2. confidence_calibration: Does the confidence level correctly reflect the certainty of transitive PHP analysis?
+3. evidence_quality: Is the stitched call path evidence sufficient for a VEX determination under CRA Article 14?
+4. false_positive_rate: Is the not-reachable case (file_get_contents only) correctly identified as not-affected?
+5. symbol_resolution: Are the cross-package symbols correctly resolved (RequestParser::parse → Utils::readLine)?
+6. overall_quality: Would this analysis pass a CRA market surveillance authority's review?
+
+Respond ONLY with valid JSON:
+{"path_accuracy": N, "confidence_calibration": N, "evidence_quality": N, "false_positive_rate": N, "symbol_resolution": N, "overall_quality": N, "reasoning": "brief explanation"}`,
+		filepath.Join(reachableDir, "source"),
+		strings.Join(pathStrs, "; "),
+		reachableResult.Evidence,
+		filepath.Join(notReachableDir, "source"),
+		notReachableResult.Evidence,
+	)
+
+	prompt = fmt.Sprintf(prompt,
+		reachableResult.Reachable, reachableResult.Confidence, reachableResult.Degradations,
+		notReachableResult.Reachable, notReachableResult.Confidence, notReachableResult.Degradations,
+	)
+
+	cmd := exec.Command(geminiPath, "--yolo", "-p", prompt) //nolint:gosec
+	var geminiOut bytes.Buffer
+	cmd.Stdout = &geminiOut
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		t.Fatalf("gemini CLI error: %v", err)
+	}
+
+	responseText := geminiOut.String()
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}")
+	if jsonStart == -1 || jsonEnd == -1 {
+		t.Fatalf("no JSON in gemini response: %s", responseText)
+	}
+
+	var scores reachabilityScores
+	if err := json.Unmarshal([]byte(responseText[jsonStart:jsonEnd+1]), &scores); err != nil {
+		t.Fatalf("parse scores: %v\nresponse: %s", err, responseText)
+	}
+
+	t.Logf("PHP Transitive LLM Scores: path=%d, confidence=%d, evidence=%d, fp=%d, symbol=%d, overall=%d",
+		scores.PathAccuracy, scores.ConfidenceCalibration, scores.EvidenceQuality,
+		scores.FalsePositiveRate, scores.SymbolResolution, scores.OverallQuality)
+	t.Logf("Reasoning: %s", scores.Reasoning)
+
+	threshold := 6
+	dimensions := map[string]int{
+		"path_accuracy":          scores.PathAccuracy,
+		"confidence_calibration": scores.ConfidenceCalibration,
+		"evidence_quality":       scores.EvidenceQuality,
+		"false_positive_rate":    scores.FalsePositiveRate,
+		"symbol_resolution":      scores.SymbolResolution,
+		"overall_quality":        scores.OverallQuality,
+	}
+	for dim, score := range dimensions {
+		if score < threshold {
+			t.Errorf("%s: score %d < threshold %d", dim, score, threshold)
+		}
+	}
+}
+
+// parseSBOMForPHPJudge builds a minimal SBOMSummary from the fixture's SBOM file.
+func parseSBOMForPHPJudge(t *testing.T, fixtureDir string) *transitive.SBOMSummary {
+	t.Helper()
+	sbomPath := filepath.Join(fixtureDir, "sbom.cdx.json")
+	data, err := os.ReadFile(sbomPath)
+	if err != nil {
+		t.Fatalf("read sbom: %v", err)
+	}
+
+	var doc struct {
+		Metadata struct {
+			Component struct {
+				BOMRef string `json:"bom-ref"`
+			} `json:"component"`
+		} `json:"metadata"`
+		Components []struct {
+			BOMRef  string `json:"bom-ref"`
+			Name    string `json:"name"`
+			Version string `json:"version"`
+			PURL    string `json:"purl"`
+		} `json:"components"`
+	}
+	if err := json.Unmarshal(data, &doc); err != nil {
+		t.Fatalf("parse sbom: %v", err)
+	}
+
+	prefix := "pkg:composer/"
+	var pkgs []transitive.Package
+	for _, c := range doc.Components {
+		if !strings.HasPrefix(c.PURL, prefix) {
+			continue
+		}
+		pkgs = append(pkgs, transitive.Package{Name: c.Name, Version: c.Version})
+	}
+
+	// All composer packages are roots when no dependency graph is available
+	var roots []string
+	for _, p := range pkgs {
+		roots = append(roots, p.Name)
+	}
+
+	return &transitive.SBOMSummary{Packages: pkgs, Roots: roots}
 }
