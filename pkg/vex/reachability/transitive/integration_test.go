@@ -268,3 +268,13 @@ func TestIntegration_Transitive_JavaNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "java-realworld-cross-package-safe")
 	runIntegrationFixture(t, dir, "java", "maven", "com.google.code.gson:gson", "2.8.6", false)
 }
+
+func TestIntegration_Transitive_CSharpReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "csharp-realworld-cross-package")
+	runIntegrationFixture(t, dir, "csharp", "nuget", "Newtonsoft.Json", "13.0.1", true)
+}
+
+func TestIntegration_Transitive_CSharpNotReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "csharp-realworld-cross-package-safe")
+	runIntegrationFixture(t, dir, "csharp", "nuget", "Newtonsoft.Json", "13.0.1", false)
+}

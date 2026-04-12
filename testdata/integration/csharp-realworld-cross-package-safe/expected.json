@@ -1,0 +1,23 @@
+{
+  "description": "C# cross-package transitive reachability: app does not call vulnerable methods",
+  "provenance": {
+    "source_project": "JamesNK/Newtonsoft.Json",
+    "source_url": "https://github.com/JamesNK/Newtonsoft.Json",
+    "commit": "13.0.1",
+    "cve": "CVE-2024-21907",
+    "cve_url": "https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+    "language": "csharp",
+    "pattern": "cross_package_not_reachable",
+    "ground_truth_notes": "App.cs does not import or call any Newtonsoft.Json methods"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2024-21907",
+      "aliases": ["GHSA-5crp-9r3c-p9vr"],
+      "component_purl": "pkg:nuget/Newtonsoft.Json@13.0.1",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "transitive"
+    }
+  ]
+}

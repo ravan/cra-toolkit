@@ -457,35 +457,68 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 }
 
 // extractUsingDirective processes a single using_directive node.
-// using_directive: "using" ["static"] (qualified_name | identifier) ";"
+// Handles two forms:
+//   - namespace import:  "using" (qualified_name | identifier) ";"
+//   - alias import:      "using" identifier "=" qualified_name ";"
 //
 //nolint:gocognit // handles qualified names and aliases across grammar versions
 func extractUsingDirective(node *tree_sitter.Node, src []byte, file string, imports *[]treesitter.Import) {
+	// Collect all direct children that are identifiers or qualified_names,
+	// plus detect the presence of an "=" child which signals an alias directive.
+	var identText string
+	var qualText string
+	hasEquals := false
+
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
 		if child == nil {
 			continue
 		}
 		k := child.Kind()
-		if k == "qualified_name" || k == "identifier" {
-			fqn := nodeText(child, src)
-			if fqn == "" {
-				continue
+		switch k {
+		case "=":
+			hasEquals = true
+		case "identifier":
+			if identText == "" {
+				identText = nodeText(child, src)
 			}
-			// Alias = last segment of the qualified name
-			alias := fqn
-			if idx := strings.LastIndexByte(fqn, '.'); idx >= 0 {
-				alias = fqn[idx+1:]
+		case "qualified_name":
+			if qualText == "" {
+				qualText = nodeText(child, src)
 			}
-			*imports = append(*imports, treesitter.Import{
-				Module: fqn,
-				Alias:  alias,
-				File:   file,
-				Line:   rowToLine(node.StartPosition().Row),
-			})
-			return
 		}
 	}
+
+	if hasEquals && identText != "" && qualText != "" {
+		// Alias form: "using JsonConvert = Newtonsoft.Json.JsonConvert;"
+		// identText is the local alias, qualText is the fully-qualified module.
+		*imports = append(*imports, treesitter.Import{
+			Module: qualText,
+			Alias:  identText,
+			File:   file,
+			Line:   rowToLine(node.StartPosition().Row),
+		})
+		return
+	}
+
+	// Non-alias form: "using Newtonsoft.Json;" or "using System;"
+	fqn := qualText
+	if fqn == "" {
+		fqn = identText
+	}
+	if fqn == "" {
+		return
+	}
+	alias := fqn
+	if idx := strings.LastIndexByte(fqn, '.'); idx >= 0 {
+		alias = fqn[idx+1:]
+	}
+	*imports = append(*imports, treesitter.Import{
+		Module: fqn,
+		Alias:  alias,
+		File:   file,
+		Line:   rowToLine(node.StartPosition().Row),
+	})
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -630,14 +663,14 @@ func processInvocationExpression(node *tree_sitter.Node, src []byte, ctx *callSt
 	switch expr.Kind() {
 	case "member_access_expression":
 		// object.method(args)
-		// First child = object expression, name field = method name
+		// First child = object expression, name field = method name (may be generic_name).
 		objectText := ""
 		if objNode := expr.Child(0); objNode != nil {
 			objectText = nodeText(objNode, src)
 		}
 		methodName := ""
 		if mn := expr.ChildByFieldName("name"); mn != nil {
-			methodName = nodeText(mn, src)
+			methodName = bareMethodName(mn, src)
 		}
 		if objectText != "" && methodName != "" {
 			toStr = objectText + "." + methodName
@@ -725,4 +758,25 @@ func simpleTypeName(name string) string {
 	}
 	// For qualified names, keep as-is (will be used in edge target)
 	return strings.TrimSpace(name)
+}
+
+// bareMethodName extracts the unqualified method name from an AST node.
+// For a generic_name node (e.g. "DeserializeObject<string>"), it returns
+// the identifier child ("DeserializeObject"). For a plain identifier node
+// it returns the full text.
+func bareMethodName(node *tree_sitter.Node, src []byte) string {
+	if node == nil {
+		return ""
+	}
+	// generic_name: identifier type_argument_list
+	// Return only the identifier child to strip the generic parameters.
+	if node.Kind() == "generic_name" {
+		for i := uint(0); i < node.ChildCount(); i++ {
+			child := node.Child(i)
+			if child != nil && child.Kind() == "identifier" {
+				return nodeText(child, src)
+			}
+		}
+	}
+	return nodeText(node, src)
 }

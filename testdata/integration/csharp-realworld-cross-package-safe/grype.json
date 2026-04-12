@@ -1,0 +1,54 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2024-21907",
+        "severity": "High",
+        "dataSource": "https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+        "namespace": "github:language:dotnet",
+        "fix": {
+          "versions": ["13.0.2"],
+          "state": "fixed"
+        },
+        "advisories": []
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "dotnet-matcher",
+          "searchedBy": {
+            "language": "dotnet",
+            "namespace": "github:language:dotnet",
+            "package": {
+              "name": "Newtonsoft.Json",
+              "version": "13.0.1"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 13.0.2 (unknown)",
+            "vulnerabilityID": "CVE-2024-21907"
+          }
+        }
+      ],
+      "artifact": {
+        "name": "Newtonsoft.Json",
+        "version": "13.0.1",
+        "type": "dotnet",
+        "language": "dotnet",
+        "purl": "pkg:nuget/Newtonsoft.Json@13.0.1"
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "path": "source"
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.74.0"
+  }
+}
