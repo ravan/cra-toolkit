@@ -490,6 +490,126 @@ func symbolKeys(m map[string]bool) []string {
 	return out
 }
 
+func TestExtractSymbols_AttrAccessor(t *testing.T) {
+	source := `class Config
+  attr_accessor :host, :port
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("config.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wantMethods := map[string]bool{
+		"Config::host":  true,
+		"Config::host=": true,
+		"Config::port":  true,
+		"Config::port=": true,
+	}
+	for _, s := range symbols {
+		delete(wantMethods, string(s.ID))
+	}
+	for missing := range wantMethods {
+		t.Errorf("missing synthesized method %q", missing)
+	}
+}
+
+func TestExtractSymbols_AttrReader(t *testing.T) {
+	source := `class User
+  attr_reader :id
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("user.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	foundGetter := false
+	foundSetter := false
+	for _, s := range symbols {
+		if string(s.ID) == "User::id" {
+			foundGetter = true
+		}
+		if string(s.ID) == "User::id=" {
+			foundSetter = true
+		}
+	}
+	if !foundGetter {
+		t.Error("missing getter User::id")
+	}
+	if foundSetter {
+		t.Error("attr_reader should not generate setter User::id=")
+	}
+}
+
+func TestExtractSymbols_AttrWriter(t *testing.T) {
+	source := `class User
+  attr_writer :password
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("user.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	foundGetter := false
+	foundSetter := false
+	for _, s := range symbols {
+		if string(s.ID) == "User::password" {
+			foundGetter = true
+		}
+		if string(s.ID) == "User::password=" {
+			foundSetter = true
+		}
+	}
+	if foundGetter {
+		t.Error("attr_writer should not generate getter User::password")
+	}
+	if !foundSetter {
+		t.Error("missing setter User::password=")
+	}
+}
+
+func TestExtractSymbols_AttrWithPrivate(t *testing.T) {
+	source := `class Foo
+  attr_accessor :public_name
+
+  private
+
+  attr_accessor :secret_name
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("foo.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, s := range symbols {
+		switch s.Name {
+		case "public_name":
+			if !s.IsPublic {
+				t.Errorf("public_name should have IsPublic=true")
+			}
+		case "secret_name":
+			if s.IsPublic {
+				t.Errorf("secret_name should have IsPublic=false (after private)")
+			}
+		}
+	}
+}
+
 func TestExtractSymbols_PrivateMethod(t *testing.T) {
 	source := `class Foo
   def public_method

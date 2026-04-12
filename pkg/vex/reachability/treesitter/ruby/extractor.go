@@ -248,14 +248,17 @@ func extractMethodsFromBody(
 				vis = parseVisibility(name)
 			}
 		case "call":
-			// Could be `private :method_name` or `private :a, :b` with symbol arguments.
+			// Could be `private :method_name` or `private :a, :b` with symbol arguments,
+			// or attr_accessor/attr_reader/attr_writer declarations.
 			firstChildText := ""
 			if child.ChildCount() > 0 {
 				if fc := child.Child(0); fc != nil {
 					firstChildText = nodeText(fc, src)
 				}
 			}
-			if isVisibilityKeyword(firstChildText) {
+			if isAttrDeclaration(firstChildText) {
+				extractAttrMethods(child, src, file, scopeStack, vis, &firstPassSymbols)
+			} else if isVisibilityKeyword(firstChildText) {
 				argList := child.ChildByFieldName("arguments")
 				if argList == nil {
 					// No arguments: bare visibility toggle.
@@ -353,6 +356,70 @@ func appendMethodSymbol(
 		IsPublic:      vis == visPublic,
 	}
 	*symbols = append(*symbols, sym)
+}
+
+// isAttrDeclaration returns true if name is an attr_* macro.
+func isAttrDeclaration(name string) bool {
+	return name == "attr_accessor" || name == "attr_reader" || name == "attr_writer"
+}
+
+// extractAttrMethods synthesizes getter and/or setter method symbols for attr_* declarations.
+// - attr_reader :name  → getter  ClassName::name
+// - attr_writer :name  → setter  ClassName::name=
+// - attr_accessor :name → both
+func extractAttrMethods(
+	node *tree_sitter.Node,
+	src []byte,
+	file string,
+	scopeStack []string,
+	vis visibility,
+	symbols *[]*treesitter.Symbol,
+) {
+	if node.ChildCount() == 0 {
+		return
+	}
+	methodText := nodeText(node.Child(0), src)
+	args := node.ChildByFieldName("arguments")
+	if args == nil {
+		return
+	}
+	className := strings.Join(scopeStack, "::")
+	for i := uint(0); i < args.ChildCount(); i++ {
+		child := args.Child(i)
+		if child == nil || child.Kind() != "simple_symbol" {
+			continue
+		}
+		attrName := strings.TrimPrefix(nodeText(child, src), ":")
+		if attrName == "" {
+			continue
+		}
+
+		makeMethod := func(name string) {
+			qualifiedName := className + "::" + name
+			*symbols = append(*symbols, &treesitter.Symbol{
+				ID:            treesitter.SymbolID(qualifiedName),
+				Name:          name,
+				QualifiedName: qualifiedName,
+				Language:      "ruby",
+				File:          file,
+				Package:       className,
+				StartLine:     rowToLine(node.StartPosition().Row),
+				EndLine:       rowToLine(node.EndPosition().Row),
+				Kind:          treesitter.SymbolMethod,
+				IsPublic:      vis == visPublic,
+			})
+		}
+
+		switch methodText {
+		case "attr_reader":
+			makeMethod(attrName)
+		case "attr_writer":
+			makeMethod(attrName + "=")
+		case "attr_accessor":
+			makeMethod(attrName)
+			makeMethod(attrName + "=")
+		}
+	}
 }
 
 // methodNameFromNode returns the method name from a `method` node.
