@@ -150,6 +150,7 @@ func extractTopLevelFunction(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolFunction,
+		IsPublic:      true, // PHP top-level functions are always public
 	}
 	*symbols = append(*symbols, sym)
 }
@@ -185,6 +186,7 @@ func extractClassNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolClass,
+		IsPublic:      true, // PHP classes are always public by default
 	}
 	*symbols = append(*symbols, sym)
 
@@ -231,7 +233,8 @@ func extractMethodNode(
 	}
 
 	// Track visibility for controller entry point detection
-	if hasPublicModifier(node, src) {
+	isPublic := hasPublicModifier(node, src)
+	if isPublic {
 		publicMethods[id] = true
 	}
 
@@ -248,6 +251,7 @@ func extractMethodNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolMethod,
+		IsPublic:      isPublic,
 	}
 	*symbols = append(*symbols, sym)
 }
