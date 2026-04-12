@@ -125,11 +125,20 @@ func TestPHP_NormalizeImports(t *testing.T) {
 	}
 	got := lang.NormalizeImports(raw)
 	// Identity function — imports are already normalized by the wrapper extractor
+	if len(got) != 2 {
+		t.Fatalf("NormalizeImports returned %d imports, want 2", len(got))
+	}
 	if got[0].Module != "GuzzleHttp.Psr7.Utils" {
-		t.Errorf("Module = %q, want %q", got[0].Module, "GuzzleHttp.Psr7.Utils")
+		t.Errorf("got[0].Module = %q, want %q", got[0].Module, "GuzzleHttp.Psr7.Utils")
 	}
 	if got[0].Alias != "Utils" {
-		t.Errorf("Alias = %q, want %q", got[0].Alias, "Utils")
+		t.Errorf("got[0].Alias = %q, want %q", got[0].Alias, "Utils")
+	}
+	if got[1].Module != "App.Models.User" {
+		t.Errorf("got[1].Module = %q, want %q", got[1].Module, "App.Models.User")
+	}
+	if got[1].Alias != "User" {
+		t.Errorf("got[1].Alias = %q, want %q", got[1].Alias, "User")
 	}
 }
 
@@ -188,6 +197,12 @@ func TestPHP_ResolveSelfCall(t *testing.T) {
 			to:   "Utils.readLine",
 			from: "app.Parser.parse",
 			want: "Utils.readLine",
+		},
+		{
+			name: "minimum valid from (3 dot-parts)",
+			to:   "self.run",
+			from: "slim/slim.App.handle",
+			want: "slim/slim.App.run",
 		},
 	}
 	for _, tc := range tests {
