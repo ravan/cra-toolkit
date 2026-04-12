@@ -853,3 +853,62 @@ end`
 		}
 	}
 }
+
+func TestExtractor_SnapshotRestore(t *testing.T) {
+	ext := rubyextractor.New()
+
+	// File 1: define a module with methods
+	source1 := `module Cacheable
+  def cache_key
+    "key"
+  end
+end`
+	tree1, src1 := parseRuby(t, source1)
+	defer tree1.Close()
+	_, err := ext.ExtractSymbols("cacheable.rb", src1, tree1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	snap1 := ext.SnapshotState()
+
+	// File 2: class includes the module
+	source2 := `class User
+  include Cacheable
+end`
+	tree2, src2 := parseRuby(t, source2)
+	defer tree2.Close()
+	_, err = ext.ExtractSymbols("user.rb", src2, tree2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	snap2 := ext.SnapshotState()
+
+	// Create a fresh extractor and restore both snapshots
+	ext2 := rubyextractor.New()
+	ext2.RestoreState(snap1)
+	ext2.RestoreState(snap2)
+
+	state := ext2.State()
+	if len(state.ModuleMethods["Cacheable"]) == 0 {
+		t.Error("ModuleMethods[Cacheable] empty after restore")
+	}
+	if len(state.Mixins["User"]) == 0 {
+		t.Error("Mixins[User] empty after restore")
+	}
+}
+
+func TestExtractor_RestoreState_AppendUnique(t *testing.T) {
+	ext := rubyextractor.New()
+
+	// Simulate duplicate snapshots
+	ext.State().ModuleMethods["Foo"] = []string{"bar"}
+	snap := ext.SnapshotState()
+
+	ext.RestoreState(snap)
+	ext.RestoreState(snap)
+
+	methods := ext.State().ModuleMethods["Foo"]
+	if len(methods) != 1 {
+		t.Errorf("expected 1 method after duplicate restore, got %d: %v", len(methods), methods)
+	}
+}

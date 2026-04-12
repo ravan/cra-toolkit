@@ -1161,6 +1161,74 @@ func extractSendTarget(node *tree_sitter.Node, src []byte) string {
 	return ""
 }
 
+// SnapshotState returns a deep copy of the current cross-file state.
+// The returned value can be passed to RestoreState on any Extractor.
+func (e *Extractor) SnapshotState() any {
+	snap := newCrossFileState()
+	for k, v := range e.state.Mixins {
+		entries := make([]MixinEntry, len(v))
+		copy(entries, v)
+		snap.Mixins[k] = entries
+	}
+	for k, v := range e.state.Hierarchy {
+		snap.Hierarchy[k] = v
+	}
+	for k, v := range e.state.ModuleMethods {
+		methods := make([]string, len(v))
+		copy(methods, v)
+		snap.ModuleMethods[k] = methods
+	}
+	return snap
+}
+
+// RestoreState merges a snapshot (produced by SnapshotState) into this extractor's state.
+// Entries already present are not duplicated (append-unique semantics).
+func (e *Extractor) RestoreState(s any) {
+	snap, ok := s.(*CrossFileState)
+	if !ok {
+		return
+	}
+	for k, entries := range snap.Mixins {
+		for _, entry := range entries {
+			if !containsMixin(e.state.Mixins[k], entry) {
+				e.state.Mixins[k] = append(e.state.Mixins[k], entry)
+			}
+		}
+	}
+	for k, v := range snap.Hierarchy {
+		if _, exists := e.state.Hierarchy[k]; !exists {
+			e.state.Hierarchy[k] = v
+		}
+	}
+	for k, methods := range snap.ModuleMethods {
+		for _, m := range methods {
+			if !containsString(e.state.ModuleMethods[k], m) {
+				e.state.ModuleMethods[k] = append(e.state.ModuleMethods[k], m)
+			}
+		}
+	}
+}
+
+// containsMixin returns true if entries already contains an entry with the same Module and Kind.
+func containsMixin(entries []MixinEntry, entry MixinEntry) bool {
+	for _, e := range entries {
+		if e.Module == entry.Module && e.Kind == entry.Kind {
+			return true
+		}
+	}
+	return false
+}
+
+// containsString returns true if slice already contains s.
+func containsString(slice []string, s string) bool {
+	for _, v := range slice {
+		if v == s {
+			return true
+		}
+	}
+	return false
+}
+
 // buildFrom constructs the caller's SymbolID from the current context.
 func buildFrom(scopeStack []string, currentMethod, file string) treesitter.SymbolID {
 	className := strings.Join(scopeStack, "::")
