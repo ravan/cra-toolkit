@@ -1,0 +1,54 @@
+{
+  "matches": [
+    {
+      "vulnerability": {
+        "id": "CVE-2022-25647",
+        "severity": "High",
+        "dataSource": "https://github.com/advisories/GHSA-4jrv-ppp4-jm57",
+        "namespace": "github:language:java",
+        "fix": {
+          "versions": ["2.8.9"],
+          "state": "fixed"
+        },
+        "advisories": []
+      },
+      "relatedVulnerabilities": [],
+      "matchDetails": [
+        {
+          "type": "exact-direct-match",
+          "matcher": "java-matcher",
+          "searchedBy": {
+            "language": "java",
+            "namespace": "github:language:java",
+            "package": {
+              "name": "gson",
+              "version": "2.8.6"
+            }
+          },
+          "found": {
+            "versionConstraint": "< 2.8.9 (unknown)",
+            "vulnerabilityID": "CVE-2022-25647"
+          }
+        }
+      ],
+      "artifact": {
+        "name": "gson",
+        "version": "2.8.6",
+        "type": "java-archive",
+        "language": "java",
+        "purl": "pkg:maven/com.google.code.gson/gson@2.8.6"
+      }
+    }
+  ],
+  "source": {
+    "type": "directory",
+    "target": {
+      "path": "source"
+    }
+  },
+  "distro": {},
+  "descriptor": {
+    "name": "grype",
+    "version": "0.74.0"
+  }
+}

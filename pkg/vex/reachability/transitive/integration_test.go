@@ -173,6 +173,10 @@ func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affect
 		fetcher = &RubyGemsFetcher{Cache: cache}
 	case "packagist":
 		fetcher = &PackagistFetcher{Cache: cache}
+	case "maven":
+		fetcher = &MavenFetcher{Cache: cache}
+	case "nuget":
+		fetcher = &NuGetFetcher{Cache: cache}
 	default:
 		t.Fatalf("unknown ecosystem %q", ecosystem)
 	}
@@ -253,4 +257,14 @@ func TestIntegration_Transitive_PHPReachable(t *testing.T) {
 func TestIntegration_Transitive_PHPNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "php-realworld-cross-package-safe")
 	runIntegrationFixture(t, dir, "php", "packagist", "guzzlehttp/psr7", "2.1.0", false)
+}
+
+func TestIntegration_Transitive_JavaReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "java-realworld-cross-package")
+	runIntegrationFixture(t, dir, "java", "maven", "com.google.code.gson:gson", "2.8.6", true)
+}
+
+func TestIntegration_Transitive_JavaNotReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "java-realworld-cross-package-safe")
+	runIntegrationFixture(t, dir, "java", "maven", "com.google.code.gson:gson", "2.8.6", false)
 }

@@ -1,0 +1,23 @@
+{
+  "description": "Java cross-package transitive reachability: app calls Gson.fromJson through a direct dependency",
+  "provenance": {
+    "source_project": "google/gson",
+    "source_url": "https://github.com/google/gson",
+    "commit": "2.8.6",
+    "cve": "CVE-2022-25647",
+    "cve_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25647",
+    "language": "java",
+    "pattern": "cross_package_reachable",
+    "ground_truth_notes": "App.java imports com.google.gson.Gson and calls gson.fromJson directly"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2022-25647",
+      "aliases": ["GHSA-4jrv-ppp4-jm57"],
+      "component_purl": "pkg:maven/com.google.code.gson/gson@2.8.6",
+      "expected_status": "affected",
+      "expected_confidence": "high",
+      "expected_resolved_by": "transitive"
+    }
+  ]
+}
