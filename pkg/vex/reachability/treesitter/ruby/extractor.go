@@ -26,15 +26,43 @@ type routeAction struct {
 	action     string // e.g. "parse"
 }
 
+// MixinEntry records a single include/extend/prepend statement.
+type MixinEntry struct {
+	Module string
+	Kind   string // "include", "extend", "prepend"
+}
+
+// CrossFileState accumulates cross-file Ruby metadata collected during extraction.
+type CrossFileState struct {
+	Mixins        map[string][]MixinEntry // class/module name → mixins applied
+	Hierarchy     map[string]string       // class name → superclass name
+	ModuleMethods map[string][]string     // module name → method names
+}
+
+func newCrossFileState() *CrossFileState {
+	return &CrossFileState{
+		Mixins:        make(map[string][]MixinEntry),
+		Hierarchy:     make(map[string]string),
+		ModuleMethods: make(map[string][]string),
+	}
+}
+
 // Extractor extracts symbols, imports, and call edges from Ruby ASTs.
 type Extractor struct {
 	// routes holds parsed controller#action pairs from routes.rb
 	routes []routeAction
+	// state accumulates cross-file mixin/hierarchy/module-method data
+	state *CrossFileState
 }
 
 // New creates a new Ruby Extractor.
 func New() *Extractor {
-	return &Extractor{}
+	return &Extractor{state: newCrossFileState()}
+}
+
+// State returns the cross-file state accumulated by this extractor.
+func (e *Extractor) State() *CrossFileState {
+	return e.state
 }
 
 // nodeText returns the UTF-8 text of a node.
@@ -85,7 +113,7 @@ func parseVisibility(name string) visibility {
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
 	root := tree.RootNode()
 	var symbols []*treesitter.Symbol
-	walkProgram(root, src, file, nil, &symbols)
+	walkProgram(root, src, file, nil, &symbols, e.state)
 	return symbols, nil
 }
 
@@ -98,6 +126,7 @@ func walkProgram(
 	file string,
 	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
+	state *CrossFileState,
 ) {
 	if root == nil {
 		return
@@ -109,9 +138,9 @@ func walkProgram(
 		}
 		switch child.Kind() {
 		case "class":
-			extractClassNode(child, src, file, scopeStack, symbols)
+			extractClassNode(child, src, file, scopeStack, symbols, state)
 		case "module":
-			extractModuleNode(child, src, file, scopeStack, symbols)
+			extractModuleNode(child, src, file, scopeStack, symbols, state)
 		case "call":
 			extractTopLevelCall(child, src, file, symbols)
 		}
@@ -125,10 +154,11 @@ func extractClassNode(
 	file string,
 	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
+	state *CrossFileState,
 ) {
 	// Ruby AST: class → constant (name), superclass?, body_statement
 	// The first constant child is the class name
-	extractContainerNode(node, src, file, treesitter.SymbolClass, scopeStack, symbols)
+	extractContainerNode(node, src, file, treesitter.SymbolClass, scopeStack, symbols, state)
 }
 
 // extractModuleNode processes a module node.
@@ -138,8 +168,9 @@ func extractModuleNode(
 	file string,
 	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
+	state *CrossFileState,
 ) {
-	extractContainerNode(node, src, file, treesitter.SymbolModule, scopeStack, symbols)
+	extractContainerNode(node, src, file, treesitter.SymbolModule, scopeStack, symbols, state)
 }
 
 // extractContainerNode handles shared extraction logic for class and module nodes.
@@ -150,6 +181,7 @@ func extractContainerNode(
 	kind treesitter.SymbolKind,
 	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
+	state *CrossFileState,
 ) {
 	name := classOrModuleName(node, src)
 	if name == "" {
@@ -178,10 +210,21 @@ func extractContainerNode(
 	}
 	*symbols = append(*symbols, sym)
 
+	// Record superclass hierarchy for class nodes.
+	// The Ruby AST superclass node has kind "superclass" with children: "<" and constant/scope_resolution.
+	if kind == treesitter.SymbolClass {
+		if superclassNode := node.ChildByFieldName("superclass"); superclassNode != nil {
+			superclassName := extractSuperclassName(superclassNode, src)
+			if superclassName != "" {
+				state.Hierarchy[qualifiedName] = superclassName
+			}
+		}
+	}
+
 	// Walk body for methods
 	body := node.ChildByFieldName("body")
 	if body != nil {
-		extractMethodsFromBody(body, src, file, newStack, symbols)
+		extractMethodsFromBody(body, src, file, newStack, symbols, state, kind)
 	}
 }
 
@@ -203,8 +246,57 @@ func classOrModuleName(node *tree_sitter.Node, src []byte) string {
 	return ""
 }
 
+// extractSuperclassName extracts the superclass name from a "superclass" AST node.
+// The superclass node has the form: "<" constant/scope_resolution
+func extractSuperclassName(node *tree_sitter.Node, src []byte) string {
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		switch child.Kind() {
+		case "constant", "scope_resolution":
+			return extractConstantName(child, src)
+		}
+	}
+	return ""
+}
+
+// isMixinKeyword returns true if the name is a Ruby mixin keyword.
+func isMixinKeyword(name string) bool {
+	return name == "include" || name == "extend" || name == "prepend"
+}
+
+// extractConstantName extracts a fully-qualified constant name from a constant or scope_resolution node.
+func extractConstantName(node *tree_sitter.Node, src []byte) string {
+	if node == nil {
+		return ""
+	}
+	switch node.Kind() {
+	case "constant":
+		return nodeText(node, src)
+	case "scope_resolution":
+		var parts []string
+		for i := uint(0); i < node.ChildCount(); i++ {
+			child := node.Child(i)
+			if child == nil {
+				continue
+			}
+			switch child.Kind() {
+			case "constant":
+				parts = append(parts, nodeText(child, src))
+			case "scope_resolution":
+				parts = append(parts, extractConstantName(child, src))
+			}
+		}
+		return strings.Join(parts, "::")
+	}
+	return nodeText(node, src)
+}
+
 // extractMethodsFromBody walks a body_statement to find method and singleton_method nodes.
 // It tracks Ruby visibility modifiers (private/protected/public) and applies them to methods.
+// It also records mixin declarations and (for modules) collects method names into state.
 //
 //nolint:gocognit,gocyclo // visibility state machine requires multiple case branches
 func extractMethodsFromBody(
@@ -213,10 +305,14 @@ func extractMethodsFromBody(
 	file string,
 	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
+	state *CrossFileState,
+	containerKind treesitter.SymbolKind,
 ) {
 	if body == nil {
 		return
 	}
+
+	qualifiedName := strings.Join(scopeStack, "::")
 
 	// privateOverrides collects method names explicitly privatised via `private :name` syntax.
 	privateOverrides := make(map[string]bool)
@@ -238,9 +334,9 @@ func extractMethodsFromBody(
 		case "singleton_method":
 			extractSingletonMethodNode(child, src, file, scopeStack, vis, &firstPassSymbols)
 		case "class":
-			extractClassNode(child, src, file, scopeStack, &firstPassSymbols)
+			extractClassNode(child, src, file, scopeStack, &firstPassSymbols, state)
 		case "module":
-			extractModuleNode(child, src, file, scopeStack, &firstPassSymbols)
+			extractModuleNode(child, src, file, scopeStack, &firstPassSymbols, state)
 		case "identifier":
 			// Bare visibility keyword, e.g. `private` or `protected` on its own line.
 			name := nodeText(child, src)
@@ -249,41 +345,15 @@ func extractMethodsFromBody(
 			}
 		case "call":
 			// Could be `private :method_name` or `private :a, :b` with symbol arguments,
-			// or attr_accessor/attr_reader/attr_writer declarations.
+			// attr_accessor/attr_reader/attr_writer declarations,
+			// or include/extend/prepend mixin declarations.
 			firstChildText := ""
 			if child.ChildCount() > 0 {
 				if fc := child.Child(0); fc != nil {
 					firstChildText = nodeText(fc, src)
 				}
 			}
-			if isAttrDeclaration(firstChildText) {
-				extractAttrMethods(child, src, file, scopeStack, vis, &firstPassSymbols)
-			} else if isVisibilityKeyword(firstChildText) {
-				argList := child.ChildByFieldName("arguments")
-				if argList == nil {
-					// No arguments: bare visibility toggle.
-					vis = parseVisibility(firstChildText)
-				} else {
-					// Has arguments: explicit per-method override, e.g. `private :beta`.
-					for j := uint(0); j < argList.ChildCount(); j++ {
-						arg := argList.Child(j)
-						if arg == nil {
-							continue
-						}
-						if arg.Kind() == "simple_symbol" {
-							methodName := strings.TrimPrefix(nodeText(arg, src), ":")
-							if methodName != "" {
-								switch firstChildText {
-								case "private", "protected":
-									privateOverrides[methodName] = true
-								case "public":
-									privateOverrides[methodName] = false
-								}
-							}
-						}
-					}
-				}
-			}
+			vis = processBodyCall(child, src, file, scopeStack, qualifiedName, firstChildText, vis, &firstPassSymbols, privateOverrides, state)
 		}
 	}
 
@@ -298,6 +368,103 @@ func extractMethodsFromBody(
 			sym.IsPublic = !override
 		}
 		*symbols = append(*symbols, sym)
+	}
+
+	// For module containers, record method names in state.ModuleMethods.
+	if containerKind == treesitter.SymbolModule {
+		for _, sym := range firstPassSymbols {
+			if sym.Kind == treesitter.SymbolMethod {
+				state.ModuleMethods[qualifiedName] = append(state.ModuleMethods[qualifiedName], sym.Name)
+			}
+		}
+	}
+}
+
+// processBodyCall handles a `call` node found in a class/module body.
+// It dispatches to attr synthesis, mixin recording, or visibility tracking.
+// It returns the (possibly updated) current visibility.
+func processBodyCall(
+	node *tree_sitter.Node,
+	src []byte,
+	file string,
+	scopeStack []string,
+	qualifiedName string,
+	firstChildText string,
+	vis visibility,
+	symbols *[]*treesitter.Symbol,
+	privateOverrides map[string]bool,
+	state *CrossFileState,
+) visibility {
+	switch {
+	case isAttrDeclaration(firstChildText):
+		extractAttrMethods(node, src, file, scopeStack, vis, symbols)
+	case isMixinKeyword(firstChildText):
+		extractMixins(node, src, firstChildText, qualifiedName, state)
+	case isVisibilityKeyword(firstChildText):
+		return applyVisibilityCall(node, src, firstChildText, vis, privateOverrides)
+	}
+	return vis
+}
+
+// applyVisibilityCall applies a visibility modifier call (e.g. private, protected, public).
+// It returns the updated visibility after the call.
+func applyVisibilityCall(
+	node *tree_sitter.Node,
+	src []byte,
+	keyword string,
+	vis visibility,
+	privateOverrides map[string]bool,
+) visibility {
+	argList := node.ChildByFieldName("arguments")
+	if argList == nil {
+		// No arguments: bare visibility toggle.
+		return parseVisibility(keyword)
+	}
+	// Has arguments: explicit per-method override, e.g. `private :beta`.
+	for j := uint(0); j < argList.ChildCount(); j++ {
+		arg := argList.Child(j)
+		if arg == nil {
+			continue
+		}
+		if arg.Kind() == "simple_symbol" {
+			methodName := strings.TrimPrefix(nodeText(arg, src), ":")
+			if methodName != "" {
+				switch keyword {
+				case "private", "protected":
+					privateOverrides[methodName] = true
+				case "public":
+					privateOverrides[methodName] = false
+				}
+			}
+		}
+	}
+	return vis
+}
+
+// extractMixins processes an include/extend/prepend call and records mixins in state.
+func extractMixins(
+	node *tree_sitter.Node,
+	src []byte,
+	kind string,
+	qualifiedName string,
+	state *CrossFileState,
+) {
+	argList := node.ChildByFieldName("arguments")
+	if argList == nil {
+		return
+	}
+	for j := uint(0); j < argList.ChildCount(); j++ {
+		arg := argList.Child(j)
+		if arg == nil {
+			continue
+		}
+		moduleName := extractConstantName(arg, src)
+		if moduleName != "" {
+			state.Mixins[qualifiedName] = append(state.Mixins[qualifiedName], MixinEntry{
+				Module: moduleName,
+				Kind:   kind,
+			})
+		}
 	}
 }
 

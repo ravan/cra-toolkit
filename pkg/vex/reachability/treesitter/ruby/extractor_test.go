@@ -490,6 +490,108 @@ func symbolKeys(m map[string]bool) []string {
 	return out
 }
 
+func TestExtractSymbols_IncludeModule(t *testing.T) {
+	source := `class Foo
+  include Cacheable
+  include Admin::Helpers
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	_, err := ext.ExtractSymbols("foo.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mixins := ext.State().Mixins["Foo"]
+	if len(mixins) != 2 {
+		t.Fatalf("expected 2 mixins for Foo, got %d: %+v", len(mixins), mixins)
+	}
+	if mixins[0].Module != "Cacheable" || mixins[0].Kind != "include" {
+		t.Errorf("mixin[0] = %+v, want {Cacheable, include}", mixins[0])
+	}
+	if mixins[1].Module != "Admin::Helpers" || mixins[1].Kind != "include" {
+		t.Errorf("mixin[1] = %+v, want {Admin::Helpers, include}", mixins[1])
+	}
+}
+
+func TestExtractSymbols_ExtendAndPrepend(t *testing.T) {
+	source := `class Bar
+  extend ClassMethods
+  prepend Auditable
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	_, err := ext.ExtractSymbols("bar.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mixins := ext.State().Mixins["Bar"]
+	if len(mixins) != 2 {
+		t.Fatalf("expected 2 mixins for Bar, got %d", len(mixins))
+	}
+	kinds := make(map[string]bool)
+	for _, m := range mixins {
+		kinds[m.Kind] = true
+	}
+	if !kinds["extend"] {
+		t.Error("missing extend mixin")
+	}
+	if !kinds["prepend"] {
+		t.Error("missing prepend mixin")
+	}
+}
+
+func TestExtractSymbols_ClassHierarchy(t *testing.T) {
+	source := `class Child < Base
+  def hello
+    "hi"
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	_, err := ext.ExtractSymbols("child.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	parent, ok := ext.State().Hierarchy["Child"]
+	if !ok || parent != "Base" {
+		t.Errorf("Hierarchy[Child] = %q, want %q", parent, "Base")
+	}
+}
+
+func TestExtractSymbols_ModuleMethods(t *testing.T) {
+	source := `module Cacheable
+  def cache_key
+    "key"
+  end
+
+  def expire_cache
+    "expired"
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	_, err := ext.ExtractSymbols("cacheable.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	methods := ext.State().ModuleMethods["Cacheable"]
+	if len(methods) != 2 {
+		t.Fatalf("expected 2 methods for Cacheable, got %d: %v", len(methods), methods)
+	}
+}
+
 func TestExtractSymbols_AttrAccessor(t *testing.T) {
 	source := `class Config
   attr_accessor :host, :port
