@@ -84,6 +84,47 @@ func (l *Language) SymbolKey(modulePath, symbolName string) string {
 	return modulePath + "." + symbolName
 }
 
+// NormalizeImports is the identity function for PHP. The normalizedExtractor
+// wrapper already converts \ and :: to . in import module paths and aliases.
+func (l *Language) NormalizeImports(raw []treesitter.Import) []treesitter.Import {
+	return raw
+}
+
+// ResolveDottedTarget resolves a dotted call target whose prefix is an
+// import alias. For example, given "Utils" and a scope where "Utils" maps
+// to "GuzzleHttp.Psr7.Utils", returns "GuzzleHttp.Psr7.Utils.readLine"
+// for suffix="readLine".
+func (l *Language) ResolveDottedTarget(prefix, suffix string, scope *treesitter.Scope) (treesitter.SymbolID, bool) {
+	resolved, ok := scope.LookupImport(prefix)
+	if !ok {
+		return "", false
+	}
+	return treesitter.SymbolID(resolved + "." + suffix), true
+}
+
+// ResolveSelfCall rewrites "self.X" and "this.X" call targets to the
+// class-qualified form "ClassName.X". The raw PHP extractor emits
+// self::method and $this->method as self::method and this::method; the
+// normalizedExtractor converts :: to ., producing self.X and this.X.
+func (l *Language) ResolveSelfCall(to, from treesitter.SymbolID) treesitter.SymbolID {
+	toStr := string(to)
+	var methodName string
+	switch {
+	case strings.HasPrefix(toStr, "self."):
+		methodName = toStr[len("self."):]
+	case strings.HasPrefix(toStr, "this."):
+		methodName = toStr[len("this."):]
+	default:
+		return to
+	}
+	fromParts := strings.Split(string(from), ".")
+	if len(fromParts) < 3 {
+		return to
+	}
+	classQual := strings.Join(fromParts[:len(fromParts)-1], ".")
+	return treesitter.SymbolID(classQual + "." + methodName)
+}
+
 // normalizeSep converts PHP's \ (namespace) and :: (method dispatch)
 // separators to . for the shared graph machinery. A leading backslash
 // in a global-namespace-qualified PHP name (e.g. \Foo\Bar) becomes a

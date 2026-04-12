@@ -116,3 +116,86 @@ func TestPHP_Identity(t *testing.T) {
 		t.Error("Extractor() returned nil")
 	}
 }
+
+func TestPHP_NormalizeImports(t *testing.T) {
+	lang := php.New()
+	raw := []treesitter.Import{
+		{Module: "GuzzleHttp.Psr7.Utils", Alias: "Utils"},
+		{Module: "App.Models.User", Alias: "User"},
+	}
+	got := lang.NormalizeImports(raw)
+	// Identity function — imports are already normalized by the wrapper extractor
+	if got[0].Module != "GuzzleHttp.Psr7.Utils" {
+		t.Errorf("Module = %q, want %q", got[0].Module, "GuzzleHttp.Psr7.Utils")
+	}
+	if got[0].Alias != "Utils" {
+		t.Errorf("Alias = %q, want %q", got[0].Alias, "Utils")
+	}
+}
+
+func TestPHP_ResolveDottedTarget(t *testing.T) {
+	lang := php.New()
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("Utils", "GuzzleHttp.Psr7.Utils", nil)
+
+	t.Run("alias found", func(t *testing.T) {
+		got, ok := lang.ResolveDottedTarget("Utils", "readLine", scope)
+		if !ok {
+			t.Fatal("expected ok=true")
+		}
+		want := treesitter.SymbolID("GuzzleHttp.Psr7.Utils.readLine")
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+
+	t.Run("alias not found", func(t *testing.T) {
+		_, ok := lang.ResolveDottedTarget("Unknown", "method", scope)
+		if ok {
+			t.Error("expected ok=false")
+		}
+	})
+}
+
+func TestPHP_ResolveSelfCall(t *testing.T) {
+	lang := php.New()
+	tests := []struct {
+		name string
+		to   treesitter.SymbolID
+		from treesitter.SymbolID
+		want treesitter.SymbolID
+	}{
+		{
+			name: "self call in class method",
+			to:   "self.validate",
+			from: "guzzlehttp/psr7.Utils.readLine",
+			want: "guzzlehttp/psr7.Utils.validate",
+		},
+		{
+			name: "this call in class method",
+			to:   "this.process",
+			from: "app.Controller.UserController.index",
+			want: "app.Controller.UserController.process",
+		},
+		{
+			name: "short from — unchanged",
+			to:   "self.helper",
+			from: "mod.func",
+			want: "self.helper",
+		},
+		{
+			name: "non-self — unchanged",
+			to:   "Utils.readLine",
+			from: "app.Parser.parse",
+			want: "Utils.readLine",
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := lang.ResolveSelfCall(tc.to, tc.from)
+			if got != tc.want {
+				t.Errorf("ResolveSelfCall(%q, %q) = %q, want %q", tc.to, tc.from, got, tc.want)
+			}
+		})
+	}
+}
