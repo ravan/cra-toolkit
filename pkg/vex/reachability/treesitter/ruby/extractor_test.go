@@ -489,3 +489,108 @@ func symbolKeys(m map[string]bool) []string {
 	}
 	return out
 }
+
+func TestExtractSymbols_PrivateMethod(t *testing.T) {
+	source := `class Foo
+  def public_method
+    "hi"
+  end
+
+  private
+
+  def private_method
+    "secret"
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("foo.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, s := range symbols {
+		switch s.Name {
+		case "public_method":
+			if !s.IsPublic {
+				t.Errorf("public_method should have IsPublic=true")
+			}
+		case "private_method":
+			if s.IsPublic {
+				t.Errorf("private_method should have IsPublic=false")
+			}
+		}
+	}
+}
+
+func TestExtractSymbols_ProtectedMethod(t *testing.T) {
+	source := `class Foo
+  def open_method
+    "open"
+  end
+
+  protected
+
+  def guarded_method
+    "guarded"
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("foo.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, s := range symbols {
+		switch s.Name {
+		case "open_method":
+			if !s.IsPublic {
+				t.Errorf("open_method should have IsPublic=true")
+			}
+		case "guarded_method":
+			if s.IsPublic {
+				t.Errorf("guarded_method should have IsPublic=false")
+			}
+		}
+	}
+}
+
+func TestExtractSymbols_ExplicitPrivate(t *testing.T) {
+	source := `class Foo
+  def alpha
+    "a"
+  end
+
+  def beta
+    "b"
+  end
+
+  private :beta
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("foo.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, s := range symbols {
+		switch s.Name {
+		case "alpha":
+			if !s.IsPublic {
+				t.Errorf("alpha should have IsPublic=true")
+			}
+		case "beta":
+			if s.IsPublic {
+				t.Errorf("beta should have IsPublic=false after private :beta")
+			}
+		}
+	}
+}

@@ -54,6 +54,32 @@ func rowToLine(row uint) int {
 // ExtractSymbols
 // ─────────────────────────────────────────────────────────────────────────────
 
+// visibility represents Ruby method visibility level.
+type visibility int
+
+const (
+	visPublic    visibility = iota
+	visProtected            // protected methods are not publicly accessible
+	visPrivate              // private methods are not publicly accessible
+)
+
+// isVisibilityKeyword returns true if the given name is a Ruby visibility modifier.
+func isVisibilityKeyword(name string) bool {
+	return name == "private" || name == "protected" || name == "public"
+}
+
+// parseVisibility converts a visibility keyword string to a visibility constant.
+func parseVisibility(name string) visibility {
+	switch name {
+	case "protected":
+		return visProtected
+	case "private":
+		return visPrivate
+	default:
+		return visPublic
+	}
+}
+
 // ExtractSymbols walks the AST to find all class/module/method definitions,
 // Rake tasks, and Sinatra route blocks.
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
@@ -148,6 +174,7 @@ func extractContainerNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          kind,
+		IsPublic:      true, // classes and modules are always public in normal Ruby usage
 	}
 	*symbols = append(*symbols, sym)
 
@@ -177,6 +204,9 @@ func classOrModuleName(node *tree_sitter.Node, src []byte) string {
 }
 
 // extractMethodsFromBody walks a body_statement to find method and singleton_method nodes.
+// It tracks Ruby visibility modifiers (private/protected/public) and applies them to methods.
+//
+//nolint:gocognit,gocyclo // visibility state machine requires multiple case branches
 func extractMethodsFromBody(
 	body *tree_sitter.Node,
 	src []byte,
@@ -187,6 +217,16 @@ func extractMethodsFromBody(
 	if body == nil {
 		return
 	}
+
+	// privateOverrides collects method names explicitly privatised via `private :name` syntax.
+	privateOverrides := make(map[string]bool)
+
+	// vis tracks the current visibility state as we scan the body in order.
+	vis := visPublic
+
+	// firstPassSymbols collects symbols during the first pass (before override application).
+	var firstPassSymbols []*treesitter.Symbol
+
 	for i := uint(0); i < body.ChildCount(); i++ {
 		child := body.Child(i)
 		if child == nil {
@@ -194,14 +234,62 @@ func extractMethodsFromBody(
 		}
 		switch child.Kind() {
 		case "method":
-			extractMethodNode(child, src, file, scopeStack, symbols)
+			extractMethodNode(child, src, file, scopeStack, vis, &firstPassSymbols)
 		case "singleton_method":
-			extractSingletonMethodNode(child, src, file, scopeStack, symbols)
+			extractSingletonMethodNode(child, src, file, scopeStack, vis, &firstPassSymbols)
 		case "class":
-			extractClassNode(child, src, file, scopeStack, symbols)
+			extractClassNode(child, src, file, scopeStack, &firstPassSymbols)
 		case "module":
-			extractModuleNode(child, src, file, scopeStack, symbols)
+			extractModuleNode(child, src, file, scopeStack, &firstPassSymbols)
+		case "identifier":
+			// Bare visibility keyword, e.g. `private` or `protected` on its own line.
+			name := nodeText(child, src)
+			if isVisibilityKeyword(name) {
+				vis = parseVisibility(name)
+			}
+		case "call":
+			// Could be `private :method_name` or `private :a, :b` with symbol arguments.
+			firstChildText := ""
+			if child.ChildCount() > 0 {
+				if fc := child.Child(0); fc != nil {
+					firstChildText = nodeText(fc, src)
+				}
+			}
+			if isVisibilityKeyword(firstChildText) {
+				argList := child.ChildByFieldName("arguments")
+				if argList == nil {
+					// No arguments: bare visibility toggle.
+					vis = parseVisibility(firstChildText)
+				} else {
+					// Has arguments: explicit per-method override, e.g. `private :beta`.
+					for j := uint(0); j < argList.ChildCount(); j++ {
+						arg := argList.Child(j)
+						if arg == nil {
+							continue
+						}
+						if arg.Kind() == "simple_symbol" {
+							methodName := strings.TrimPrefix(nodeText(arg, src), ":")
+							if methodName != "" {
+								switch firstChildText {
+								case "private", "protected":
+									privateOverrides[methodName] = true
+								case "public":
+									privateOverrides[methodName] = false
+								}
+							}
+						}
+					}
+				}
+			}
 		}
+	}
+
+	// Second pass: apply privateOverrides to any symbols collected.
+	for _, sym := range firstPassSymbols {
+		if override, ok := privateOverrides[sym.Name]; ok {
+			sym.IsPublic = !override
+		}
+		*symbols = append(*symbols, sym)
 	}
 }
 
@@ -212,9 +300,10 @@ func extractMethodNode(
 	src []byte,
 	file string,
 	scopeStack []string,
+	vis visibility,
 	symbols *[]*treesitter.Symbol,
 ) {
-	appendMethodSymbol(file, scopeStack, methodNameFromNode(node, src), node, symbols)
+	appendMethodSymbol(file, scopeStack, methodNameFromNode(node, src), node, vis, symbols)
 }
 
 // extractSingletonMethodNode processes a `singleton_method` node (def self.foo).
@@ -224,9 +313,10 @@ func extractSingletonMethodNode(
 	src []byte,
 	file string,
 	scopeStack []string,
+	vis visibility,
 	symbols *[]*treesitter.Symbol,
 ) {
-	appendMethodSymbol(file, scopeStack, singletonMethodName(node, src), node, symbols)
+	appendMethodSymbol(file, scopeStack, singletonMethodName(node, src), node, vis, symbols)
 }
 
 // appendMethodSymbol creates a method symbol and appends it to the symbol list.
@@ -235,6 +325,7 @@ func appendMethodSymbol(
 	scopeStack []string,
 	methodName string,
 	node *tree_sitter.Node,
+	vis visibility,
 	symbols *[]*treesitter.Symbol,
 ) {
 	if methodName == "" {
@@ -254,6 +345,7 @@ func appendMethodSymbol(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolMethod,
+		IsPublic:      vis == visPublic,
 	}
 	*symbols = append(*symbols, sym)
 }
