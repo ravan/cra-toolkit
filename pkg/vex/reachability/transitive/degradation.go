@@ -25,4 +25,8 @@ const (
 	// binary-only crate, so transitive reachability does not apply and the
 	// analyzer returns a not-applicable verdict rather than a false positive.
 	ReasonNoLibraryAPI = "no_library_api"
+	// ReasonSCMCloneFailed indicates the SCM clone fallback failed.
+	// This may happen when the package has no repository URL, the repo
+	// is private, or no matching version tag exists.
+	ReasonSCMCloneFailed = "scm_clone_failed"
 )
