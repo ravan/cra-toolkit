@@ -109,7 +109,7 @@ func (l *Language) ListExports(sourceDir, packageName string) ([]string, error) 
 // readComposerJSON reads and parses composer.json from sourceDir.
 // Returns nil if the file does not exist or is invalid.
 func readComposerJSON(sourceDir string) *composerJSON {
-	data, err := os.ReadFile(filepath.Join(sourceDir, "composer.json")) //nolint:gosec
+	data, err := os.ReadFile(filepath.Join(sourceDir, "composer.json")) //nolint:gosec // composer.json path is constructed from a caller-supplied sourceDir
 	if err != nil {
 		return nil
 	}

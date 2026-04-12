@@ -6,7 +6,6 @@ package php_test
 import (
 	"os"
 	"path/filepath"
-	"sort"
 	"testing"
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/php"
@@ -27,21 +26,6 @@ func writePackage(t *testing.T, name string, files map[string]string) string {
 	return root
 }
 
-func assertKeys(t *testing.T, got []string, want ...string) {
-	t.Helper()
-	sort.Strings(got)
-	sort.Strings(want)
-	if len(got) != len(want) {
-		t.Errorf("got %d keys %v, want %d keys %v", len(got), got, len(want), want)
-		return
-	}
-	for i := range got {
-		if got[i] != want[i] {
-			t.Errorf("key[%d]: got %q, want %q\nfull got: %v", i, got[i], want[i], got)
-			return
-		}
-	}
-}
 
 func TestListExports_PSR4(t *testing.T) {
 	root := writePackage(t, "guzzlehttp-psr7", map[string]string{
