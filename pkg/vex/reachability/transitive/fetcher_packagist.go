@@ -80,7 +80,7 @@ func (f *PackagistFetcher) Manifest(ctx context.Context, name, version string) (
 
 // Fetch downloads the ZIP archive, verifies its digest, and unpacks it.
 //
-//nolint:gocyclo // download-verify-unpack pipeline
+//nolint:gocyclo,gocognit // download-verify-unpack pipeline
 func (f *PackagistFetcher) Fetch(ctx context.Context, name, version string, expectedDigest *Digest) (FetchResult, error) {
 	meta, err := f.fetchMeta(ctx, name, version)
 	if err != nil {
@@ -123,17 +123,16 @@ func (f *PackagistFetcher) Fetch(ctx context.Context, name, version string, expe
 	}
 
 	// Composer ZIPs typically contain a single root directory. Locate it.
-	srcDir := locateSourceRoot(tmp)
-
-	if f.Cache != nil {
-		p, putErr := f.Cache.Put(actual.String(), srcDir)
-		_ = os.RemoveAll(tmp)
-		if putErr != nil {
-			return FetchResult{}, putErr
-		}
-		srcDir = p
+	// When no cache is provided the caller owns the entire tmp tree.
+	if f.Cache == nil {
+		return FetchResult{SourceDir: locateSourceRoot(tmp), Digest: actual}, nil
 	}
-	return FetchResult{SourceDir: srcDir, Digest: actual}, nil
+	p, putErr := f.Cache.Put(actual.String(), locateSourceRoot(tmp))
+	_ = os.RemoveAll(tmp)
+	if putErr != nil {
+		return FetchResult{}, putErr
+	}
+	return FetchResult{SourceDir: p, Digest: actual}, nil
 }
 
 // locateSourceRoot finds the single subdirectory in dir (common for composer
