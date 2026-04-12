@@ -214,6 +214,7 @@ func extractClassNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolClass,
+		IsPublic:      hasPublicModifier(node, src),
 	}
 	*symbols = append(*symbols, sym)
 
@@ -279,6 +280,7 @@ func extractMethodNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolMethod,
+		IsPublic:      hasPublicModifier(node, src),
 	}
 	*symbols = append(*symbols, sym)
 }
@@ -329,6 +331,18 @@ func attributeName(node *tree_sitter.Node, src []byte) string {
 
 // hasStaticModifier returns true if the node has a "static" modifier child.
 func hasStaticModifier(node *tree_sitter.Node, src []byte) bool {
+	return hasModifierKeyword(node, src, "static")
+}
+
+// hasPublicModifier returns true if the node has a "public" modifier child.
+// Used to set IsPublic on extracted symbols.
+func hasPublicModifier(node *tree_sitter.Node, src []byte) bool {
+	return hasModifierKeyword(node, src, "public")
+}
+
+// hasModifierKeyword returns true if the node has a modifier child containing the given keyword.
+// In C#'s grammar, modifiers appear as individual "modifier" child nodes on the declaration.
+func hasModifierKeyword(node *tree_sitter.Node, src []byte, keyword string) bool {
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
 		if child == nil {
@@ -337,7 +351,7 @@ func hasStaticModifier(node *tree_sitter.Node, src []byte) bool {
 		if child.Kind() == "modifier" {
 			for j := uint(0); j < child.ChildCount(); j++ {
 				grandchild := child.Child(j)
-				if grandchild != nil && nodeText(grandchild, src) == "static" {
+				if grandchild != nil && nodeText(grandchild, src) == keyword {
 					return true
 				}
 			}
