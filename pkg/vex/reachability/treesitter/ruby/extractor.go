@@ -284,8 +284,13 @@ func extractMethodsFromBody(
 		}
 	}
 
-	// Second pass: apply privateOverrides to any symbols collected.
+	// Second pass: apply privateOverrides to method symbols only.
+	// Classes and modules are always IsPublic=true; skip them to preserve that invariant.
 	for _, sym := range firstPassSymbols {
+		if sym.Kind != treesitter.SymbolMethod {
+			*symbols = append(*symbols, sym)
+			continue
+		}
 		if override, ok := privateOverrides[sym.Name]; ok {
 			sym.IsPublic = !override
 		}
