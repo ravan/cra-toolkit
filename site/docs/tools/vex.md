@@ -69,9 +69,13 @@ Performs interprocedural call graph analysis using tree-sitter to determine whet
 
 ## Transitive Reachability Analysis
 
-For Python and JavaScript projects, the VEX command can trace call chains through
-transitive dependencies to determine whether a vulnerability sitting inside a
-library the application does not import directly is actually reachable.
+For Python, JavaScript, Rust, Ruby, PHP, Java, and C# projects, the VEX command
+can trace call chains through transitive dependencies to determine whether a
+vulnerability sitting inside a library the application does not import directly
+is actually reachable.
+
+> **Go:** Transitive call analysis for Go is handled automatically by
+> `govulncheck`, which the VEX command invokes directly.
 
 ### How it works
 
@@ -117,10 +121,7 @@ reachability:
 
 When analysis cannot produce a clean verdict, the VEX output records a structured
 reason: `transitive_not_applicable`, `source_unavailable`, `bound_exceeded`,
-`path_broken`, `digest_mismatch`, and others. See the implementation spec at
-`docs/superpowers/specs/2026-04-10-transitive-reachability-design.md` for the
-complete taxonomy.
-
+`path_broken`, `digest_mismatch`, and others.
 ---
 
 ## Usage
