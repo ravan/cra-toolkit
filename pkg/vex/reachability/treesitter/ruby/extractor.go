@@ -1183,6 +1183,8 @@ func (e *Extractor) SnapshotState() any {
 
 // RestoreState merges a snapshot (produced by SnapshotState) into this extractor's state.
 // Entries already present are not duplicated (append-unique semantics).
+//
+//nolint:gocognit // pre-existing complexity from multi-map merge logic; refactoring deferred
 func (e *Extractor) RestoreState(s any) {
 	snap, ok := s.(*CrossFileState)
 	if !ok {

@@ -6,6 +6,7 @@ package ruby
 import (
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
@@ -86,6 +87,7 @@ func (l *Language) ListExports(sourceDir, packageName string) ([]string, error) 
 	for k := range seen {
 		keys = append(keys, k)
 	}
+	sort.Strings(keys)
 	return keys, nil
 }
 

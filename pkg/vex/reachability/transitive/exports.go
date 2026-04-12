@@ -6,6 +6,7 @@ package transitive
 import (
 	"io/fs"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
@@ -58,6 +59,7 @@ func listExportedSymbols(lang LanguageSupport, sourceDir, packageName string) ([
 	for k := range seen {
 		out = append(out, k)
 	}
+	sort.Strings(out)
 	return out, nil
 }
 
