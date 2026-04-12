@@ -9,6 +9,7 @@ import (
 	"unsafe"
 
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/javascript"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/php"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/ruby"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/rust"
@@ -105,9 +106,6 @@ type CrossFileStateExtractor interface {
 // LanguageFor returns the LanguageSupport implementation for the given
 // language name. Returns an error for unknown languages so callers can
 // surface a clear message rather than a nil dereference.
-//
-// Task 1 leaves this as a stub returning errors for every input; Tasks 2
-// and 3 add the Python and JavaScript cases.
 func LanguageFor(name string) (LanguageSupport, error) {
 	switch strings.ToLower(name) {
 	case "python":
@@ -118,6 +116,8 @@ func LanguageFor(name string) (LanguageSupport, error) {
 		return rust.New(), nil
 	case "ruby":
 		return ruby.New(), nil
+	case "php":
+		return php.New(), nil
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }

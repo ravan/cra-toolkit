@@ -26,6 +26,8 @@ func TestLanguageFor_RegisteredLanguages(t *testing.T) {
 		{"Rust", "rust", "crates.io"},
 		{"RUST", "rust", "crates.io"},
 		{"ruby", "ruby", "rubygems"},
+		{"php", "php", "packagist"},
+		{"PHP", "php", "packagist"},
 	}
 	for _, tc := range tests {
 		t.Run(tc.input, func(t *testing.T) {
@@ -76,7 +78,7 @@ func TestLanguageFor_UnknownLanguage(t *testing.T) {
 //
 //nolint:gocognit,gocyclo // contract test: each sub-check is intentionally co-located for readability
 func TestLanguageSupport_Contract(t *testing.T) {
-	registered := []string{"python", "javascript", "rust", "ruby"}
+	registered := []string{"python", "javascript", "rust", "ruby", "php"}
 	for _, name := range registered {
 		t.Run(name, func(t *testing.T) {
 			lang, err := LanguageFor(name)
