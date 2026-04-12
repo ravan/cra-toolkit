@@ -542,6 +542,12 @@ func collectCalls(
 	case "class", "module":
 		name := classOrModuleName(node, src)
 		body := node.ChildByFieldName("body")
+		if name == "" {
+			if body != nil {
+				collectCalls(body, src, file, scopeStack, currentMethod, edges)
+			}
+			return
+		}
 		if body != nil {
 			var nameParts []string
 			if strings.Contains(name, "::") {
