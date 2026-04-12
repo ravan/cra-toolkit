@@ -26,7 +26,6 @@ func writePackage(t *testing.T, name string, files map[string]string) string {
 	return root
 }
 
-
 func TestListExports_PSR4(t *testing.T) {
 	root := writePackage(t, "guzzlehttp-psr7", map[string]string{
 		"composer.json": `{"autoload":{"psr-4":{"GuzzleHttp\\Psr7\\":"src/"}}}`,

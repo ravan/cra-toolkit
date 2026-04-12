@@ -134,4 +134,3 @@ func fallbackDirs(sourceDir string) []string {
 	}
 	return []string{sourceDir}
 }
-
