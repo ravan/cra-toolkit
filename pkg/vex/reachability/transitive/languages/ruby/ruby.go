@@ -170,7 +170,7 @@ func toCamelCase(s string) string {
 	})
 	var b strings.Builder
 	for _, part := range parts {
-		if len(part) == 0 {
+		if part == "" {
 			continue
 		}
 		runes := []rune(part)
