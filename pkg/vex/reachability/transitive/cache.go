@@ -77,7 +77,17 @@ func (c *Cache) Put(digest, srcDir string) (string, error) {
 // receive the same result. This prevents duplicate fetches when many findings
 // need the same package.
 func (c *Cache) Do(digest string, fn func() (string, error)) (string, error) {
+	// Fast path: entry already on disk (fn always calls Put on success).
+	if p, ok := c.Get(digest); ok {
+		return p, nil
+	}
+
 	c.mu.Lock()
+	// Re-check under lock: a concurrent goroutine may have just finished.
+	if p, ok := c.Get(digest); ok {
+		c.mu.Unlock()
+		return p, nil
+	}
 	if f, ok := c.inProg[digest]; ok {
 		c.mu.Unlock()
 		<-f.done
