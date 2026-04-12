@@ -25,11 +25,15 @@ func buildTransitiveSummary(components []formats.Component, directDeps []string,
 		if !strings.HasPrefix(components[i].PURL, prefix) {
 			continue
 		}
+		name := components[i].Name
+		if ecosystem == "maven" {
+			name = mavenCoordinateFromPURL(components[i].PURL)
+		}
 		pkgs = append(pkgs, transitive.Package{
-			Name:    components[i].Name,
+			Name:    name,
 			Version: components[i].Version,
 		})
-		pkgNameSet[components[i].Name] = true
+		pkgNameSet[name] = true
 	}
 
 	// Build roots from declared direct deps intersected with the ecosystem set.
@@ -95,8 +99,31 @@ func buildFetchers(cache *transitive.Cache, ecosystem string) map[string]transit
 		return map[string]transitive.Fetcher{"rubygems": &transitive.RubyGemsFetcher{Cache: cache}}
 	case "packagist":
 		return map[string]transitive.Fetcher{"packagist": &transitive.PackagistFetcher{Cache: cache}}
+	case "maven":
+		return map[string]transitive.Fetcher{"maven": &transitive.MavenFetcher{Cache: cache}}
+	case "nuget":
+		return map[string]transitive.Fetcher{"nuget": &transitive.NuGetFetcher{Cache: cache}}
 	}
 	return nil
+}
+
+// mavenCoordinateFromPURL extracts "groupId:artifactId" from a Maven PURL.
+// "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1" → "org.apache.logging.log4j:log4j-core"
+func mavenCoordinateFromPURL(purl string) string {
+	// Strip "pkg:maven/" prefix and version
+	trimmed := strings.TrimPrefix(purl, "pkg:maven/")
+	if atIdx := strings.IndexByte(trimmed, '@'); atIdx >= 0 {
+		trimmed = trimmed[:atIdx]
+	}
+	if qIdx := strings.IndexByte(trimmed, '?'); qIdx >= 0 {
+		trimmed = trimmed[:qIdx]
+	}
+	// "org.apache.logging.log4j/log4j-core" → "org.apache.logging.log4j:log4j-core"
+	parts := strings.SplitN(trimmed, "/", 2)
+	if len(parts) != 2 {
+		return trimmed
+	}
+	return parts[0] + ":" + parts[1]
 }
 
 // ReachabilityConfig holds YAML-configurable bounds for reachability analysis.

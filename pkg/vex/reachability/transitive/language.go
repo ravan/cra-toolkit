@@ -8,6 +8,8 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/csharp"
+	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/java"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/javascript"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/php"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
@@ -118,6 +120,10 @@ func LanguageFor(name string) (LanguageSupport, error) {
 		return ruby.New(), nil
 	case "php":
 		return php.New(), nil
+	case "java":
+		return java.New(), nil
+	case "csharp", "c#", "cs":
+		return csharp.New(), nil
 	}
 	return nil, fmt.Errorf("unsupported language %q", name)
 }
