@@ -91,6 +91,8 @@ func buildFetchers(cache *transitive.Cache, ecosystem string) map[string]transit
 		return map[string]transitive.Fetcher{"npm": &transitive.NPMFetcher{Cache: cache}}
 	case "crates.io":
 		return map[string]transitive.Fetcher{"crates.io": &transitive.CratesFetcher{Cache: cache}}
+	case "rubygems":
+		return map[string]transitive.Fetcher{"rubygems": &transitive.RubyGemsFetcher{Cache: cache}}
 	}
 	return nil
 }
