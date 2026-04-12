@@ -120,7 +120,17 @@ func (a *Analyzer) Analyze(ctx context.Context, sbom *SBOMSummary, finding *form
 			continue
 		}
 		// Stitch per-hop paths and the app-side path into one continuous chain.
-		allParts := append(res.HopPaths, appRes.Paths...) //nolint:gocritic // intentional append-to-new-slice
+		// Each phase (walker hops + app hop) contributes one deepest path;
+		// RunHop returns one path per reaching symbol, but only the longest
+		// captures the full caller chain — using all of them would cause
+		// StitchCallPaths to concatenate alternative paths as sequential
+		// hops, producing cyclic nonsense.
+		appBest := DeepestPath(appRes.Paths)
+		var allParts []formats.CallPath
+		if len(appBest.Nodes) > 0 {
+			allParts = append(allParts, appBest)
+		}
+		allParts = append(allParts, res.HopPaths...)
 		stitched := StitchCallPaths(allParts)
 		evidence := "transitive: reachable through " + joinPackages(p)
 		if stitched.Depth() > 0 {
@@ -232,8 +242,8 @@ func notApplicable(reason string) reachability.Result {
 //
 // Duplicates are suppressed.
 func transformToPackageTargets(finalTargets []string, rootPkgName string) []string {
-	seen := make(map[string]struct{}, len(finalTargets)*3)
-	result := make([]string, 0, len(finalTargets)*3)
+	seen := make(map[string]struct{}, len(finalTargets)*4)
+	result := make([]string, 0, len(finalTargets)*4)
 	add := func(s string) {
 		if _, ok := seen[s]; !ok {
 			seen[s] = struct{}{}
@@ -243,10 +253,26 @@ func transformToPackageTargets(finalTargets []string, rootPkgName string) []stri
 
 	// Pass 1: scope-flat forms first (highest priority for Ruby/PHP/C++ namespaces).
 	// For "nokogiri.nokogiri.html.Nokogiri::HTML" this produces "nokogiri.HTML".
+	// Scope-flat forms are emitted first because they are most likely to match
+	// app-level calls, especially for languages like Ruby where the app-side
+	// extractor resolves Nokogiri::HTML(args) to nokogiri.HTML via scope aliasing.
+	// This ordering ensures they are not dropped by the MaxTargetSymbolsPerHop cap.
 	for _, t := range finalTargets {
 		if idx := strings.LastIndex(t, "::"); idx >= 0 {
 			add(rootPkgName + "." + t[idx+2:])
 		}
+	}
+
+	// Pass 0 (emitted second, after scope-flat): emit targets unchanged. Required
+	// for languages where exported symbol keys already use the namespace form that
+	// the app's import resolver produces (e.g. PHP: ListExports emits
+	// "GuzzleHttp.Psr7.Utils.readLine" which matches `use GuzzleHttp\Psr7\Utils;
+	// Utils::readLine()` resolved by the app-side extractor). Placed after pass 1
+	// so Ruby's scope-flat forms (which must survive the MaxTargetSymbolsPerHop
+	// cap) are prioritised; PHP exports have no "::" after normalisation so pass 1
+	// produces nothing for them, leaving room for this pass under the cap.
+	for _, t := range finalTargets {
+		add(t)
 	}
 
 	// Pass 2: short forms (strip the leading module component).

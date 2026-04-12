@@ -134,7 +134,12 @@ func (w *Walker) WalkPath(ctx context.Context, path []Package) (WalkResult, erro
 				HopPaths:     hopPaths,
 			}, nil
 		}
-		hopPaths = append(hopPaths, out.paths...)
+		if best := DeepestPath(out.paths); len(best.Nodes) > 0 {
+			// Prepend: the loop iterates in reverse (V-side toward app-side),
+			// but HopPaths must be in forward order (app-side toward V-side)
+			// so that StitchCallPaths concatenates them correctly.
+			hopPaths = append([]formats.CallPath{best}, hopPaths...)
+		}
 		targetSet = out.reaching
 	}
 
