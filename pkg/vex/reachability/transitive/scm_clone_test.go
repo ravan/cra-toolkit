@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+//nolint:gocognit // table-driven test with many cases
 func TestNormalizeRepoURL(t *testing.T) {
 	tests := []struct {
 		name    string

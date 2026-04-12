@@ -26,7 +26,7 @@ type SCMCloneResult struct {
 // release/1.2.3), falling back to the default branch if none match.
 // Only https:// and http:// schemes are accepted.
 //
-//nolint:gocyclo // tag-matching loop with fallback
+//nolint:gocyclo,gocognit // tag-matching loop with fallback
 func scmClone(ctx context.Context, repoURL, version string, cache *Cache) (SCMCloneResult, error) {
 	normalized, err := normalizeRepoURL(repoURL)
 	if err != nil {

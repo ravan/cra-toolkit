@@ -461,7 +461,7 @@ func collectImports(node *tree_sitter.Node, src []byte, file string, imports *[]
 //   - namespace import:  "using" (qualified_name | identifier) ";"
 //   - alias import:      "using" identifier "=" qualified_name ";"
 //
-//nolint:gocognit // handles qualified names and aliases across grammar versions
+//nolint:gocognit,gocyclo // handles qualified names and aliases across grammar versions
 func extractUsingDirective(node *tree_sitter.Node, src []byte, file string, imports *[]treesitter.Import) {
 	// Collect all direct children that are identifiers or qualified_names,
 	// plus detect the presence of an "=" child which signals an alias directive.

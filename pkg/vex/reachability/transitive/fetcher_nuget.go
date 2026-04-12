@@ -39,8 +39,8 @@ func (f *NuGetFetcher) baseURL() string {
 
 // nuspecPackage is the subset of the .nuspec XML schema we consume.
 type nuspecPackage struct {
-	XMLName  xml.Name        `xml:"package"`
-	Metadata nuspecMetadata  `xml:"metadata"`
+	XMLName  xml.Name       `xml:"package"`
+	Metadata nuspecMetadata `xml:"metadata"`
 }
 
 type nuspecMetadata struct {

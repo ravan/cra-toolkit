@@ -11,8 +11,8 @@ import (
 	"strings"
 	"unsafe"
 
-	csharpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/csharp"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
+	csharpextractor "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/csharp"
 	grammarcsharp "github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter/grammars/csharp"
 )
 

@@ -89,10 +89,10 @@ func (c *Cache) Do(digest string, fn func() (string, error)) (string, error) {
 
 	f.path, f.err = fn()
 
+	close(f.done)
 	c.mu.Lock()
 	delete(c.inProg, digest)
 	c.mu.Unlock()
-	close(f.done)
 	return f.path, f.err
 }
 

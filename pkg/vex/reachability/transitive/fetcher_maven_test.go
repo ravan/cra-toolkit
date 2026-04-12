@@ -126,6 +126,7 @@ func TestMavenFetcher_Manifest_404(t *testing.T) {
 	}
 }
 
+//nolint:gocognit // table-driven test with many cases
 func TestMavenFetcher_ParseCoordinate(t *testing.T) {
 	tests := []struct {
 		name      string
