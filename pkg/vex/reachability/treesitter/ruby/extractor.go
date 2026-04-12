@@ -845,10 +845,10 @@ func extractRequire(node *tree_sitter.Node, src []byte, file string, imports *[]
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ExtractCalls walks the AST to find all method invocations and scope resolution calls.
-func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree, _ *treesitter.Scope) ([]treesitter.Edge, error) {
+func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree, scope *treesitter.Scope) ([]treesitter.Edge, error) {
 	root := tree.RootNode()
 	var edges []treesitter.Edge
-	collectCalls(root, src, file, nil, "", &edges)
+	collectCalls(root, src, file, nil, "", scope, &edges)
 	return edges, nil
 }
 
@@ -861,6 +861,7 @@ func collectCalls(
 	file string,
 	scopeStack []string,
 	currentMethod string,
+	scope *treesitter.Scope,
 	edges *[]treesitter.Edge,
 ) {
 	if node == nil {
@@ -875,7 +876,7 @@ func collectCalls(
 		body := node.ChildByFieldName("body")
 		if name == "" {
 			if body != nil {
-				collectCalls(body, src, file, scopeStack, currentMethod, edges)
+				collectCalls(body, src, file, scopeStack, currentMethod, scope, edges)
 			}
 			return
 		}
@@ -887,7 +888,7 @@ func collectCalls(
 				nameParts = []string{name}
 			}
 			newStack := append(append([]string{}, scopeStack...), nameParts...)
-			collectCalls(body, src, file, newStack, currentMethod, edges)
+			collectCalls(body, src, file, newStack, currentMethod, scope, edges)
 		}
 		return
 
@@ -895,7 +896,7 @@ func collectCalls(
 		methodName := methodNameFromNode(node, src)
 		body := node.ChildByFieldName("body")
 		if body != nil {
-			collectCalls(body, src, file, scopeStack, methodName, edges)
+			collectCalls(body, src, file, scopeStack, methodName, scope, edges)
 		}
 		return
 
@@ -903,24 +904,24 @@ func collectCalls(
 		methodName := singletonMethodName(node, src)
 		body := node.ChildByFieldName("body")
 		if body != nil {
-			collectCalls(body, src, file, scopeStack, methodName, edges)
+			collectCalls(body, src, file, scopeStack, methodName, scope, edges)
 		}
 		return
 
 	case "call", "command_call":
-		processCall(node, src, file, scopeStack, currentMethod, edges)
+		processCall(node, src, file, scopeStack, currentMethod, scope, edges)
 		// Recurse into arguments for nested calls
 		args := node.ChildByFieldName("arguments")
 		if args != nil {
 			for i := uint(0); i < args.ChildCount(); i++ {
-				collectCalls(args.Child(i), src, file, scopeStack, currentMethod, edges)
+				collectCalls(args.Child(i), src, file, scopeStack, currentMethod, scope, edges)
 			}
 		}
 		// Recurse into do_block if present
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
 			if child != nil && child.Kind() == "do_block" {
-				collectCalls(child, src, file, scopeStack, currentMethod, edges)
+				collectCalls(child, src, file, scopeStack, currentMethod, scope, edges)
 			}
 		}
 		return
@@ -928,8 +929,33 @@ func collectCalls(
 
 	// Generic recursion
 	for i := uint(0); i < node.ChildCount(); i++ {
-		collectCalls(node.Child(i), src, file, scopeStack, currentMethod, edges)
+		collectCalls(node.Child(i), src, file, scopeStack, currentMethod, scope, edges)
 	}
+}
+
+// resolveTarget attempts to resolve a call target using the scope's import aliases.
+// It splits on "::" first, then ".", and looks up the prefix in the scope.
+// If found, it returns the fully-qualified resolved name; otherwise the original target.
+func resolveTarget(target string, scope *treesitter.Scope) string {
+	if scope == nil {
+		return target
+	}
+	// Try "::" separator first (Ruby scope resolution style)
+	parts := strings.SplitN(target, "::", 2)
+	if len(parts) == 2 {
+		if resolved, ok := scope.LookupImport(parts[0]); ok {
+			return resolved + "." + parts[1]
+		}
+		return target
+	}
+	// Try "." separator (dot-call style)
+	parts = strings.SplitN(target, ".", 2)
+	if len(parts) == 2 {
+		if resolved, ok := scope.LookupImport(parts[0]); ok {
+			return resolved + "." + parts[1]
+		}
+	}
+	return target
 }
 
 // processCall handles a `call` node and emits the appropriate edge.
@@ -949,6 +975,7 @@ func processCall(
 	file string,
 	scopeStack []string,
 	currentMethod string,
+	scope *treesitter.Scope,
 	edges *[]treesitter.Edge,
 ) {
 	if node.ChildCount() == 0 {
@@ -970,7 +997,8 @@ func processCall(
 		scopeName := nodeText(firstChild, src) // "Nokogiri"
 		methodName := scopeResolutionMethod(node, src)
 		if scopeName != "" && methodName != "" {
-			target := scopeName + "::" + methodName
+			raw := scopeName + "::" + methodName
+			target := resolveTarget(raw, scope)
 			*edges = append(*edges, treesitter.Edge{
 				From:       from,
 				To:         treesitter.SymbolID(target),
@@ -1003,7 +1031,8 @@ func processCall(
 			}
 			return
 		}
-		target := receiverText + "::" + methodName
+		raw := receiverText + "::" + methodName
+		target := resolveTarget(raw, scope)
 		*edges = append(*edges, treesitter.Edge{
 			From:       from,
 			To:         treesitter.SymbolID(target),

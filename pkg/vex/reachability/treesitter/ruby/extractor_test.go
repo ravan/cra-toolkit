@@ -4,6 +4,7 @@
 package ruby_test
 
 import (
+	"strings"
 	"testing"
 
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
@@ -479,6 +480,42 @@ end`
 			ids = append(ids, string(s.ID))
 		}
 		t.Errorf("expected Admin::UsersController::index, got %v", ids)
+	}
+}
+
+func TestExtractCalls_ScopeAwareResolution(t *testing.T) {
+	source := `class Parser
+  def parse(content)
+    Nokogiri::HTML(content)
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+
+	scope := treesitter.NewScope(nil)
+	scope.DefineImport("Nokogiri", "nokogiri.Nokogiri", nil)
+
+	edges, err := ext.ExtractCalls("parser.rb", src, tree, scope)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	found := false
+	for _, e := range edges {
+		toStr := string(e.To)
+		if toStr == "nokogiri.Nokogiri.HTML" || strings.HasPrefix(toStr, "nokogiri.Nokogiri") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		var tos []string
+		for _, e := range edges {
+			tos = append(tos, string(e.To))
+		}
+		t.Errorf("expected scope-resolved target containing 'nokogiri.Nokogiri', got %v", tos)
 	}
 }
 
