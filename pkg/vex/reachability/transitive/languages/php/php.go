@@ -63,7 +63,7 @@ func (l *Language) IsExportedSymbol(sym *treesitter.Symbol) bool {
 //	Handler/Request.php → "vendor/pkg.Handler.Request"
 func (l *Language) ModulePath(file, sourceDir, packageName string) string {
 	rel, err := filepath.Rel(sourceDir, file)
-	if err != nil {
+	if err != nil || strings.HasPrefix(rel, "..") {
 		return packageName
 	}
 	rel = strings.TrimSuffix(rel, filepath.Ext(rel))

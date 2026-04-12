@@ -70,6 +70,13 @@ func TestPHP_ModulePath(t *testing.T) {
 			packageName: "vendor/pkg",
 			want:        "vendor/pkg.index",
 		},
+		{
+			name:        "file outside sourceDir",
+			file:        "/tmp/other/Handler.php",
+			sourceDir:   "/tmp/pkg",
+			packageName: "vendor/pkg",
+			want:        "vendor/pkg",
+		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
