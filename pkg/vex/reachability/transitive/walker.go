@@ -53,8 +53,9 @@ type WalkResult struct {
 // hopOutcome is the result of a single package hop during the walk.
 type hopOutcome struct {
 	reaching    []string
-	degradation string // non-empty means the hop was degraded; walk continues
-	brokenAt    string // non-empty means no callers found; walk should stop
+	paths       []formats.CallPath // exemplar call paths from this hop
+	degradation string             // non-empty means the hop was degraded; walk continues
+	brokenAt    string             // non-empty means no callers found; walk should stop
 }
 
 // runHop fetches the source for pkg and queries for callers of targetSet.
@@ -87,7 +88,7 @@ func (w *Walker) runHop(ctx context.Context, pkg Package, targetSet []string) (h
 	if len(res.ReachingSymbols) == 0 {
 		return hopOutcome{brokenAt: pkg.Name}, nil
 	}
-	return hopOutcome{reaching: res.ReachingSymbols}, nil
+	return hopOutcome{reaching: res.ReachingSymbols, paths: res.Paths}, nil
 }
 
 // WalkPath walks a single dependency path in reverse order. The path must be
@@ -133,6 +134,7 @@ func (w *Walker) WalkPath(ctx context.Context, path []Package) (WalkResult, erro
 				HopPaths:     hopPaths,
 			}, nil
 		}
+		hopPaths = append(hopPaths, out.paths...)
 		targetSet = out.reaching
 	}
 

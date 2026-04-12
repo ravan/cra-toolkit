@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
@@ -31,6 +32,10 @@ type HopResult struct {
 	// ReachingSymbols are the qualified names of local symbols that can
 	// directly or transitively call at least one of the TargetSymbols.
 	ReachingSymbols []string
+
+	// Paths contains one exemplar call path per reaching symbol, from that
+	// symbol to the target it reaches. Used by the Analyzer to stitch evidence.
+	Paths []formats.CallPath
 }
 
 // RunHop parses the source files in input.SourceDir, builds a call graph,
@@ -222,10 +227,14 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 	// Phase 5: Reverse BFS from each target to find all local callers.
 	// We walk the reverse edges: for each target, find symbols that have a
 	// forward edge leading (directly or transitively) to that target.
+	// Parent pointers are tracked so we can reconstruct one exemplar call
+	// path per reaching symbol.
 	reaching := make(map[treesitter.SymbolID]struct{})
+	var paths []formats.CallPath
 
 	for targetID := range targetSet {
 		visited := make(map[treesitter.SymbolID]bool)
+		parent := make(map[treesitter.SymbolID]treesitter.SymbolID)
 		queue := []treesitter.SymbolID{targetID}
 		visited[targetID] = true
 
@@ -238,6 +247,7 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 					continue
 				}
 				visited[rev.From] = true
+				parent[rev.From] = current
 				queue = append(queue, rev.From)
 
 				// Only collect local (non-external) symbols.
@@ -248,7 +258,10 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 				if _, isTarget := targetSet[rev.From]; isTarget {
 					continue
 				}
-				reaching[rev.From] = struct{}{}
+				if _, already := reaching[rev.From]; !already {
+					reaching[rev.From] = struct{}{}
+					paths = append(paths, reconstructHopPath(graph, rev.From, targetID, parent))
+				}
 			}
 		}
 	}
@@ -258,7 +271,49 @@ func RunHop(_ context.Context, input HopInput) (HopResult, error) {
 		result = append(result, string(id))
 	}
 
-	return HopResult{ReachingSymbols: result}, nil
+	return HopResult{ReachingSymbols: result, Paths: paths}, nil
+}
+
+// reconstructHopPath builds a forward call path from caller to target by
+// following parent pointers collected during reverse BFS. The resulting path
+// nodes are ordered caller → ... → target.
+func reconstructHopPath(
+	graph *treesitter.Graph,
+	from, target treesitter.SymbolID,
+	parent map[treesitter.SymbolID]treesitter.SymbolID,
+) formats.CallPath {
+	// Follow parent pointers from `from` back to `target`, collecting IDs.
+	var chain []treesitter.SymbolID
+	cur := from
+	seen := make(map[treesitter.SymbolID]bool)
+	for {
+		if seen[cur] {
+			break
+		}
+		seen[cur] = true
+		chain = append(chain, cur)
+		if cur == target {
+			break
+		}
+		next, ok := parent[cur]
+		if !ok {
+			// Append target as a terminal node even if no parent link exists.
+			chain = append(chain, target)
+			break
+		}
+		cur = next
+	}
+
+	var path formats.CallPath
+	for _, id := range chain {
+		node := formats.CallNode{Symbol: string(id)}
+		if sym := graph.GetSymbol(id); sym != nil && !sym.IsExternal {
+			node.File = sym.File
+			node.Line = sym.StartLine
+		}
+		path.Nodes = append(path.Nodes, node)
+	}
+	return path
 }
 
 // moduleNameFrom derives a module/file name from an absolute path.

@@ -13,6 +13,41 @@ import (
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/treesitter"
 )
 
+// TestRunHop_Python_ReturnsCallPaths verifies that HopResult.Paths is populated
+// with at least one exemplar call path when a caller is found.
+func TestRunHop_Python_ReturnsCallPaths(t *testing.T) {
+	src, err := filepath.Abs(filepath.Join("..", "..", "..", "..", "testdata", "transitive", "hop", "python-caller"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	res, err := RunHop(context.Background(), HopInput{
+		Language:      python.New(),
+		SourceDir:     src,
+		TargetSymbols: []string{"urllib3.PoolManager"},
+		MaxTargets:    100,
+	})
+	if err != nil {
+		t.Fatalf("RunHop: %v", err)
+	}
+	if len(res.Paths) == 0 {
+		t.Fatal("expected at least one call path in HopResult.Paths")
+	}
+	path := res.Paths[0]
+	if path.Depth() < 2 {
+		t.Errorf("expected path depth >= 2, got %d: %s", path.Depth(), path.String())
+	}
+	// Last node must be the target symbol.
+	last := path.Nodes[len(path.Nodes)-1]
+	if last.Symbol != "urllib3.PoolManager" {
+		t.Errorf("expected last path node to be urllib3.PoolManager, got %q", last.Symbol)
+	}
+	// First node (the caller) must have a file location.
+	first := path.Nodes[0]
+	if first.File == "" {
+		t.Errorf("expected first path node to have a file location, got empty")
+	}
+}
+
 func TestRunHop_Python_FindsCaller(t *testing.T) {
 	src, err := filepath.Abs(filepath.Join("..", "..", "..", "..", "testdata", "transitive", "hop", "python-caller"))
 	if err != nil {

@@ -119,12 +119,17 @@ func (a *Analyzer) Analyze(ctx context.Context, sbom *SBOMSummary, finding *form
 		if len(appRes.ReachingSymbols) == 0 {
 			continue
 		}
-		// Stitch per-hop paths and the app-side path.
-		stitched := StitchCallPaths(res.HopPaths)
+		// Stitch per-hop paths and the app-side path into one continuous chain.
+		allParts := append(res.HopPaths, appRes.Paths...) //nolint:gocritic // intentional append-to-new-slice
+		stitched := StitchCallPaths(allParts)
+		evidence := "transitive: reachable through " + joinPackages(p)
+		if stitched.Depth() > 0 {
+			evidence += "; call path: " + stitched.String()
+		}
 		return reachability.Result{
 			Reachable:    true,
 			Confidence:   formats.ConfidenceMedium, // coarse targets → medium, LLM narrowing will raise to high
-			Evidence:     "transitive: reachable through " + joinPackages(p),
+			Evidence:     evidence,
 			Symbols:      appRes.ReachingSymbols,
 			Paths:        []formats.CallPath{stitched},
 			Degradations: pathDegradations,

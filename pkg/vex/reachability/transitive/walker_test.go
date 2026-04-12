@@ -7,6 +7,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/ravan/cra-toolkit/pkg/formats"
 	"github.com/ravan/cra-toolkit/pkg/vex/reachability/transitive/languages/python"
 )
 
@@ -108,6 +109,44 @@ func TestWalker_ShortCircuit_OnBrokenLink(t *testing.T) {
 	// Walker must not fetch D1 after D2 short-circuits.
 	if len(hops.calls) != 1 {
 		t.Errorf("expected exactly 1 hop (D2), got %d", len(hops.calls))
+	}
+}
+
+// TestWalker_HopPaths_Propagated verifies that per-hop Paths returned by the
+// HopRunner are collected into WalkResult.HopPaths.
+func TestWalker_HopPaths_Propagated(t *testing.T) {
+	path := []Package{
+		{Name: "D1", Version: "1"},
+		{Name: "V", Version: "1"},
+	}
+	hopPath := formats.CallPath{Nodes: []formats.CallNode{
+		{Symbol: "D1.bar", File: "d1.py", Line: 5},
+		{Symbol: "V.entry"},
+	}}
+	hops := &stubHopRunner{
+		results: map[string]HopResult{
+			"/pkg/D1@1": {
+				ReachingSymbols: []string{"D1.bar"},
+				Paths:           []formats.CallPath{hopPath},
+			},
+		},
+	}
+	w := &Walker{
+		Fetcher:     stubFetcher{},
+		Hop:         hops.Run,
+		Config:      DefaultConfig(),
+		Language:    python.New(),
+		InitialTarg: []string{"V.entry"},
+	}
+	res, err := w.WalkPath(context.Background(), path)
+	if err != nil {
+		t.Fatalf("WalkPath: %v", err)
+	}
+	if !res.Completed {
+		t.Fatalf("expected Completed, got BrokenAt=%q", res.BrokenAt)
+	}
+	if len(res.HopPaths) != 1 {
+		t.Errorf("expected 1 hop path in WalkResult.HopPaths, got %d", len(res.HopPaths))
 	}
 }
 
