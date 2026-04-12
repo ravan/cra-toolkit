@@ -213,6 +213,7 @@ func extractClassNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolClass,
+		IsPublic:      hasPublicModifier(node, src),
 	}
 	*symbols = append(*symbols, sym)
 
@@ -296,6 +297,7 @@ func extractMethodNode(
 		StartLine:     rowToLine(node.StartPosition().Row),
 		EndLine:       rowToLine(node.EndPosition().Row),
 		Kind:          treesitter.SymbolMethod,
+		IsPublic:      hasPublicModifier(node, src),
 	}
 	*symbols = append(*symbols, sym)
 
@@ -338,6 +340,25 @@ func collectParamTypes(
 			paramTypes[key] = typeName
 		}
 	}
+}
+
+// hasPublicModifier returns true if the node's modifiers child contains the
+// "public" keyword. Used to set IsPublic on extracted symbols.
+func hasPublicModifier(node *tree_sitter.Node, src []byte) bool {
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil || child.Kind() != "modifiers" {
+			continue
+		}
+		for j := uint(0); j < child.ChildCount(); j++ {
+			grandchild := child.Child(j)
+			if grandchild != nil && nodeText(grandchild, src) == "public" {
+				return true
+			}
+		}
+		return false
+	}
+	return false
 }
 
 // hasPublicStaticModifiers returns true if the node's modifiers child contains
