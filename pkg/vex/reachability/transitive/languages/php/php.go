@@ -24,7 +24,9 @@ type Language struct {
 }
 
 // New returns a fresh PHP Language. The extractor wraps the raw PHP
-// extractor with separator normalization (\ and :: → .).
+// extractor with separator normalization (\ and :: → .). The extractor
+// is constructed once per call; callers that run many analyses should
+// cache the result.
 func New() *Language {
 	return &Language{extractor: &normalizedExtractor{inner: phpextractor.New()}}
 }
@@ -36,11 +38,13 @@ func (l *Language) Grammar() unsafe.Pointer                 { return grammarphp.
 func (l *Language) Extractor() treesitter.LanguageExtractor { return l.extractor }
 
 // normalizeSep converts PHP's \ (namespace) and :: (method dispatch)
-// separators to . for the shared graph machinery.
+// separators to . for the shared graph machinery. A leading backslash
+// in a global-namespace-qualified PHP name (e.g. \Foo\Bar) becomes a
+// leading dot after ReplaceAll; TrimLeft removes it.
 func normalizeSep(s string) string {
 	s = strings.ReplaceAll(s, `\`, ".")
 	s = strings.ReplaceAll(s, "::", ".")
-	return s
+	return strings.TrimLeft(s, ".")
 }
 
 // normalizedExtractor wraps the raw PHP treesitter extractor and
