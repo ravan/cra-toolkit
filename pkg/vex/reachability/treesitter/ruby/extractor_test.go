@@ -380,3 +380,112 @@ end
 		}
 	}
 }
+
+func TestExtractSymbols_NestedModule(t *testing.T) {
+	source := `module Admin
+  class UsersController
+    def create
+      "ok"
+    end
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("app.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wantIDs := map[string]bool{
+		"Admin":                          true,
+		"Admin::UsersController":         true,
+		"Admin::UsersController::create": true,
+	}
+	gotIDs := make(map[string]bool)
+	for _, s := range symbols {
+		gotIDs[string(s.ID)] = true
+	}
+	for id := range wantIDs {
+		if !gotIDs[id] {
+			t.Errorf("missing symbol %q; got %v", id, symbolKeys(gotIDs))
+		}
+	}
+}
+
+//nolint:dupl // similar search structure is intentional — different fixture, different target symbol
+func TestExtractSymbols_DeeplyNested(t *testing.T) {
+	source := `module A
+  module B
+    class C
+      def d
+        "deep"
+      end
+    end
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("deep.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	found := false
+	for _, s := range symbols {
+		if string(s.ID) == "A::B::C::d" {
+			found = true
+			break
+		}
+	}
+	if !found {
+		var ids []string
+		for _, s := range symbols {
+			ids = append(ids, string(s.ID))
+		}
+		t.Errorf("expected A::B::C::d, got %v", ids)
+	}
+}
+
+//nolint:dupl // similar search structure is intentional — different fixture, different target symbol
+func TestExtractSymbols_CompoundClassName(t *testing.T) {
+	source := `class Admin::UsersController
+  def index
+    "ok"
+  end
+end`
+	tree, src := parseRuby(t, source)
+	defer tree.Close()
+
+	ext := rubyextractor.New()
+	symbols, err := ext.ExtractSymbols("app.rb", src, tree)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	found := false
+	for _, s := range symbols {
+		if string(s.ID) == "Admin::UsersController::index" {
+			found = true
+			break
+		}
+	}
+	if !found {
+		var ids []string
+		for _, s := range symbols {
+			ids = append(ids, string(s.ID))
+		}
+		t.Errorf("expected Admin::UsersController::index, got %v", ids)
+	}
+}
+
+func symbolKeys(m map[string]bool) []string {
+	out := make([]string, 0, len(m))
+	for k := range m {
+		out = append(out, k)
+	}
+	return out
+}

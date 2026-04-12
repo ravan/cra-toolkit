@@ -59,7 +59,7 @@ func rowToLine(row uint) int {
 func (e *Extractor) ExtractSymbols(file string, src []byte, tree *tree_sitter.Tree) ([]*treesitter.Symbol, error) {
 	root := tree.RootNode()
 	var symbols []*treesitter.Symbol
-	walkProgram(root, src, file, &symbols)
+	walkProgram(root, src, file, nil, &symbols)
 	return symbols, nil
 }
 
@@ -70,6 +70,7 @@ func walkProgram(
 	root *tree_sitter.Node,
 	src []byte,
 	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
 	if root == nil {
@@ -82,9 +83,9 @@ func walkProgram(
 		}
 		switch child.Kind() {
 		case "class":
-			extractClassNode(child, src, file, symbols)
+			extractClassNode(child, src, file, scopeStack, symbols)
 		case "module":
-			extractModuleNode(child, src, file, symbols)
+			extractModuleNode(child, src, file, scopeStack, symbols)
 		case "call":
 			extractTopLevelCall(child, src, file, symbols)
 		}
@@ -96,11 +97,12 @@ func extractClassNode(
 	node *tree_sitter.Node,
 	src []byte,
 	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
 	// Ruby AST: class → constant (name), superclass?, body_statement
 	// The first constant child is the class name
-	extractContainerNode(node, src, file, treesitter.SymbolClass, symbols)
+	extractContainerNode(node, src, file, treesitter.SymbolClass, scopeStack, symbols)
 }
 
 // extractModuleNode processes a module node.
@@ -108,9 +110,10 @@ func extractModuleNode(
 	node *tree_sitter.Node,
 	src []byte,
 	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
-	extractContainerNode(node, src, file, treesitter.SymbolModule, symbols)
+	extractContainerNode(node, src, file, treesitter.SymbolModule, scopeStack, symbols)
 }
 
 // extractContainerNode handles shared extraction logic for class and module nodes.
@@ -119,6 +122,7 @@ func extractContainerNode(
 	src []byte,
 	file string,
 	kind treesitter.SymbolKind,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
 	name := classOrModuleName(node, src)
@@ -126,11 +130,19 @@ func extractContainerNode(
 		return
 	}
 
-	id := treesitter.SymbolID(name)
+	var nameParts []string
+	if strings.Contains(name, "::") {
+		nameParts = strings.Split(name, "::")
+	} else {
+		nameParts = []string{name}
+	}
+	newStack := append(append([]string{}, scopeStack...), nameParts...)
+	qualifiedName := strings.Join(newStack, "::")
+
 	sym := &treesitter.Symbol{
-		ID:            id,
+		ID:            treesitter.SymbolID(qualifiedName),
 		Name:          name,
-		QualifiedName: name,
+		QualifiedName: qualifiedName,
 		Language:      "ruby",
 		File:          file,
 		StartLine:     rowToLine(node.StartPosition().Row),
@@ -142,16 +154,22 @@ func extractContainerNode(
 	// Walk body for methods
 	body := node.ChildByFieldName("body")
 	if body != nil {
-		extractMethodsFromBody(body, src, file, name, symbols)
+		extractMethodsFromBody(body, src, file, newStack, symbols)
 	}
 }
 
-// classOrModuleName extracts the name constant from a class or module node.
-// In the Ruby AST, the name is the first `constant` child.
+// classOrModuleName extracts the name from a class or module node.
+// It handles both simple names (constant) and compound names (scope_resolution like Admin::UsersController).
 func classOrModuleName(node *tree_sitter.Node, src []byte) string {
 	for i := uint(0); i < node.ChildCount(); i++ {
 		child := node.Child(i)
-		if child != nil && child.Kind() == "constant" {
+		if child == nil {
+			continue
+		}
+		switch child.Kind() {
+		case "constant":
+			return nodeText(child, src)
+		case "scope_resolution":
 			return nodeText(child, src)
 		}
 	}
@@ -162,7 +180,8 @@ func classOrModuleName(node *tree_sitter.Node, src []byte) string {
 func extractMethodsFromBody(
 	body *tree_sitter.Node,
 	src []byte,
-	file, className string,
+	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
 	if body == nil {
@@ -175,13 +194,13 @@ func extractMethodsFromBody(
 		}
 		switch child.Kind() {
 		case "method":
-			extractMethodNode(child, src, file, className, symbols)
+			extractMethodNode(child, src, file, scopeStack, symbols)
 		case "singleton_method":
-			extractSingletonMethodNode(child, src, file, className, symbols)
+			extractSingletonMethodNode(child, src, file, scopeStack, symbols)
 		case "class":
-			extractClassNode(child, src, file, symbols)
+			extractClassNode(child, src, file, scopeStack, symbols)
 		case "module":
-			extractModuleNode(child, src, file, symbols)
+			extractModuleNode(child, src, file, scopeStack, symbols)
 		}
 	}
 }
@@ -191,10 +210,11 @@ func extractMethodsFromBody(
 func extractMethodNode(
 	node *tree_sitter.Node,
 	src []byte,
-	file, className string,
+	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
-	appendMethodSymbol(node, methodNameFromNode(node, src), src, file, className, symbols)
+	appendMethodSymbol(file, scopeStack, methodNameFromNode(node, src), node, symbols)
 }
 
 // extractSingletonMethodNode processes a `singleton_method` node (def self.foo).
@@ -202,29 +222,30 @@ func extractMethodNode(
 func extractSingletonMethodNode(
 	node *tree_sitter.Node,
 	src []byte,
-	file, className string,
+	file string,
+	scopeStack []string,
 	symbols *[]*treesitter.Symbol,
 ) {
-	appendMethodSymbol(node, singletonMethodName(node, src), src, file, className, symbols)
+	appendMethodSymbol(file, scopeStack, singletonMethodName(node, src), node, symbols)
 }
 
 // appendMethodSymbol creates a method symbol and appends it to the symbol list.
 func appendMethodSymbol(
-	node *tree_sitter.Node,
+	file string,
+	scopeStack []string,
 	methodName string,
-	_ []byte,
-	file, className string,
+	node *tree_sitter.Node,
 	symbols *[]*treesitter.Symbol,
 ) {
 	if methodName == "" {
 		return
 	}
 
+	className := strings.Join(scopeStack, "::")
 	qualifiedName := className + "::" + methodName
-	id := treesitter.SymbolID(qualifiedName)
 
 	sym := &treesitter.Symbol{
-		ID:            id,
+		ID:            treesitter.SymbolID(qualifiedName),
 		Name:          methodName,
 		QualifiedName: qualifiedName,
 		Language:      "ruby",
@@ -496,7 +517,7 @@ func extractRequire(node *tree_sitter.Node, src []byte, file string, imports *[]
 func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree, _ *treesitter.Scope) ([]treesitter.Edge, error) {
 	root := tree.RootNode()
 	var edges []treesitter.Edge
-	collectCalls(root, src, file, "", "", &edges)
+	collectCalls(root, src, file, nil, "", &edges)
 	return edges, nil
 }
 
@@ -506,7 +527,9 @@ func (e *Extractor) ExtractCalls(file string, src []byte, tree *tree_sitter.Tree
 func collectCalls(
 	node *tree_sitter.Node,
 	src []byte,
-	file, currentClass, currentMethod string,
+	file string,
+	scopeStack []string,
+	currentMethod string,
 	edges *[]treesitter.Edge,
 ) {
 	if node == nil {
@@ -516,19 +539,18 @@ func collectCalls(
 	kind := node.Kind()
 
 	switch kind {
-	case "class":
-		className := classOrModuleName(node, src)
+	case "class", "module":
+		name := classOrModuleName(node, src)
 		body := node.ChildByFieldName("body")
 		if body != nil {
-			collectCalls(body, src, file, className, currentMethod, edges)
-		}
-		return
-
-	case "module":
-		moduleName := classOrModuleName(node, src)
-		body := node.ChildByFieldName("body")
-		if body != nil {
-			collectCalls(body, src, file, moduleName, currentMethod, edges)
+			var nameParts []string
+			if strings.Contains(name, "::") {
+				nameParts = strings.Split(name, "::")
+			} else {
+				nameParts = []string{name}
+			}
+			newStack := append(append([]string{}, scopeStack...), nameParts...)
+			collectCalls(body, src, file, newStack, currentMethod, edges)
 		}
 		return
 
@@ -536,7 +558,7 @@ func collectCalls(
 		methodName := methodNameFromNode(node, src)
 		body := node.ChildByFieldName("body")
 		if body != nil {
-			collectCalls(body, src, file, currentClass, methodName, edges)
+			collectCalls(body, src, file, scopeStack, methodName, edges)
 		}
 		return
 
@@ -544,24 +566,24 @@ func collectCalls(
 		methodName := singletonMethodName(node, src)
 		body := node.ChildByFieldName("body")
 		if body != nil {
-			collectCalls(body, src, file, currentClass, methodName, edges)
+			collectCalls(body, src, file, scopeStack, methodName, edges)
 		}
 		return
 
 	case "call", "command_call":
-		processCall(node, src, file, currentClass, currentMethod, edges)
+		processCall(node, src, file, scopeStack, currentMethod, edges)
 		// Recurse into arguments for nested calls
 		args := node.ChildByFieldName("arguments")
 		if args != nil {
 			for i := uint(0); i < args.ChildCount(); i++ {
-				collectCalls(args.Child(i), src, file, currentClass, currentMethod, edges)
+				collectCalls(args.Child(i), src, file, scopeStack, currentMethod, edges)
 			}
 		}
 		// Recurse into do_block if present
 		for i := uint(0); i < node.ChildCount(); i++ {
 			child := node.Child(i)
 			if child != nil && child.Kind() == "do_block" {
-				collectCalls(child, src, file, currentClass, currentMethod, edges)
+				collectCalls(child, src, file, scopeStack, currentMethod, edges)
 			}
 		}
 		return
@@ -569,7 +591,7 @@ func collectCalls(
 
 	// Generic recursion
 	for i := uint(0); i < node.ChildCount(); i++ {
-		collectCalls(node.Child(i), src, file, currentClass, currentMethod, edges)
+		collectCalls(node.Child(i), src, file, scopeStack, currentMethod, edges)
 	}
 }
 
@@ -587,14 +609,16 @@ func collectCalls(
 func processCall(
 	node *tree_sitter.Node,
 	src []byte,
-	file, currentClass, currentMethod string,
+	file string,
+	scopeStack []string,
+	currentMethod string,
 	edges *[]treesitter.Edge,
 ) {
 	if node.ChildCount() == 0 {
 		return
 	}
 
-	from := buildFrom(currentClass, currentMethod, file)
+	from := buildFrom(scopeStack, currentMethod, file)
 	line := rowToLine(node.StartPosition().Row)
 
 	firstChild := node.Child(0)
@@ -772,12 +796,13 @@ func extractSendTarget(node *tree_sitter.Node, src []byte) string {
 }
 
 // buildFrom constructs the caller's SymbolID from the current context.
-func buildFrom(currentClass, currentMethod, file string) treesitter.SymbolID {
-	if currentClass != "" && currentMethod != "" {
-		return treesitter.SymbolID(currentClass + "::" + currentMethod)
+func buildFrom(scopeStack []string, currentMethod, file string) treesitter.SymbolID {
+	className := strings.Join(scopeStack, "::")
+	if className != "" && currentMethod != "" {
+		return treesitter.SymbolID(className + "::" + currentMethod)
 	}
-	if currentClass != "" {
-		return treesitter.SymbolID(currentClass)
+	if className != "" {
+		return treesitter.SymbolID(className)
 	}
 	if currentMethod != "" {
 		return treesitter.SymbolID(currentMethod)
