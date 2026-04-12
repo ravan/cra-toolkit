@@ -1,0 +1,1 @@
+{"matches":[{"vulnerability":{"id":"CVE-2022-24775","severity":"High","dataSource":"https://github.com/advisories/GHSA-q7rv-6hp3-vh96","namespace":"github:language:php"},"artifact":{"name":"guzzlehttp/psr7","version":"2.1.0","type":"php-composer","purl":"pkg:composer/guzzlehttp/psr7@2.1.0"}}]}
