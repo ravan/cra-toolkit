@@ -36,6 +36,11 @@ func TestNormalizeSep(t *testing.T) {
 			input: `\Foo\Bar`,
 			want:  "Foo.Bar",
 		},
+		{
+			name:  "already normalised (passthrough)",
+			input: "Foo.Bar.baz",
+			want:  "Foo.Bar.baz",
+		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
