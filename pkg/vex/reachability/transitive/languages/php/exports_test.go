@@ -47,18 +47,21 @@ class Utils {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// Should include the class and public method, not private
+	// Should include the class and public method using PHP-namespace form, not private.
+	// ListExports uses normalizeSep(sym.QualifiedName) so keys are PHP-namespace-based:
+	// GuzzleHttp\Psr7\Utils  → "GuzzleHttp.Psr7.Utils"
+	// GuzzleHttp\Psr7\Utils::readLine → "GuzzleHttp.Psr7.Utils.readLine"
 	hasClass := false
 	hasReadLine := false
 	hasInternal := false
 	for _, k := range keys {
-		if k == "guzzlehttp/psr7.Utils.Utils" {
+		if k == "GuzzleHttp.Psr7.Utils" {
 			hasClass = true
 		}
-		if k == "guzzlehttp/psr7.Utils.readLine" {
+		if k == "GuzzleHttp.Psr7.Utils.readLine" {
 			hasReadLine = true
 		}
-		if k == "guzzlehttp/psr7.Utils.internalHelper" {
+		if k == "GuzzleHttp.Psr7.Utils.internalHelper" {
 			hasInternal = true
 		}
 	}

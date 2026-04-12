@@ -88,12 +88,20 @@ func (l *Language) ListExports(sourceDir, packageName string) ([]string, error) 
 			continue
 		}
 
-		modulePath := l.ModulePath(file, sourceDir, packageName)
 		for _, sym := range symbols {
 			if !l.IsExportedSymbol(sym) {
 				continue
 			}
-			key := l.SymbolKey(modulePath, sym.Name)
+			// Use the PHP-namespace-based qualified name so that targets match
+			// how the application resolves imports: `use GuzzleHttp\Psr7\Utils`
+			// resolves calls to `GuzzleHttp.Psr7.Utils.readLine`, not the
+			// file-path form `guzzlehttp/psr7.Utils.readLine`. Normalizing the
+			// raw QualifiedName (e.g. `GuzzleHttp\Psr7\Utils::readLine`) to dots
+			// produces `GuzzleHttp.Psr7.Utils.readLine`, matching the app side.
+			key := normalizeSep(sym.QualifiedName)
+			if key == "" {
+				continue
+			}
 			seen[key] = true
 		}
 	}

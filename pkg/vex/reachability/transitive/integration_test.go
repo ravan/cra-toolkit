@@ -71,13 +71,15 @@ func parseSBOMForTest(t *testing.T, path, ecosystem string) *SBOMSummary {
 	if err := json.Unmarshal(data, &doc); err != nil {
 		t.Fatalf("unmarshal sbom: %v", err)
 	}
-	// Map ecosystem to PURL type prefix (crates.io uses pkg:cargo/, rubygems uses pkg:gem/)
+	// Map ecosystem to PURL type prefix (crates.io uses pkg:cargo/, rubygems uses pkg:gem/, packagist uses pkg:composer/)
 	purlType := ecosystem
 	switch ecosystem {
 	case "crates.io":
 		purlType = "cargo"
 	case "rubygems":
 		purlType = "gem"
+	case "packagist":
+		purlType = "composer"
 	}
 	prefix := "pkg:" + purlType + "/"
 
@@ -169,6 +171,8 @@ func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affect
 		fetcher = &CratesFetcher{Cache: cache}
 	case "rubygems":
 		fetcher = &RubyGemsFetcher{Cache: cache}
+	case "packagist":
+		fetcher = &PackagistFetcher{Cache: cache}
 	default:
 		t.Fatalf("unknown ecosystem %q", ecosystem)
 	}
@@ -239,4 +243,14 @@ func TestIntegration_Transitive_RubyReachable(t *testing.T) {
 func TestIntegration_Transitive_RubyNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "ruby-realworld-cross-package-safe")
 	runIntegrationFixture(t, dir, "ruby", "rubygems", "nokogiri", "1.15.6", false)
+}
+
+func TestIntegration_Transitive_PHPReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "php-realworld-cross-package")
+	runIntegrationFixture(t, dir, "php", "packagist", "guzzlehttp/psr7", "2.1.0", true)
+}
+
+func TestIntegration_Transitive_PHPNotReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "php-realworld-cross-package-safe")
+	runIntegrationFixture(t, dir, "php", "packagist", "guzzlehttp/psr7", "2.1.0", false)
 }
