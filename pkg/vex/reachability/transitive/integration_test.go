@@ -71,10 +71,13 @@ func parseSBOMForTest(t *testing.T, path, ecosystem string) *SBOMSummary {
 	if err := json.Unmarshal(data, &doc); err != nil {
 		t.Fatalf("unmarshal sbom: %v", err)
 	}
-	// Map ecosystem to PURL type prefix (crates.io uses pkg:cargo/)
+	// Map ecosystem to PURL type prefix (crates.io uses pkg:cargo/, rubygems uses pkg:gem/)
 	purlType := ecosystem
-	if ecosystem == "crates.io" {
+	switch ecosystem {
+	case "crates.io":
 		purlType = "cargo"
+	case "rubygems":
+		purlType = "gem"
 	}
 	prefix := "pkg:" + purlType + "/"
 
@@ -164,6 +167,8 @@ func runIntegrationFixture(t *testing.T, fixtureDir, language, ecosystem, affect
 		fetcher = &NPMFetcher{Cache: cache}
 	case "crates.io":
 		fetcher = &CratesFetcher{Cache: cache}
+	case "rubygems":
+		fetcher = &RubyGemsFetcher{Cache: cache}
 	default:
 		t.Fatalf("unknown ecosystem %q", ecosystem)
 	}
@@ -224,4 +229,14 @@ func TestIntegration_Transitive_RustReachable(t *testing.T) {
 func TestIntegration_Transitive_RustNotReachable(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "rust-realworld-cross-package-safe")
 	runIntegrationFixture(t, dir, "rust", "crates.io", "getrandom", "0.2.11", false)
+}
+
+func TestIntegration_Transitive_RubyReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "ruby-realworld-cross-package")
+	runIntegrationFixture(t, dir, "ruby", "rubygems", "nokogiri", "1.15.6", true)
+}
+
+func TestIntegration_Transitive_RubyNotReachable(t *testing.T) {
+	dir := filepath.Join("..", "..", "..", "..", "testdata", "integration", "ruby-realworld-cross-package-safe")
+	runIntegrationFixture(t, dir, "ruby", "rubygems", "nokogiri", "1.15.6", false)
 }

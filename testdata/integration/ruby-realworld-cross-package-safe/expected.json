@@ -1,0 +1,18 @@
+{
+  "description": "Ruby app NOT calling Nokogiri (JSON only — nokogiri in SBOM but not used). The app only calls JSON.parse(), never Nokogiri, so nokogiri is not reachable from application code.",
+  "provenance": {
+    "cve": "hypothetical-nokogiri-vuln",
+    "language": "ruby",
+    "pattern": "cross_package_not_reachable"
+  },
+  "findings": [
+    {
+      "cve": "hypothetical-nokogiri-vuln",
+      "component_purl": "pkg:gem/nokogiri@1.15.6",
+      "expected_status": "not_affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "Only JSON.parse() is called. Nokogiri is present in the SBOM but never required or invoked by any application code."
+    }
+  ]
+}

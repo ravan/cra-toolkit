@@ -215,24 +215,49 @@ func notApplicable(reason string) reachability.Result {
 //   - "requests.get"     — short form, matching re-exports from __init__
 //   - "requests.api.get" — full form, matching qualified access paths
 //
+// For targets that use "::" scope resolution (e.g. Ruby's
+// "nokogiri.nokogiri.html.Nokogiri::HTML"), it additionally emits a scope-flat
+// form where the last "::" component becomes the method name:
+//   - "nokogiri.HTML"    — scope-flat form, matching Nokogiri::HTML → nokogiri.HTML
+//
+// Scope-flat forms are emitted first because they are most likely to match
+// app-level calls, especially for languages like Ruby where the app-side
+// extractor resolves Nokogiri::HTML(args) to nokogiri.HTML via scope aliasing.
+// This ordering ensures they are not dropped by the MaxTargetSymbolsPerHop cap.
+//
 // Duplicates are suppressed.
 func transformToPackageTargets(finalTargets []string, rootPkgName string) []string {
-	seen := make(map[string]struct{}, len(finalTargets)*2)
-	result := make([]string, 0, len(finalTargets)*2)
+	seen := make(map[string]struct{}, len(finalTargets)*3)
+	result := make([]string, 0, len(finalTargets)*3)
 	add := func(s string) {
 		if _, ok := seen[s]; !ok {
 			seen[s] = struct{}{}
 			result = append(result, s)
 		}
 	}
+
+	// Pass 1: scope-flat forms first (highest priority for Ruby/PHP/C++ namespaces).
+	// For "nokogiri.nokogiri.html.Nokogiri::HTML" this produces "nokogiri.HTML".
 	for _, t := range finalTargets {
-		// Full path: rootPkg.module.symbol
-		add(rootPkgName + "." + t)
-		// Short path: rootPkg.symbol — strip the leading module component.
+		if idx := strings.LastIndex(t, "::"); idx >= 0 {
+			add(rootPkgName + "." + t[idx+2:])
+		}
+	}
+
+	// Pass 2: short forms (strip the leading module component).
+	// For "requests.api.get" this produces "requests.get".
+	for _, t := range finalTargets {
 		if dot := strings.Index(t, "."); dot >= 0 {
 			add(rootPkgName + "." + t[dot+1:])
 		}
 	}
+
+	// Pass 3: full paths (least likely to match app-level calls, but included
+	// for completeness and for cases where the app uses fully-qualified access).
+	for _, t := range finalTargets {
+		add(rootPkgName + "." + t)
+	}
+
 	return result
 }
 

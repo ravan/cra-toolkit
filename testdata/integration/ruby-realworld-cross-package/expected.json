@@ -1,0 +1,18 @@
+{
+  "description": "Ruby app calling Nokogiri::HTML (transitive reachability through nokogiri gem). The app uses Nokogiri::HTML() directly, making nokogiri reachable from application code.",
+  "provenance": {
+    "cve": "hypothetical-nokogiri-vuln",
+    "language": "ruby",
+    "pattern": "cross_package_reachable"
+  },
+  "findings": [
+    {
+      "cve": "hypothetical-nokogiri-vuln",
+      "component_purl": "pkg:gem/nokogiri@1.15.6",
+      "expected_status": "affected",
+      "expected_confidence": "medium",
+      "expected_resolved_by": "reachability_analysis",
+      "human_justification": "HtmlParser#parse calls Nokogiri::HTML() directly, making nokogiri reachable from the application."
+    }
+  ]
+}
